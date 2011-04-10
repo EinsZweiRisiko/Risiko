@@ -2,7 +2,7 @@ public class Risiko {
 	
 	/**
 	 * 
-	 * @param author Hendrik
+	 * @param
 	 */
 	public static void main(String args[]) {
 		System.out.println("Test");
