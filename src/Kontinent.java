@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Kontinent {
 	
 	private String name;
-	private ArrayList<Land> laenderListe = new ArrayList();
+	private ArrayList<Land> laenderListe = new ArrayList<Land>();
 	
-	public Kontinent(String n){
-		this.setName(n);
+	public Kontinent(String name){
+		this.setName(name);
 	}
 	
-	public void setLaender(Land land){
+	public void addLand(Land land){
 		laenderListe.add(land);
 	}
 

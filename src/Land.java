@@ -22,7 +22,16 @@ public class Land {
 		nachbarn.add(land);
 	}
 	
+	public boolean istNachbar() {
+		// TODO
+		return false;
+	}
+	
 	// Getter und Setter
+	
+	public String getName() {
+		return name;
+	}
 	
 	public Spieler getBesitzer() {
 		return besitzer;
