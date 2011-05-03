@@ -6,6 +6,7 @@ public class Spieler {
 	private int einheitenAnzahl;
 	private int laenderAnzahl;
 	private int kontinentAnzahl;
+	private int reserveArmeen;
 	private Mission mission;
 	
 	public Spieler(String n){
@@ -13,6 +14,10 @@ public class Spieler {
 	}
 	
 	//Getter & Setter
+	
+	public String getName() {
+		return name;
+	}
 	
 	public String getFarbe() {
 		return farbe;
@@ -28,5 +33,13 @@ public class Spieler {
 	
 	public Mission getMission() {
 		return mission;
+	}
+
+	public void setReserveArmeen(int reserveArmeen) {
+		this.reserveArmeen = reserveArmeen;
+	}
+
+	public int getReserveArmeen() {
+		return reserveArmeen;
 	}
 }

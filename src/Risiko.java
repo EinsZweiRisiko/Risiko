@@ -1,22 +1,24 @@
 public class Risiko {
 	
-	private int spielerzahl;
-	private Spieler[] spieler;
-	
+
 	public Risiko() {
-		Laenderverwaltung laenderverwaltung = new Laenderverwaltung();
-		spielerzahl = IO.readInt("Wieviele Spieler?: ");
 		
-		spieler = new Spieler[spielerzahl];
+		//Länder && Spieler initialisieren
+		Laenderverwaltung laenderVerwaltung = new Laenderverwaltung();
+		Spielerverwaltung spielerVerwaltung = new Spielerverwaltung();
 		
-		//Spielernamen setzen
-		for(int i = 0; i < spielerzahl; i++){
-			String name = IO.readString("Name Spieler "+ (i+1) +": ");
-			spieler[i] = new Spieler(name);
+		while(!spielZuEnde()) {
+			Spielzyklus spielzyklus = new Spielzyklus(spielerVerwaltung.getAktSpieler(), laenderVerwaltung);
+			spielerVerwaltung.naechsterSpieler();
 		}
 	}
 	
 	public static void main(String args[]) {
 		Risiko risiko = new Risiko();		
+	}
+	
+	private boolean spielZuEnde(){
+		//TODO Überprüfungsfunktion erstellen
+		return false;
 	}
 }
