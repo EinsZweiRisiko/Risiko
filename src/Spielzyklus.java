@@ -3,6 +3,8 @@ public class Spielzyklus {
 	public Spielzyklus(Spieler spieler, Laenderverwaltung laenderVerwaltung) {
 		IO.println("Spielzyklus gestartet");
 		IO.println(spieler.getName() + " an der Reihe");
+		
+		spieler.setReserveArmeen(3)
 
 		// Einheiten verteilen
 

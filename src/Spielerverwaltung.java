@@ -37,4 +37,20 @@ public class Spielerverwaltung {
 		}
 	}
 
+	public void setSpielerzahl(int spielerzahl) {
+		this.spielerzahl = spielerzahl;
+	}
+
+	public int getSpielerzahl() {
+		return spielerzahl;
+	}
+
+	public Spieler[] getSpieler() {
+		return spieler;
+	}
+
+	public void setSpieler(Spieler[] spieler) {
+		this.spieler = spieler;
+	}
+
 }
