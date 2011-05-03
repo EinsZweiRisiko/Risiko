@@ -46,7 +46,7 @@ public class Spielzyklus {
 		if(angriffEntscheidung == "ja" || angriffEntscheidung2 == "nein"){
 			
 			String quellLandString = IO.readString("Von wo willst du angreifen?: ");
-			Land quellLand = laenderVerwaltung.getLangByName(quellLandString);
+			Land quellLand = laenderVerwaltung.getLandByName(quellLandString);
 			
 			while (!quellLand.getBesitzer().equals(spieler)) {
 				quellLandString = IO
@@ -54,7 +54,7 @@ public class Spielzyklus {
 			}
 			
 			String zielLandString = IO.readString("Welches Land willst du angreifen?: ");
-			Land zielLand = laenderVerwaltung.getLangByName(zielLandString);
+			Land zielLand = laenderVerwaltung.getLandByName(zielLandString);
 			
 			while (zielLand.getBesitzer().equals(spieler)) {
 				zielLandString = IO
