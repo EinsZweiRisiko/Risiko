@@ -12,7 +12,7 @@ public class Spielzyklus {
 	 * angreifen() und verteilen() genutzt werden?.
 	 */
 	public Spielzyklus(Spieler spieler, Laenderverwaltung laenderVerwaltung) {
-		IO.println("Spielzyklus gestartet");
+		IO.println("\n" + "Spielzyklus gestartet" + "\n");
 		IO.println(spieler.getName() + " an der Reihe");
 
 		/*
@@ -52,27 +52,33 @@ public class Spielzyklus {
 			while (!land.getBesitzer().equals(spieler)) {
 				zielLand = IO
 						.readString("Das Land gehört dir nicht. Neue Eingabe: ");
+				land = laenderVerwaltung.getLandByName(zielLand);
 			}
 
 			// Nachdem auch die Eingabe des Landes gültig war wird die Anzahl
 			// der Armeen in betreffendem Land um die eingegebene Anzahl erhöht.
 			land.setAnzahlEinheiten(land.getAnzahlEinheiten() + Armeen);
+			spieler.setReserveArmeen(spieler.getReserveArmeen() - Armeen);
+			IO.println("Es wurden " + Armeen + " Armeen in " + land.getName()
+					+ " platziert." + "\n" + "Es befinden sich nun "
+					+ land.getAnzahlEinheiten() + " Armeen in "
+					+ land.getName() + ".");
 		}
 
-		IO.println("Alle Armeen wurden verteilt");
+		IO.println("Alle Armeen wurden verteilt" + "\n");
 
 		/*
 		 * Sind alle Armeen verteilt beginnt die Angriffsphase. Der Spieler wird
 		 * gefragt ob er angreifen will. Sollte dies nicht der Fall sein erfolgt
 		 * eine Sicherheitsabfrage ob er sich sicher ist.
 		 */
-		String angriffEntscheidung = IO
-				.readString("Willst du angreifen?(ja/nein): ");
-		String angriffEntscheidung2 = "";
+		char angriffEntscheidung = IO.readChar("Willst du angreifen?(j/n): ");
 
-		if (angriffEntscheidung != "ja") {
+		char angriffEntscheidung2 = 'x';
+
+		if (angriffEntscheidung == 'n') {
 			angriffEntscheidung2 = IO
-					.readString("Willst wirklich nicht angreifen?(ja/nein): ");
+					.readChar("Willst wirklich nicht angreifen?(j/n): ");
 		}
 
 		/*
@@ -80,7 +86,7 @@ public class Spielzyklus {
 		 * gefragt von welchem Land er angreifen möchte. Gehört ihm dieses nicht
 		 * so wird er aufgefordert seine Eingabe zu wiederholen.
 		 */
-		if (angriffEntscheidung == "ja" || angriffEntscheidung2 == "nein") {
+		if (angriffEntscheidung == 'j' || angriffEntscheidung2 == 'n') {
 
 			String quellLandString = IO
 					.readString("Von wo willst du angreifen?: ");
@@ -89,6 +95,7 @@ public class Spielzyklus {
 			while (!quellLand.getBesitzer().equals(spieler)) {
 				quellLandString = IO
 						.readString("Das Land gehört dir nicht. Neue Eingabe: ");
+				quellLand = laenderVerwaltung.getLandByName(quellLandString);
 			}
 
 			/*
@@ -102,7 +109,10 @@ public class Spielzyklus {
 			while (zielLand.getBesitzer().equals(spieler)) {
 				zielLandString = IO
 						.readString("Das Land gehört dir. Neue Eingabe: ");
+				zielLand = laenderVerwaltung.getLandByName(zielLandString);
 			}
+
+			// TODO Hier jetzt Den Würfel Kram!
 
 		}
 

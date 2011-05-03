@@ -81,6 +81,7 @@ public class Risiko {
 					land.setBesitzer(spieler[j]);
 					spieler[j]
 							.setReserveArmeen(spieler[j].getReserveArmeen() - 1);
+					IO.println(land.getName()+" gehört " +spieler[j].getName());
 
 				} else {
 					// TODO Else-Zweig was soll geschehen wenn das Feld bereits
