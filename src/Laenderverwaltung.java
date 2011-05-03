@@ -249,4 +249,14 @@ public class Laenderverwaltung {
 	public Land getLandByName(String name) {
 		return laender.get(name);
 	}
+	
+	/**
+	 * Liefert ein Land durch Angabe einer Zahl
+	 * @param number 
+	 * @return Land mit dieser Nummer
+	 */
+	public Land getLandByNumber(int number) {
+		// TODO: diese Methode sollte es eigentlich nicht geben
+		return getLandByName(laenderNamen[number]);
+	}
 }
