@@ -1,21 +1,25 @@
 public class Risiko {
-	
+
 	private int spielerzahl;
 	private Spieler[] spieler;
-	
+
 	public Risiko() {
 		Laenderverwaltung laenderverwaltung = new Laenderverwaltung();
 		spielerzahl = IO.readInt("Wieviele Spieler?: ");
-		
+
 		spieler = new Spieler[spielerzahl];
-		
-		for(int i = 0; i < spielerzahl; i++){
-			String name = IO.readString("Name Spieler "+ (i+1) +": ");
+
+		for (int i = 0; i < spielerzahl; i++) {
+			String name = IO.readString("Name Spieler " + (i + 1) + ": ");
 			spieler[i] = new Spieler(name);
 		}
 	}
-	
+
+	/**
+	 * Dies ist die Main-Methode
+	 * @param args
+	 */
 	public static void main(String args[]) {
-		Risiko risiko = new Risiko();		
+		Risiko risiko = new Risiko();
 	}
 }
