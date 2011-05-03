@@ -39,6 +39,12 @@ public class Wuerfel {
 		return dice;
 	}
 
+	/**
+	 * Berechnet die größte Zahl in einer Liste
+	 * 
+	 * @param würfel Eine Liste aus gewürfelten Zahlen
+	 * @return Größte Zahl aus den Würfelergebnissen eines Spielers
+	 */
 	public int getGroessteZahl(ArrayList <Integer> würfel) {
 		int maximum = würfel.get(0);
 		boolean in = false;
