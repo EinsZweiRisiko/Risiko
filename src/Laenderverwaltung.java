@@ -193,4 +193,5 @@ public class Laenderverwaltung {
 		kontinent[5].setLaender(laender[40]);
 		kontinent[5].setLaender(laender[41]);
 	}
+	
 }

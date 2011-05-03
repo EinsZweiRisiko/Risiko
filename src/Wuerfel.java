@@ -10,7 +10,7 @@ public class Wuerfel {
 	ArrayList <Integer> ang = new ArrayList<Integer>();
 	ArrayList <Integer> def = new ArrayList<Integer>(); 
 
-	//Anzhal angreifender Soldaten
+	//Anzahl angreifender Soldaten
 	int angAnzahl;
 	int defAnzahl;
 
