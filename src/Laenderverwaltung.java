@@ -82,7 +82,7 @@ public class Laenderverwaltung {
 				                   { "West-Australien", "Neu-Guinea"},
 				                   { "Ost-Australien", "Neu-Guinea"} };
 		
-		Land[] laender = new Array(42);
+		Land[] laender = new Land[42];
 		//Nordamerika
 		laender[0] = new Land("Alaska");
 		laender[1] = new Land("NWT");
