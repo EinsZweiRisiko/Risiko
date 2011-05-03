@@ -1,18 +1,26 @@
+import java.util.ArrayList;
 
+/**
+ * Land-Klasse
+ * @author Jannes
+ *
+ */
 public class Land {
 	
 	private Spieler besitzer;
 	private int anzahlEinheiten = 0;
 	private String name;
 	private Kontinent kontinent;
-	private Land[] nachbarn;
+	private ArrayList<Land> nachbarn = new ArrayList<Land>();
 	
 	public Land(String name) {
 		this.name = name;
 		
 	}
 	
-	
+	public void addNachbar(Land land) {
+		nachbarn.add(land);
+	}
 	
 	// Getter und Setter
 	
