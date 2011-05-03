@@ -8,9 +8,8 @@ public class Spieler {
 	private int kontinentAnzahl;
 	private Mission mission;
 	
-	public Spieler(String n,String f){
+	public Spieler(String n){
 		this.name = n;
-		this.farbe = f;
 	}
 	
 	//Getter & Setter
