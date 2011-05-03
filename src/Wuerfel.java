@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.io.*;
-
+/**
+ * 
+ * @author Timur
+ *
+ */
 public class Wuerfel {
 	
 	ArrayList <Integer> ang = new ArrayList<Integer>();
