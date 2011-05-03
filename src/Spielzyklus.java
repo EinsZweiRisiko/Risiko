@@ -13,7 +13,7 @@ public class Spielzyklus {
 			int Armeen;
 			Armeen = IO.readInt("Anzahl der Armeen: ");
 
-			while (Armeen < spieler.getReserveArmeen()) {
+			while (Armeen > spieler.getReserveArmeen()) {
 				IO.println("Armeen reichen nicht aus es sind nur noch "
 						+ spieler.getReserveArmeen() + " Armeen verfügbar");
 				int reserveArmee = IO.readInt("Anzahl der Einheiten: ");
@@ -36,7 +36,7 @@ public class Spielzyklus {
 		// Angreifen
 
 		String angriffEntscheidung = IO.readString("Willst du angreifen?(ja/nein): ");
-		String angriffEntscheidung2;
+		String angriffEntscheidung2 = "";
 
 		if (angriffEntscheidung != "ja") {
 			angriffEntscheidung2 = IO
