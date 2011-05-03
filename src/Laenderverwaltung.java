@@ -82,7 +82,7 @@ public class Laenderverwaltung {
 				                   { "West-Australien", "Neu-Guinea"},
 				                   { "Ost-Australien", "Neu-Guinea"} };
 		
-		Kontinent[] kontinent = new Kontinent[5];
+		Kontinent[] kontinent = new Kontinent[6];
 		Land[] laender = new Land[42];
 		
 		//Nordamerika
@@ -187,10 +187,10 @@ public class Laenderverwaltung {
 		laender[40] = new Land("West-Australien");
 		laender[41] = new Land("Ost-Australien");
 		// Länder zu Kontinenten hinzufügen (AUSTRALIEN)
-		kontinent[4] = new Kontinent("Australien");
-		kontinent[4].setLaender(laender[38]);
-		kontinent[4].setLaender(laender[39]);
-		kontinent[4].setLaender(laender[40]);
+		kontinent[5] = new Kontinent("Australien");
+		kontinent[5].setLaender(laender[38]);
+		kontinent[5].setLaender(laender[39]);
+		kontinent[5].setLaender(laender[40]);
 		kontinent[5].setLaender(laender[41]);
 	}
 }
