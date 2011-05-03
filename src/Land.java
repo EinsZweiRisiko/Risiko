@@ -22,9 +22,12 @@ public class Land {
 		nachbarn.add(land);
 	}
 	
-	public boolean istNachbar() {
-		// TODO
-		return false;
+	public boolean istNachbar(Land land) {
+		if (nachbarn.contains(land)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	// Getter und Setter
