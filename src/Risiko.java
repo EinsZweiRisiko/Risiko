@@ -21,8 +21,8 @@ public class Risiko {
 
 	private void initialisierung(Laenderverwaltung laenderVerwaltung,
 			Spielerverwaltung spielerVerwaltung) {
-		
-		//Start Armeen anhand der Anzahl der Spieler verteilen
+
+		// Start Armeen anhand der Anzahl der Spieler verteilen
 		int startArmeen = 50 - ((spielerVerwaltung.getSpielerzahl() + 1) * 5);
 		Spieler[] spieler = spielerVerwaltung.getSpieler();
 
@@ -33,11 +33,12 @@ public class Risiko {
 		for (int i = 0; i < startArmeen; i++) {
 			for (int j = 0; j < spielerVerwaltung.getSpielerzahl(); j++) {
 				int r = (int) (Math.random() * 42);
-				Land[] land = laenderVerwaltung.getLandByNumber(r);
+				Land land = laenderVerwaltung.getLandByNumber(r);
 
-				if (land[r].getBesitzer() == null) {
-					land[r].setAnzahlEinheiten(land[r].getAnzahlEinheiten() + 1);
-					land[r].setBesitzer(spieler[j]);
+				if (land.getBesitzer() == null) {
+					land.setAnzahlEinheiten(land.getAnzahlEinheiten() + 1);
+					land.setBesitzer(spieler[j]);
+					spieler[j].setReserveArmeen(spieler[j].getReserveArmeen()-1);
 				} else {
 				}
 			}

@@ -4,7 +4,7 @@ public class Spielzyklus {
 		IO.println("Spielzyklus gestartet");
 		IO.println(spieler.getName() + " an der Reihe");
 		
-		spieler.setReserveArmeen(3)
+		spieler.setReserveArmeen(3);
 
 		// Einheiten verteilen
 
@@ -18,7 +18,7 @@ public class Spielzyklus {
 			while (Armeen > spieler.getReserveArmeen()) {
 				IO.println("Armeen reichen nicht aus es sind nur noch "
 						+ spieler.getReserveArmeen() + " Armeen verfügbar");
-				int reserveArmee = IO.readInt("Anzahl der Einheiten: ");
+				Armeen = IO.readInt("Anzahl der Einheiten: ");
 			}
 
 			String zielLand = IO.readString("Name des Landes Eingeben: ");
