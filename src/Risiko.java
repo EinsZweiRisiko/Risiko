@@ -9,6 +9,7 @@ public class Risiko {
 		
 		spieler = new Spieler[spielerzahl];
 		
+		//Spielernamen setzen
 		for(int i = 0; i < spielerzahl; i++){
 			String name = IO.readString("Name Spieler "+ (i+1) +": ");
 			spieler[i] = new Spieler(name);
