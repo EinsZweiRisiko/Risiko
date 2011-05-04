@@ -7,31 +7,39 @@ import java.util.ArrayList;
  */
 public class Spielzyklus {
 
-	/*
+	/**
 	 * Konstruktor dem aktueller Spieler und Laenderverwaltung zum ermitteln
-	 * aller Felder übergeben wird. TODO FRAGE: IST ES SINNVOLL ALLES IM
-	 * KONSTRUKTOR ZU HABEN ODER SOLLTEN FUNKTIONEN WIE einheitenSetzen(),
-	 * angreifen() und verteilen() genutzt werden?.
+	 * aller Felder übergeben wird.
 	 */
 	public Spielzyklus(Spieler spieler, Laenderverwaltung laenderVerwaltung) {
-		IO.println("\n" + "---------------------------" + "\n" + "Spielzyklus gestartet" + "\n");
+		IO.println("\n" + "---------------------------" + "\n"
+				+ "Spielzyklus gestartet" + "\n");
 		IO.println(spieler.getName() + " an der Reihe");
 
-		/*
-		 * Jede Runde bekommt jeder Spieler 3 Armeen. TODO Alle zusätzlichen
-		 * Armeen die durch Eroberung von Kontinenten und Ländern fehlen noch!
-		 */
-		spieler.setReserveArmeen(3);
+		// Verteilloop starten
+		verteileArmeen(spieler, laenderVerwaltung);
 
-		/*
-		 * Wenn der Spieler noch Reserve-Armeen zur Verfügung hat so soll er
-		 * diese platzieren. Versucht er mehr Armeen zu setzen als er besitzt,
-		 * so wird er nochmals darauf hingewiesen und solange um Korrektur
-		 * gebeten bis er eine gültige Anzahl angegeben hat. Dies geschieht
-		 * solange bis alle Armeen gesetzt wurden.
-		 */
-		IO.println("Dir stehen " + spieler.getReserveArmeen()
-				+ " Armeen zur verfügung");
+		// Angriffsloop starten
+		angriff(spieler, laenderVerwaltung);
+
+		// Einheiten verschieben
+		einheitenVerschieben(spieler, laenderVerwaltung);
+
+	}
+
+	/**
+	 * 
+	 * @param spieler
+	 *            aktueller Spieler
+	 * @param laenderVerwaltung
+	 *            wird benötigt um Länder bereit zu stellen
+	 */
+	private void verteileArmeen(Spieler spieler,
+			Laenderverwaltung laenderVerwaltung) {
+
+		spieler.setReserveArmeen(3);
+		IO.println("\n" + "Dir stehen " + spieler.getReserveArmeen()
+				+ " Armeen zur verfügung." + " Verteile deine Armeen.");
 
 		while (spieler.getReserveArmeen() > 0) {
 			int Armeen;
@@ -64,51 +72,32 @@ public class Spielzyklus {
 			IO.println("Es wurden " + Armeen + " Armeen in " + land.getName()
 					+ " platziert." + "\n" + "Es befinden sich nun "
 					+ land.getAnzahlEinheiten() + " Armeen in "
-					+ land.getName() + "." + "\n" + "Du hast noch " + spieler.getReserveArmeen() + " Armeen zu verteilen");
+					+ land.getName() + "." + "\n" + "Du hast noch "
+					+ spieler.getReserveArmeen() + " Armeen zu verteilen");
 		}
-
 		IO.println("Alle Armeen wurden verteilt" + "\n");
+	}
 
-		/*
-		 * Sind alle Armeen verteilt beginnt die Angriffsphase. Der Spieler wird
-		 * gefragt ob er angreifen will. Sollte dies nicht der Fall sein erfolgt
-		 * eine Sicherheitsabfrage ob er sich sicher ist.
-		 */
-		char angriffEntscheidung = IO.readChar("Willst du angreifen?(j/n): ");
-
-		char angriffEntscheidung2 = 'x';
-
-		if (angriffEntscheidung == 'n') {
-			angriffEntscheidung2 = IO
-					.readChar("Willst wirklich nicht angreifen?(j/n): ");
-		}
-
-		/*
-		 * Falls der Spieler sich für den Angriff entschieden hat wird er
-		 * gefragt von welchem Land er angreifen möchte. Gehört ihm dieses nicht
-		 * so wird er aufgefordert seine Eingabe zu wiederholen.
-		 */
-		while (angriffEntscheidung == 'j' || angriffEntscheidung2 == 'n') {
-			angriff(laenderVerwaltung,spieler);
-			angriffEntscheidung = IO.readChar("Willst du weiter angreifen?(j/n): ");
-		}
-
-		// Bei Sieg einrücken
-
-		// Einheiten verschieben
-		// Analog zu Angriff(siehe Oben)
-
-		char verschiebenEntscheidung = IO
-				.readChar("Willst du Einheiten verschieben?(j/n): ");
-
-		char verschiebenEntscheidung2 = 'x';
+	/**
+	 * 
+	 * @param spieler
+	 *            aktueller Spieler
+	 * @param laenderVerwaltung
+	 *            wird benötigt um Länder bereit zu stellen
+	 */
+	private void einheitenVerschieben(Spieler spieler,
+			Laenderverwaltung laenderVerwaltung) {
+		char verschiebenEntscheidung = IO.readChar("\n"
+				+ "---------------------------" + "\n"
+				+ "Willst du Einheiten verschieben?(j/n): ");
 
 		if (verschiebenEntscheidung == 'n') {
-			verschiebenEntscheidung2 = IO
-					.readChar("Willst wirklich keine Einheiten verschieben?(j/n): ");
+			verschiebenEntscheidung = IO
+					.readChar("Bist du dir sicher, dass du keine Einheiten verschieben willst?"
+							+ "\n" + "Willst du Einheiten verschieben?(j/n): ");
 		}
 
-		if (verschiebenEntscheidung == 'j' || verschiebenEntscheidung2 == 'n') {
+		if (verschiebenEntscheidung == 'j') {
 
 			String quellLandString = IO
 					.readString("Aus welchem Land möchtest Einheiten verschieben?: ");
@@ -167,95 +156,133 @@ public class Spielzyklus {
 					+ quellLand.getAnzahlEinheiten() + " Armeen in "
 					+ quellLand.getName() + ".");
 		}
-
 	}
-	private void angriff(Laenderverwaltung laenderVerwaltung, Spieler spieler){
 
-		String quellLandString = IO
-				.readString("Von wo willst du angreifen?: ");
-		Land quellLand = laenderVerwaltung.getLandByName(quellLandString);
+	/**
+	 * 
+	 * @param spieler
+	 *            aktueller Spieler
+	 * @param laenderVerwaltung
+	 *            wird benötigt um Länder bereit zu stellen
+	 */
+	private void angriff(Spieler spieler, Laenderverwaltung laenderVerwaltung) {
 
-		while (!quellLand.getBesitzer().equals(spieler) || quellLand.getAnzahlEinheiten() == 1) {
-			quellLandString = IO
-					.readString("Das Land gehört dir nicht oder es stehen nicht genug Armeen zur Verfügung. Neue Eingabe: ");
-			quellLand = laenderVerwaltung.getLandByName(quellLandString);
+		char angriffEntscheidung = IO.readChar("Willst du angreifen?(j/n): ");
+
+		if (angriffEntscheidung == 'n') {
+			angriffEntscheidung = IO
+					.readChar("Bist du dir sicher das du nicht anreifen willst?"
+							+ "\n" + "Willst du angreifen?(j/n): ");
 		}
 
-		/*
-		 * War die Eingabe gültig so wird gefragt welches Land er angreifen
-		 * will Hierbei werden die Nachbarn des soeben erstellten Objekts
-		 * abgefragt und gelistet. Außerdem wird überprüft ob das Land in
-		 * feindlichem Besitz ist.
-		 */
+		// Angriffsloop
+		while (angriffEntscheidung == 'j') {
 
-		ArrayList<Land> nachbarn = new ArrayList<Land>();
-		nachbarn = quellLand.getNachbarn();
+			String quellLandString = IO
+					.readString("Von wo willst du angreifen?: ");
+			Land quellLand = laenderVerwaltung.getLandByName(quellLandString);
 
-		IO.println("Mögliche Ziele:");
-
-		/*
-		 * die for-Schleife durchläuft die Array-List "nachbarn". Die
-		 * if-Bedingung fragt ab ob sich das Land in feindlichem Besitz
-		 * befindet. Sollte dies der Fall sein so wird dieses als Ziel
-		 * vorgeschlagen sowie der Besitzer kenntlich gemacht.
-		 */
-		for (int i = 0; i < nachbarn.size(); i++) {
-			if (!nachbarn.get(i).getBesitzer().equals(spieler)) {
-				IO.println(nachbarn.get(i).getName() + " ("
-						+ nachbarn.get(i).getBesitzer().getName() +  "," + nachbarn.get(i).getAnzahlEinheiten() + " Armeen" + ")");
+			while (!quellLand.getBesitzer().equals(spieler)
+					|| quellLand.getAnzahlEinheiten() == 1) {
+				quellLandString = IO
+						.readString("Das Land gehört dir nicht oder es stehen nicht genug Armeen zur Verfügung. Neue Eingabe: ");
+				quellLand = laenderVerwaltung.getLandByName(quellLandString);
 			}
-		}
 
-		String zielLandString = IO
-				.readString("Welches Land willst du angreifen?: ");
-		Land zielLand = laenderVerwaltung.getLandByName(zielLandString);
+			/*
+			 * War die Eingabe gültig so wird gefragt welches Land er angreifen
+			 * will Hierbei werden die Nachbarn des soeben erstellten Objekts
+			 * abgefragt und gelistet. Außerdem wird überprüft ob das Land in
+			 * feindlichem Besitz ist. die for-Schleife durchläuft die
+			 * Array-List "nachbarn". Die if-Bedingung fragt ab ob sich das Land
+			 * in feindlichem Besitz befindet. Sollte dies der Fall sein so wird
+			 * dieses als Ziel vorgeschlagen sowie der Besitzer kenntlich
+			 * gemacht.
+			 */
 
-		// Wenn das Land dem aktuellen Spieler gehört oder die Länder nicht
-		// benachbart sind ist die Eingabe ungültig und die Eingabe muss
-		// wiederholt werden.
-		while (zielLand.getBesitzer().equals(spieler)
-				|| !zielLand.istNachbar(quellLand)) {
-			zielLandString = IO
-					.readString("Das Land gehört dir. Neue Eingabe: ");
-			zielLand = laenderVerwaltung.getLandByName(zielLandString);
-		}
+			IO.println("Mögliche Ziele:");
+			ArrayList<Land> nachbarn = new ArrayList<Land>();
+			nachbarn = quellLand.getNachbarn();
 
-		// Abfrage der Anzahl der Armeen die Angreifen sollen
-		int angriffsArmeen = IO.readInt("Wieviele Armeen sollen "
-				+ zielLand.getName() + "(" + zielLand.getAnzahlEinheiten()
-				+ " Armeen)" + " angreifen?(1-3)");
+			for (int i = 0; i < nachbarn.size(); i++) {
+				if (!nachbarn.get(i).getBesitzer().equals(spieler)) {
+					IO.println(nachbarn.get(i).getName() + " ("
+							+ nachbarn.get(i).getBesitzer().getName() + ","
+							+ nachbarn.get(i).getAnzahlEinheiten() + " Armeen"
+							+ ")");
+				}
+			}
 
-		/*
-		 * Sollte diese nicht gültig sein wird der Anwender aufgefordert die
-		 * Eingabe zu wiederholen. Die Eingabe muss zwischen 1 udn 3 liegen
-		 * und es müssen genug EInhetien im Land Verfügbar sein. dabei ist
-		 * zu beachten, dass mindestens eine Einheit im Land bleiben muss.
-		 */
-		while (angriffsArmeen < 1 || angriffsArmeen > 3) {
-			angriffsArmeen = IO
-					.readInt("Du kannst nur mit 1-3 Armeen angreifen wiederhole die Eingabe!:");
-			if (angriffsArmeen > (quellLand.getAnzahlEinheiten() - 1)) {
+			String zielLandString = IO
+					.readString("Welches Land willst du angreifen?: ");
+			Land zielLand = laenderVerwaltung.getLandByName(zielLandString);
+
+			// Wenn das Land dem aktuellen Spieler gehört oder die Länder nicht
+			// benachbart sind ist die Eingabe ungültig und die Eingabe muss
+			// wiederholt werden.
+			while (zielLand.getBesitzer().equals(spieler)
+					|| !zielLand.istNachbar(quellLand)) {
+				zielLandString = IO
+						.readString("Das Land gehört dir. Neue Eingabe: ");
+				zielLand = laenderVerwaltung.getLandByName(zielLandString);
+			}
+
+			// Abfrage der Anzahl der Armeen die Angreifen sollen
+			int angriffsArmeen = IO.readInt("Wieviele Armeen sollen "
+					+ zielLand.getName() + "(" + zielLand.getAnzahlEinheiten()
+					+ " Armeen)" + " angreifen?(1-3)");
+
+			/*
+			 * Sollte diese nicht gültig sein wird der Anwender aufgefordert die
+			 * Eingabe zu wiederholen. Die Eingabe muss zwischen 1 udn 3 liegen
+			 * und es müssen genug EInhetien im Land Verfügbar sein. dabei ist
+			 * zu beachten, dass mindestens eine Einheit im Land bleiben muss.
+			 */
+			while (angriffsArmeen < 1 || angriffsArmeen > 3) {
 				angriffsArmeen = IO
-						.readInt("Du hast nicht genug Einheiten. Es sind "
-								+ quellLand.getAnzahlEinheiten()
-								+ "verfügbar" + "\n" + "Neue Eingabe:");
+						.readInt("Du kannst nur mit 1-3 Armeen angreifen wiederhole die Eingabe!:");
+				if (angriffsArmeen > (quellLand.getAnzahlEinheiten() - 1)) {
+					angriffsArmeen = IO
+							.readInt("Du hast nicht genug Einheiten. Es sind "
+									+ quellLand.getAnzahlEinheiten()
+									+ "verfügbar" + "\n" + "Neue Eingabe:");
+				}
 			}
+
+			// Abfrage der Armeen die Verteidigen können Maximale Anzahl == 2
+			int verteidigungsArmeen = zielLand.getAnzahlEinheiten();
+
+			if (verteidigungsArmeen >= 2) {
+				verteidigungsArmeen = 2;
+			} else {
+				verteidigungsArmeen = 1;
+			}
+
+			/*
+			 * erstellen eines Wuerfels. Dieser entscheidet den Kampf und
+			 * verändert die Anzahl der Einheiten in den jeweiligen Ländern.
+			 */
+
+			int armeenVorher = quellLand.getAnzahlEinheiten();
+
+			Wuerfel wuerfel = new Wuerfel(angriffsArmeen, verteidigungsArmeen,
+					zielLand, quellLand);
+
+			if (zielLand.getAnzahlEinheiten() == 0) {
+				int armeenNachher = angriffsArmeen
+						- (armeenVorher - quellLand.getAnzahlEinheiten());
+				zielLand.setAnzahlEinheiten(armeenNachher);
+				quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten()
+						- armeenNachher);
+				zielLand.setBesitzer(spieler);
+				IO.println(spieler.getName() + " rückt in "
+						+ zielLand.getName() + " ein und besetzt es mit "
+						+ armeenNachher + " Armeen.");
+			}
+
+			angriffEntscheidung = IO.readChar("\n"
+					+ "Willst du weiter angreifen?(j/n): ");
 		}
-
-		// Abfrage der Armeen die Verteidigen können Maximale Anzahl == 2
-		int verteidigungsArmeen = zielLand.getAnzahlEinheiten();
-
-		if (verteidigungsArmeen >= 2) {
-			verteidigungsArmeen = 2;
-		} else {
-			verteidigungsArmeen = 1;
-		}
-
-		/*
-		 * erstellen eines Wuerfels. Dieser entscheidet den Kampf und
-		 * verändert die Anzahl der Einheiten in den jeweiligen Ländern.
-		 */
-		Wuerfel wuerfel = new Wuerfel(angriffsArmeen, verteidigungsArmeen,
-				zielLand, quellLand);
 	}
-	}
+
+}
