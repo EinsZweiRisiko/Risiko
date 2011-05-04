@@ -1,7 +1,7 @@
 package gamelogic;
 import dataobjects.Land;
 import dataobjects.Spieler;
-import dataobjects.Spielerverwaltung;
+import gamelogic.Spielerverwaltung;
 import io.IO;
 
 /**

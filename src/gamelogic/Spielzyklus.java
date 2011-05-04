@@ -261,7 +261,7 @@ public class Spielzyklus {
 		 * erstellen eines Wuerfels. Dieser entscheidet den Kampf und
 		 * verändert die Anzahl der Einheiten in den jeweiligen Ländern.
 		 */
-		Wuerfel wuerfel = new Wuerfel(angriffsArmeen, verteidigungsArmeen,
+		oldWuerfel wuerfel = new oldWuerfel(angriffsArmeen, verteidigungsArmeen,
 				zielLand, quellLand);
 	}
 	}
