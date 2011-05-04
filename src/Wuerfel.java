@@ -35,7 +35,7 @@ public class Wuerfel {
 	Land quellLand;
 
 	// Angriffe wieviele Angriffe werden in einem Angriff getätigt
-	int angriffe;
+	int angriffe = 0;
 
 	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden
 	// Einheiten rüber
@@ -143,6 +143,7 @@ public class Wuerfel {
 			// Quellland
 			angEins = getGroessteZahl(ang);
 			angZwei = getGroessteZahl(ang);
+			
 			angriffZug++;
 			System.out.println("------ RUNDE (" + angriffZug
 					+ ") -------- \r\n");
@@ -240,7 +241,7 @@ public class Wuerfel {
 		zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() - 1);
 
 		if (angriffe == 1) {
-			System.out.println("Angriff: " + angEins + " schlägt Defensive: "
+			System.out.println("Angriff1: " + angEins + " schlägt Defensive1: "
 					+ defEins);
 
 			System.out.println(zielLand.getName() + "("
@@ -249,7 +250,7 @@ public class Wuerfel {
 					+ zielLand.getBesitzer().getName() + ") hat noch: "
 					+ zielLand.getAnzahlEinheiten() + " Einheiten übrig");
 		} else {
-			System.out.println("Angriff: " + angZwei + " schlägt Defensive: "
+			System.out.println("Angriff2: " + angZwei + " schlägt Defensive2: "
 					+ defZwei);
 
 			System.out.println(zielLand.getName() + "("
@@ -268,8 +269,8 @@ public class Wuerfel {
 		quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() - 1);
 
 		if (angriffe == 1) {
-			System.out.println("Angriff: " + angEins + " schlägt Defensive: "
-					+ defEins);
+			System.out.println("Defensive1: " + defEins + " schlägt Offennsive1: "
+					+ angEins);
 
 			System.out.println(quellLand.getName() + "("
 					+ quellLand.getBesitzer().getName()
@@ -277,10 +278,11 @@ public class Wuerfel {
 					+ quellLand.getBesitzer().getName() + ") hat noch: "
 					+ quellLand.getAnzahlEinheiten() + " Einheiten übrig");
 		} else {
-			System.out.println("Angriff: " + angZwei + " schlägt Defensive: "
-					+ defZwei);
+			System.out.println("Defensive2: " + defZwei + " schlägt Offensive2: "
+					+ angZwei);
 
 			System.out.println(quellLand.getName() + "("
+					
 					+ quellLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
 					+ quellLand.getBesitzer().getName() + ") hat noch: "
