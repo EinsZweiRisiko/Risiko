@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Spielzyklus-Klasse
  * 
@@ -100,13 +102,34 @@ public class Spielzyklus {
 
 			/*
 			 * War die Eingabe gültig so wird gefragt welches Land er angreifen
-			 * will TODO Liste möglicher Angriffsziele angeben!
+			 * will Hierbei werden die Nachbarn des soeben erstellten Objekts
+			 * abgefragt und gelistet. Außerdem wird überprüft ob das Land in
+			 * feindlichem Besitz ist.
 			 */
+
+			ArrayList<Land> nachbarn = new ArrayList<Land>();
+			nachbarn = quellLand.getNachbarn();
+
+			IO.println("Mögliche Ziele:");
+
+			/*
+			 * die for-Schleife durchläuft die Array-List "nachbarn". Die
+			 * if-Bedingung fragt ab ob sich das Land in feindlichem Besitz
+			 * befindet. Sollte dies der Fall sein so wird dieses als Ziel
+			 * vorgeschlagen sowie der Besitzer kenntlich gemacht.
+			 */
+			for (int i = 0; i < nachbarn.size(); i++) {
+				if (!nachbarn.get(i).getBesitzer().equals(spieler)) {
+					IO.println(nachbarn.get(i).getName() + " ("
+							+ nachbarn.get(i).getBesitzer().getName() + ")");
+				}
+			}
+
 			String zielLandString = IO
 					.readString("Welches Land willst du angreifen?: ");
 			Land zielLand = laenderVerwaltung.getLandByName(zielLandString);
 
-			while (zielLand.getBesitzer().equals(spieler)) {
+			while (zielLand.getBesitzer().equals(spieler) || !zielLand.istNachbar(quellLand)) {
 				zielLandString = IO
 						.readString("Das Land gehört dir. Neue Eingabe: ");
 				zielLand = laenderVerwaltung.getLandByName(zielLandString);
@@ -121,5 +144,52 @@ public class Spielzyklus {
 		// Auswertung Kampf
 		// Bei Sieg einrücken
 		// Einheiten verschieben
+		
+		//Analog zu Angriff(siehe Oben)
+
+		char verschiebenEntscheidung = IO
+				.readChar("Willst du Einheiten verschieben?(j/n): ");
+
+		char verschiebenEntscheidung2 = 'x';
+
+		if (verschiebenEntscheidung == 'n') {
+			verschiebenEntscheidung2 = IO
+					.readChar("Willst wirklich keine Einheiten verschieben?(j/n): ");
+		}
+
+		if (verschiebenEntscheidung == 'j' || verschiebenEntscheidung2 == 'n') {
+			
+			String quellLandString = IO
+					.readString("Aus welchem Land möchtest Einheiten verschieben?: ");
+			Land quellLand = laenderVerwaltung.getLandByName(quellLandString);
+
+			while (!quellLand.getBesitzer().equals(spieler)) {
+				quellLandString = IO
+						.readString("Das Land gehört dir nicht. Neue Eingabe: ");
+				quellLand = laenderVerwaltung.getLandByName(quellLandString);
+			}
+
+			ArrayList<Land> nachbarn = new ArrayList<Land>();
+			nachbarn = quellLand.getNachbarn();
+
+			IO.println("Mögliche Länder:");
+
+			for (int i = 0; i < nachbarn.size(); i++) {
+				if (nachbarn.get(i).getBesitzer().equals(spieler)) {
+					IO.println(nachbarn.get(i).getName());
+				}
+			}
+
+			String zielLandString = IO
+					.readString("In welches dieser Länder möchtest du die Armeen schicken?: ");
+			Land zielLand = laenderVerwaltung.getLandByName(zielLandString);
+
+			while (!zielLand.getBesitzer().equals(spieler) && zielLand.istNachbar(quellLand)) {
+				zielLandString = IO
+						.readString("Das Land gehört dir nicht oder ist nicht Benachbart. Neue Eingabe: ");
+				zielLand = laenderVerwaltung.getLandByName(zielLandString);
+			}
+		}
+
 	}
 }

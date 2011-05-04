@@ -32,6 +32,10 @@ public class Land {
 	
 	// Getter und Setter
 	
+	public ArrayList<Land> getNachbarn() {
+		return nachbarn;
+	}
+
 	public String getName() {
 		return name;
 	}
