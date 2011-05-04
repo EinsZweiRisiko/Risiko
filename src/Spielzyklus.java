@@ -64,7 +64,7 @@ public class Spielzyklus {
 			IO.println("Es wurden " + Armeen + " Armeen in " + land.getName()
 					+ " platziert." + "\n" + "Es befinden sich nun "
 					+ land.getAnzahlEinheiten() + " Armeen in "
-					+ land.getName() + ".");
+					+ land.getName() + "." + "\n" + "Du hast noch " + spieler.getReserveArmeen() + "Armeen zu verteilen");
 		}
 
 		IO.println("Alle Armeen wurden verteilt" + "\n");
@@ -94,9 +94,9 @@ public class Spielzyklus {
 					.readString("Von wo willst du angreifen?: ");
 			Land quellLand = laenderVerwaltung.getLandByName(quellLandString);
 
-			while (!quellLand.getBesitzer().equals(spieler)) {
+			while (!quellLand.getBesitzer().equals(spieler) || quellLand.getAnzahlEinheiten() == 1) {
 				quellLandString = IO
-						.readString("Das Land gehört dir nicht. Neue Eingabe: ");
+						.readString("Das Land gehört dir nicht oder es stehen nicht genug Armeen zur Verfügung. Neue Eingabe: ");
 				quellLand = laenderVerwaltung.getLandByName(quellLandString);
 			}
 
