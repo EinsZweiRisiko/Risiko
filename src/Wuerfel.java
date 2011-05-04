@@ -232,21 +232,25 @@ public class Wuerfel {
 	// jeweiligen Ländern reduziert um 1
 	public void eventMsgOffensive() {
 		zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() - 1);
+		
 		System.out.println("Angriff: " + angEins + " schlägt Defensive: "
 				+ defEins);
+		
 		System.out.println(zielLand.getName() + "(" + zielLand.getBesitzer().getName()
 				+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
-				+ zielLand.getBesitzer() + ") hat noch: "
-				+ zielLand.getAnzahlEinheiten() + "Einheiten übrig");
+				+ zielLand.getBesitzer().getName() + ") hat noch: "
+				+ zielLand.getAnzahlEinheiten() + " Einheiten übrig");
 	}
 
 	public void eventMsgDefensive() {
 		quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() - 1);
+		
 		System.out.println("Angriff: " + angEins + " schlägt Defensive: "
 				+ defEins);
+		
 		System.out.println(quellLand.getName() + "(" + quellLand.getBesitzer().getName()
 				+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
-				+ quellLand.getBesitzer() + ") hat noch: "
-				+ quellLand.getAnzahlEinheiten() + "Einheiten übrig");
+				+ quellLand.getBesitzer().getName() + ") hat noch: "
+				+ quellLand.getAnzahlEinheiten() + " Einheiten übrig");
 	}
 }
