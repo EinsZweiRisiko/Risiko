@@ -186,14 +186,15 @@ public class Wuerfel {
 		if (angAnzahl == 3) {
 			angEins = getGroessteZahl(ang);
 			angZwei = getGroessteZahl(ang);
+			
+
 			angriffZug++;
 			System.out.println("------ RUNDE (" + angriffZug
 					+ ") -------- \r\n");
 
-			// 2 gegen 1
+			// 3 gegen 1
 			if (defAnzahl == 1) {
 				defEins = getGroessteZahl(def);
-
 				if (angEins > defEins) {
 					// Zielland verliert Einheit
 					eventMsgOffensive();
@@ -203,7 +204,7 @@ public class Wuerfel {
 				}
 			}
 
-			// 2 gegen 2
+			// 3 gegen 2
 			if (defAnzahl == 2) {
 				defEins = getGroessteZahl(def);
 				defZwei = getGroessteZahl(def);
