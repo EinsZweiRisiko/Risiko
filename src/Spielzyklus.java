@@ -88,8 +88,9 @@ public class Spielzyklus {
 		 * gefragt von welchem Land er angreifen möchte. Gehört ihm dieses nicht
 		 * so wird er aufgefordert seine Eingabe zu wiederholen.
 		 */
-		if (angriffEntscheidung == 'j' || angriffEntscheidung2 == 'n') {
+		while (angriffEntscheidung == 'j' || angriffEntscheidung2 == 'n') {
 			angriff(laenderVerwaltung,spieler);
+			angriffEntscheidung = IO.readChar("Willst du weiter angreifen?(j/n): ");
 		}
 
 		// Bei Sieg einrücken
