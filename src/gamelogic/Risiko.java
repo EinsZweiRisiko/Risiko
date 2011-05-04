@@ -14,9 +14,14 @@ public class Risiko {
 	public Risiko() {
 		// Eine Spielrunde starten
 		Game game = new Game();
+		
+		// Spiel laufen lassen
 		while (!game.ended()) {
 			game.run();
 		}
+		
+		// Gewinner ausgeben
+		//game.getGewinner();
 	}
 
 	/**
