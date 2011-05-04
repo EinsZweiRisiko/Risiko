@@ -34,6 +34,9 @@ public class Wuerfel {
 	Land zielLand;
 	Land quellLand;
 
+	// Angriffe wieviele Angriffe werden in einem Angriff getätigt
+	int angriffe;
+
 	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden
 	// Einheiten rüber
 	public Wuerfel(int angAnzahl, int defAnzahl, Land zielLand, Land quellLand) {
@@ -46,7 +49,7 @@ public class Wuerfel {
 
 	// würfelt die Zahlen aus.
 	public static ArrayList getDice(int anzahl) { // anzahl der angreifenden
-													// varriert
+		// varriert
 		ArrayList<Integer> dice = new ArrayList<Integer>();
 		for (int i = 0; i <= anzahl - 1; i++) {
 			dice.add(i, (int) ((Math.random()) * 6 + 1));
@@ -137,7 +140,7 @@ public class Wuerfel {
 		}
 
 		if (angAnzahl == 2) { // mit Abfrage wegen einem Soldat auf dem
-								// Quellland
+			// Quellland
 			angEins = getGroessteZahl(ang);
 			angZwei = getGroessteZahl(ang);
 			angriffZug++;
@@ -183,10 +186,10 @@ public class Wuerfel {
 			// TODO : neu eingabe der anzahl der Soldaten FUNKTION
 		}
 
+		// Angriff 3
 		if (angAnzahl == 3) {
 			angEins = getGroessteZahl(ang);
 			angZwei = getGroessteZahl(ang);
-			
 
 			angriffZug++;
 			System.out.println("------ RUNDE (" + angriffZug
@@ -232,26 +235,56 @@ public class Wuerfel {
 	// Kampfgeschehen wird ausgegeben und die Einheiten werden auf den
 	// jeweiligen Ländern reduziert um 1
 	public void eventMsgOffensive() {
+		angriffe++;
+		// Runter setzten der Einheiten
 		zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() - 1);
-		
-		System.out.println("Angriff: " + angEins + " schlägt Defensive: "
-				+ defEins);
-		
-		System.out.println(zielLand.getName() + "(" + zielLand.getBesitzer().getName()
-				+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
-				+ zielLand.getBesitzer().getName() + ") hat noch: "
-				+ zielLand.getAnzahlEinheiten() + " Einheiten übrig");
+
+		if (angriffe == 1) {
+			System.out.println("Angriff: " + angEins + " schlägt Defensive: "
+					+ defEins);
+
+			System.out.println(zielLand.getName() + "("
+					+ zielLand.getBesitzer().getName()
+					+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
+					+ zielLand.getBesitzer().getName() + ") hat noch: "
+					+ zielLand.getAnzahlEinheiten() + " Einheiten übrig");
+		} else {
+			System.out.println("Angriff: " + angZwei + " schlägt Defensive: "
+					+ defZwei);
+
+			System.out.println(zielLand.getName() + "("
+					+ zielLand.getBesitzer().getName()
+					+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
+					+ zielLand.getBesitzer().getName() + ") hat noch: "
+					+ zielLand.getAnzahlEinheiten() + " Einheiten übrig");
+		}
+
 	}
 
 	public void eventMsgDefensive() {
+		// Anzahl der Angriffe die getätigt werden
+		angriffe++;
+		// Runter setzten der Einheiten
 		quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() - 1);
-		
-		System.out.println("Angriff: " + angEins + " schlägt Defensive: "
-				+ defEins);
-		
-		System.out.println(quellLand.getName() + "(" + quellLand.getBesitzer().getName()
-				+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
-				+ quellLand.getBesitzer().getName() + ") hat noch: "
-				+ quellLand.getAnzahlEinheiten() + " Einheiten übrig");
+
+		if (angriffe == 1) {
+			System.out.println("Angriff: " + angEins + " schlägt Defensive: "
+					+ defEins);
+
+			System.out.println(quellLand.getName() + "("
+					+ quellLand.getBesitzer().getName()
+					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
+					+ quellLand.getBesitzer().getName() + ") hat noch: "
+					+ quellLand.getAnzahlEinheiten() + " Einheiten übrig");
+		} else {
+			System.out.println("Angriff: " + angZwei + " schlägt Defensive: "
+					+ defZwei);
+
+			System.out.println(quellLand.getName() + "("
+					+ quellLand.getBesitzer().getName()
+					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
+					+ quellLand.getBesitzer().getName() + ") hat noch: "
+					+ quellLand.getAnzahlEinheiten() + " Einheiten übrig");
+		}
 	}
 }
