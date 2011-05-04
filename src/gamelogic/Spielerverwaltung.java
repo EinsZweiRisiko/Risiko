@@ -1,6 +1,6 @@
 package gamelogic;
-import io.IO;
 import dataobjects.Spieler;
+import io.IO;
 
 /**
  * Spieleverwaltung-Klasse 
