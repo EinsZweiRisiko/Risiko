@@ -129,6 +129,9 @@ public class Spielzyklus {
 					.readString("Welches Land willst du angreifen?: ");
 			Land zielLand = laenderVerwaltung.getLandByName(zielLandString);
 
+			// Wenn das Land dem aktuellen Spieler gehört oder die Länder nicht
+			// benachbart sind ist die Eingabe ungültig und die Eingabe muss
+			// wiederholt werden.
 			while (zielLand.getBesitzer().equals(spieler)
 					|| !zielLand.istNachbar(quellLand)) {
 				zielLandString = IO
@@ -136,10 +139,17 @@ public class Spielzyklus {
 				zielLand = laenderVerwaltung.getLandByName(zielLandString);
 			}
 
+			// Abfrage der Anzahl der Armeen die Angreifen sollen
 			int angriffsArmeen = IO.readInt("Wieviele Armeen sollen "
 					+ zielLand.getName() + "(" + zielLand.getAnzahlEinheiten()
 					+ " Armeen)" + " angreifen?(1-3)");
 
+			/*
+			 * Sollte diese nicht gültig sein wird der Anwender aufgefordert die
+			 * Eingabe zu wiederholen. Die Eingabe muss zwischen 1 udn 3 liegen
+			 * und es müssen genug EInhetien im Land Verfügbar sein. dabei ist
+			 * zu beachten, dass mindestens eine Einheit im Land bleiben muss.
+			 */
 			while (angriffsArmeen < 1 || angriffsArmeen > 3) {
 				angriffsArmeen = IO
 						.readInt("Du kannst nur mit 1-3 Armeen angreifen wiederhole die Eingabe!:");
@@ -151,6 +161,7 @@ public class Spielzyklus {
 				}
 			}
 
+			// Abfrage der Armeen die Verteidigen können Maximale Anzahl == 2
 			int verteidigungsArmeen = zielLand.getAnzahlEinheiten();
 
 			if (verteidigungsArmeen >= 2) {
@@ -159,13 +170,17 @@ public class Spielzyklus {
 				verteidigungsArmeen = 1;
 			}
 
+			/*
+			 * erstellen eines Wuerfels. Dieser entscheidet den Kampf und
+			 * verändert die Anzahl der Einheiten in den jeweiligen Ländern.
+			 */
 			Wuerfel wuerfel = new Wuerfel(angriffsArmeen, verteidigungsArmeen,
 					zielLand, quellLand);
 
 		}
 
 		// Bei Sieg einrücken
-		
+
 		// Einheiten verschieben
 		// Analog zu Angriff(siehe Oben)
 
