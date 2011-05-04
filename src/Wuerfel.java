@@ -6,7 +6,7 @@ import java.io.*;
  *
  */
 public class Wuerfel {
-	
+
 	ArrayList <Integer> ang = new ArrayList<Integer>();
 	ArrayList <Integer> def = new ArrayList<Integer>(); 
 
@@ -17,6 +17,7 @@ public class Wuerfel {
 	// die angreifenden Würfel mit ihren wertigen absteigen sortiert
 	int angEins = 0;
 	int angZwei = 0;
+	
 	int defEins = 0;
 	int defZwei = 0;
 
@@ -28,10 +29,17 @@ public class Wuerfel {
 	int angriffZug;
 	int maxAngriffZug;
 
+	//Ziell und Quellland
+	Land zielLand;
+	Land quellLand;
+
 	//Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden Einheiten rüber
-	public Wuerfel(int angAnzahl, int defAnzahl) {
+	public Wuerfel(int angAnzahl, int defAnzahl, Land zielLand, Land quellLand ) {
 		this.angAnzahl = angAnzahl;
 		this.defAnzahl = defAnzahl;
+		this.zielLand = zielLand;
+		this.quellLand = quellLand;
+		fight();
 	}
 
 	// würfelt die Zahlen aus.
@@ -43,7 +51,7 @@ public class Wuerfel {
 		return dice;
 	}
 
-	/**
+	/**b
 	 * Berechnet die größte Zahl in einer Liste
 	 * 
 	 * @param würfel Eine Liste aus gewürfelten Zahlen
@@ -90,29 +98,39 @@ public class Wuerfel {
 			angEins = getGroessteZahl(ang);
 			angriffZug++;
 			System.out.println("------ RUNDE ("+ angriffZug +") -------- \r\n");
+
 			// 1 gegen 1
 			if(defAnzahl == 1) {
 				defEins = getGroessteZahl(def);
 
 				if(angEins > defEins) {
-					defGesamt--;
-					System.out.println("Angriff:" +angEins +" schlägt Defensive: "+ defEins);
+					//Zielland verliert Einheit
+					zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() -1);
+					System.out.println("Angriff:" + angEins +" schlägt Defensive: "+ defEins);
+					System.out.println(zielLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				} else {
-					angGesamt--;
+					//Quellland verliert Einheit
+					quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten()-1);
 					System.out.println("Defensive:" +defEins+" schlägt Angriff: "+angEins);
+					System.out.println(quellLand.getName() + " verliert 1 Einheit und hat noch: "+ quellLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}
 			}
+
 			// 1 gegen 2
 			if(defAnzahl == 2) {
 				defEins = getGroessteZahl(def);
 				defZwei = getGroessteZahl(def);
 
 				if(angEins > defEins) {
-					defGesamt--;
+					//Zielland verliert Einheit
+					zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: "+angEins+" schlägt Defensive: "+defEins);
+					System.out.println(zielLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}else {
-					angGesamt--;
+					//Quellland verliert Einheit
+					quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() -1);
 					System.out.println("Defensive: "+defEins+" schlägt Angriff: "+angEins);
+					System.out.println(quellLand.getName() + " verliert 1 Einheit und hat noch: "+ quellLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}
 			}
 		}
@@ -127,11 +145,15 @@ public class Wuerfel {
 				defEins = getGroessteZahl(def);
 
 				if(angEins > defEins) {
-					defGesamt--;
+					//Zielland verliert Einheit
+					zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: "+angEins+" schlägt Defensive: "+defEins);
+					System.out.println(zielLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}else {
-					angGesamt--;
+					//Quellland verliert Einheit
+					quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: "+angEins+" schlägt Defensive: "+defEins);
+					System.out.println(quellLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}
 			}
 			// 2 gegen 2
@@ -141,20 +163,28 @@ public class Wuerfel {
 
 				// ersten Würfel treten gegeneinander an
 				if(angEins > defEins) {
-					defGesamt--;
+					//Zielland verliert Einheit
+					zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: " +angEins+" schlägt Defensive: "+defEins);
+					System.out.println(zielLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				} else {
-					angGesamt--;
+					//Quellland verliert Einheit
+					quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() -1);
 					System.out.println("Defensive: "+defEins+" schlägt Angriff: "+angEins);
+					System.out.println(quellLand.getName() + " verliert 1 Einheit und hat noch: "+ quellLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}
 
 				// zweiten Würfel treten gegen einander an
 				if(angZwei > defZwei) {
-					defGesamt--;
+					//Zielland verliert Einheit
+					zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: "+angZwei+" schlägt Defensive: "+defZwei);
+					System.out.println(zielLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}else {
-					angGesamt--;
+					//Quellland verliert Einheit
+					quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() -1);
 					System.out.println("Defensive:" +defZwei+" schlägt Angriff: "+angZwei);
+					System.out.println(quellLand.getName() + " verliert 1 Einheit und hat noch: "+ quellLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}
 			}
 		} else {
@@ -167,16 +197,21 @@ public class Wuerfel {
 			angZwei = getGroessteZahl(ang);
 			angriffZug++;
 			System.out.println("------ RUNDE ("+angriffZug+") -------- \r\n");
+
 			// 2 gegen 1
 			if(defAnzahl == 1) {
 				defEins = getGroessteZahl(def);
 
 				if(angEins > defEins) {
-					defGesamt--;
+					//Zielland verliert Einheit
+					zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: "+angEins+" schlägt Defensive: "+defEins);
+					System.out.println(zielLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}else {
-					angGesamt--;
+					//Quellland verliert Einheit
+					quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() -1);
 					System.out.println("Defensive: "+defEins+" schlägt Angriff: "+angEins);
+					System.out.println(quellLand.getName() + " verliert 1 Einheit und hat noch: "+ quellLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}
 			}
 
@@ -186,23 +221,30 @@ public class Wuerfel {
 				defZwei = getGroessteZahl(def);
 				// ersten Würfel treten gegeneinander an
 				if(angEins > defEins) {
-					defGesamt--;
+					//Zielland verliert Einheit
+					zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: "+angEins+" schlägt Defensive: "+defEins);
+					System.out.println(zielLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				} else {
-					angGesamt--;
+					//Quellland verliert Einheit
+					quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() -1);
 					System.out.println("Defensive: "+defEins+" schlägt Angriff: "+angEins);
+					System.out.println(quellLand.getName() + " verliert 1 Einheit und hat noch: "+ quellLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}
 
 				// zweiten Würfel treten gegen einander an
 				if(angZwei > defZwei) {
-					defGesamt--;
+					//Zielland verliert Einheit
+					zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: "+angZwei+" schlägt Defensive: "+defZwei);
+					System.out.println(zielLand.getName() + " verliert 1 Einheit und hat noch: "+ zielLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}else {
-					angGesamt--;
+					//Quellland verliert Einheit
+					quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() -1);
 					System.out.println("Angriff: "+angZwei+" schlägt Defensive: "+defZwei);
+					System.out.println(quellLand.getName() + " verliert 1 Einheit und hat noch: "+ quellLand.getAnzahlEinheiten() +"Einheiten übrig");
 				}
 			}
 		}
 	}
-
 }
