@@ -5,7 +5,7 @@
  */
 
 public class Risiko {
-	
+
 	/**
 	 * Konstruktor
 	 */
@@ -66,31 +66,38 @@ public class Risiko {
 		 * Armeen. Innere den Spieler welcher diese setzen darf. So wird reih um
 		 * von den Spielern eine Armee gesetzt.
 		 */
-		for (int i = 0; i < startArmeen; i++) {
-			for (int j = 0; j < spielerVerwaltung.getSpielerzahl(); j++) {
+
+		Spieler[] laenderBesetzung = new Spieler[42];
+		Land land;
+
+		for (int i = 0; i <= 41; i++) {
+			for (int j = 0; j <= (spielerVerwaltung.getSpielerzahl() - 1); j++) {
 				int r = (int) (Math.random() * 42);
-				Land land = laenderVerwaltung.getLandByNumber(r);
 
-				/*
-				 * Wenn das Land niemanden gehört platziere eine Einheit und
-				 * verändere die Zugehörigkeit des Feldes. Erniedrige Außerdem
-				 * deine restlichen Armeen um Ein.
-				 */
-				if (land.getBesitzer() == null) {
-					land.setAnzahlEinheiten(land.getAnzahlEinheiten() + 1);
+				if (!laenderVerwaltung.isAlleLaenderBesetzt()) {
+					while (laenderBesetzung[r] != null) {
+						r = (int) (Math.random() * 42);
+					}
+
+					land = laenderVerwaltung.getLandByNumber(r);
 					land.setBesitzer(spieler[j]);
-					spieler[j]
-							.setReserveArmeen(spieler[j].getReserveArmeen() - 1);
-					IO.println(land.getName()+" gehört " +spieler[j].getName());
-
+					land.setAnzahlEinheiten(1);
+					laenderBesetzung[r] = spieler[j];
+					
 				} else {
-					// TODO Else-Zweig was soll geschehen wenn das Feld bereits
-					// besetzt ist?
+					while (laenderBesetzung[r].equals(spieler[j])) {
+						r = (int) (Math.random() * 42);
+					}
+
+					land = laenderVerwaltung.getLandByNumber(r);
+					land.setBesitzer(spieler[j]);
+					land.setAnzahlEinheiten(land.getAnzahlEinheiten()+1);
 				}
+				IO.println(land.getName()+"("+land.getAnzahlEinheiten()+")"+ " gehört "+spieler[j].getName());
 			}
 		}
 	}
-	
+
 	private boolean spielZuEnde() {
 		// TODO Überprüfungsfunktion erstellen
 		return false;

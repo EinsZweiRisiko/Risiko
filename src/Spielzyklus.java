@@ -14,7 +14,7 @@ public class Spielzyklus {
 	 * angreifen() und verteilen() genutzt werden?.
 	 */
 	public Spielzyklus(Spieler spieler, Laenderverwaltung laenderVerwaltung) {
-		IO.println("\n" + "Spielzyklus gestartet" + "\n");
+		IO.println("\n" + "---------------------------" + "\n" + "Spielzyklus gestartet" + "\n");
 		IO.println(spieler.getName() + " an der Reihe");
 
 		/*
@@ -64,7 +64,7 @@ public class Spielzyklus {
 			IO.println("Es wurden " + Armeen + " Armeen in " + land.getName()
 					+ " platziert." + "\n" + "Es befinden sich nun "
 					+ land.getAnzahlEinheiten() + " Armeen in "
-					+ land.getName() + "." + "\n" + "Du hast noch " + spieler.getReserveArmeen() + "Armeen zu verteilen");
+					+ land.getName() + "." + "\n" + "Du hast noch " + spieler.getReserveArmeen() + " Armeen zu verteilen");
 		}
 
 		IO.println("Alle Armeen wurden verteilt" + "\n");
@@ -121,7 +121,7 @@ public class Spielzyklus {
 			for (int i = 0; i < nachbarn.size(); i++) {
 				if (!nachbarn.get(i).getBesitzer().equals(spieler)) {
 					IO.println(nachbarn.get(i).getName() + " ("
-							+ nachbarn.get(i).getBesitzer().getName() + ")");
+							+ nachbarn.get(i).getBesitzer().getName() +  "," + nachbarn.get(i).getAnzahlEinheiten() + " Armeen" + ")");
 				}
 			}
 
@@ -233,7 +233,7 @@ public class Spielzyklus {
 
 			int verschArmeen = IO.readInt("Wieviele Armeen?: ");
 
-			while (verschArmeen > (quellLand.getAnzahlEinheiten() - 1)) {
+			while (verschArmeen < (quellLand.getAnzahlEinheiten() - 1)) {
 				IO.println("Armeen reichen nicht aus es sind nur noch "
 						+ (quellLand.getAnzahlEinheiten() - 1)
 						+ " Armeen verfügbar");
