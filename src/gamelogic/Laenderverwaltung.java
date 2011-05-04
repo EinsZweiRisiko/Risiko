@@ -2,8 +2,9 @@ package gamelogic;
 
 import java.util.Hashtable;
 
-import dataobjects.Kontinent;
-import dataobjects.Land;
+import objects.Kontinent;
+import objects.Land;
+
 
 /**
  * 

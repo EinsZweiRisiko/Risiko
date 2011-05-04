@@ -2,7 +2,8 @@ package gamelogic;
 import java.util.ArrayList;
 import java.io.*;
 
-import dataobjects.Land;
+import objects.Land;
+
 
 /**
  * 

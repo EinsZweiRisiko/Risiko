@@ -2,10 +2,11 @@ package gamelogic;
 
 import java.util.ArrayList;
 
+import objects.Land;
+import objects.Spieler;
+
 import userinterface.IO;
 
-import dataobjects.Land;
-import dataobjects.Spieler;
 
 /**
  * Spielzyklus-Klasse

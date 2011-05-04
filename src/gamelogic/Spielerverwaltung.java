@@ -1,6 +1,6 @@
 package gamelogic;
+import objects.Spieler;
 import userinterface.IO;
-import dataobjects.Spieler;
 
 /**
  * Spieleverwaltung-Klasse 
@@ -48,24 +48,15 @@ public class Spielerverwaltung {
 
 	// Getter & Setter
 
-	public Spieler getAktSpieler() {
-		return spieler[aktSpieler];
+	/**
+	 * Gibt den aktuellen Spieler zurück
+	 */
+	public Spieler welcherSpielerIstDran() {
+		
 	}
 
 	public void naechsterSpieler() {
-		if (aktSpieler < spieler.length) {
-			aktSpieler++;
-		}
-		/*
-		 * Sollte der aktuelle Spieler der letzte in der Reihe gewesen sein
-		 * sowird so sichergestellt, dass der erste Spieler wieder dran ist.
-		 * TODO um beim Ausscheiden eines Spielers eine zuverlässige Methode zu
-		 * erhalten mit ArrayList arbeiten!
-		 */
 
-		if (aktSpieler >= spieler.length) {
-			aktSpieler = 0;
-		}
 	}
 
 	public void setSpielerzahl(int spielerzahl) {

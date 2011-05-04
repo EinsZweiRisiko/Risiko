@@ -12,6 +12,14 @@ public class Risiko {
 	 * Konstruktor
 	 */
 	public Risiko() {
+		/* User interface:
+		 *  - Spieleranzahl
+		 * 	- Namen abfragen
+		 *  - Farben wählen
+		 */
+		
+		
+		
 		// Eine Spielrunde starten
 		Game game = new Game();
 		
@@ -21,7 +29,8 @@ public class Risiko {
 		}
 		
 		// Gewinner ausgeben
-		//game.getGewinner();
+		// TODO: needs user interface abstraction
+		//System.out.println(game.getGewinner());
 	}
 
 	/**
