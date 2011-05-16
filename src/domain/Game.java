@@ -64,7 +64,7 @@ public class Game {
 		supply += spieler.getContinentBonus();
 		
 		// Bonuseinheiten durch Karten
-		if (spieler.useCards()) {
+		if (spieler.useBonusCards()) {
 			supply += getCardBonus();
 		}
  
