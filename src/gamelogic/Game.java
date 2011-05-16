@@ -60,7 +60,7 @@ public class Game {
 		// Daraus berechnen, wie viele Einheiten der Spieler bekommt
 		
 		
-		int einheitenVerstaerkung = ;
+		int einheitenVerstaerkung = ; 
 		
 		
 		// 
