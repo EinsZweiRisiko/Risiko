@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -195,11 +196,48 @@ public class Laenderverwaltung {
 
 	public boolean isAlleLaenderBesetzt() {
 
-		for (int i = 0; i < 41; i++) {
+		for (int i = 0; i <= 41; i++) {
 			if(getLandByName(laenderNamen[i]).getBesitzer() == null){
 				return false;
 			}
 		}
 		return true;
+	}
+	
+	/*
+	 * Australien: 2
+	 * Südamerika: 2
+	 * Afrika: 3
+	 * Europa: 5
+	 * Nordamerika: 5
+	 * Asien: 7
+	 */
+	
+	//Zaehlen der reserve Armeen aus den Ländern und den Kontinenten
+	public int reserveEinheitenZaehlenLaender(Spieler spieler) {
+		int besitzendeLaender = 0;
+		
+		for (int i = 0; i <= 41; i++) {
+			if(getLandByName(laenderNamen[i]).getBesitzer() == spieler){
+				besitzendeLaender++;
+			}
+			return besitzendeLaender;
+		}
+		return 0;
+	}
+	
+	public int reserveEinheitenZaehlenKontinent(Spieler spieler) {
+		int einheiten = 0;
+		ArrayList<String> laenderDesSpielers = new ArrayList<String>();
+		
+		for(int i = 0; i <= 41; i++) {
+			if(getLandByName(laenderNamen[i]).getBesitzer() == spieler) {
+				laenderDesSpielers.add(getLandByName(laenderNamen[i]).getName());
+			}
+		}
+		for(int i = 0; i <= 5; i++) {
+			
+		}
+		return 0;
 	}
 }
