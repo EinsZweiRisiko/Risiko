@@ -20,6 +20,15 @@ public class Spieler {
 		// Länder zählen
 		return 0;
 	}
+
+	/**
+	 * Fragt den Spieler, welche Karten er eintauschen möchte und gibt die Anzahl der Bonuseinheiten zurück
+	 * @return
+	 */
+	public int useBonusCards() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 

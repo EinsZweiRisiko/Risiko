@@ -8,12 +8,11 @@ public class Game {
 
 	public Game() {
 		// Laenderverwaltung erstellen
+		laenderverwaltung = new Laenderverwaltung();
 		// Spielerverwaltung erstellen (Spielerzahl, namen, farben)
 		spielerverwaltung = new Spielerverwaltung();
-		
+		// Anfangsrunde
 		spielFigurenPlatzieren();
-		
-		
 		
 	}
 	
@@ -29,11 +28,8 @@ public class Game {
 	}
 
 	public void run() {
-		// TODO Auto-generated method stub
-		
-		// Spielzyklus
-		objects.Spieler spieler = spielerverwaltung.welcherSpielerIstDran();
-		
+		// Herausfinden, welcher Spieler dran ist
+		valueobjects.Spieler spieler = spielerverwaltung.welcherSpielerIstDran();
 		
 		/*
 		   1. Einheiten Reserve
@@ -54,35 +50,40 @@ public class Game {
 		 */
 		
 		
+		// Wie viel Verstärkung?
+		int supply = 0;
+		
 		// Wie viele Einheiten bekommt der Spieler durch eroberte Länder?
+		supply += spieler.getAnzahlLaender()/3;
+		// Der Spieler bekommt mindestens 3 Einheiten
+		if (supply < 3) {
+			supply = 3;
+		}
 		
-		int laenderAnzahl = spieler.getAnzahlLaender();
-		// Daraus berechnen, wie viele Einheiten der Spieler bekommt
+		// Bonuseinheiten durch eroberte Kontinente
+		supply += spieler.getContinentBonus();
 		
-		
-		int einheitenVerstaerkung = ; 
-		
-		
-		// 
-		if (spieler.mussKartenEintauschen()) {
-			// Spieler fragen, welche er eintauschen möchte
-			// Karten eintauschen
-			// TODO 
-			//einheitenVerstaerkung += 
-		} else {
-			// Hat der Spieler genug Karten zum eintauschen?
-				// Spieler fragen, ob er Länderkarten einlösen möchte	
+		// Bonuseinheiten durch Karten
+		if (spieler.useCards()) {
+			supply += getCardBonus();
 		}
  
 		// Einheiten setzen lassen
-		
-		
+		spieler.placeUnits();
 		
 		// Angreifen
+		spieler.attack();
 		
+		// Einheiten verschieben
+		spieler.moveUnits();
 	}
 
-	public objects.Spieler getGewinner() {
+	private int getCardBonus() {
+		// TODO Kartenbonus berechnen
+		return 0;
+	}
+
+	public valueobjects.Spieler getGewinner() {
 		// TODO Auto-generated method stub
 		
 	}

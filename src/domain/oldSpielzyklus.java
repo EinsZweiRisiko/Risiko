@@ -1,8 +1,9 @@
 package domain;
 
-import gui.IO;
 
 import java.util.ArrayList;
+
+import cli.IO;
 
 
 import valueobjects.Land;

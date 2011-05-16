@@ -1,5 +1,5 @@
 package domain;
-import gui.IO;
+import cli.IO;
 import valueobjects.Spieler;
 
 /**
