@@ -11,14 +11,15 @@ public class Game {
 	public Game() {
 		// Laenderverwaltung erstellen
 		laenderverwaltung = new Laenderverwaltung();
+		
 		// Spielerverwaltung erstellen (Spielerzahl, namen, farben)
 		spielerverwaltung = new Spielerverwaltung();
-		// Anfangsrunde
-		spielFigurenPlatzieren();
 		
+		// Anfangsrunde
+		placeStartUnits();
 	}
 	
-	private void spielFigurenPlatzieren() {
+	private void placeStartUnits() {
 		// TODO Auto-generated method stub
 		// Entweder zufällig platzieren oder Spieler entscheiden lassen
 		
