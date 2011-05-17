@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import valueobjects.Kontinent;
 import valueobjects.Land;
@@ -100,8 +102,20 @@ public class Laenderverwaltung {
 		// Nachbarländer zuweisen
 		initNachbarlaender();
 
+		
+		/*
+		 * Bonuseinheiten pro Kontinent
+		 * Asien = 7
+		 * Europa = 5
+		 * Nord Amerika = 5
+		 * Süd Amerika = 2
+		 * Afrika = 3
+		 * Australien = 2
+		 */
+		
+		
 		// Nordamerika erstellen
-		kontinente[0] = new Kontinent("Nordamerika");
+		kontinente[0] = new Kontinent("Nordamerika", 5);
 		kontinente[0].addLand(laender.get("Alaska"));
 		kontinente[0].addLand(laender.get("Nordwest-Territorium"));
 		kontinente[0].addLand(laender.get("Grönland"));
@@ -113,14 +127,14 @@ public class Laenderverwaltung {
 		kontinente[0].addLand(laender.get("Mittelamerika"));
 
 		// Südamerika erstellen
-		kontinente[1] = new Kontinent("Südamerika");
+		kontinente[1] = new Kontinent("Südamerika", 2);
 		kontinente[1].addLand(laender.get("Venezuela"));
 		kontinente[1].addLand(laender.get("Peru"));
 		kontinente[1].addLand(laender.get("Brasilien"));
 		kontinente[1].addLand(laender.get("Argentinien"));
 
 		// Afrika erstellen
-		kontinente[2] = new Kontinent("Afrika");
+		kontinente[2] = new Kontinent("Afrika", 3);
 		kontinente[2].addLand(laender.get("Nordwestafrika"));
 		kontinente[2].addLand(laender.get("Ägypten"));
 		kontinente[2].addLand(laender.get("Ostafrika"));
@@ -129,7 +143,7 @@ public class Laenderverwaltung {
 		kontinente[2].addLand(laender.get("Madagaskar"));
 
 		// Europa erstellen
-		kontinente[3] = new Kontinent("Europa");
+		kontinente[3] = new Kontinent("Europa", 5);
 		kontinente[3].addLand(laender.get("Island"));
 		kontinente[3].addLand(laender.get("Skandinavien"));
 		kontinente[3].addLand(laender.get("Ukraine"));
@@ -139,7 +153,7 @@ public class Laenderverwaltung {
 		kontinente[3].addLand(laender.get("Südeuropa"));
 
 		// Asien erstellen
-		kontinente[4] = new Kontinent("Asien");
+		kontinente[4] = new Kontinent("Asien", 7);
 		kontinente[4].addLand(laender.get("Ural"));
 		kontinente[4].addLand(laender.get("Sibirien"));
 		kontinente[4].addLand(laender.get("Jakutien"));
@@ -154,7 +168,7 @@ public class Laenderverwaltung {
 		kontinente[4].addLand(laender.get("Siam"));
 
 		// Australien erstellen
-		kontinente[5] = new Kontinent("Australien");
+		kontinente[5] = new Kontinent("Australien", 2);
 		kontinente[5].addLand(laender.get("Indonesien"));
 		kontinente[5].addLand(laender.get("Neu-Guinea"));
 		kontinente[5].addLand(laender.get("West-Australien"));
@@ -208,4 +222,25 @@ public class Laenderverwaltung {
 		}
 		return true;
 	}
+
+	public ArrayList<Kontinent> getConqueredContinents(ArrayList<Land> countries) {
+		// Array für das Ergebnis
+		ArrayList<Kontinent> conqueredContinents = new ArrayList<Kontinent>();
+		
+		//durchläuft jeden kotninent[] und überprüft den Besitzer
+		Kontinent currentContinent;
+		for(int i = 0; i < kontinente.length; i++) {
+			currentContinent = kontinente[i];
+			
+			// Überprüft, ob die Länderliste den kompletten Kontinent enthält
+			if (countries.containsAll(currentContinent.getCountries())) {
+				conqueredContinents.add(currentContinent);
+			}
+		}
+		
+		return conqueredContinents;
+		
+	}
+
+	
 }

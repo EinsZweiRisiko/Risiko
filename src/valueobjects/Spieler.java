@@ -1,14 +1,20 @@
 package valueobjects;
 
+import java.util.ArrayList;
+
+import domain.Laenderverwaltung;
+
 /**
  * Spieler-Klasse
  * 
  * @author Hendrik
  */
 public class Spieler {
-
-
-	private Land[] eigeneLaender;
+	
+	private String name;	//Spielername
+	private String color;	//Spielerfarbe
+	private ArrayList<Land> ownCountries = new ArrayList<Land>();	//besitzendes Länder
+	private Laenderverwaltung laenderverwaltung;
 	
 	//Konstruktor
 	public Spieler(String n) {
@@ -16,9 +22,28 @@ public class Spieler {
 	}
 
 	public int getAnzahlLaender() {
-		// TODO Auto-generated method stub
 		// Länder zählen
-		return 0;
+		return ownCountries.size();
+	}
+	
+	/**
+	 * Gibt die Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
+	 * 
+	 * @return
+	 */
+	public int getContinentBonus() {
+		// Alle Kontinente, die wir besitzen, herausfinden
+		ArrayList<Kontinent> kontinente = laenderverwaltung.getConqueredContinents(ownCountries);
+		
+		// Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
+		int bonus = 0;
+		
+		// Alle Kontinente durchgehen, die es gibt
+		for (Kontinent kontinent : kontinente) {
+			bonus += kontinent.getBonusSupply();
+		}
+		
+		return bonus;
 	}
 
 	/**
@@ -29,36 +54,11 @@ public class Spieler {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	
-
-	// Getter & Setter
-//
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public String getFarbe() {
-//		return farbe;
-//	}
-//
-//	public int getLaender() {
-//		return laenderAnzahl;
-//	}
-//
-//	public int getKontinente() {
-//		return kontinentAnzahl;
-//	}
-//
-//	public Mission getMission() {
-//		return mission;
-//	}
-//
-//	public void setReserveArmeen(int reserveArmeen) {
-//		this.reserveArmeen = reserveArmeen;
-//	}
-//
-//	public int getReserveArmeen() {
-//		return reserveArmeen;
-//	}
+	/**
+	 * fügt Länder hinzu
+	 * @param land das Land was hinzugefügt wird
+	 */
+	public void addCountry(Land land) {
+		ownCountries.add(land);
+	}
 }

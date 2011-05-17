@@ -63,7 +63,7 @@ public class Game {
 		// Bonuseinheiten durch eroberte Kontinente
 		supply += spieler.getContinentBonus();
 		
-		// Bonuseinheiten durch Karten
+		// Bonuseinheiten durch Karten SPÄTER, weil kein interface vorhanden
 		if (spieler.useBonusCards()) {
 			supply += getCardBonus();
 		}
