@@ -1,5 +1,7 @@
 package domain;
 
+import valueobjects.Spieler;
+
 public class Game {
 	
 	
@@ -29,7 +31,7 @@ public class Game {
 
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
-		valueobjects.Spieler spieler = spielerverwaltung.welcherSpielerIstDran();
+		Spieler spieler = spielerverwaltung.welcherSpielerIstDran();
 		
 		/*
 		   1. Einheiten Reserve
@@ -69,7 +71,7 @@ public class Game {
 		}
  
 		// Einheiten setzen lassen
-		spieler.placeUnits();
+		spieler.placeUnits(supply);
 		
 		// Angreifen
 		spieler.attack();
@@ -83,7 +85,7 @@ public class Game {
 		return 0;
 	}
 
-	public valueobjects.Spieler getGewinner() {
+	public Spieler getGewinner() {
 		// TODO Auto-generated method stub
 		
 	}
