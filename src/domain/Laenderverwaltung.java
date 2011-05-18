@@ -16,30 +16,30 @@ import valueobjects.Land;
 public class Laenderverwaltung {
 
 	/**
-	 * Liste mit allen Ländernamen
+	 * Liste mit allen LÃ¤ndernamen
 	 */
 	private String[] laenderNamen = { "Alaska", "Nordwest-Territorium",
-			"Grönland", "Alberta", "Ontario", "Quebec", "Weststaaten",
+			"GrÃ¶nland", "Alberta", "Ontario", "Quebec", "Weststaaten",
 			"Oststaaten", "Mittelamerika", "Venezuela", "Peru", "Brasilien",
-			"Argentinien", "Nordwestafrika", "Ägypten", "Ostafrika", "Kongo",
-			"Südafrika", "Madagaskar", "Island", "Skandinavien", "Ukraine",
-			"Großbritannien", "Mitteleuropa", "Westeuropa", "Südeuropa",
+			"Argentinien", "Nordwestafrika", "Ã„gypten", "Ostafrika", "Kongo",
+			"SÃ¼dafrika", "Madagaskar", "Island", "Skandinavien", "Ukraine",
+			"GroÃŸbritannien", "Mitteleuropa", "Westeuropa", "SÃ¼deuropa",
 			"Ural", "Sibirien", "Jakutien", "Irkutsk", "Kamtschatka",
 			"Mongolei", "Japan", "Afghanistan", "China", "Mittlerer Osten",
 			"Indien", "Siam", "Indonesien", "Neu-Guinea", "West-Australien",
 			"Ost-Australien" };
 
 	/**
-	 * Eine Liste aller Grenzen, die zwischen jeweils zwei Ländern verlaufen
+	 * Eine Liste aller Grenzen, die zwischen jeweils zwei LÃ¤ndern verlaufen
 	 */
 	private static final String[][] grenzen = {
 			{ "Alaska", "Nordwest-Territorium" }, { "Alaska", "Alberta" },
 			{ "Alaska", "Kamtschatka" }, { "Nordwest-Territorium", "Alberta" },
-			{ "Nordwest-Territorium", "Grönland" },
+			{ "Nordwest-Territorium", "GrÃ¶nland" },
 			{ "Nordwest-Territorium", "Ontario" }, { "Alberta", "Ontario" },
 			{ "Alberta", "Weststaaten" }, { "Ontario", "Oststaaten" },
-			{ "Ontario", "Quebec" }, { "Ontario", "Grönland" },
-			{ "Grönland", "Quebec" }, { "Grönland", "Island" },
+			{ "Ontario", "Quebec" }, { "Ontario", "GrÃ¶nland" },
+			{ "GrÃ¶nland", "Quebec" }, { "GrÃ¶nland", "Island" },
 			{ "Weststaaten", "Oststaaten" },
 			{ "Weststaaten", "Mittelamerika" }, { "Oststaaten", "Quebec" },
 			{ "Oststaaten", "Mittelamerika" },
@@ -47,20 +47,20 @@ public class Laenderverwaltung {
 			{ "Venezuela", "Brasilien" }, { "Peru", "Brasilien" },
 			{ "Peru", "Argentinien" }, { "Brasilien", "Nordwestafrika" },
 			{ "Brasilien", "Argentinien" }, { "Nordwestafrika", "Westeuropa" },
-			{ "Nordwestafrika", "Südeuropa" }, { "Nordwestafrika", "Ägypten" },
+			{ "Nordwestafrika", "SÃ¼deuropa" }, { "Nordwestafrika", "Ã„gypten" },
 			{ "Nordwestafrika", "Ostafrika" }, { "Nordwestafrika", "Kongo" },
-			{ "Ägypten", "Mitteleuropa" }, { "Ägypten", "Südeuropa" },
-			{ "Ägypten", "Ostafrika" }, { "Ostafrika", "Mittlerer Osten" },
-			{ "Ostafrika", "Kongo" }, { "Ostafrika", "Südafrika" },
-			{ "Ostafrika", "Madagaskar" }, { "Südafrika", "Kongo" },
-			{ "Südafrika", "Madagaskar" }, { "Westeuropa", "Mitteleuropa" },
-			{ "Westeuropa", "Südeuropa" }, { "Westeuropa", "Großbritannien" },
-			{ "Großbritannien", "Skandinavien" },
-			{ "Großbritannien", "Island" },
-			{ "Großbritannien", "Mitteleuropa" },
+			{ "Ã„gypten", "Mitteleuropa" }, { "Ã„gypten", "SÃ¼deuropa" },
+			{ "Ã„gypten", "Ostafrika" }, { "Ostafrika", "Mittlerer Osten" },
+			{ "Ostafrika", "Kongo" }, { "Ostafrika", "SÃ¼dafrika" },
+			{ "Ostafrika", "Madagaskar" }, { "SÃ¼dafrika", "Kongo" },
+			{ "SÃ¼dafrika", "Madagaskar" }, { "Westeuropa", "Mitteleuropa" },
+			{ "Westeuropa", "SÃ¼deuropa" }, { "Westeuropa", "GroÃŸbritannien" },
+			{ "GroÃŸbritannien", "Skandinavien" },
+			{ "GroÃŸbritannien", "Island" },
+			{ "GroÃŸbritannien", "Mitteleuropa" },
 			{ "Mitteleuropa", "Ukraine" }, { "Mitteleuropa", "Skandinavien" },
 			{ "Island", "Skandinavien" }, { "Skandinavien", "Ukraine" },
-			{ "Südeuropa", "Mittlerer Osten" },
+			{ "SÃ¼deuropa", "Mittlerer Osten" },
 			{ "Mittlerer Osten", "Indien" },
 			{ "Mittlerer Osten", "Afghanistan" },
 			{ "Mittlerer Osten", "Ukraine" }, { "Ukraine", "Afghanistan" },
@@ -86,7 +86,7 @@ public class Laenderverwaltung {
 	private Kontinent[] kontinente = new Kontinent[6];
 
 	/**
-	 * Liste aller Länderobjekte als Hasthable
+	 * Liste aller LÃ¤nderobjekte als Hasthable
 	 */
 	private Hashtable<String, Land> laender = new Hashtable<String, Land>();
 
@@ -94,12 +94,12 @@ public class Laenderverwaltung {
 	 * Konstruktor
 	 */
 	public Laenderverwaltung() {
-		// Länder erstellen
+		// LÃ¤nder erstellen
 		for (String name : laenderNamen) {
 			laender.put(name, new Land(name));
 		}
 
-		// Nachbarländer zuweisen
+		// NachbarlÃ¤nder zuweisen
 		initNachbarlaender();
 
 		
@@ -108,7 +108,7 @@ public class Laenderverwaltung {
 		 * Asien = 7
 		 * Europa = 5
 		 * Nord Amerika = 5
-		 * Süd Amerika = 2
+		 * SÃ¼d Amerika = 2
 		 * Afrika = 3
 		 * Australien = 2
 		 */
@@ -118,7 +118,7 @@ public class Laenderverwaltung {
 		kontinente[0] = new Kontinent("Nordamerika", 5);
 		kontinente[0].addLand(laender.get("Alaska"));
 		kontinente[0].addLand(laender.get("Nordwest-Territorium"));
-		kontinente[0].addLand(laender.get("Grönland"));
+		kontinente[0].addLand(laender.get("GrÃ¶nland"));
 		kontinente[0].addLand(laender.get("Alberta"));
 		kontinente[0].addLand(laender.get("Ontario"));
 		kontinente[0].addLand(laender.get("Quebec"));
@@ -126,8 +126,8 @@ public class Laenderverwaltung {
 		kontinente[0].addLand(laender.get("Oststaaten"));
 		kontinente[0].addLand(laender.get("Mittelamerika"));
 
-		// Südamerika erstellen
-		kontinente[1] = new Kontinent("Südamerika", 2);
+		// SÃ¼damerika erstellen
+		kontinente[1] = new Kontinent("SÃ¼damerika", 2);
 		kontinente[1].addLand(laender.get("Venezuela"));
 		kontinente[1].addLand(laender.get("Peru"));
 		kontinente[1].addLand(laender.get("Brasilien"));
@@ -136,10 +136,10 @@ public class Laenderverwaltung {
 		// Afrika erstellen
 		kontinente[2] = new Kontinent("Afrika", 3);
 		kontinente[2].addLand(laender.get("Nordwestafrika"));
-		kontinente[2].addLand(laender.get("Ägypten"));
+		kontinente[2].addLand(laender.get("Ã„gypten"));
 		kontinente[2].addLand(laender.get("Ostafrika"));
 		kontinente[2].addLand(laender.get("Kongo"));
-		kontinente[2].addLand(laender.get("Südafrika"));
+		kontinente[2].addLand(laender.get("SÃ¼dafrika"));
 		kontinente[2].addLand(laender.get("Madagaskar"));
 
 		// Europa erstellen
@@ -147,10 +147,10 @@ public class Laenderverwaltung {
 		kontinente[3].addLand(laender.get("Island"));
 		kontinente[3].addLand(laender.get("Skandinavien"));
 		kontinente[3].addLand(laender.get("Ukraine"));
-		kontinente[3].addLand(laender.get("Großbritannien"));
+		kontinente[3].addLand(laender.get("GroÃŸbritannien"));
 		kontinente[3].addLand(laender.get("Mitteleuropa"));
 		kontinente[3].addLand(laender.get("Westeuropa"));
-		kontinente[3].addLand(laender.get("Südeuropa"));
+		kontinente[3].addLand(laender.get("SÃ¼deuropa"));
 
 		// Asien erstellen
 		kontinente[4] = new Kontinent("Asien", 7);
@@ -176,7 +176,7 @@ public class Laenderverwaltung {
 	}
 
 	/**
-	 * Berechnet aus der Grenzliste für jedes Land alle benachbarten Länder
+	 * Berechnet aus der Grenzliste fÃ¼r jedes Land alle benachbarten LÃ¤nder
 	 */
 	private void initNachbarlaender() {
 		Land land1;
@@ -185,7 +185,7 @@ public class Laenderverwaltung {
 			// Land-Objekte holen
 			land1 = getLandByName(grenze[0]);
 			land2 = getLandByName(grenze[1]);
-			// Gegenseitig als Nachbarn hinzufügen
+			// Gegenseitig als Nachbarn hinzufÃ¼gen
 			land1.addNachbar(land2);
 			land2.addNachbar(land1);
 		}
@@ -224,15 +224,15 @@ public class Laenderverwaltung {
 	}
 
 	public ArrayList<Kontinent> getConqueredContinents(ArrayList<Land> countries) {
-		// Array für das Ergebnis
+		// Array fÃ¼r das Ergebnis
 		ArrayList<Kontinent> conqueredContinents = new ArrayList<Kontinent>();
 		
-		//durchläuft jeden kotninent[] und überprüft den Besitzer
+		//durchlÃ¤uft jeden kotninent[] und Ã¼berprÃ¼ft den Besitzer
 		Kontinent currentContinent;
 		for(int i = 0; i < kontinente.length; i++) {
 			currentContinent = kontinente[i];
 			
-			// Überprüft, ob die Länderliste den kompletten Kontinent enthält
+			// ÃœberprÃ¼ft, ob die LÃ¤nderliste den kompletten Kontinent enthÃ¤lt
 			if (countries.containsAll(currentContinent.getCountries())) {
 				conqueredContinents.add(currentContinent);
 			}

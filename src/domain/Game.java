@@ -1,5 +1,7 @@
 package domain;
 
+import valueobjects.Spieler;
+
 public class Game {
 	
 	
@@ -9,14 +11,15 @@ public class Game {
 	public Game() {
 		// Laenderverwaltung erstellen
 		laenderverwaltung = new Laenderverwaltung();
+		
 		// Spielerverwaltung erstellen (Spielerzahl, namen, farben)
 		spielerverwaltung = new Spielerverwaltung();
-		// Anfangsrunde
-		spielFigurenPlatzieren();
 		
+		// Anfangsrunde
+		placeStartUnits();
 	}
 	
-	private void spielFigurenPlatzieren() {
+	private void placeStartUnits() {
 		// TODO Auto-generated method stub
 		// Entweder zufällig platzieren oder Spieler entscheiden lassen
 		// Anfang start einheiten  bei 2 - 4 Spielern
@@ -32,7 +35,7 @@ public class Game {
 
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
-		valueobjects.Spieler spieler = spielerverwaltung.welcherSpielerIstDran();
+		Spieler spieler = spielerverwaltung.welcherSpielerIstDran();
 		
 		/*
 		   1. Einheiten Reserve
@@ -72,7 +75,7 @@ public class Game {
 		}
  
 		// Einheiten setzen lassen
-		spieler.placeUnits();
+		spieler.placeUnits(supply);
 		
 		// Angreifen
 		spieler.attack();
@@ -86,7 +89,7 @@ public class Game {
 		return 0;
 	}
 
-	public valueobjects.Spieler getGewinner() {
+	public Spieler getGewinner() {
 		// TODO Auto-generated method stub
 		
 	}
