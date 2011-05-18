@@ -114,7 +114,7 @@ public class Game {
 			
 			//Wieviele Einheiten sollen platziert werden?
 			do{
-				amountUnitPlace = ui.getAmountUnit(activePlayer, Phases.PLACEUNITS)
+				amountUnitPlace = ui.getAmountUnit(activePlayer, Phases.PLACEUNITS;
 			} while (amountUnitPlace > supply);
 			
 			//supply Aktualisieren
@@ -138,21 +138,21 @@ public class Game {
 			// Abfrage insofern zu wenig Einheiten zum angreifen vorhanden sind.
 			do {
 				originatingCountry = ui.getOriginatingCountry(activePlayer,
-						Phases.ATTACKS);
+						Phases.ATTACK);
 			} while (!originatingCountry.getBesitzer().equals(activePlayer)
 					|| originatingCountry.getAnzahlEinheiten() == 1);
 
 			// Abfrage durch die CLI welches Land welches Angegriffen werden
 			// soll. Gehört es dem Spieler erneute Abfrage.
 			do {
-				targetCountry = ui.getTargetCountry(activePlayer, Phases.ATTACKS);
+				targetCountry = ui.getTargetCountry(activePlayer, Phases.ATTACK);
 			} while (targetCountry.getBesitzer().equals(activePlayer));
 
 			// Abfrage durch die CLI mit wievielen Einheiten angegriffen werden
 			// soll. Es können zwischen 1 und 3 Einheiten gewählt werden bei
 			// Falscheingabe wiederholung.
 			do {
-				amountUnitAttack = ui.getAmountUnit(activePlayer, Phases.ATTACKS);
+				amountUnitAttack = ui.getAmountUnit(activePlayer, Phases.ATTACK);
 			} while (originatingCountry.getAnzahlEinheiten() > amountUnitAttack
 					&& (amountUnitAttack < 1 || amountUnitAttack > 3));
 
@@ -179,7 +179,7 @@ public class Game {
 	private int useBonusCards() {
 		// TODO Auto-generated method stub
 
-		int bonus;
+		int bonus = 0;
 		if (ui.turnInCards()) {
 			bonus = getCardBonus();
 		}
