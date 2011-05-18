@@ -19,14 +19,14 @@ public class oldWuerfel {
 	int angAnzahl;
 	int defAnzahl;
 
-	// die angreifenden Würfel mit ihren wertigkeiten absteigen sortiert
+	// die angreifenden Wuerfel mit ihren wertigkeiten absteigen sortiert
 	int angEins = 0;
 	int angZwei = 0;
-	// die verteidigenden Würfel mit ihren wertigkeiten absteigen sortiert
+	// die verteidigenden Wuerfel mit ihren wertigkeiten absteigen sortiert
 	int defEins = 0;
 	int defZwei = 0;
 
-	// Angriffzüge
+	// Angriffzuege
 	int angriffZug;
 	int maxAngriffZug;
 
@@ -34,11 +34,11 @@ public class oldWuerfel {
 	Land zielLand;
 	Land quellLand;
 
-	// Angriffe wieviele Angriffe werden in einem Angriff getätigt
+	// Angriffe wieviele Angriffe werden in einem Angriff getï¿½tigt
 	int angriffe = 0;
 
 	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden Einheiten
-	// Kontruktur bekommt außerdem das Ziel und Quellland als Objekte
+	// Kontruktur bekommt auï¿½erdem das Ziel und Quellland als Objekte
 	
 	public oldWuerfel(int angAnzahl, int defAnzahl, Land zielLand, Land quellLand) {
 		this.angAnzahl = angAnzahl;
@@ -49,11 +49,11 @@ public class oldWuerfel {
 	}
 
 	/**
-	 * Zufällige berechnung der Würfel wertigkeiten
+	 * Zufï¿½llige berechnung der Wï¿½rfel wertigkeiten
 	 * 
-	 * @param anzahl Anzahl der zu würfelnden Würfel
+	 * @param anzahl Anzahl der zu wuerfelnden Wuerfel
 	 *
-	 * @return ArrayList als Integer der gewürfelten zahlen
+	 * @return ArrayList als Integer der gewuerfelten zahlen
 	 */
 	public static ArrayList getDice(int anzahl) {
 		// varriert
@@ -65,50 +65,50 @@ public class oldWuerfel {
 	}
 
 	/**
-	 * Berechnet die größte Zahl in einer Liste
+	 * Berechnet die grueï¿½te Zahl in einer Liste
 	 * 
-	 * @param würfel
-	 *            Eine Liste aus gewürfelten Zahlen
-	 * @return Größte Zahl aus den Würfelergebnissen eines Spielers
+	 * @param wuerfel
+	 *            Eine Liste aus gewuerfelten Zahlen
+	 * @return GroeÃŸte Zahl aus den Wuerfelergebnissen eines Spielers
 	 */
-	public int getGroessteZahl(ArrayList<Integer> würfel) {
-		int maximum = würfel.get(0);
+	public int getGroessteZahl(ArrayList<Integer> wuerfel) {
+		int maximum = wuerfel.get(0);
 		boolean in = false;
 		int i = 1;
-		while (i < würfel.size()) {
-			if (würfel.get(i) > maximum) {
-				maximum = würfel.get(i);
-				würfel.remove(i);
+		while (i < wuerfel.size()) {
+			if (wuerfel.get(i) > maximum) {
+				maximum = wuerfel.get(i);
+				wuerfel.remove(i);
 				in = true;
 			}
 			i++;
 		}
 		if (in == false) {
-			würfel.remove(0);
+			wuerfel.remove(0);
 		}
 		return maximum;
 	}
 
 	public void fight() {
 		/*
-		 * Benutzereingabe muss überprüft werden mit Einheiten Anzahl (angGesamt
+		 * Benutzereingabe muss ueberprueft werden mit Einheiten Anzahl (angGesamt
 		 * und defGesamt) auf dem Angriff bzw Zielland angAnzahl darf nur 2 oder
 		 * 3 sein wenn eine Einheit auf dem Quellland bleibt bei Defense land
 		 * muss min. eine Einheite vorhanden sein heisst die Zahl darf nur 1
 		 * oder 2 sein.
 		 */
 
-		// hier werden die würfel Anzahl festgelegt je nach anzahl der Einheiten
+		// hier werden die wuerfel Anzahl festgelegt je nach anzahl der Einheiten
 		// auf dem Land
 		ang = getDice(angAnzahl);
 		def = getDice(defAnzahl);
 
 		/*
-		 * generiert die größten Zahlen im Integer für den Angriff es gilt: für
-		 * den Angriff: angAnzahl = 2 dann nur eine Zahl zum kämpfen angAnzahl =
-		 * 3 dann zwei Zahlen zum kämpfen
+		 * generiert die groeÃŸten Zahlen im Integer fuer den Angriff es gilt: fuer
+		 * den Angriff: angAnzahl = 2 dann nur eine Zahl zum kaempfen angAnzahl =
+		 * 3 dann zwei Zahlen zum kaempfen
 		 * 
-		 * für die Defensive: defAnzahl = 1 dann eine Zahl zum verteidigen
+		 * fuer die Defensive: defAnzahl = 1 dann eine Zahl zum verteidigen
 		 * defAnzahl = 2 dann zwei Zahlen zum verteidigen
 		 */
 
@@ -169,7 +169,7 @@ public class oldWuerfel {
 				defEins = getGroessteZahl(def);
 				defZwei = getGroessteZahl(def);
 
-				// ersten Würfel treten gegeneinander an
+				// ersten Wuerfel treten gegeneinander an
 				if (angEins > defEins) {
 					// Zielland verliert Einheit
 					eventMsgOffensive();
@@ -178,7 +178,7 @@ public class oldWuerfel {
 					eventMsgDefensive();
 				}
 
-				// zweiten Würfel treten gegen einander an
+				// zweiten Wuerfel treten gegen einander an
 				if (angZwei > defZwei) {
 					// Zielland verliert Einheit
 					eventMsgOffensive();
@@ -188,7 +188,7 @@ public class oldWuerfel {
 				}
 			}
 		} else {
-			// System.out.println("Sei müssen min. 1 Soldaten auf dem Angreifenden Land lassen. Geben sie eine neue Anzahl an!");
+			// System.out.println("Sei muessen min. 1 Soldaten auf dem Angreifenden Land lassen. Geben sie eine neue Anzahl an!");
 			// TODO : neu eingabe der anzahl der Soldaten FUNKTION
 		}
 
@@ -216,7 +216,7 @@ public class oldWuerfel {
 			if (defAnzahl == 2) {
 				defEins = getGroessteZahl(def);
 				defZwei = getGroessteZahl(def);
-				// ersten Würfel treten gegeneinander an
+				// ersten Wuerfel treten gegeneinander an
 				if (angEins > defEins) {
 					// Zielland verliert Einheit
 					eventMsgOffensive();
@@ -225,7 +225,7 @@ public class oldWuerfel {
 					eventMsgDefensive();
 				}
 
-				// zweiten Würfel treten gegen einander an
+				// zweiten Wuerfel treten gegen einander an
 				if (angZwei > defZwei) {
 					// Zielland verliert Einheit
 					eventMsgOffensive();
@@ -238,51 +238,51 @@ public class oldWuerfel {
 	}
 
 	// Kampfgeschehen wird ausgegeben und die Einheiten werden auf den
-	// jeweiligen Ländern reduziert um 1
+	// jeweiligen Laendern reduziert um 1
 	public void eventMsgOffensive() {
 		angriffe++;
 		// Runter setzten der Einheiten
 		zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() - 1);
 
 		if (angriffe == 1) {
-			System.out.println("Angriff1: " + angEins + " schlägt Defensive1: "
+			System.out.println("Angriff1: " + angEins + " schlaegt Defensive1: "
 											+ defEins);
 
 			System.out.println(zielLand.getName() + "("
 					+ zielLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
 					+ zielLand.getBesitzer().getName() + ") hat noch: "
-					+ zielLand.getAnzahlEinheiten() + " Einheiten übrig");
+					+ zielLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		} else {
-			System.out.println("Angriff2: " + angZwei + " schlägt Defensive2: "
+			System.out.println("Angriff2: " + angZwei + " schlaegt Defensive2: "
 					+ defZwei);
 
 			System.out.println(zielLand.getName() + "("
 					+ zielLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
 					+ zielLand.getBesitzer().getName() + ") hat noch: "
-					+ zielLand.getAnzahlEinheiten() + " Einheiten übrig");
+					+ zielLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		}
 
 	}
 
 	public void eventMsgDefensive() {
-		// Anzahl der Angriffe die getätigt werden
+		// Anzahl der Angriffe die getaetigt werden
 		angriffe++;
 		// Runter setzten der Einheiten
 		quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() - 1);
 
 		if (angriffe == 1) {
-			System.out.println("Defensive1: " + defEins + " schlägt Offennsive1: "
+			System.out.println("Defensive1: " + defEins + " schlaegt Offennsive1: "
 					+ angEins);
 
 			System.out.println(quellLand.getName() + "("
 					+ quellLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
 					+ quellLand.getBesitzer().getName() + ") hat noch: "
-					+ quellLand.getAnzahlEinheiten() + " Einheiten übrig");
+					+ quellLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		} else {
-			System.out.println("Defensive2: " + defZwei + " schlägt Offensive2: "
+			System.out.println("Defensive2: " + defZwei + " schlaegt Offensive2: "
 					+ angZwei);
 
 			System.out.println(quellLand.getName() + "("
@@ -290,7 +290,7 @@ public class oldWuerfel {
 					+ quellLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
 					+ quellLand.getBesitzer().getName() + ") hat noch: "
-					+ quellLand.getAnzahlEinheiten() + " Einheiten übrig");
+					+ quellLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		}
 	}
 }
