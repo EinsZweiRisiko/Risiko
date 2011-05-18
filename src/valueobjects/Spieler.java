@@ -63,4 +63,14 @@ public class Spieler {
 	public void addCountry(Land land) {
 		ownCountries.add(land);
 	}
+
+	public String getName() {
+		// TODO Auto-generated method stub
+		return name;
+	}
+
+	public ArrayList<Land> getOwnCountries() {
+		// TODO Auto-generated method stub
+		return ownCountries;
+	}
 }
