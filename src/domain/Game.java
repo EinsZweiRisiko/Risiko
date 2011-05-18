@@ -19,7 +19,10 @@ public class Game {
 	private void spielFigurenPlatzieren() {
 		// TODO Auto-generated method stub
 		// Entweder zufällig platzieren oder Spieler entscheiden lassen
-		
+		// Anfang start einheiten  bei 2 - 4 Spielern
+		// 2 Spieler: 36
+		// 3 Spieler: 35
+		// 4 Spieler: 30
 	}
 
 	public boolean ended() {
