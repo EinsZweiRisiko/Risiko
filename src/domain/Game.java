@@ -1,19 +1,38 @@
 package domain;
 
+// Import phase constants
+import static domain.Constants.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+
+import ui.UserInterface;
+import ui.cli.CommandLineInterface;
 import valueobjects.Spieler;
 
 public class Game {
-	
-	
+
 	private Spielerverwaltung spielerverwaltung;
 	private Laenderverwaltung laenderverwaltung;
-
+	private Spieler activePlayer;
+	private UserInterface ui;
+	private ArrayList<Integer> bonusAmountSteps;
+	private Iterator<Integer> bonusAmountIter;
+	
+	
 	public Game() {
+		// Goldener Reiter
+		bonusAmountSteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60));
+		bonusAmountIter = bonusAmountSteps.iterator();
+		
 		// Laenderverwaltung erstellen
 		laenderverwaltung = new Laenderverwaltung();
 		
 		// Spielerverwaltung erstellen (Spielerzahl, namen, farben)
 		spielerverwaltung = new Spielerverwaltung();
+		
+		CommandLineInterface ui = new CommandLineInterface();
 		
 		// Anfangsrunde
 		placeStartUnits();
@@ -21,7 +40,7 @@ public class Game {
 	
 	private void placeStartUnits() {
 		// TODO Auto-generated method stub
-		// Entweder zufällig platzieren oder Spieler entscheiden lassen
+		// Entweder zufÃ¤llig platzieren oder Spieler entscheiden lassen
 		
 	}
 
@@ -32,31 +51,31 @@ public class Game {
 
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
-		Spieler spieler = spielerverwaltung.welcherSpielerIstDran();
+		activePlayer = spielerverwaltung.welcherSpielerIstDran();
 		
 		/*
 		   1. Einheiten Reserve
-				Länderanzahl/3 aber mindestens 3
+				LÃ¤nderanzahl/3 aber mindestens 3
 				Besetzte Kontinente
 				evtl. Karten eintauschen
 			2. Einheiten verteilen
 			
-			3. beliebig oft Kämpfen (solange er irgendwo mehr als eine Einheit hat)
-			Beim Kampf bei einem Land muss mindestens 1 Soldat auif dem Quellland bleiben und der Kampf erfolgt über Würfel.
+			3. beliebig oft KÃ¤mpfen (solange er irgendwo mehr als eine Einheit hat)
+			Beim Kampf bei einem Land muss mindestens 1 Soldat auif dem Quellland bleiben und der Kampf erfolgt Ã¤ber WÃ¤rfel.
 			
-				Es müssen mindestens so viele Einheiten mitgenommen werden, wie gekämpft haben
+				Es mÃ¤ssen mindestens so viele Einheiten mitgenommen werden, wie gekÃ¤mpft haben
 				Er kann nach einem gewonnen KAmpf alle bis auf eine Einheit mitnehmen.
 			
-			4. Einheiten verschieben zwischen angrenzenden Länder, 
-				Es dürfen nur Einheiten verschoben werden, die nicht gekämpf
-				Ansonsten können beliebig viele Einheiten verschoben werden
+			4. Einheiten verschieben zwischen angrenzenden LÃ¤nder, 
+				Es dÃ¤rfen nur Einheiten verschoben werden, die nicht gekÃ¤mpf
+				Ansonsten kÃ¤nnen beliebig viele Einheiten verschoben werden
 		 */
 		
 		
-		// Wie viel Verstärkung?
+		// Wie viel VerstÃ¤rkung?
 		int supply = 0;
 		
-		// Wie viele Einheiten bekommt der Spieler durch eroberte Länder?
+		// Wie viele Einheiten bekommt der Spieler durch eroberte LÃ¤nder?
 		supply += spieler.getAnzahlLaender()/3;
 		// Der Spieler bekommt mindestens 3 Einheiten
 		if (supply < 3) {
@@ -66,29 +85,47 @@ public class Game {
 		// Bonuseinheiten durch eroberte Kontinente
 		supply += spieler.getContinentBonus();
 		
-		// Bonuseinheiten durch Karten SPÄTER, weil kein interface vorhanden
-		if (spieler.useBonusCards()) {
-			supply += getCardBonus();
-		}
+		// Bonuseinheiten durch Karten SPÃ¤TER, weil kein interface vorhanden
+		supply += useBonusCards();
  
 		// Einheiten setzen lassen
-		spieler.placeUnits(supply);
+		placeUnits(supply);
 		
 		// Angreifen
-		spieler.attack();
+		attack();
 		
 		// Einheiten verschieben
-		spieler.moveUnits();
+		moveUnits();
 	}
 
+	private void placeUnits(int supply) {
+		// TODO
+		ui.getOriginatingCountry();
+	}
+
+	private void attack() {
+		// TODO Auto-generated method stub
+		// Nach land
+	}
+	
+	private void moveUnits() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private int useBonusCards() {
+		// TODO Auto-generated method stub
+		ui.turnInCards();
+		return false;
+	}
+	
 	private int getCardBonus() {
-		// TODO Kartenbonus berechnen
+		// TODO Kartenbonus berechnen (Reiter)
 		return 0;
 	}
 
 	public Spieler getGewinner() {
 		// TODO Auto-generated method stub
-		
 	}
 	
 }

@@ -1,6 +1,7 @@
 package valueobjects;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import domain.Laenderverwaltung;
 
@@ -13,21 +14,22 @@ public class Spieler {
 	
 	private String name;	//Spielername
 	private String color;	//Spielerfarbe
-	private ArrayList<Land> ownCountries = new ArrayList<Land>();	//besitzendes Länder
+	private ArrayList<Land> ownCountries = new ArrayList<Land>();	//besitzendes LÃ¤nder
 	private Laenderverwaltung laenderverwaltung;
-	
+	private HashSet<TerritoryCard> territoryCards = new HashSet<TerritoryCard>();
+
 	//Konstruktor
 	public Spieler(String n) {
 		this.name = n;
 	}
 
 	public int getAnzahlLaender() {
-		// Länder zählen
+		// LÃ¼nder zÃ¼hlen
 		return ownCountries.size();
 	}
 	
 	/**
-	 * Gibt die Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
+	 * Gibt die Anzahl der Bonuseinheiten, die der Spieler fÃ¼r seine Kontinente bekommt
 	 * 
 	 * @return
 	 */
@@ -35,7 +37,7 @@ public class Spieler {
 		// Alle Kontinente, die wir besitzen, herausfinden
 		ArrayList<Kontinent> kontinente = laenderverwaltung.getConqueredContinents(ownCountries);
 		
-		// Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
+		// Anzahl der Bonuseinheiten, die der Spieler fÃ¼r seine Kontinente bekommt
 		int bonus = 0;
 		
 		// Alle Kontinente durchgehen, die es gibt
@@ -47,7 +49,7 @@ public class Spieler {
 	}
 
 	/**
-	 * Fragt den Spieler, welche Karten er eintauschen möchte und gibt die Anzahl der Bonuseinheiten zurück
+	 * Fragt den Spieler, welche Karten er eintauschen mÃ¼chte und gibt die Anzahl der Bonuseinheiten zurÃ¼ck
 	 * @return
 	 */
 	public int useBonusCards() {
@@ -55,8 +57,8 @@ public class Spieler {
 		return 0;
 	}
 	/**
-	 * fügt Länder hinzu
-	 * @param land das Land was hinzugefügt wird
+	 * fÃ¼gt LÃ¼nder hinzu
+	 * @param land das Land was hinzugefÃ¼gt wird
 	 */
 	public void addCountry(Land land) {
 		ownCountries.add(land);
