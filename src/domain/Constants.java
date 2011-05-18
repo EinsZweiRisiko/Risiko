@@ -2,5 +2,5 @@ package domain;
 
 public class Constants {
 	
-	public enum Phases { PLACEUNITS, ATTACKS };
+	public enum Phases { PLACEUNITS, ATTACKS, MOVE, DEFENSE };
 }

@@ -10,7 +10,7 @@ public interface UserInterface {
 	Land getOriginatingCountry(int phase);
 	Land getTargetCountry(int phase);
 	boolean askForAttack();
-	void turnInCards();
+	boolean turnInCards();
 	
 	
 }

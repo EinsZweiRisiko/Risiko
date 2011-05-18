@@ -25,7 +25,7 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public boolean askForAttack() {
+	public boolean askForAttack(Spieler spieler) {
 		// TODO Auto-generated method stub
 		return false;
 	}
