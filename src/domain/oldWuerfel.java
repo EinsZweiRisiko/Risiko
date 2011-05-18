@@ -19,16 +19,12 @@ public class oldWuerfel {
 	int angAnzahl;
 	int defAnzahl;
 
-	// die angreifenden Würfel mit ihren wertigen absteigen sortiert
+	// die angreifenden Würfel mit ihren wertigkeiten absteigen sortiert
 	int angEins = 0;
 	int angZwei = 0;
-
+	// die verteidigenden Würfel mit ihren wertigkeiten absteigen sortiert
 	int defEins = 0;
 	int defZwei = 0;
-
-	// Gesamten Einheiten auf der Quell bzw. Zielländern
-	int angGesamt = 10;
-	int defGesamt = 10;
 
 	// Angriffzüge
 	int angriffZug;
@@ -41,8 +37,9 @@ public class oldWuerfel {
 	// Angriffe wieviele Angriffe werden in einem Angriff getätigt
 	int angriffe = 0;
 
-	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden
-	// Einheiten rüber
+	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden Einheiten
+	// Kontruktur bekommt außerdem das Ziel und Quellland als Objekte
+	
 	public oldWuerfel(int angAnzahl, int defAnzahl, Land zielLand, Land quellLand) {
 		this.angAnzahl = angAnzahl;
 		this.defAnzahl = defAnzahl;
@@ -51,8 +48,14 @@ public class oldWuerfel {
 		fight();
 	}
 
-	// würfelt die Zahlen aus.
-	public static ArrayList getDice(int anzahl) { // anzahl der angreifenden
+	/**
+	 * Zufällige berechnung der Würfel wertigkeiten
+	 * 
+	 * @param anzahl Anzahl der zu würfelnden Würfel
+	 *
+	 * @return ArrayList als Integer der gewürfelten zahlen
+	 */
+	public static ArrayList getDice(int anzahl) {
 		// varriert
 		ArrayList<Integer> dice = new ArrayList<Integer>();
 		for (int i = 0; i <= anzahl - 1; i++) {
@@ -62,7 +65,7 @@ public class oldWuerfel {
 	}
 
 	/**
-	 * b Berechnet die größte Zahl in einer Liste
+	 * Berechnet die größte Zahl in einer Liste
 	 * 
 	 * @param würfel
 	 *            Eine Liste aus gewürfelten Zahlen
@@ -113,9 +116,8 @@ public class oldWuerfel {
 		if (angAnzahl == 1) {
 			angEins = getGroessteZahl(ang);
 			angriffZug++;
-			System.out.println("------ RUNDE (" + angriffZug
-					+ ") -------- \r\n");
-
+			System.out.println("------ RUNDE (" + angriffZug + ") -------- \r\n");
+			
 			// 1 gegen 1
 			if (defAnzahl == 1) {
 				defEins = getGroessteZahl(def);
@@ -147,10 +149,9 @@ public class oldWuerfel {
 			// Quellland
 			angEins = getGroessteZahl(ang);
 			angZwei = getGroessteZahl(ang);
-			
 			angriffZug++;
-			System.out.println("------ RUNDE (" + angriffZug
-					+ ") -------- \r\n");
+			
+			System.out.println("------ RUNDE (" + angriffZug + ") -------- \r\n");
 			// 2 gegen 1
 			if (defAnzahl == 1) {
 				defEins = getGroessteZahl(def);
@@ -195,10 +196,9 @@ public class oldWuerfel {
 		if (angAnzahl == 3) {
 			angEins = getGroessteZahl(ang);
 			angZwei = getGroessteZahl(ang);
-
 			angriffZug++;
-			System.out.println("------ RUNDE (" + angriffZug
-					+ ") -------- \r\n");
+			
+			System.out.println("------ RUNDE (" + angriffZug + ") -------- \r\n");
 
 			// 3 gegen 1
 			if (defAnzahl == 1) {
@@ -246,7 +246,7 @@ public class oldWuerfel {
 
 		if (angriffe == 1) {
 			System.out.println("Angriff1: " + angEins + " schlägt Defensive1: "
-					+ defEins);
+											+ defEins);
 
 			System.out.println(zielLand.getName() + "("
 					+ zielLand.getBesitzer().getName()
@@ -286,7 +286,7 @@ public class oldWuerfel {
 					+ angZwei);
 
 			System.out.println(quellLand.getName() + "("
-					
+
 					+ quellLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
 					+ quellLand.getBesitzer().getName() + ") hat noch: "
