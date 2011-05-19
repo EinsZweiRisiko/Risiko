@@ -27,7 +27,7 @@ public class CommandLineInterface implements UserInterface {
 			IO.println("("+ i+1 +")"+ laender.get(i).getName());
 		}
 
-		int auswahl;
+		int auswahl = 0;
 		do {
 			if(phase == Phases.ATTACK) { 
 				auswahl = IO.readInt("Geben Sie das Land an von dem Sie angreifen wollen: ") - 1;
@@ -39,14 +39,27 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public Land getTargetCountry(int phase) {
+	public Land getTargetCountry(Spieler activePlayer, Phases placeunits) {
 		// TODO Auto-generated method stub
-		
 		return null;
 	}
+	
 
 	@Override
 	public boolean askForAttack(Spieler spieler) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public int getAmountUnit(Spieler activePlayer, Phases placeunits) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean turnInCards() {
 		// TODO Auto-generated method stub
 		return false;
 	}
