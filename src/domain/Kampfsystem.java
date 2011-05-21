@@ -34,11 +34,11 @@ public class Kampfsystem {
 	Land zielLand;
 	Land quellLand;
 
-	// Angriffe wieviele Angriffe werden in einem Angriff get�tigt
+	// Angriffe wieviele Angriffe werden in einem Angriff getßtigt
 	int angriffe = 0;
 
 	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden Einheiten
-	// Kontruktur bekommt au�erdem das Ziel und Quellland als Objekte
+	// Kontruktur bekommt außerdem das Ziel und Quellland als Objekte
 	
 	public Kampfsystem(int angAnzahl, int defAnzahl, Land zielLand, Land quellLand) {
 		this.angAnzahl = angAnzahl;
@@ -49,7 +49,7 @@ public class Kampfsystem {
 	}
 
 	/**
-	 * Zuf�llige berechnung der W�rfel wertigkeiten
+	 * Zufßllige berechnung der Wßrfel wertigkeiten
 	 * 
 	 * @param anzahl Anzahl der zu wuerfelnden Wuerfel
 	 *
@@ -65,7 +65,7 @@ public class Kampfsystem {
 	}
 
 	/**
-	 * Berechnet die grue�te Zahl in einer Liste
+	 * Berechnet die grueßte Zahl in einer Liste
 	 * 
 	 * @param wuerfel
 	 *            Eine Liste aus gewuerfelten Zahlen

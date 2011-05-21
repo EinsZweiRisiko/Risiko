@@ -1,7 +1,7 @@
 package domain;
 
 // Import phase constants
-import static domain.Constants.*;
+import domain.Constants.Phases;
 
 import java.util.ArrayList;
 import java.util.Arrays;
