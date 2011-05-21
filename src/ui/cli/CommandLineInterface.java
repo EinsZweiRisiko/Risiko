@@ -2,7 +2,7 @@ package ui.cli;
 
 import java.util.ArrayList;
 
-import domain.Constants.Phases;
+import domain.Game.Phases;
 
 import valueobjects.Territory;
 import valueobjects.Player;

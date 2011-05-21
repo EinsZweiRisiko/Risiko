@@ -1,8 +1,5 @@
 package domain;
 
-// Import phase constants
-import domain.Constants.Phases;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -14,6 +11,14 @@ import valueobjects.Player;
 
 public class Game {
 
+	/**
+	 * Alle Spielphasen
+	 * @author Jannes
+	 *
+	 */
+	public static enum Phases { PLACEUNITS, ATTACK, MOVE, DEFEND };
+	
+	
 	private PlayerManager spielerverwaltung;
 	private TerritoryManager laenderverwaltung;
 	private Player activePlayer;

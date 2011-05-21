@@ -4,7 +4,7 @@ package ui;
 import static domain.Constants.*;
 import valueobjects.Territory;
 import valueobjects.Player;
-import domain.Constants.Phases;
+import domain.Game.Phases;
 
 
 public interface UserInterface {

@@ -15,7 +15,7 @@ public class Risiko {
 		/* User interface:
 		 *  - Spieleranzahl
 		 * 	- Namen abfragen
-		 *  - Farben w‰hlen
+		 *  - Farben w√§hlen
 		 */
 		
 		
