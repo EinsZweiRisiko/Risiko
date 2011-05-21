@@ -9,14 +9,14 @@ import java.util.Iterator;
 
 import ui.UserInterface;
 import ui.cli.CommandLineInterface;
-import valueobjects.Land;
-import valueobjects.Spieler;
+import valueobjects.Territory;
+import valueobjects.Player;
 
 public class Game {
 
-	private Spielerverwaltung spielerverwaltung;
-	private Laenderverwaltung laenderverwaltung;
-	private Spieler activePlayer;
+	private PlayerManager spielerverwaltung;
+	private TerritoryManager laenderverwaltung;
+	private Player activePlayer;
 	private UserInterface userInterface;
 	private ArrayList<Integer> bonusAmountSteps;
 	private Iterator<Integer> bonusAmountIter;
@@ -28,10 +28,10 @@ public class Game {
 		bonusAmountIter = bonusAmountSteps.iterator();
 
 		// Laenderverwaltung erstellen
-		laenderverwaltung = new Laenderverwaltung();
+		laenderverwaltung = new TerritoryManager();
 
 		// Spielerverwaltung erstellen (Spielerzahl, namen, farben)
-		spielerverwaltung = new Spielerverwaltung();
+		spielerverwaltung = new PlayerManager();
 
 		CommandLineInterface userInterface = new CommandLineInterface();
 
@@ -55,7 +55,7 @@ public class Game {
 
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
-		activePlayer = spielerverwaltung.welcherSpielerIstDran();
+		activePlayer = spielerverwaltung.getCurrentPlayer();
 
 		/*
 		 * 1. Einheiten Reserve Länderanzahl/3 aber mindestens 3 Besetzte
@@ -101,7 +101,7 @@ public class Game {
 	}
 
 	private void placeUnits(int supply) {
-		Land targetCountry;
+		Territory targetCountry;
 		int amountUnitPlace;
 
 		while (supply < 0) {
@@ -128,8 +128,8 @@ public class Game {
 		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
 		while (userInterface.askForAttack(activePlayer)) {
 
-			Land originatingCountry;
-			Land targetCountry;
+			Territory originatingCountry;
+			Territory targetCountry;
 			int amountUnitAttack;
 			int amountUnitDefense;
 
@@ -157,16 +157,16 @@ public class Game {
 					&& (amountUnitAttack < 1 || amountUnitAttack > 3));
 
 			// Besitzer des angegriffenden Landes ermitteln
-			Spieler attackedPlayer = targetCountry.getBesitzer();
+			Player attackedPlayer = targetCountry.getBesitzer();
 
 			// Abfrage durch die CLI mit wievielen Einheiten verteidigt werden
 			// soll. Es können zwischen 1 und 2 Einheiten gewählt werden.
 			do {
-				amountUnitDefense = userInterface.getAmountUnit(attackedPlayer, Phases.DEFENSE);
+				amountUnitDefense = userInterface.getAmountUnit(attackedPlayer, Phases.DEFEND);
 			} while (targetCountry.getAnzahlEinheiten() > amountUnitDefense
 					&& (amountUnitDefense < 1 || amountUnitDefense > 2));
 
-			Kampfsystem kampf = new Kampfsystem(amountUnitAttack,
+			BattleSystem kampf = new BattleSystem(amountUnitAttack,
 					amountUnitDefense, originatingCountry, targetCountry);
 		}
 	}
@@ -191,7 +191,7 @@ public class Game {
 		return 0;
 	}
 
-	public Spieler getGewinner() {
+	public Player getGewinner() {
 		// TODO Auto-generated method stub
 		return null;
 	}

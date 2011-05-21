@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import domain.Constants.Phases;
 
-import valueobjects.Land;
-import valueobjects.Spieler;
+import valueobjects.Territory;
+import valueobjects.Player;
 import ui.UserInterface;
 
 public class CommandLineInterface implements UserInterface {
@@ -18,9 +18,9 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public Land getOriginatingCountry(Spieler currentPlayer, Phases phase) {
+	public Territory getOriginatingCountry(Player currentPlayer, Phases phase) {
 		// TODO Auto-generated method stub
-		ArrayList<Land> laender = currentPlayer.getOwnCountries();
+		ArrayList<Territory> laender = currentPlayer.getOwnCountries();
 	
 		IO.println("Spieler: "+ currentPlayer.getName() +" besitzt folgende Laender: ");
 		for(int i = 0; i < laender.size(); i++) {
@@ -39,21 +39,21 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public Land getTargetCountry(Spieler activePlayer, Phases placeunits) {
+	public Territory getTargetCountry(Player activePlayer, Phases placeunits) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 
 	@Override
-	public boolean askForAttack(Spieler spieler) {
+	public boolean askForAttack(Player spieler) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 
 	@Override
-	public int getAmountUnit(Spieler activePlayer, Phases placeunits) {
+	public int getAmountUnit(Player activePlayer, Phases placeunits) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

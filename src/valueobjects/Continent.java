@@ -3,20 +3,20 @@ package valueobjects;
 import java.util.ArrayList;
 
 
-public class Kontinent {
+public class Continent {
 	
 	private String name;
 
-	private ArrayList<Land> laenderListe = new ArrayList<Land>();
+	private ArrayList<Territory> laenderListe = new ArrayList<Territory>();
 
 	private int bonusSupply;
 	
-	public Kontinent(String name, int bonusSupply){
+	public Continent(String name, int bonusSupply){
 		this.name = name;
 		this.bonusSupply = bonusSupply;
 	}
 	
-	public void addLand(Land land){
+	public void addLand(Territory land){
 		laenderListe.add(land);
 	}
 
@@ -25,7 +25,7 @@ public class Kontinent {
 	}
 	
 	
-	public ArrayList<Land> getCountries() {
+	public ArrayList<Territory> getCountries() {
 		return laenderListe;
 	}
 	

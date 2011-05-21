@@ -2,7 +2,7 @@ package domain;
 import java.util.ArrayList;
 import java.io.*;
 
-import valueobjects.Land;
+import valueobjects.Territory;
 
 
 /**
@@ -10,7 +10,7 @@ import valueobjects.Land;
  * @author Timur
  * 
  */
-public class Kampfsystem {
+public class BattleSystem {
 
 	ArrayList<Integer> ang = new ArrayList<Integer>();
 	ArrayList<Integer> def = new ArrayList<Integer>();
@@ -31,8 +31,8 @@ public class Kampfsystem {
 	int maxAngriffZug;
 
 	// Ziell und Quellland
-	Land zielLand;
-	Land quellLand;
+	Territory zielLand;
+	Territory quellLand;
 
 	// Angriffe wieviele Angriffe werden in einem Angriff getßtigt
 	int angriffe = 0;
@@ -40,7 +40,7 @@ public class Kampfsystem {
 	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden Einheiten
 	// Kontruktur bekommt außerdem das Ziel und Quellland als Objekte
 	
-	public Kampfsystem(int angAnzahl, int defAnzahl, Land zielLand, Land quellLand) {
+	public BattleSystem(int angAnzahl, int defAnzahl, Territory zielLand, Territory quellLand) {
 		this.angAnzahl = angAnzahl;
 		this.defAnzahl = defAnzahl;
 		this.zielLand = zielLand;

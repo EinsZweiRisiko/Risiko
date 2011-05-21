@@ -2,20 +2,20 @@ package ui;
 
 //Import phase constants
 import static domain.Constants.*;
-import valueobjects.Land;
-import valueobjects.Spieler;
+import valueobjects.Territory;
+import valueobjects.Player;
 import domain.Constants.Phases;
 
 
 public interface UserInterface {
 
-	Land getTargetCountry(Spieler activePlayer, Phases placeunits);
+	Territory getTargetCountry(Player activePlayer, Phases placeunits);
 
-	int getAmountUnit(Spieler activePlayer, Phases placeunits);
+	int getAmountUnit(Player activePlayer, Phases placeunits);
 
-	boolean askForAttack(Spieler activePlayer);
+	boolean askForAttack(Player activePlayer);
 
-	Land getOriginatingCountry(Spieler activePlayer, Phases attack);
+	Territory getOriginatingCountry(Player activePlayer, Phases attack);
 
 	boolean turnInCards();
 	

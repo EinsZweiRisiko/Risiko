@@ -8,24 +8,24 @@ import java.util.ArrayList;
  * @author Jannes
  *
  */
-public class Land {
+public class Territory {
 	
-	private Spieler besitzer;
+	private Player besitzer;
 	private int anzahlEinheiten = 0;
 	private String name;
-	private Kontinent kontinent;
-	private ArrayList<Land> nachbarn = new ArrayList<Land>();
+	private Continent kontinent;
+	private ArrayList<Territory> nachbarn = new ArrayList<Territory>();
 	
-	public Land(String name) {
+	public Territory(String name) {
 		this.name = name;
 		
 	}
 	
-	public void addNachbar(Land land) {
+	public void addNachbar(Territory land) {
 		nachbarn.add(land);
 	}
 	
-	public boolean istNachbar(Land land) {
+	public boolean istNachbar(Territory land) {
 		if (nachbarn.contains(land)) {
 			return true;
 		} else {
@@ -35,7 +35,7 @@ public class Land {
 	
 	// Getter und Setter
 	
-	public ArrayList<Land> getNachbarn() {
+	public ArrayList<Territory> getNachbarn() {
 		return nachbarn;
 	}
 
@@ -43,11 +43,11 @@ public class Land {
 		return name;
 	}
 	
-	public Spieler getBesitzer() {
+	public Player getBesitzer() {
 		return besitzer;
 	}
 
-	public void setBesitzer(Spieler besitzer) {
+	public void setBesitzer(Player besitzer) {
 		this.besitzer = besitzer;
 	}
 
@@ -59,11 +59,11 @@ public class Land {
 		this.anzahlEinheiten = anzahlEinheiten;
 	}
 
-	public Kontinent getKontinent() {
+	public Continent getKontinent() {
 		return kontinent;
 	}
 
-	public void setKontinent(Kontinent kontinent) {
+	public void setKontinent(Continent kontinent) {
 		this.kontinent = kontinent;
 	}
 	

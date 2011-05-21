@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import valueobjects.Kontinent;
-import valueobjects.Land;
+import valueobjects.Continent;
+import valueobjects.Territory;
 
 
 /**
@@ -13,7 +13,7 @@ import valueobjects.Land;
  * @author Jannes, Timur
  * 
  */
-public class Laenderverwaltung {
+public class TerritoryManager {
 
 	/**
 	 * Liste mit allen Ländernamen
@@ -83,20 +83,20 @@ public class Laenderverwaltung {
 	/**
 	 * Liste aller Kontinente
 	 */
-	private Kontinent[] kontinente = new Kontinent[6];
+	private Continent[] kontinente = new Continent[6];
 
 	/**
 	 * Liste aller Länderobjekte als Hasthable
 	 */
-	private Hashtable<String, Land> laender = new Hashtable<String, Land>();
+	private Hashtable<String, Territory> laender = new Hashtable<String, Territory>();
 
 	/**
 	 * Konstruktor
 	 */
-	public Laenderverwaltung() {
+	public TerritoryManager() {
 		// Länder erstellen
 		for (String name : laenderNamen) {
-			laender.put(name, new Land(name));
+			laender.put(name, new Territory(name));
 		}
 
 		// Nachbarländer zuweisen
@@ -115,7 +115,7 @@ public class Laenderverwaltung {
 		
 		
 		// Nordamerika erstellen
-		kontinente[0] = new Kontinent("Nordamerika", 5);
+		kontinente[0] = new Continent("Nordamerika", 5);
 		kontinente[0].addLand(laender.get("Alaska"));
 		kontinente[0].addLand(laender.get("Nordwest-Territorium"));
 		kontinente[0].addLand(laender.get("Grönland"));
@@ -127,14 +127,14 @@ public class Laenderverwaltung {
 		kontinente[0].addLand(laender.get("Mittelamerika"));
 
 		// Südamerika erstellen
-		kontinente[1] = new Kontinent("Südamerika", 2);
+		kontinente[1] = new Continent("Südamerika", 2);
 		kontinente[1].addLand(laender.get("Venezuela"));
 		kontinente[1].addLand(laender.get("Peru"));
 		kontinente[1].addLand(laender.get("Brasilien"));
 		kontinente[1].addLand(laender.get("Argentinien"));
 
 		// Afrika erstellen
-		kontinente[2] = new Kontinent("Afrika", 3);
+		kontinente[2] = new Continent("Afrika", 3);
 		kontinente[2].addLand(laender.get("Nordwestafrika"));
 		kontinente[2].addLand(laender.get("Ägypten"));
 		kontinente[2].addLand(laender.get("Ostafrika"));
@@ -143,7 +143,7 @@ public class Laenderverwaltung {
 		kontinente[2].addLand(laender.get("Madagaskar"));
 
 		// Europa erstellen
-		kontinente[3] = new Kontinent("Europa", 5);
+		kontinente[3] = new Continent("Europa", 5);
 		kontinente[3].addLand(laender.get("Island"));
 		kontinente[3].addLand(laender.get("Skandinavien"));
 		kontinente[3].addLand(laender.get("Ukraine"));
@@ -153,7 +153,7 @@ public class Laenderverwaltung {
 		kontinente[3].addLand(laender.get("Südeuropa"));
 
 		// Asien erstellen
-		kontinente[4] = new Kontinent("Asien", 7);
+		kontinente[4] = new Continent("Asien", 7);
 		kontinente[4].addLand(laender.get("Ural"));
 		kontinente[4].addLand(laender.get("Sibirien"));
 		kontinente[4].addLand(laender.get("Jakutien"));
@@ -168,7 +168,7 @@ public class Laenderverwaltung {
 		kontinente[4].addLand(laender.get("Siam"));
 
 		// Australien erstellen
-		kontinente[5] = new Kontinent("Australien", 2);
+		kontinente[5] = new Continent("Australien", 2);
 		kontinente[5].addLand(laender.get("Indonesien"));
 		kontinente[5].addLand(laender.get("Neu-Guinea"));
 		kontinente[5].addLand(laender.get("West-Australien"));
@@ -179,8 +179,8 @@ public class Laenderverwaltung {
 	 * Berechnet aus der Grenzliste für jedes Land alle benachbarten Länder
 	 */
 	private void initNachbarlaender() {
-		Land land1;
-		Land land2;
+		Territory land1;
+		Territory land2;
 		for (String[] grenze : grenzen) {
 			// Land-Objekte holen
 			land1 = getLandByName(grenze[0]);
@@ -198,7 +198,7 @@ public class Laenderverwaltung {
 	 *            Landname als String
 	 * @return Landobjekt
 	 */
-	public Land getLandByName(String name) {
+	public Territory getLandByName(String name) {
 		return laender.get(name);
 	}
 
@@ -208,7 +208,7 @@ public class Laenderverwaltung {
 	 * @param number
 	 * @return Land mit dieser Nummer
 	 */
-	public Land getLandByNumber(int number) {
+	public Territory getLandByNumber(int number) {
 		// TODO: diese Methode sollte es eigentlich nicht geben
 		return getLandByName(laenderNamen[number]);
 	}
@@ -223,12 +223,12 @@ public class Laenderverwaltung {
 		return true;
 	}
 
-	public ArrayList<Kontinent> getConqueredContinents(ArrayList<Land> countries) {
+	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> countries) {
 		// Array für das Ergebnis
-		ArrayList<Kontinent> conqueredContinents = new ArrayList<Kontinent>();
+		ArrayList<Continent> conqueredContinents = new ArrayList<Continent>();
 		
 		//durchläuft jeden kotninent[] und überprüft den Besitzer
-		Kontinent currentContinent;
+		Continent currentContinent;
 		for(int i = 0; i < kontinente.length; i++) {
 			currentContinent = kontinente[i];
 			

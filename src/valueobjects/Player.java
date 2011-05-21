@@ -3,23 +3,23 @@ package valueobjects;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import domain.Laenderverwaltung;
+import domain.TerritoryManager;
 
 /**
  * Spieler-Klasse
  * 
  * @author Hendrik
  */
-public class Spieler {
+public class Player {
 	
 	private String name;	//Spielername
 	private String color;	//Spielerfarbe
-	private ArrayList<Land> ownCountries = new ArrayList<Land>();	//besitzendes Länder
-	private Laenderverwaltung laenderverwaltung;
+	private ArrayList<Territory> ownCountries = new ArrayList<Territory>();	//besitzendes Länder
+	private TerritoryManager laenderverwaltung;
 	private HashSet<TerritoryCard> territoryCards = new HashSet<TerritoryCard>();
 
 	//Konstruktor
-	public Spieler(String n) {
+	public Player(String n) {
 		this.name = n;
 	}
 
@@ -35,13 +35,13 @@ public class Spieler {
 	 */
 	public int getContinentBonus() {
 		// Alle Kontinente, die wir besitzen, herausfinden
-		ArrayList<Kontinent> kontinente = laenderverwaltung.getConqueredContinents(ownCountries);
+		ArrayList<Continent> kontinente = laenderverwaltung.getConqueredContinents(ownCountries);
 		
 		// Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
 		int bonus = 0;
 		
 		// Alle Kontinente durchgehen, die es gibt
-		for (Kontinent kontinent : kontinente) {
+		for (Continent kontinent : kontinente) {
 			bonus += kontinent.getBonusSupply();
 		}
 		
@@ -60,7 +60,7 @@ public class Spieler {
 	 * fügt Lünder hinzu
 	 * @param land das Land was hinzugefügt wird
 	 */
-	public void addCountry(Land land) {
+	public void addCountry(Territory land) {
 		ownCountries.add(land);
 	}
 
@@ -69,7 +69,7 @@ public class Spieler {
 		return name;
 	}
 
-	public ArrayList<Land> getOwnCountries() {
+	public ArrayList<Territory> getOwnCountries() {
 		// TODO Auto-generated method stub
 		return ownCountries;
 	}

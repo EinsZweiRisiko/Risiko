@@ -3,11 +3,11 @@ package domain;
 
 import java.util.ArrayList;
 
-import cli.IO;
+import ui.cli.IO;
 
 
-import valueobjects.Land;
-import valueobjects.Spieler;
+import valueobjects.Territory;
+import valueobjects.Player;
 
 
 /**
@@ -23,7 +23,7 @@ public class oldSpielzyklus {
 	 * KONSTRUKTOR ZU HABEN ODER SOLLTEN FUNKTIONEN WIE einheitenSetzen(),
 	 * angreifen() und verteilen() genutzt werden?.
 	 */
-	public oldSpielzyklus(Spieler spieler, Laenderverwaltung laenderVerwaltung) {
+	public oldSpielzyklus(Player spieler, TerritoryManager laenderVerwaltung) {
 		IO.println("\n" + "---------------------------" + "\n" + "Spielzyklus gestartet" + "\n");
 		IO.println(spieler.getName() + " an der Reihe");
 
@@ -57,7 +57,7 @@ public class oldSpielzyklus {
 			// Armeen gesetzt werden sollen.
 			String zielLand = IO.readString("Name des Landes Eingeben: ");
 
-			Land land = laenderVerwaltung.getLandByName(zielLand);
+			Territory land = laenderVerwaltung.getLandByName(zielLand);
 
 			// Sollte das Land nicht dem Spieler geh�ren so wird er aufgefordert
 			// seine Eingabe zu korrigieren.
@@ -122,7 +122,7 @@ public class oldSpielzyklus {
 
 			String quellLandString = IO
 					.readString("Aus welchem Land m�chtest Einheiten verschieben?: ");
-			Land quellLand = laenderVerwaltung.getLandByName(quellLandString);
+			Territory quellLand = laenderVerwaltung.getLandByName(quellLandString);
 
 			while (!quellLand.getBesitzer().equals(spieler)) {
 				quellLandString = IO
@@ -130,7 +130,7 @@ public class oldSpielzyklus {
 				quellLand = laenderVerwaltung.getLandByName(quellLandString);
 			}
 
-			ArrayList<Land> nachbarn = new ArrayList<Land>();
+			ArrayList<Territory> nachbarn = new ArrayList<Territory>();
 			nachbarn = quellLand.getNachbarn();
 
 			IO.println("M�gliche L�nder:");
@@ -143,7 +143,7 @@ public class oldSpielzyklus {
 
 			String zielLandString = IO
 					.readString("In welches dieser L�nder m�chtest du die Armeen schicken?: ");
-			Land zielLand = laenderVerwaltung.getLandByName(zielLandString);
+			Territory zielLand = laenderVerwaltung.getLandByName(zielLandString);
 
 			while (!zielLand.getBesitzer().equals(spieler)
 					|| !zielLand.istNachbar(quellLand)) {
@@ -179,11 +179,11 @@ public class oldSpielzyklus {
 		}
 
 	}
-	private void angriff(Laenderverwaltung laenderVerwaltung, Spieler spieler){
+	private void angriff(TerritoryManager laenderVerwaltung, Player spieler){
 
 		String quellLandString = IO
 				.readString("Von wo willst du angreifen?: ");
-		Land quellLand = laenderVerwaltung.getLandByName(quellLandString);
+		Territory quellLand = laenderVerwaltung.getLandByName(quellLandString);
 
 		while (!quellLand.getBesitzer().equals(spieler) || quellLand.getAnzahlEinheiten() == 1) {
 			quellLandString = IO
@@ -198,7 +198,7 @@ public class oldSpielzyklus {
 		 * feindlichem Besitz ist.
 		 */
 
-		ArrayList<Land> nachbarn = new ArrayList<Land>();
+		ArrayList<Territory> nachbarn = new ArrayList<Territory>();
 		nachbarn = quellLand.getNachbarn();
 
 		IO.println("M�gliche Ziele:");
@@ -218,7 +218,7 @@ public class oldSpielzyklus {
 
 		String zielLandString = IO
 				.readString("Welches Land willst du angreifen?: ");
-		Land zielLand = laenderVerwaltung.getLandByName(zielLandString);
+		Territory zielLand = laenderVerwaltung.getLandByName(zielLandString);
 
 		// Wenn das Land dem aktuellen Spieler geh�rt oder die L�nder nicht
 		// benachbart sind ist die Eingabe ung�ltig und die Eingabe muss
@@ -265,7 +265,7 @@ public class oldSpielzyklus {
 		 * erstellen eines Wuerfels. Dieser entscheidet den Kampf und
 		 * ver�ndert die Anzahl der Einheiten in den jeweiligen L�ndern.
 		 */
-		Kampfsystem wuerfel = new Kampfsystem(angriffsArmeen, verteidigungsArmeen,
+		BattleSystem wuerfel = new BattleSystem(angriffsArmeen, verteidigungsArmeen,
 				zielLand, quellLand);
 	}
 	}

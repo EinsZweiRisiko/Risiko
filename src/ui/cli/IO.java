@@ -1,4 +1,4 @@
-package cli.copy;
+package ui.cli;
 import java.io.*;
 
 // Hilfsklasse mit Ein-/Ausgabeanweisungen
