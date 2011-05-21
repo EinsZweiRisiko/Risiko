@@ -18,7 +18,7 @@ public class TerritoryManager {
 	/**
 	 * Liste mit allen Ländernamen
 	 */
-	private String[] laenderNamen = { "Alaska", "Nordwest-Territorium",
+	private final String[] laenderNamen = { "Alaska", "Nordwest-Territorium",
 			"Grönland", "Alberta", "Ontario", "Quebec", "Weststaaten",
 			"Oststaaten", "Mittelamerika", "Venezuela", "Peru", "Brasilien",
 			"Argentinien", "Nordwestafrika", "Ägypten", "Ostafrika", "Kongo",
@@ -32,7 +32,7 @@ public class TerritoryManager {
 	/**
 	 * Eine Liste aller Grenzen, die zwischen jeweils zwei Ländern verlaufen
 	 */
-	private static final String[][] grenzen = {
+	private final String[][] grenzen = {
 			{ "Alaska", "Nordwest-Territorium" }, { "Alaska", "Alberta" },
 			{ "Alaska", "Kamtschatka" }, { "Nordwest-Territorium", "Alberta" },
 			{ "Nordwest-Territorium", "Grönland" },

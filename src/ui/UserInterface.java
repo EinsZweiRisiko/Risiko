@@ -1,7 +1,6 @@
 package ui;
 
 //Import phase constants
-import static domain.Constants.*;
 import valueobjects.Territory;
 import valueobjects.Player;
 import domain.Game.Phases;
