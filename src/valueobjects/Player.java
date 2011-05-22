@@ -8,69 +8,65 @@ import domain.TerritoryManager;
 /**
  * Spieler-Klasse
  * 
- * @author Hendrik
+ * @author Jannes, Hendrik
  */
 public class Player {
-	
-	private String name;	//Spielername
-	private String color;	//Spielerfarbe
-	private ArrayList<Territory> ownCountries = new ArrayList<Territory>();	//besitzendes Länder
-	private TerritoryManager laenderverwaltung;
+
+	private String name; // Spielername
+	private String color; // Spielerfarbe
+	private ArrayList<Territory> territories = new ArrayList<Territory>(); // besitzendes Länder
+	private TerritoryManager territoryManager;
 	private HashSet<TerritoryCard> territoryCards = new HashSet<TerritoryCard>();
 
-	//Konstruktor
+	// Konstruktor
 	public Player(String n) {
 		this.name = n;
 	}
 
-	public int getAnzahlLaender() {
-		// Lünder zühlen
-		return ownCountries.size();
+	public int getTerritoryNumber() {
+		// Länder zühlen
+		return territories.size();
 	}
-	
+
 	/**
 	 * Gibt die Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
 	 * 
 	 * @return
 	 */
-	public int getContinentBonus() {
-		// Alle Kontinente, die wir besitzen, herausfinden
-		ArrayList<Continent> kontinente = laenderverwaltung.getConqueredContinents(ownCountries);
-		
-		// Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
-		int bonus = 0;
-		
-		// Alle Kontinente durchgehen, die es gibt
-		for (Continent kontinent : kontinente) {
-			bonus += kontinent.getBonusSupply();
-		}
-		
-		return bonus;
+//	public int getContinentBonus() {
+//		// Alle Kontinente, die wir besitzen, herausfinden
+//		ArrayList<Continent> kontinente = territoryManager.getConqueredContinents(territories);
+//
+//		// Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
+//		int bonus = 0;
+//
+//		// Alle Kontinente durchgehen, die es gibt
+//		for (Continent kontinent : kontinente) {
+//			bonus += kontinent.getBonusSupply();
+//		}
+//
+//		return bonus;
+//	}
+
+	/**
+	 * Fügt Lünder hinzu
+	 * 
+	 * @param land
+	 *            Das Land, das hinzugefügt wird
+	 */
+	public void addTerritory(Territory land) {
+		territories.add(land);
 	}
 
 	/**
-	 * Fragt den Spieler, welche Karten er eintauschen müchte und gibt die Anzahl der Bonuseinheiten zurück
-	 * @return
+	 * Liefert die Länder
+	 * @return Länder, die der Spieler besitzt
 	 */
-	public int useBonusCards() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	/**
-	 * fügt Lünder hinzu
-	 * @param land das Land was hinzugefügt wird
-	 */
-	public void addCountry(Territory land) {
-		ownCountries.add(land);
+	public ArrayList<Territory> getTerritories() {
+		return territories;
 	}
 
 	public String getName() {
-		// TODO Auto-generated method stub
 		return name;
-	}
-
-	public ArrayList<Territory> getOwnCountries() {
-		// TODO Auto-generated method stub
-		return ownCountries;
 	}
 }

@@ -2,29 +2,29 @@ package valueobjects;
 
 import java.util.ArrayList;
 
-
 /**
- * Land-Klasse
+ * Territory
+ * 
  * @author Jannes
- *
+ * 
  */
 public class Territory {
-	
-	private Player besitzer;
+
+	private Player owner;
 	private int anzahlEinheiten = 0;
 	private String name;
 	private Continent kontinent;
 	private ArrayList<Territory> nachbarn = new ArrayList<Territory>();
-	
+
 	public Territory(String name) {
 		this.name = name;
-		
+
 	}
-	
+
 	public void addNachbar(Territory land) {
 		nachbarn.add(land);
 	}
-	
+
 	public boolean istNachbar(Territory land) {
 		if (nachbarn.contains(land)) {
 			return true;
@@ -32,9 +32,9 @@ public class Territory {
 			return false;
 		}
 	}
-	
+
 	// Getter und Setter
-	
+
 	public ArrayList<Territory> getNachbarn() {
 		return nachbarn;
 	}
@@ -42,13 +42,13 @@ public class Territory {
 	public String getName() {
 		return name;
 	}
-	
+
 	public Player getBesitzer() {
-		return besitzer;
+		return owner;
 	}
 
 	public void setBesitzer(Player besitzer) {
-		this.besitzer = besitzer;
+		this.owner = besitzer;
 	}
 
 	public int getAnzahlEinheiten() {
@@ -66,5 +66,5 @@ public class Territory {
 	public void setKontinent(Continent kontinent) {
 		this.kontinent = kontinent;
 	}
-	
+
 }

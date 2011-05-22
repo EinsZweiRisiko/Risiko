@@ -1,10 +1,8 @@
 package ui;
 
-//Import phase constants
-import valueobjects.Territory;
 import valueobjects.Player;
+import valueobjects.Territory;
 import domain.Game.Phases;
-
 
 public interface UserInterface {
 
@@ -17,5 +15,5 @@ public interface UserInterface {
 	Territory getOriginatingCountry(Player activePlayer, Phases attack);
 
 	boolean turnInCards();
-	
+
 }

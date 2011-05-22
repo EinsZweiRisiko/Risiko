@@ -6,37 +6,44 @@ import java.util.Iterator;
 
 import ui.UserInterface;
 import ui.cli.CommandLineInterface;
-import valueobjects.Territory;
 import valueobjects.Player;
+import valueobjects.Territory;
 
+/**
+ * The game class manages a complete game of Risk 
+ * @author Jannes
+ *
+ */
 public class Game {
 
 	/**
-	 * Alle Spielphasen
-	 * @author Jannes
-	 *
+	 * Phases of a player's turn
 	 */
-	public static enum Phases { PLACEUNITS, ATTACK, MOVE, DEFEND };
-	
-	
-	private PlayerManager spielerverwaltung;
-	private TerritoryManager laenderverwaltung;
+	public static enum Phases {
+		PLACEUNITS, ATTACK, MOVE, DEFEND
+	};
+
+	private PlayerManager playerManager;
+	private TerritoryManager territoryManager;
 	private Player activePlayer;
 	private UserInterface userInterface;
 	private ArrayList<Integer> bonusAmountSteps;
 	private Iterator<Integer> bonusAmountIter;
 
+	/**
+	 * Constructor for a new game of Risk
+	 */
 	public Game() {
-		// Goldener Reiter
-		bonusAmountSteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10,
-				15, 20, 25, 30, 35, 40, 45, 50, 55, 60));
+		// Setup the steps in which bonus units are allocated
+		bonusAmountSteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35,
+				40, 45, 50, 55, 60));
 		bonusAmountIter = bonusAmountSteps.iterator();
 
-		// Laenderverwaltung erstellen
-		laenderverwaltung = new TerritoryManager();
+		// Create territory manager
+		territoryManager = new TerritoryManager();
 
-		// Spielerverwaltung erstellen (Spielerzahl, namen, farben)
-		spielerverwaltung = new PlayerManager();
+		// Create player manager
+		playerManager = new PlayerManager();
 
 		CommandLineInterface userInterface = new CommandLineInterface();
 
@@ -60,37 +67,35 @@ public class Game {
 
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
-		activePlayer = spielerverwaltung.getCurrentPlayer();
+		activePlayer = playerManager.getCurrentPlayer();
 
 		/*
-		 * 1. Einheiten Reserve Länderanzahl/3 aber mindestens 3 Besetzte
-		 * Kontinente evtl. Karten eintauschen 2. Einheiten verteilen
+		 * 1. Einheiten Reserve Länderanzahl/3 aber mindestens 3 Besetzte Kontinente evtl. Karten
+		 * eintauschen 2. Einheiten verteilen
 		 * 
-		 * 3. beliebig oft Kämpfen (solange er irgendwo mehr als eine Einheit
-		 * hat) Beim Kampf bei einem Land muss mindestens 1 Soldat auif dem
-		 * Quellland bleiben und der Kampf erfolgt äber Wärfel.
+		 * 3. beliebig oft Kämpfen (solange er irgendwo mehr als eine Einheit hat) Beim Kampf bei
+		 * einem Land muss mindestens 1 Soldat auif dem Quellland bleiben und der Kampf erfolgt äber
+		 * Wärfel.
 		 * 
-		 * Es mässen mindestens so viele Einheiten mitgenommen werden, wie
-		 * gekämpft haben Er kann nach einem gewonnen KAmpf alle bis auf eine
-		 * Einheit mitnehmen.
+		 * Es mässen mindestens so viele Einheiten mitgenommen werden, wie gekämpft haben Er kann nach
+		 * einem gewonnen KAmpf alle bis auf eine Einheit mitnehmen.
 		 * 
-		 * 4. Einheiten verschieben zwischen angrenzenden Länder, Es därfen nur
-		 * Einheiten verschoben werden, die nicht gekämpf Ansonsten kännen
-		 * beliebig viele Einheiten verschoben werden
+		 * 4. Einheiten verschieben zwischen angrenzenden Länder, Es därfen nur Einheiten verschoben
+		 * werden, die nicht gekämpf Ansonsten kännen beliebig viele Einheiten verschoben werden
 		 */
 
 		// Wie viel Verstärkung?
 		int supply = 0;
 
 		// Wie viele Einheiten bekommt der Spieler durch eroberte Länder?
-		supply += activePlayer.getAnzahlLaender() / 3;
+		supply += activePlayer.getTerritoryNumber() / 3;
 		// Der Spieler bekommt mindestens 3 Einheiten
 		if (supply < 3) {
 			supply = 3;
 		}
 
 		// Bonuseinheiten durch eroberte Kontinente
-		supply += activePlayer.getContinentBonus();
+//		supply += activePlayer.getContinentBonus();
 
 		// Bonuseinheiten durch Karten SPäTER, weil kein interface vorhanden
 		supply += useBonusCards();
@@ -110,19 +115,18 @@ public class Game {
 		int amountUnitPlace;
 
 		while (supply < 0) {
-			
-			//Auf welches Land sollen Einheiten platziert werden?
+
+			// Auf welches Land sollen Einheiten platziert werden?
 			do {
-				targetCountry = userInterface.getTargetCountry(activePlayer,
-						Phases.PLACEUNITS);
+				targetCountry = userInterface.getTargetCountry(activePlayer, Phases.PLACEUNITS);
 			} while (!targetCountry.getBesitzer().equals(activePlayer));
-			
-			//Wieviele Einheiten sollen platziert werden?
-			do{
+
+			// Wieviele Einheiten sollen platziert werden?
+			do {
 				amountUnitPlace = userInterface.getAmountUnit(activePlayer, Phases.PLACEUNITS);
 			} while (amountUnitPlace > supply);
-			
-			//supply Aktualisieren
+
+			// supply Aktualisieren
 			supply -= amountUnitPlace;
 		}
 
@@ -171,8 +175,8 @@ public class Game {
 			} while (targetCountry.getAnzahlEinheiten() > amountUnitDefense
 					&& (amountUnitDefense < 1 || amountUnitDefense > 2));
 
-			BattleSystem kampf = new BattleSystem(amountUnitAttack,
-					amountUnitDefense, originatingCountry, targetCountry);
+			BattleSystem kampf = new BattleSystem(amountUnitAttack, amountUnitDefense,
+					originatingCountry, targetCountry);
 		}
 	}
 

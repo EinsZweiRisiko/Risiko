@@ -1,4 +1,5 @@
 package domain;
+
 import valueobjects.Player;
 
 /**
@@ -8,7 +9,6 @@ import valueobjects.Player;
  */
 public class PlayerManager {
 
-	
 	/**
 	 * Spielerliste als Array
 	 */
@@ -17,9 +17,9 @@ public class PlayerManager {
 	public PlayerManager() {
 
 		/*
-		 * Abfrage der Mitspieler. Hierbei muss eine Zahl zwischen 2 und 6
-		 * angegeben werden. Nachdem der Anwender dies getan hat wird die
-		 * Array-Liste Spieler[] mit Anzahl der Mitspielenden initialisiert.
+		 * Abfrage der Mitspieler. Hierbei muss eine Zahl zwischen 2 und 6 angegeben werden. Nachdem
+		 * der Anwender dies getan hat wird die Array-Liste Spieler[] mit Anzahl der Mitspielenden
+		 * initialisiert.
 		 */
 //		do {
 //			spielerzahl = IO.readInt("Wieviele Spieler?(2-6): ");
@@ -28,8 +28,7 @@ public class PlayerManager {
 //		spieler = new Spieler[spielerzahl];
 
 		/*
-		 * for-Schleife die den zuvor erstellten Spielern via Abfrage Namen
-		 * zuordnet.
+		 * for-Schleife die den zuvor erstellten Spielern via Abfrage Namen zuordnet.
 		 */
 //		for (int i = 0; i < spielerzahl; i++) {
 //			String name = IO.readString("Name Spieler " + (i + 1) + ": ");

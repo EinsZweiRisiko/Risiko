@@ -1,8 +1,10 @@
 package valueobjects;
+
 /**
- * Missions-Klasse
+ * The Mission class represents a mission that a player has
+ * 
  * @author Jannes
- *
+ * 
  */
 public class Mission {
 	public Mission() {

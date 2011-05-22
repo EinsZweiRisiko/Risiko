@@ -1,8 +1,8 @@
 package domain;
+
 import java.util.ArrayList;
 
 import valueobjects.Territory;
-
 
 /**
  * 
@@ -38,7 +38,7 @@ public class BattleSystem {
 
 	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden Einheiten
 	// Kontruktur bekommt außerdem das Ziel und Quellland als Objekte
-	
+
 	public BattleSystem(int angAnzahl, int defAnzahl, Territory zielLand, Territory quellLand) {
 		this.angAnzahl = angAnzahl;
 		this.defAnzahl = defAnzahl;
@@ -50,8 +50,9 @@ public class BattleSystem {
 	/**
 	 * Zufßllige berechnung der Wßrfel wertigkeiten
 	 * 
-	 * @param anzahl Anzahl der zu wuerfelnden Wuerfel
-	 *
+	 * @param anzahl
+	 *            Anzahl der zu wuerfelnden Wuerfel
+	 * 
 	 * @return ArrayList als Integer der gewuerfelten zahlen
 	 */
 	// TODO static methods are not allowed
@@ -91,11 +92,10 @@ public class BattleSystem {
 
 	public void fight() {
 		/*
-		 * Benutzereingabe muss ueberprueft werden mit Einheiten Anzahl (angGesamt
-		 * und defGesamt) auf dem Angriff bzw Zielland angAnzahl darf nur 2 oder
-		 * 3 sein wenn eine Einheit auf dem Quellland bleibt bei Defense land
-		 * muss min. eine Einheite vorhanden sein heisst die Zahl darf nur 1
-		 * oder 2 sein.
+		 * Benutzereingabe muss ueberprueft werden mit Einheiten Anzahl (angGesamt und defGesamt) auf
+		 * dem Angriff bzw Zielland angAnzahl darf nur 2 oder 3 sein wenn eine Einheit auf dem
+		 * Quellland bleibt bei Defense land muss min. eine Einheite vorhanden sein heisst die Zahl
+		 * darf nur 1 oder 2 sein.
 		 */
 
 		// hier werden die wuerfel Anzahl festgelegt je nach anzahl der Einheiten
@@ -104,12 +104,11 @@ public class BattleSystem {
 		def = getDice(defAnzahl);
 
 		/*
-		 * generiert die groeßten Zahlen im Integer fuer den Angriff es gilt: fuer
-		 * den Angriff: angAnzahl = 2 dann nur eine Zahl zum kaempfen angAnzahl =
-		 * 3 dann zwei Zahlen zum kaempfen
+		 * generiert die groeßten Zahlen im Integer fuer den Angriff es gilt: fuer den Angriff:
+		 * angAnzahl = 2 dann nur eine Zahl zum kaempfen angAnzahl = 3 dann zwei Zahlen zum kaempfen
 		 * 
-		 * fuer die Defensive: defAnzahl = 1 dann eine Zahl zum verteidigen
-		 * defAnzahl = 2 dann zwei Zahlen zum verteidigen
+		 * fuer die Defensive: defAnzahl = 1 dann eine Zahl zum verteidigen defAnzahl = 2 dann zwei
+		 * Zahlen zum verteidigen
 		 */
 
 		// Kampfgeschehen ausrechnen der Verluste
@@ -117,7 +116,7 @@ public class BattleSystem {
 			angEins = getGroessteZahl(ang);
 			angriffZug++;
 			System.out.println("------ RUNDE (" + angriffZug + ") -------- \r\n");
-			
+
 			// 1 gegen 1
 			if (defAnzahl == 1) {
 				defEins = getGroessteZahl(def);
@@ -150,7 +149,7 @@ public class BattleSystem {
 			angEins = getGroessteZahl(ang);
 			angZwei = getGroessteZahl(ang);
 			angriffZug++;
-			
+
 			System.out.println("------ RUNDE (" + angriffZug + ") -------- \r\n");
 			// 2 gegen 1
 			if (defAnzahl == 1) {
@@ -197,7 +196,7 @@ public class BattleSystem {
 			angEins = getGroessteZahl(ang);
 			angZwei = getGroessteZahl(ang);
 			angriffZug++;
-			
+
 			System.out.println("------ RUNDE (" + angriffZug + ") -------- \r\n");
 
 			// 3 gegen 1
@@ -245,20 +244,16 @@ public class BattleSystem {
 		zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() - 1);
 
 		if (angriffe == 1) {
-			System.out.println("Angriff1: " + angEins + " schlaegt Defensive1: "
-											+ defEins);
+			System.out.println("Angriff1: " + angEins + " schlaegt Defensive1: " + defEins);
 
-			System.out.println(zielLand.getName() + "("
-					+ zielLand.getBesitzer().getName()
+			System.out.println(zielLand.getName() + "(" + zielLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
 					+ zielLand.getBesitzer().getName() + ") hat noch: "
 					+ zielLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		} else {
-			System.out.println("Angriff2: " + angZwei + " schlaegt Defensive2: "
-					+ defZwei);
+			System.out.println("Angriff2: " + angZwei + " schlaegt Defensive2: " + defZwei);
 
-			System.out.println(zielLand.getName() + "("
-					+ zielLand.getBesitzer().getName()
+			System.out.println(zielLand.getName() + "(" + zielLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
 					+ zielLand.getBesitzer().getName() + ") hat noch: "
 					+ zielLand.getAnzahlEinheiten() + " Einheiten uebrig");
@@ -273,23 +268,19 @@ public class BattleSystem {
 		quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() - 1);
 
 		if (angriffe == 1) {
-			System.out.println("Defensive1: " + defEins + " schlaegt Offennsive1: "
-					+ angEins);
+			System.out.println("Defensive1: " + defEins + " schlaegt Offennsive1: " + angEins);
 
-			System.out.println(quellLand.getName() + "("
-					+ quellLand.getBesitzer().getName()
+			System.out.println(quellLand.getName() + "(" + quellLand.getBesitzer().getName()
 					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
 					+ quellLand.getBesitzer().getName() + ") hat noch: "
 					+ quellLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		} else {
-			System.out.println("Defensive2: " + defZwei + " schlaegt Offensive2: "
-					+ angZwei);
+			System.out.println("Defensive2: " + defZwei + " schlaegt Offensive2: " + angZwei);
 
 			System.out.println(quellLand.getName() + "("
 
-					+ quellLand.getBesitzer().getName()
-					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
-					+ quellLand.getBesitzer().getName() + ") hat noch: "
+			+ quellLand.getBesitzer().getName() + ") verliert 1 Einheit und " + quellLand.getName()
+					+ " (" + quellLand.getBesitzer().getName() + ") hat noch: "
 					+ quellLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		}
 	}

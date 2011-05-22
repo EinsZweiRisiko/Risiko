@@ -2,11 +2,9 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
 
 import valueobjects.Continent;
 import valueobjects.Territory;
-
 
 /**
  * 
@@ -18,67 +16,53 @@ public class TerritoryManager {
 	/**
 	 * Liste mit allen Ländernamen
 	 */
-	private final String[] laenderNamen = { "Alaska", "Nordwest-Territorium",
-			"Grönland", "Alberta", "Ontario", "Quebec", "Weststaaten",
-			"Oststaaten", "Mittelamerika", "Venezuela", "Peru", "Brasilien",
-			"Argentinien", "Nordwestafrika", "Ägypten", "Ostafrika", "Kongo",
-			"Südafrika", "Madagaskar", "Island", "Skandinavien", "Ukraine",
-			"Großbritannien", "Mitteleuropa", "Westeuropa", "Südeuropa",
-			"Ural", "Sibirien", "Jakutien", "Irkutsk", "Kamtschatka",
-			"Mongolei", "Japan", "Afghanistan", "China", "Mittlerer Osten",
-			"Indien", "Siam", "Indonesien", "Neu-Guinea", "West-Australien",
+	private final String[] laenderNamen = { "Alaska", "Nordwest-Territorium", "Grönland",
+			"Alberta", "Ontario", "Quebec", "Weststaaten", "Oststaaten", "Mittelamerika",
+			"Venezuela", "Peru", "Brasilien", "Argentinien", "Nordwestafrika", "Ägypten",
+			"Ostafrika", "Kongo", "Südafrika", "Madagaskar", "Island", "Skandinavien", "Ukraine",
+			"Großbritannien", "Mitteleuropa", "Westeuropa", "Südeuropa", "Ural", "Sibirien",
+			"Jakutien", "Irkutsk", "Kamtschatka", "Mongolei", "Japan", "Afghanistan", "China",
+			"Mittlerer Osten", "Indien", "Siam", "Indonesien", "Neu-Guinea", "West-Australien",
 			"Ost-Australien" };
 
 	/**
 	 * Eine Liste aller Grenzen, die zwischen jeweils zwei Ländern verlaufen
 	 */
-	private final String[][] grenzen = {
-			{ "Alaska", "Nordwest-Territorium" }, { "Alaska", "Alberta" },
-			{ "Alaska", "Kamtschatka" }, { "Nordwest-Territorium", "Alberta" },
-			{ "Nordwest-Territorium", "Grönland" },
+	private final String[][] grenzen = { { "Alaska", "Nordwest-Territorium" },
+			{ "Alaska", "Alberta" }, { "Alaska", "Kamtschatka" },
+			{ "Nordwest-Territorium", "Alberta" }, { "Nordwest-Territorium", "Grönland" },
 			{ "Nordwest-Territorium", "Ontario" }, { "Alberta", "Ontario" },
-			{ "Alberta", "Weststaaten" }, { "Ontario", "Oststaaten" },
-			{ "Ontario", "Quebec" }, { "Ontario", "Grönland" },
-			{ "Grönland", "Quebec" }, { "Grönland", "Island" },
-			{ "Weststaaten", "Oststaaten" },
-			{ "Weststaaten", "Mittelamerika" }, { "Oststaaten", "Quebec" },
-			{ "Oststaaten", "Mittelamerika" },
+			{ "Alberta", "Weststaaten" }, { "Ontario", "Oststaaten" }, { "Ontario", "Quebec" },
+			{ "Ontario", "Grönland" }, { "Grönland", "Quebec" }, { "Grönland", "Island" },
+			{ "Weststaaten", "Oststaaten" }, { "Weststaaten", "Mittelamerika" },
+			{ "Oststaaten", "Quebec" }, { "Oststaaten", "Mittelamerika" },
 			{ "Mittelamerika", "Venezuela" }, { "Venezuela", "Peru" },
-			{ "Venezuela", "Brasilien" }, { "Peru", "Brasilien" },
-			{ "Peru", "Argentinien" }, { "Brasilien", "Nordwestafrika" },
-			{ "Brasilien", "Argentinien" }, { "Nordwestafrika", "Westeuropa" },
-			{ "Nordwestafrika", "Südeuropa" }, { "Nordwestafrika", "Ägypten" },
-			{ "Nordwestafrika", "Ostafrika" }, { "Nordwestafrika", "Kongo" },
-			{ "Ägypten", "Mitteleuropa" }, { "Ägypten", "Südeuropa" },
-			{ "Ägypten", "Ostafrika" }, { "Ostafrika", "Mittlerer Osten" },
-			{ "Ostafrika", "Kongo" }, { "Ostafrika", "Südafrika" },
-			{ "Ostafrika", "Madagaskar" }, { "Südafrika", "Kongo" },
+			{ "Venezuela", "Brasilien" }, { "Peru", "Brasilien" }, { "Peru", "Argentinien" },
+			{ "Brasilien", "Nordwestafrika" }, { "Brasilien", "Argentinien" },
+			{ "Nordwestafrika", "Westeuropa" }, { "Nordwestafrika", "Südeuropa" },
+			{ "Nordwestafrika", "Ägypten" }, { "Nordwestafrika", "Ostafrika" },
+			{ "Nordwestafrika", "Kongo" }, { "Ägypten", "Mitteleuropa" },
+			{ "Ägypten", "Südeuropa" }, { "Ägypten", "Ostafrika" },
+			{ "Ostafrika", "Mittlerer Osten" }, { "Ostafrika", "Kongo" },
+			{ "Ostafrika", "Südafrika" }, { "Ostafrika", "Madagaskar" }, { "Südafrika", "Kongo" },
 			{ "Südafrika", "Madagaskar" }, { "Westeuropa", "Mitteleuropa" },
 			{ "Westeuropa", "Südeuropa" }, { "Westeuropa", "Großbritannien" },
-			{ "Großbritannien", "Skandinavien" },
-			{ "Großbritannien", "Island" },
-			{ "Großbritannien", "Mitteleuropa" },
-			{ "Mitteleuropa", "Ukraine" }, { "Mitteleuropa", "Skandinavien" },
-			{ "Island", "Skandinavien" }, { "Skandinavien", "Ukraine" },
-			{ "Südeuropa", "Mittlerer Osten" },
-			{ "Mittlerer Osten", "Indien" },
-			{ "Mittlerer Osten", "Afghanistan" },
-			{ "Mittlerer Osten", "Ukraine" }, { "Ukraine", "Afghanistan" },
-			{ "Ukraine", "Ural" }, { "Ural", "Sibirien" },
-			{ "Ural", "Afghanistan" }, { "Ural", "China" },
-			{ "Afghanistan", "China" }, { "Afghanistan", "Indien" },
-			{ "Indien", "China" }, { "Indien", "Siam" },
-			{ "China", "Mongolei" }, { "China", "Siam" },
-			{ "China", "Sibirien" }, { "Sibirien", "Mongolei" },
-			{ "Sibirien", "Irkutsk" }, { "Sibirien", "Kamtschatka" },
-			{ "Jakutien", "Irkutsk" }, { "Jakutien", "Kamtschatka" },
-			{ "Irkutsk", "Kamtschatka" }, { "Japan", "Kamtschatka" },
-			{ "Japan", "Mongolei" }, { "Mongolei", "Kamtschatka" },
+			{ "Großbritannien", "Skandinavien" }, { "Großbritannien", "Island" },
+			{ "Großbritannien", "Mitteleuropa" }, { "Mitteleuropa", "Ukraine" },
+			{ "Mitteleuropa", "Skandinavien" }, { "Island", "Skandinavien" },
+			{ "Skandinavien", "Ukraine" }, { "Südeuropa", "Mittlerer Osten" },
+			{ "Mittlerer Osten", "Indien" }, { "Mittlerer Osten", "Afghanistan" },
+			{ "Mittlerer Osten", "Ukraine" }, { "Ukraine", "Afghanistan" }, { "Ukraine", "Ural" },
+			{ "Ural", "Sibirien" }, { "Ural", "Afghanistan" }, { "Ural", "China" },
+			{ "Afghanistan", "China" }, { "Afghanistan", "Indien" }, { "Indien", "China" },
+			{ "Indien", "Siam" }, { "China", "Mongolei" }, { "China", "Siam" },
+			{ "China", "Sibirien" }, { "Sibirien", "Mongolei" }, { "Sibirien", "Irkutsk" },
+			{ "Sibirien", "Kamtschatka" }, { "Jakutien", "Irkutsk" },
+			{ "Jakutien", "Kamtschatka" }, { "Irkutsk", "Kamtschatka" },
+			{ "Japan", "Kamtschatka" }, { "Japan", "Mongolei" }, { "Mongolei", "Kamtschatka" },
 			{ "Siam", "Indonesien" }, { "Indonesien", "Neu-Guinea" },
-			{ "Indonesien", "West-Australien" },
-			{ "West-Australien", "Ost-Australien" },
-			{ "West-Australien", "Neu-Guinea" },
-			{ "Ost-Australien", "Neu-Guinea" } };
+			{ "Indonesien", "West-Australien" }, { "West-Australien", "Ost-Australien" },
+			{ "West-Australien", "Neu-Guinea" }, { "Ost-Australien", "Neu-Guinea" } };
 
 	/**
 	 * Liste aller Kontinente
@@ -102,18 +86,11 @@ public class TerritoryManager {
 		// Nachbarländer zuweisen
 		initNachbarlaender();
 
-		
 		/*
-		 * Bonuseinheiten pro Kontinent
-		 * Asien = 7
-		 * Europa = 5
-		 * Nord Amerika = 5
-		 * Süd Amerika = 2
-		 * Afrika = 3
-		 * Australien = 2
+		 * Bonuseinheiten pro Kontinent Asien = 7 Europa = 5 Nord Amerika = 5 Süd Amerika = 2 Afrika =
+		 * 3 Australien = 2
 		 */
-		
-		
+
 		// Nordamerika erstellen
 		kontinente[0] = new Continent("Nordamerika", 5);
 		kontinente[0].addLand(laender.get("Alaska"));
@@ -216,7 +193,7 @@ public class TerritoryManager {
 	public boolean isAlleLaenderBesetzt() {
 
 		for (int i = 0; i < 41; i++) {
-			if(getLandByName(laenderNamen[i]).getBesitzer() == null){
+			if (getLandByName(laenderNamen[i]).getBesitzer() == null) {
 				return false;
 			}
 		}
@@ -226,21 +203,20 @@ public class TerritoryManager {
 	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> countries) {
 		// Array für das Ergebnis
 		ArrayList<Continent> conqueredContinents = new ArrayList<Continent>();
-		
-		//durchläuft jeden kotninent[] und überprüft den Besitzer
+
+		// durchläuft jeden kotninent[] und überprüft den Besitzer
 		Continent currentContinent;
-		for(int i = 0; i < kontinente.length; i++) {
+		for (int i = 0; i < kontinente.length; i++) {
 			currentContinent = kontinente[i];
-			
+
 			// Überprüft, ob die Länderliste den kompletten Kontinent enthält
 			if (countries.containsAll(currentContinent.getCountries())) {
 				conqueredContinents.add(currentContinent);
 			}
 		}
-		
+
 		return conqueredContinents;
-		
+
 	}
 
-	
 }
