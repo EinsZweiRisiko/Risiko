@@ -17,8 +17,12 @@ public interface UserInterface {
 
 	boolean turnInCards();
 
-	void newPlayer(PlayerManager playerManager);
-
 	boolean getPlaceMethod();
+
+	int getNumberOfPlayers();
+
+	String getPlayerName(int playernumber);
+
+	void announceCurrentPlayer(Player activePlayer);
 
 }

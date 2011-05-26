@@ -41,21 +41,16 @@ public class Game {
 
 		// Create territory manager
 		territoryManager = new TerritoryManager();
-
-		// Create player manager
-		playerManager = new PlayerManager();
-
-
+		
+		
 		userInterface = new CommandLineInterface();
-
+		
+		// Create player manager
+		playerManager = new PlayerManager(userInterface);
+		
 
 		// Anfangsrunde
-		setPlayers();
 		placeStartUnits();
-	}
-
-	private void setPlayers() {
-		userInterface.newPlayer(playerManager);
 	}
 
 	private void placeStartUnits() {
@@ -101,21 +96,8 @@ public class Game {
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getCurrentPlayer();
-
-		/*
-		 * 1. Einheiten Reserve Länderanzahl/3 aber mindestens 3 Besetzte Kontinente evtl. Karten
-		 * eintauschen 2. Einheiten verteilen
-		 * 
-		 * 3. beliebig oft Kämpfen (solange er irgendwo mehr als eine Einheit hat) Beim Kampf bei
-		 * einem Land muss mindestens 1 Soldat auif dem Quellland bleiben und der Kampf erfolgt äber
-		 * Wärfel.
-		 * 
-		 * Es mässen mindestens so viele Einheiten mitgenommen werden, wie gekämpft haben Er kann nach
-		 * einem gewonnen KAmpf alle bis auf eine Einheit mitnehmen.
-		 * 
-		 * 4. Einheiten verschieben zwischen angrenzenden Länder, Es därfen nur Einheiten verschoben
-		 * werden, die nicht gekämpf Ansonsten kännen beliebig viele Einheiten verschoben werden
-		 */
+		
+		userInterface.announceCurrentPlayer(activePlayer);
 
 		// Wie viel Verstärkung?
 		int supply = 0;
@@ -141,6 +123,8 @@ public class Game {
 
 		// Einheiten verschieben
 		moveUnits();
+		
+		playerManager.nextPlayer();
 	}
 
 	private void placeUnits(int supply) {
@@ -166,10 +150,10 @@ public class Game {
 	}
 
 	private void attack() {
-
+		
 		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
 		while (userInterface.askForAttack(activePlayer)) {
-
+			
 			Territory originatingCountry;
 			Territory targetCountry;
 			int amountUnitAttack;

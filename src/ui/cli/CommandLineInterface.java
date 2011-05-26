@@ -46,9 +46,11 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public boolean askForAttack(Player spieler) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean askForAttack(Player activePlayer) {
+		
+		String wantToAttack = IO.readString(activePlayer.getName() + " möchtest du angreifen? (j/n)");
+		
+		return wantToAttack.equals("j");
 	}
 	
 
@@ -65,37 +67,6 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public void newPlayer(PlayerManager playerMgr) {
-		/*
-		 * Abfrage der Mitspieler. Hierbei muss eine Zahl zwischen 2 und 6 angegeben werden. Nachdem
-		 * der Anwender dies getan hat wird die Array-Liste Spieler[] mit Anzahl der Mitspielenden
-		 * initialisiert.
-		 */
-		
-		PlayerManager playerManager = playerMgr;
-		
-		int numberOfPlayer;
-		
-		do{
-			numberOfPlayer = IO.readInt("Wieviele Spieler= (2-6)");
-		} while (numberOfPlayer <= 1 || numberOfPlayer > 6);
-		
-		Player[] player = new Player[numberOfPlayer];
-		
-		for (int i = 0; i < numberOfPlayer; i++){
-			String name = IO.readString("Name Spieler " + (i + 1) + ": ");
-			player[i] = new Player(name);
-		}
-		
-		IO.println("Eine neue Runde wird gestartet es treten an :");
-		for (int i = 0; i < numberOfPlayer; i++) {
-			IO.println(player[i].getName());
-		}
-		
-		playerManager.setPlayers(player);
-	}
-
-	@Override
 	public boolean getPlaceMethod() {
 		// TODO Auto-generated method stub
 		
@@ -105,6 +76,27 @@ public class CommandLineInterface implements UserInterface {
 		} else if(eingabe == "n") { return false; }
 		
 		return false;
+	}
+
+	@Override
+	public int getNumberOfPlayers() {
+		int numberOfPlayers;
+		do {
+			numberOfPlayers = IO.readInt("Wieviele Mitspieler?(2-6)");
+		} while (numberOfPlayers <= 1 || numberOfPlayers > 6);
+		return numberOfPlayers;
+	}
+
+	@Override
+	public String getPlayerName(int playernumber) {
+		String name = IO.readString("Name für Spieler " + playernumber + ":");
+		return name;
+	}
+
+	@Override
+	public void announceCurrentPlayer(Player activePlayer) {
+		System.out.println(activePlayer.getName() + " ist an der Reihe.");
+		
 	}
 
 }
