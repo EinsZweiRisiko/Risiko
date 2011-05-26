@@ -3,7 +3,6 @@ package ui;
 import valueobjects.Player;
 import valueobjects.Territory;
 import domain.Game.Phases;
-import domain.PlayerManager;
 
 public interface UserInterface {
 

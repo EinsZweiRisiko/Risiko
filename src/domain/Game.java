@@ -64,24 +64,48 @@ public class Game {
 		if (userInterface.getPlaceMethod()) {
 			// RADNOM PLACE UNITS Algorithmus
 
-//			// ermittelt die Starteinheiten, aber ist voll unnütz!
-//			int startUnits;
-//			if(playerManager.getNumberOfPlayers() == 2) {
-//				startUnits = 36;
-//			}else if(playerManager.getNumberOfPlayers() == 3) {
-//				startUnits = 35;
-//			}else if(playerManager.getNumberOfPlayers() == 4) {
-//				startUnits = 30;
-//			}
+			Player currentPlayer = null;
+
+			// ermittelt die Starteinheiten, aber ist voll unnütz!
+			int startUnits = 0;
+
+			if (playerManager.getNumberOfPlayers() == 2) {
+				startUnits = 36;
+			} else if (playerManager.getNumberOfPlayers() == 3) {
+				startUnits = 35;
+			} else if (playerManager.getNumberOfPlayers() == 4) {
+				startUnits = 30;
+			} else {
+				startUnits = 30;
+			}
+
+			for (int i = 0; i < playerManager.getNumberOfPlayers(); i++) {
+				playerManager.getPlayer().get(i).setSupply(startUnits);
+			}
 
 			// besetzt alle freien Länder
 			for (Territory territory : territoryManager.getRandomTerritoryList()) {
 
-				Player player = playerManager.getCurrentPlayer();
-				player.addTerritory(territory);
-				territory.setUnits(2);
+				currentPlayer = playerManager.getCurrentPlayer();
+				currentPlayer.addTerritory(territory);
+				territory.setUnits(1);
 
+				currentPlayer.setSupply(currentPlayer.getSupply() - 1);
 				playerManager.nextPlayer();
+			}
+
+			// Restliche Einheiten verteilen
+
+			for (int i = 0; i < playerManager.getNumberOfPlayers(); i++) {
+				currentPlayer = playerManager.getPlayer().get(i);
+				while (currentPlayer.getSupply() > 0) {
+
+					Territory randomTerritory = currentPlayer.getRandomTerritory(currentPlayer);
+
+					randomTerritory.setUnits(randomTerritory.getAmountOfUnits() + 1);
+
+					currentPlayer.setSupply(currentPlayer.getSupply() - 1);
+				}
 			}
 
 		} else {
@@ -199,7 +223,7 @@ public class Game {
 			do {
 				amountUnitDefense = userInterface.getAmountUnit(attackedPlayer,
 						originatingTerritory, targetTerritory, Phases.DEFEND);
-			} while (((targetTerritory.getAmountOfUnits() - 1) < amountUnitDefense)
+			} while ((targetTerritory.getAmountOfUnits() < amountUnitDefense)
 					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,

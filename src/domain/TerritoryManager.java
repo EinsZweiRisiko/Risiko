@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Hashtable;
 
 import valueobjects.Continent;
@@ -74,6 +73,10 @@ public class TerritoryManager {
 	 * Liste aller Länderobjekte als Hasthable
 	 */
 	private Hashtable<String, Territory> territories = new Hashtable<String, Territory>();
+
+	public Hashtable<String, Territory> getTerritories() {
+		return territories;
+	}
 
 	/**
 	 * Konstruktor

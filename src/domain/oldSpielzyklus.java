@@ -134,7 +134,7 @@ public class oldSpielzyklus {
 					.readString("In welches dieser Länder möchtest du die Armeen schicken?: ");
 			Territory zielLand = laenderVerwaltung.getTerritoryByName(zielLandString);
 
-			while (!zielLand.getOwner().equals(spieler) || !zielLand.istNachbar(quellLand)) {
+			while (!zielLand.getOwner().equals(spieler) || !zielLand.istNeighbor(quellLand)) {
 				zielLandString = IO
 						.readString("Das Land gehört dir nicht oder ist nicht Benachbart. Neue Eingabe: ");
 				zielLand = laenderVerwaltung.getTerritoryByName(zielLandString);
@@ -204,7 +204,7 @@ public class oldSpielzyklus {
 		// Wenn das Land dem aktuellen Spieler gehört oder die Länder nicht
 		// benachbart sind ist die Eingabe ungültig und die Eingabe muss
 		// wiederholt werden.
-		while (zielLand.getOwner().equals(spieler) || !zielLand.istNachbar(quellLand)) {
+		while (zielLand.getOwner().equals(spieler) || !zielLand.istNeighbor(quellLand)) {
 			zielLandString = IO.readString("Das Land gehört dir. Neue Eingabe: ");
 			zielLand = laenderVerwaltung.getTerritoryByName(zielLandString);
 		}

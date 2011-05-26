@@ -56,7 +56,7 @@ public class BattleSystem {
 	 * @return ArrayList als Integer der gewuerfelten zahlen
 	 */
 	// TODO static methods are not allowed
-	public static ArrayList getDice(int amount) {
+	public static ArrayList<Integer> getDice(int amount) {
 		// varriert
 		ArrayList<Integer> dice = new ArrayList<Integer>();
 		for (int i = 0; i <= amount - 1; i++) {

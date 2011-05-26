@@ -66,6 +66,7 @@ public class Player {
 
 	/**
 	 * Liefert die Länder
+	 * 
 	 * @return Länder, die der Spieler besitzt
 	 */
 	public ArrayList<Territory> getTerritories() {
@@ -78,6 +79,17 @@ public class Player {
 
 	public void setSupply(int supply) {
 		this.supply = supply;
-		
+
+	}
+
+	public Territory getRandomTerritory(Player currentPlayer) {
+
+		Territory randomTerritory = null;
+
+		ArrayList<Territory> territories = currentPlayer.getTerritories();
+		int rnd = (int) (Math.random() * territories.size());
+		randomTerritory = territories.get(rnd);
+
+		return randomTerritory;
 	}
 }

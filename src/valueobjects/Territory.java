@@ -25,7 +25,7 @@ public class Territory {
 		neighbors.add(land);
 	}
 
-	public boolean istNachbar(Territory land) {
+	public boolean istNeighbor(Territory land) {
 		if (neighbors.contains(land)) {
 			return true;
 		} else {

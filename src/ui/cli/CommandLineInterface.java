@@ -6,7 +6,6 @@ import ui.UserInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
 import domain.Game.Phases;
-import domain.PlayerManager;
 
 public class CommandLineInterface implements UserInterface {
 
@@ -80,7 +79,7 @@ public class CommandLineInterface implements UserInterface {
 			for (int i = 0; i < territories.size(); i++) {
 				if (territories.get(i).getOwner().equals(currentPlayer)) {
 					// TODO alle störenden Einträge entfernen und Liste ggf. neuordnen um Lücken zu
-// schließen
+					// schließen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
 							+ "(" + territories.get(i).getAmountOfUnits() + ")"
@@ -121,6 +120,7 @@ public class CommandLineInterface implements UserInterface {
 					+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
 			return territories.get(selection);
 		}
+
 		return originatingTerritory;
 	}
 
@@ -151,7 +151,8 @@ public class CommandLineInterface implements UserInterface {
 	 * Fragt den aktuellen oder einen verteidigenden Spieler wieviele Armeen er einsetzen will.
 	 */
 	@Override
-	public int getAmountUnit(Player activePlayer,Territory originatingTerritory, Territory targetTerritory, Phases phase) {
+	public int getAmountUnit(Player activePlayer, Territory originatingTerritory,
+			Territory targetTerritory, Phases phase) {
 		int units = 0;
 
 		// Fallunterscheidung je nach Phase anderer String
@@ -159,7 +160,8 @@ public class CommandLineInterface implements UserInterface {
 			units = IO.readInt("Wieviele Einheiten sollen Angreifen?(1-3): ");
 		}
 		if (phase == Phases.DEFEND) {
-			units = IO.readInt(targetTerritory.getOwner().getName() + "Wieviele Einheiten sollen Verteidigen?(1-2): ");
+			units = IO.readInt(targetTerritory.getOwner().getName()
+					+ " wieviele Einheiten sollen Verteidigen?(1-2): ");
 		}
 		if (phase == Phases.MOVE) {
 			units = IO.readInt("Wieviele Einheiten sollen verschoben werden?: ");

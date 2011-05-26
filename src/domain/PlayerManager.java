@@ -2,9 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import ui.UserInterface;
-import ui.cli.IO;
 import valueobjects.Player;
 
 /**
@@ -20,11 +18,8 @@ public class PlayerManager {
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Player currentPlayer;
 	private Iterator<Player> playerIterator;
-	private UserInterface userInterface;
 
 	public PlayerManager(UserInterface userInterface) {
-		
-		this.userInterface = userInterface;
 		
 		int numberOfPlayers = userInterface.getNumberOfPlayers();
 		
