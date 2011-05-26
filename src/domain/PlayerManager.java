@@ -1,5 +1,7 @@
 package domain;
 
+import ui.UserInterface;
+import ui.cli.IO;
 import valueobjects.Player;
 
 /**
@@ -14,8 +16,20 @@ public class PlayerManager {
 	 */
 	private Player[] players;
 	private Player currentPlayer;
+	private UserInterface userInterface;
 
-	public PlayerManager() {
+	public PlayerManager(UserInterface userInterface) {
+		
+		this.userInterface = userInterface;
+		
+		int numberOfPlayers = userInterface.getNumberOfPlayers();
+		
+		players = new Player[numberOfPlayers];
+		
+		for (int i = 0; i < numberOfPlayers; i++){
+			String name = userInterface.getPlayerName(i+1);
+			players[i] = new Player(name);
+		}
 
 	}
 
