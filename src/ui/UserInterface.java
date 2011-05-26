@@ -23,4 +23,6 @@ public interface UserInterface {
 
 	String getPlayerName(int playernumber);
 
+	void announceCurrentPlayer(Player activePlayer);
+
 }

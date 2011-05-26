@@ -46,9 +46,11 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public boolean askForAttack(Player spieler) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean askForAttack(Player activePlayer) {
+		
+		String wantToAttack = IO.readString(activePlayer.getName() + " möchtest du angreifen? (j/n)");
+		
+		return wantToAttack.equals("j");
 	}
 	
 
@@ -89,6 +91,12 @@ public class CommandLineInterface implements UserInterface {
 	public String getPlayerName(int playernumber) {
 		String name = IO.readString("Name für Spieler " + playernumber + ":");
 		return name;
+	}
+
+	@Override
+	public void announceCurrentPlayer(Player activePlayer) {
+		System.out.println(activePlayer.getName() + " ist an der Reihe.");
+		
 	}
 
 }

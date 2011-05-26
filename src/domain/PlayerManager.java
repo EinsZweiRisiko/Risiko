@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import ui.UserInterface;
 import ui.cli.IO;
 import valueobjects.Player;
@@ -14,8 +17,9 @@ public class PlayerManager {
 	/**
 	 * Spielerliste als Array
 	 */
-	private Player[] players;
+	private ArrayList<Player> players = new ArrayList<Player>();
 	private Player currentPlayer;
+	private Iterator<Player> playerIterator;
 	private UserInterface userInterface;
 
 	public PlayerManager(UserInterface userInterface) {
@@ -24,12 +28,13 @@ public class PlayerManager {
 		
 		int numberOfPlayers = userInterface.getNumberOfPlayers();
 		
-		players = new Player[numberOfPlayers];
-		
 		for (int i = 0; i < numberOfPlayers; i++){
 			String name = userInterface.getPlayerName(i+1);
-			players[i] = new Player(name);
+			players.add(new Player(name));
 		}
+		
+		playerIterator = players.iterator();
+		nextPlayer();
 
 	}
 
@@ -47,20 +52,19 @@ public class PlayerManager {
 	 * Gibt den nächsten Spieler zurück
 	 */
 	public void nextPlayer() {
-
+		if (!playerIterator.hasNext()) {
+			playerIterator = players.iterator();
+		}
+		// Wenn players leer ist, passiert was ganz schlimmes
+		currentPlayer = playerIterator.next();
 	}
 
-	public Player[] getPlayer() {
+	public ArrayList<Player> getPlayer() {
 		return players;
 	}
 	
 	public int getNumberOfPlayers(){
-		return players.length;
-	}
-
-	public void setPlayers(Player[] players) {
-		this.players = players;
-		currentPlayer = players[0];
+		return players.size();
 	}
 
 }
