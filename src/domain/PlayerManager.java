@@ -12,7 +12,7 @@ public class PlayerManager {
 	/**
 	 * Spielerliste als Array
 	 */
-	private Player[] player;
+	private Player[] players;
 	private Player currentPlayer;
 
 	public PlayerManager() {
@@ -21,14 +21,6 @@ public class PlayerManager {
 
 	// Getter & Setter
 	
-	/**
-	 * Setzt den aktuellen Spieler
-	 * bei der Initialisierung benötigt!
-	 * 
-	 */
-	public void setCurrentPlayer(int cPlayer) {
-		this.currentPlayer = player[cPlayer];
-	}
 
 	/**
 	 * Gibt den aktuellen Spieler zurück
@@ -45,11 +37,16 @@ public class PlayerManager {
 	}
 
 	public Player[] getPlayer() {
-		return player;
+		return players;
+	}
+	
+	public int getNumberOfPlayers(){
+		return players.length;
 	}
 
-	public void setPlayer(Player[] player) {
-		this.player = player;
+	public void setPlayers(Player[] players) {
+		this.players = players;
+		currentPlayer = players[0];
 	}
 
 }

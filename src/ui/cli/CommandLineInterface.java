@@ -91,7 +91,7 @@ public class CommandLineInterface implements UserInterface {
 			IO.println(player[i].getName());
 		}
 		
-		playerManager.setPlayer(player);
+		playerManager.setPlayers(player);
 	}
 
 }
