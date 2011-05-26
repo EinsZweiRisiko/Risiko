@@ -7,11 +7,9 @@ import domain.PlayerManager;
 
 public interface UserInterface {
 
-	Territory getTargetTerritroy(Player activePlayer, Phases placeunits, Territory territory);
+	Territory getTargetTerritory(Player activePlayer, Phases placeunits, Territory territory);
 
 	int getAmountUnit(Player activePlayer, Phases placeunits);
-
-	boolean askForAttack(Player activePlayer);
 
 	Territory getOriginatingTerritory(Player activePlayer, Phases attack);
 
@@ -24,5 +22,7 @@ public interface UserInterface {
 	String getPlayerName(int playernumber);
 
 	void announceCurrentPlayer(Player activePlayer);
+
+	boolean askForPhase(Player activePlayer, Phases move);
 
 }

@@ -132,12 +132,15 @@ public class Game {
 	private void placeUnits(int supply) {
 		Territory targetCountry = null;
 		int amountUnitPlace;
+		
 
-		while (supply < 0) {
-
+		while (supply > 0) {
+			
+			activePlayer.setSupply(supply);
+			
 			// Auf welches Land sollen Einheiten platziert werden?
 			do {
-				targetCountry = userInterface.getTargetTerritroy(activePlayer, Phases.PLACEUNITS, targetCountry);
+				targetCountry = userInterface.getTargetTerritory(activePlayer, Phases.PLACEUNITS, targetCountry);
 			} while (!targetCountry.getOwner().equals(activePlayer));
 
 			// Wieviele Einheiten sollen platziert werden?
@@ -154,7 +157,7 @@ public class Game {
 	private void attack() {
 		
 		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
-		while (userInterface.askForAttack(activePlayer)) {
+		while (userInterface.askForPhase(activePlayer, Phases.ATTACK)) {
 			
 			Territory originatingTerritory;
 			Territory targetTerritory;
@@ -173,7 +176,7 @@ public class Game {
 			// Abfrage durch die CLI welches Land welches Angegriffen werden
 			// soll. Gehört es dem Spieler erneute Abfrage.
 			do {
-				targetTerritory = userInterface.getTargetTerritroy(activePlayer, Phases.ATTACK, originatingTerritory);
+				targetTerritory = userInterface.getTargetTerritory(activePlayer, Phases.ATTACK, originatingTerritory);
 			} while (targetTerritory.getOwner().equals(activePlayer));
 
 			// Abfrage durch die CLI mit wievielen Einheiten angegriffen werden
@@ -196,12 +199,40 @@ public class Game {
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
 					originatingTerritory, targetTerritory);
+			
+			//TODO Wenn gewonnen wurde Land besetzten
 		}
 	}
 
 	private void moveUnits() {
-		// TODO Auto-generated method stub
-
+		
+		Territory originatingTerritory;
+		Territory targetTerritory;
+		int amountUnitMove;
+		
+		if(userInterface.askForPhase(activePlayer, Phases.MOVE)) {
+			do {
+				originatingTerritory = userInterface.getOriginatingTerritory(activePlayer,
+						Phases.MOVE);
+			} while (originatingTerritory.getOwner().equals(activePlayer)
+					&& originatingTerritory.getAmountOfUnits() < 1);
+			
+			do {
+				targetTerritory = userInterface.getTargetTerritory(activePlayer,
+						Phases.MOVE, originatingTerritory);
+			} while (originatingTerritory.getOwner().equals(activePlayer)
+					&& originatingTerritory.getAmountOfUnits() < 1);
+			
+			do {
+				amountUnitMove = userInterface.getAmountUnit(activePlayer, Phases.MOVE);
+			} while ((originatingTerritory.getAmountOfUnits() -1) < amountUnitMove);
+			
+			
+			//Einheiten entsprechend der Eingabe verschieben
+			originatingTerritory.setUnits(originatingTerritory.getAmountOfUnits()-amountUnitMove);
+			targetTerritory.setUnits(targetTerritory.getAmountOfUnits()+amountUnitMove);
+		}
+		
 	}
 
 	private int useBonusCards() {

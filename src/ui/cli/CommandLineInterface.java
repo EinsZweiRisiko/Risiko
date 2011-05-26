@@ -16,9 +16,17 @@ public class CommandLineInterface implements UserInterface {
 	public CommandLineInterface() {
 
 	}
-
+	
+	/**
+	 * Legt ein Quelland fest. Zweck wird durch Phases festgelegt.
+	 * @param currentPlayer der aktuelle Spieler.
+	 * @param phase Phasen ATTACK und MOVE werden hier erwartet.
+	 */
 	@Override
 	public Territory getOriginatingTerritory(Player currentPlayer, Phases phase) {
+		
+		IO.println("\n");
+		
 		ArrayList<Territory> territories = currentPlayer.getTerritories();
 
 		IO.println("Spieler: " + currentPlayer.getName() + " besitzt folgende Laender: ");
@@ -29,25 +37,35 @@ public class CommandLineInterface implements UserInterface {
 		int selection = 0;
 		do {
 			if (phase == Phases.ATTACK) {
-				selection = IO.readInt("Geben Sie das Land an von dem Sie angreifen wollen: ") - 1;
+				selection = IO.readInt("\n" + "Land angreifen: " + "\n" + "Geben Sie das Land an von dem Sie angreifen wollen: ") - 1;
 			} else if (phase == Phases.MOVE) {
 				selection = IO
-						.readInt("Geben Sie das Land an von dem Sie Einheiten verschieben wollen: ") - 1;
+						.readInt("\n" + "Einheiten verschieben: " + "\n" +"Geben Sie das Land an von dem Sie Einheiten verschieben wollen: ") - 1;
 			}
 		} while (selection > territories.size() && selection <= 0);
 		return territories.get(selection);
 	}
 
+	/**
+	 * Legt ein Zielland fest. Zweck wird durch Phases festgelegt.
+	 * @param currentPlayer der aktuelle Spieler.
+	 * @param phase Phasen ATTACK,MOVE und PLACEUNITS werden hier erwartet.
+	 * @param originatingTerritory Quellland wird benötigt um Nachbarländer zu ermitteln.
+	 */
 	@Override
-	public Territory getTargetTerritroy(Player activePlayer, Phases phase, Territory originatingTerritory) {
+	public Territory getTargetTerritory(Player currentPlayer, Phases phase, Territory originatingTerritory) {
+		
+		IO.println("\n");
 		
 		int selection = 0;
-		ArrayList<Territory> territories = originatingTerritory.getNeighbors();
 		
+		ArrayList<Territory> territories;
+		
+		//Abfrage bei Angriff
 		if (phase == Phases.ATTACK){
 			territories = originatingTerritory.getNeighbors();
 			for (int i = 0; i < territories.size(); i++) {
-				if(territories.get(i).getOwner().equals(activePlayer)){
+				if(territories.get(i).getOwner().equals(currentPlayer)){
 					//TODO alle störenden Einträge entfernen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten" +"("+territories.get(i).getAmountOfUnits()+")" + " || Im Besitz von " + territories.get(i).getOwner().getName());
@@ -55,10 +73,12 @@ public class CommandLineInterface implements UserInterface {
 			}
 			selection = IO.readInt("Geben Sie das Land an, dass sie angreifen wollen: ") -1;
 			return territories.get(selection);
+			
+		//Abfrage bei Versetzen der Einheiten
 		} else if (phase == Phases.MOVE) {
 			territories = originatingTerritory.getNeighbors();
 			for (int i = 0; i < territories.size(); i++) {
-				if(!territories.get(i).getOwner().equals(activePlayer)){
+				if(!territories.get(i).getOwner().equals(currentPlayer)){
 					//TODO alle störenden Einträge entfernen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten" +"("+territories.get(i).getAmountOfUnits()+")" + " || Im Besitz von " + territories.get(i).getOwner().getName());
@@ -66,23 +86,35 @@ public class CommandLineInterface implements UserInterface {
 			}
 			selection = IO.readInt("Geben Sie das Land an in welches sie Einheiten verschieben möchten: ") - 1;
 			return territories.get(selection);
+			
+		//Abfrage beim platzieren der Einheiten
 		} else if (phase == Phases.PLACEUNITS){
-			territories = activePlayer.getTerritories();
+			territories = currentPlayer.getTerritories();
 			for (int i = 0; i < territories.size(); i++) {
 				IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten" +"("+territories.get(i).getAmountOfUnits()+")");
 			}
-			selection = IO.readInt("Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") -  1;
+			selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n" + "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") -  1;
 			return territories.get(selection);
 		}
-		return territories.get(selection);
+		return originatingTerritory;
 	}
 
 	@Override
-	public boolean askForAttack(Player activePlayer) {
+	public boolean askForPhase(Player activePlayer, Phases phase) {
 		
-		String wantToAttack = IO.readString(activePlayer.getName() + " möchtest du angreifen? (j/n)");
+		IO.println("\n");
 		
-		return wantToAttack.equals("j");
+		if (phase == Phases.ATTACK){
+			String wantToAttack = IO.readString(activePlayer.getName() + " möchtest du angreifen? (j/n)");
+			return wantToAttack.equals("j");
+		}
+		
+		if (phase == Phases.MOVE){
+			String wantToMove = IO.readString(activePlayer.getName() + " möchtest du Einheiten verschieben? (j/n)");
+			return wantToMove.equals("j");
+		}
+		
+		return false;
 	}
 	
 
@@ -90,14 +122,18 @@ public class CommandLineInterface implements UserInterface {
 	public int getAmountUnit(Player activePlayer, Phases phase) {
 		int units = 0;
 		
+		//Fallunterscheidung je nach Phase anderer String
 		if (phase == Phases.ATTACK){
 			units = IO.readInt("Wieviele Einheiten sollen Angreifen?(1-3): ");
 		}
 		if (phase == Phases.DEFEND) {
 			units = IO.readInt("Wieviele Einheiten sollen Verteidigen?(1-2): ");
 		}
+		if (phase == Phases.MOVE) {
+			units = IO.readInt("Wieviele Einheiten sollen verschoben werden?: ");
+		}
 		if (phase == Phases.PLACEUNITS) {
-			units = IO.readInt("Wieviele Einheiten sollen gesetzt werden?: ");
+			units = IO.readInt("Wieviele Einheiten sollen gesetzt werden?" +"("+ activePlayer.getSupply() +" Einheiten verfügbar): ");
 		}
 		return units;
 	}
@@ -137,7 +173,7 @@ public class CommandLineInterface implements UserInterface {
 
 	@Override
 	public void announceCurrentPlayer(Player activePlayer) {
-		System.out.println(activePlayer.getName() + " ist an der Reihe.");
+		System.out.println("\n" + activePlayer.getName() + " ist an der Reihe.");
 		
 	}
 

@@ -17,6 +17,11 @@ public class Player {
 	private ArrayList<Territory> territories = new ArrayList<Territory>(); // besitzendes Länder
 	private TerritoryManager territoryManager;
 	private HashSet<TerritoryCard> territoryCards = new HashSet<TerritoryCard>();
+	private int supply;
+
+	public int getSupply() {
+		return supply;
+	}
 
 	// Konstruktor
 	public Player(String n) {
@@ -69,5 +74,10 @@ public class Player {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setSupply(int supply) {
+		this.supply = supply;
+		
 	}
 }
