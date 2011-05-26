@@ -181,8 +181,8 @@ public class Game {
 			// Falscheingabe wiederholung.
 			do {
 				amountUnitAttack = userInterface.getAmountUnit(activePlayer, Phases.ATTACK);
-			} while (((originatingTerritory.getAmountOfUnits()-1) <= amountUnitAttack)
-					&& (amountUnitAttack < 1 || amountUnitAttack > 3));
+			} while (((originatingTerritory.getAmountOfUnits() -1) < amountUnitAttack)
+					|| (amountUnitAttack < 1 || amountUnitAttack > 3));
 
 			// Besitzer des angegriffenden Landes ermitteln
 			Player attackedPlayer = targetTerritory.getOwner();
@@ -191,8 +191,8 @@ public class Game {
 			// soll. Es können zwischen 1 und 2 Einheiten gewählt werden.
 			do {
 				amountUnitDefense = userInterface.getAmountUnit(attackedPlayer, Phases.DEFEND);
-			} while (((targetTerritory.getAmountOfUnits()-1) <= amountUnitDefense)
-					&& (amountUnitDefense < 1 || amountUnitDefense > 2));
+			} while (((targetTerritory.getAmountOfUnits()-1) < amountUnitDefense)
+					|| (amountUnitDefense < 1 || amountUnitDefense > 2));
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
 					originatingTerritory, targetTerritory);
