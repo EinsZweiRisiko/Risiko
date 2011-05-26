@@ -54,7 +54,7 @@ public class oldSpielzyklus {
 
 			// Sollte das Land nicht dem Spieler gehören so wird er aufgefordert
 			// seine Eingabe zu korrigieren.
-			while (!land.getBesitzer().equals(spieler)) {
+			while (!land.getOwner().equals(spieler)) {
 				zielLand = IO.readString("Das Land gehört dir nicht. Neue Eingabe: ");
 				land = laenderVerwaltung.getLandByName(zielLand);
 			}
@@ -114,7 +114,7 @@ public class oldSpielzyklus {
 					.readString("Aus welchem Land möchtest Einheiten verschieben?: ");
 			Territory quellLand = laenderVerwaltung.getLandByName(quellLandString);
 
-			while (!quellLand.getBesitzer().equals(spieler)) {
+			while (!quellLand.getOwner().equals(spieler)) {
 				quellLandString = IO.readString("Das Land gehört dir nicht. Neue Eingabe: ");
 				quellLand = laenderVerwaltung.getLandByName(quellLandString);
 			}
@@ -125,7 +125,7 @@ public class oldSpielzyklus {
 			IO.println("Mögliche Länder:");
 
 			for (int i = 0; i < nachbarn.size(); i++) {
-				if (nachbarn.get(i).getBesitzer().equals(spieler)) {
+				if (nachbarn.get(i).getOwner().equals(spieler)) {
 					IO.println(nachbarn.get(i).getName());
 				}
 			}
@@ -134,7 +134,7 @@ public class oldSpielzyklus {
 					.readString("In welches dieser Länder möchtest du die Armeen schicken?: ");
 			Territory zielLand = laenderVerwaltung.getLandByName(zielLandString);
 
-			while (!zielLand.getBesitzer().equals(spieler) || !zielLand.istNachbar(quellLand)) {
+			while (!zielLand.getOwner().equals(spieler) || !zielLand.istNachbar(quellLand)) {
 				zielLandString = IO
 						.readString("Das Land gehört dir nicht oder ist nicht Benachbart. Neue Eingabe: ");
 				zielLand = laenderVerwaltung.getLandByName(zielLandString);
@@ -168,7 +168,7 @@ public class oldSpielzyklus {
 		String quellLandString = IO.readString("Von wo willst du angreifen?: ");
 		Territory quellLand = laenderVerwaltung.getLandByName(quellLandString);
 
-		while (!quellLand.getBesitzer().equals(spieler) || quellLand.getAnzahlEinheiten() == 1) {
+		while (!quellLand.getOwner().equals(spieler) || quellLand.getAnzahlEinheiten() == 1) {
 			quellLandString = IO
 					.readString("Das Land gehört dir nicht oder es stehen nicht genug Armeen zur Verfügung. Neue Eingabe: ");
 			quellLand = laenderVerwaltung.getLandByName(quellLandString);
@@ -191,9 +191,9 @@ public class oldSpielzyklus {
 		 * vorgeschlagen sowie der Besitzer kenntlich gemacht.
 		 */
 		for (int i = 0; i < nachbarn.size(); i++) {
-			if (!nachbarn.get(i).getBesitzer().equals(spieler)) {
+			if (!nachbarn.get(i).getOwner().equals(spieler)) {
 				IO.println(nachbarn.get(i).getName() + " ("
-						+ nachbarn.get(i).getBesitzer().getName() + ","
+						+ nachbarn.get(i).getOwner().getName() + ","
 						+ nachbarn.get(i).getAnzahlEinheiten() + " Armeen" + ")");
 			}
 		}
@@ -204,7 +204,7 @@ public class oldSpielzyklus {
 		// Wenn das Land dem aktuellen Spieler gehört oder die Länder nicht
 		// benachbart sind ist die Eingabe ungültig und die Eingabe muss
 		// wiederholt werden.
-		while (zielLand.getBesitzer().equals(spieler) || !zielLand.istNachbar(quellLand)) {
+		while (zielLand.getOwner().equals(spieler) || !zielLand.istNachbar(quellLand)) {
 			zielLandString = IO.readString("Das Land gehört dir. Neue Eingabe: ");
 			zielLand = laenderVerwaltung.getLandByName(zielLandString);
 		}

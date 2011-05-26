@@ -246,16 +246,16 @@ public class BattleSystem {
 		if (angriffe == 1) {
 			System.out.println("Angriff1: " + angEins + " schlaegt Defensive1: " + defEins);
 
-			System.out.println(zielLand.getName() + "(" + zielLand.getBesitzer().getName()
+			System.out.println(zielLand.getName() + "(" + zielLand.getOwner().getName()
 					+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
-					+ zielLand.getBesitzer().getName() + ") hat noch: "
+					+ zielLand.getOwner().getName() + ") hat noch: "
 					+ zielLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		} else {
 			System.out.println("Angriff2: " + angZwei + " schlaegt Defensive2: " + defZwei);
 
-			System.out.println(zielLand.getName() + "(" + zielLand.getBesitzer().getName()
+			System.out.println(zielLand.getName() + "(" + zielLand.getOwner().getName()
 					+ ") verliert 1 Einheit und " + zielLand.getName() + " ("
-					+ zielLand.getBesitzer().getName() + ") hat noch: "
+					+ zielLand.getOwner().getName() + ") hat noch: "
 					+ zielLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		}
 
@@ -270,17 +270,17 @@ public class BattleSystem {
 		if (angriffe == 1) {
 			System.out.println("Defensive1: " + defEins + " schlaegt Offennsive1: " + angEins);
 
-			System.out.println(quellLand.getName() + "(" + quellLand.getBesitzer().getName()
+			System.out.println(quellLand.getName() + "(" + quellLand.getOwner().getName()
 					+ ") verliert 1 Einheit und " + quellLand.getName() + " ("
-					+ quellLand.getBesitzer().getName() + ") hat noch: "
+					+ quellLand.getOwner().getName() + ") hat noch: "
 					+ quellLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		} else {
 			System.out.println("Defensive2: " + defZwei + " schlaegt Offensive2: " + angZwei);
 
 			System.out.println(quellLand.getName() + "("
 
-			+ quellLand.getBesitzer().getName() + ") verliert 1 Einheit und " + quellLand.getName()
-					+ " (" + quellLand.getBesitzer().getName() + ") hat noch: "
+			+ quellLand.getOwner().getName() + ") verliert 1 Einheit und " + quellLand.getName()
+					+ " (" + quellLand.getOwner().getName() + ") hat noch: "
 					+ quellLand.getAnzahlEinheiten() + " Einheiten uebrig");
 		}
 	}

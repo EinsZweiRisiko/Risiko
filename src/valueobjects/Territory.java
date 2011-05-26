@@ -43,7 +43,7 @@ public class Territory {
 		return name;
 	}
 
-	public Player getBesitzer() {
+	public Player getOwner() {
 		return owner;
 	}
 

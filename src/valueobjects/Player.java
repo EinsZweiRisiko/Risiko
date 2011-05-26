@@ -56,6 +56,7 @@ public class Player {
 	 */
 	public void addTerritory(Territory land) {
 		territories.add(land);
+		land.setOwner(this);
 	}
 
 	/**

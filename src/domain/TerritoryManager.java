@@ -194,7 +194,7 @@ public class TerritoryManager {
 	public boolean isAllTerritoryTaken() {
 
 		for (int i = 0; i < 41; i++) {
-			if (getLandByName(laenderNamen[i]).getBesitzer() == null) {
+			if (getLandByName(laenderNamen[i]).getOwner() == null) {
 				return false;
 			}
 		}
@@ -227,12 +227,13 @@ public class TerritoryManager {
 	public ArrayList<Territory> getRandomTerritoryList() {
 		// erstellen einer zufälligen Länder ArrayList
 	
-		ArrayList<Territory> territoryListCopy = new ArrayList<Territory>((Collection) laender);
+		ArrayList<Territory> territoryListCopy = new ArrayList<Territory>(laender.values());
 		ArrayList<Territory> territoryListRandom = new ArrayList<Territory>();
 		
 		while(territoryListCopy.size() != 0) {
 			int rnd = (int) (Math.random() * territoryListCopy.size());
 			territoryListRandom.add(territoryListCopy.get(rnd));
+			territoryListCopy.remove(rnd);
 		}
 		return territoryListRandom;
 	}

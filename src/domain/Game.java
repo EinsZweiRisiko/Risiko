@@ -78,8 +78,10 @@ public class Game {
 			// besetzt alle freien Länder
 			for(Territory territory : territoryManager.getRandomTerritoryList()) {
 				
-				territory.setOwner(playerManager.getPlayer());
-				territory.setUnits(1);
+				Player player = playerManager.getCurrentPlayer();
+				player.addTerritory(territory);
+				territory.setUnits(2);
+				
 				playerManager.nextPlayer();
 			}
 			
@@ -136,7 +138,7 @@ public class Game {
 			// Auf welches Land sollen Einheiten platziert werden?
 			do {
 				targetCountry = userInterface.getTargetCountry(activePlayer, Phases.PLACEUNITS);
-			} while (!targetCountry.getBesitzer().equals(activePlayer));
+			} while (!targetCountry.getOwner().equals(activePlayer));
 
 			// Wieviele Einheiten sollen platziert werden?
 			do {
@@ -165,14 +167,14 @@ public class Game {
 			do {
 				originatingCountry = userInterface.getOriginatingCountry(activePlayer,
 						Phases.ATTACK);
-			} while (!originatingCountry.getBesitzer().equals(activePlayer)
+			} while (!originatingCountry.getOwner().equals(activePlayer)
 					|| originatingCountry.getAnzahlEinheiten() == 1);
 
 			// Abfrage durch die CLI welches Land welches Angegriffen werden
 			// soll. Gehört es dem Spieler erneute Abfrage.
 			do {
 				targetCountry = userInterface.getTargetCountry(activePlayer, Phases.ATTACK);
-			} while (targetCountry.getBesitzer().equals(activePlayer));
+			} while (targetCountry.getOwner().equals(activePlayer));
 
 			// Abfrage durch die CLI mit wievielen Einheiten angegriffen werden
 			// soll. Es können zwischen 1 und 3 Einheiten gewählt werden bei
@@ -183,7 +185,7 @@ public class Game {
 					&& (amountUnitAttack < 1 || amountUnitAttack > 3));
 
 			// Besitzer des angegriffenden Landes ermitteln
-			Player attackedPlayer = targetCountry.getBesitzer();
+			Player attackedPlayer = targetCountry.getOwner();
 
 			// Abfrage durch die CLI mit wievielen Einheiten verteidigt werden
 			// soll. Es können zwischen 1 und 2 Einheiten gewählt werden.

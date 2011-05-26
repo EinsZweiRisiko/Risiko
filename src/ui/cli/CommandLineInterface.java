@@ -24,7 +24,7 @@ public class CommandLineInterface implements UserInterface {
 
 		IO.println("Spieler: " + currentPlayer.getName() + " besitzt folgende Laender: ");
 		for (int i = 0; i < laender.size(); i++) {
-			IO.println("(" + i + 1 + ")" + laender.get(i).getName());
+			IO.println("(" + (i + 1) + ")" + laender.get(i).getName() + " || Einheiten" +"("+laender.get(i).getAnzahlEinheiten()+")");
 		}
 
 		int auswahl = 0;
@@ -71,9 +71,9 @@ public class CommandLineInterface implements UserInterface {
 		// TODO Auto-generated method stub
 		
 		String eingabe = IO.readString("Sollen die Einheiten Zufällig gesetzt werden? (j/n)");
-		if(eingabe == "j") {
+		if(eingabe.equals("j")) {
 			return true;
-		} else if(eingabe == "n") { return false; }
+		} else if(eingabe.equals("n")) { return false; }
 		
 		return false;
 	}
