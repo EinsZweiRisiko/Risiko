@@ -17,7 +17,7 @@ public class TerritoryManager {
 	/**
 	 * Liste mit allen Ländernamen
 	 */
-	private final String[] laenderNamen = { "Alaska", "Nordwest-Territorium", "Grönland",
+	private final String[] territoryNames = { "Alaska", "Nordwest-Territorium", "Grönland",
 			"Alberta", "Ontario", "Quebec", "Weststaaten", "Oststaaten", "Mittelamerika",
 			"Venezuela", "Peru", "Brasilien", "Argentinien", "Nordwestafrika", "Ägypten",
 			"Ostafrika", "Kongo", "Südafrika", "Madagaskar", "Island", "Skandinavien", "Ukraine",
@@ -29,7 +29,7 @@ public class TerritoryManager {
 	/**
 	 * Eine Liste aller Grenzen, die zwischen jeweils zwei Ländern verlaufen
 	 */
-	private final String[][] grenzen = { { "Alaska", "Nordwest-Territorium" },
+	private final String[][] borders = { { "Alaska", "Nordwest-Territorium" },
 			{ "Alaska", "Alberta" }, { "Alaska", "Kamtschatka" },
 			{ "Nordwest-Territorium", "Alberta" }, { "Nordwest-Territorium", "Grönland" },
 			{ "Nordwest-Territorium", "Ontario" }, { "Alberta", "Ontario" },
@@ -68,24 +68,24 @@ public class TerritoryManager {
 	/**
 	 * Liste aller Kontinente
 	 */
-	private Continent[] kontinente = new Continent[6];
+	private Continent[] continente = new Continent[6];
 
 	/**
 	 * Liste aller Länderobjekte als Hasthable
 	 */
-	private Hashtable<String, Territory> laender = new Hashtable<String, Territory>();
+	private Hashtable<String, Territory> territories = new Hashtable<String, Territory>();
 
 	/**
 	 * Konstruktor
 	 */
 	public TerritoryManager() {
 		// Länder erstellen
-		for (String name : laenderNamen) {
-			laender.put(name, new Territory(name));
+		for (String name : territoryNames) {
+			territories.put(name, new Territory(name));
 		}
 
 		// Nachbarländer zuweisen
-		initNachbarlaender();
+		initNeighboringCountries();
 
 		/*
 		 * Bonuseinheiten pro Kontinent Asien = 7 Europa = 5 Nord Amerika = 5 Süd Amerika = 2 Afrika =
@@ -93,79 +93,79 @@ public class TerritoryManager {
 		 */
 
 		// Nordamerika erstellen
-		kontinente[0] = new Continent("Nordamerika", 5);
-		kontinente[0].addLand(laender.get("Alaska"));
-		kontinente[0].addLand(laender.get("Nordwest-Territorium"));
-		kontinente[0].addLand(laender.get("Grönland"));
-		kontinente[0].addLand(laender.get("Alberta"));
-		kontinente[0].addLand(laender.get("Ontario"));
-		kontinente[0].addLand(laender.get("Quebec"));
-		kontinente[0].addLand(laender.get("Weststaaten"));
-		kontinente[0].addLand(laender.get("Oststaaten"));
-		kontinente[0].addLand(laender.get("Mittelamerika"));
+		continente[0] = new Continent("Nordamerika", 5);
+		continente[0].addTerritory(territories.get("Alaska"));
+		continente[0].addTerritory(territories.get("Nordwest-Territorium"));
+		continente[0].addTerritory(territories.get("Grönland"));
+		continente[0].addTerritory(territories.get("Alberta"));
+		continente[0].addTerritory(territories.get("Ontario"));
+		continente[0].addTerritory(territories.get("Quebec"));
+		continente[0].addTerritory(territories.get("Weststaaten"));
+		continente[0].addTerritory(territories.get("Oststaaten"));
+		continente[0].addTerritory(territories.get("Mittelamerika"));
 
 		// Südamerika erstellen
-		kontinente[1] = new Continent("Südamerika", 2);
-		kontinente[1].addLand(laender.get("Venezuela"));
-		kontinente[1].addLand(laender.get("Peru"));
-		kontinente[1].addLand(laender.get("Brasilien"));
-		kontinente[1].addLand(laender.get("Argentinien"));
+		continente[1] = new Continent("Südamerika", 2);
+		continente[1].addTerritory(territories.get("Venezuela"));
+		continente[1].addTerritory(territories.get("Peru"));
+		continente[1].addTerritory(territories.get("Brasilien"));
+		continente[1].addTerritory(territories.get("Argentinien"));
 
 		// Afrika erstellen
-		kontinente[2] = new Continent("Afrika", 3);
-		kontinente[2].addLand(laender.get("Nordwestafrika"));
-		kontinente[2].addLand(laender.get("Ägypten"));
-		kontinente[2].addLand(laender.get("Ostafrika"));
-		kontinente[2].addLand(laender.get("Kongo"));
-		kontinente[2].addLand(laender.get("Südafrika"));
-		kontinente[2].addLand(laender.get("Madagaskar"));
+		continente[2] = new Continent("Afrika", 3);
+		continente[2].addTerritory(territories.get("Nordwestafrika"));
+		continente[2].addTerritory(territories.get("Ägypten"));
+		continente[2].addTerritory(territories.get("Ostafrika"));
+		continente[2].addTerritory(territories.get("Kongo"));
+		continente[2].addTerritory(territories.get("Südafrika"));
+		continente[2].addTerritory(territories.get("Madagaskar"));
 
 		// Europa erstellen
-		kontinente[3] = new Continent("Europa", 5);
-		kontinente[3].addLand(laender.get("Island"));
-		kontinente[3].addLand(laender.get("Skandinavien"));
-		kontinente[3].addLand(laender.get("Ukraine"));
-		kontinente[3].addLand(laender.get("Großbritannien"));
-		kontinente[3].addLand(laender.get("Mitteleuropa"));
-		kontinente[3].addLand(laender.get("Westeuropa"));
-		kontinente[3].addLand(laender.get("Südeuropa"));
+		continente[3] = new Continent("Europa", 5);
+		continente[3].addTerritory(territories.get("Island"));
+		continente[3].addTerritory(territories.get("Skandinavien"));
+		continente[3].addTerritory(territories.get("Ukraine"));
+		continente[3].addTerritory(territories.get("Großbritannien"));
+		continente[3].addTerritory(territories.get("Mitteleuropa"));
+		continente[3].addTerritory(territories.get("Westeuropa"));
+		continente[3].addTerritory(territories.get("Südeuropa"));
 
 		// Asien erstellen
-		kontinente[4] = new Continent("Asien", 7);
-		kontinente[4].addLand(laender.get("Ural"));
-		kontinente[4].addLand(laender.get("Sibirien"));
-		kontinente[4].addLand(laender.get("Jakutien"));
-		kontinente[4].addLand(laender.get("Irkutsk"));
-		kontinente[4].addLand(laender.get("Kamtschatka"));
-		kontinente[4].addLand(laender.get("Mongolei"));
-		kontinente[4].addLand(laender.get("Japan"));
-		kontinente[4].addLand(laender.get("Afghanistan"));
-		kontinente[4].addLand(laender.get("China"));
-		kontinente[4].addLand(laender.get("Mittlerer Osten"));
-		kontinente[4].addLand(laender.get("Indien"));
-		kontinente[4].addLand(laender.get("Siam"));
+		continente[4] = new Continent("Asien", 7);
+		continente[4].addTerritory(territories.get("Ural"));
+		continente[4].addTerritory(territories.get("Sibirien"));
+		continente[4].addTerritory(territories.get("Jakutien"));
+		continente[4].addTerritory(territories.get("Irkutsk"));
+		continente[4].addTerritory(territories.get("Kamtschatka"));
+		continente[4].addTerritory(territories.get("Mongolei"));
+		continente[4].addTerritory(territories.get("Japan"));
+		continente[4].addTerritory(territories.get("Afghanistan"));
+		continente[4].addTerritory(territories.get("China"));
+		continente[4].addTerritory(territories.get("Mittlerer Osten"));
+		continente[4].addTerritory(territories.get("Indien"));
+		continente[4].addTerritory(territories.get("Siam"));
 
 		// Australien erstellen
-		kontinente[5] = new Continent("Australien", 2);
-		kontinente[5].addLand(laender.get("Indonesien"));
-		kontinente[5].addLand(laender.get("Neu-Guinea"));
-		kontinente[5].addLand(laender.get("West-Australien"));
-		kontinente[5].addLand(laender.get("Ost-Australien"));
+		continente[5] = new Continent("Australien", 2);
+		continente[5].addTerritory(territories.get("Indonesien"));
+		continente[5].addTerritory(territories.get("Neu-Guinea"));
+		continente[5].addTerritory(territories.get("West-Australien"));
+		continente[5].addTerritory(territories.get("Ost-Australien"));
 	}
 
 	/**
 	 * Berechnet aus der Grenzliste für jedes Land alle benachbarten Länder
 	 */
-	private void initNachbarlaender() {
-		Territory land1;
-		Territory land2;
-		for (String[] grenze : grenzen) {
+	private void initNeighboringCountries() {
+		Territory territory1;
+		Territory territory2;
+		for (String[] border : borders) {
 			// Land-Objekte holen
-			land1 = getLandByName(grenze[0]);
-			land2 = getLandByName(grenze[1]);
+			territory1 = getTerritoryByName(border[0]);
+			territory2 = getTerritoryByName(border[1]);
 			// Gegenseitig als Nachbarn hinzufügen
-			land1.addNachbar(land2);
-			land2.addNachbar(land1);
+			territory1.addNeighbor(territory2);
+			territory2.addNeighbor(territory1);
 		}
 	}
 
@@ -176,8 +176,8 @@ public class TerritoryManager {
 	 *            Landname als String
 	 * @return Landobjekt
 	 */
-	public Territory getLandByName(String name) {
-		return laender.get(name);
+	public Territory getTerritoryByName(String name) {
+		return territories.get(name);
 	}
 
 	/**
@@ -186,15 +186,15 @@ public class TerritoryManager {
 	 * @param number
 	 * @return Land mit dieser Nummer
 	 */
-	public Territory getLandByNumber(int number) {
+	public Territory getTerritoryByNumber(int number) {
 		// TODO: diese Methode sollte es eigentlich nicht geben
-		return getLandByName(laenderNamen[number]);
+		return getTerritoryByName(territoryNames[number]);
 	}
 
 	public boolean isAllTerritoryTaken() {
 
 		for (int i = 0; i < 41; i++) {
-			if (getLandByName(laenderNamen[i]).getOwner() == null) {
+			if (getTerritoryByName(territoryNames[i]).getOwner() == null) {
 				return false;
 			}
 		}
@@ -207,11 +207,11 @@ public class TerritoryManager {
 
 		// durchläuft jeden kotninent[] und überprüft den Besitzer
 		Continent currentContinent;
-		for (int i = 0; i < kontinente.length; i++) {
-			currentContinent = kontinente[i];
+		for (int i = 0; i < continente.length; i++) {
+			currentContinent = continente[i];
 
 			// Überprüft, ob die Länderliste den kompletten Kontinent enthält
-			if (countries.containsAll(currentContinent.getCountries())) {
+			if (countries.containsAll(currentContinent.getTerritories())) {
 				conqueredContinents.add(currentContinent);
 			}
 		}
@@ -221,13 +221,13 @@ public class TerritoryManager {
 	}
 
 	public int getNumberOfTerritories() {
-		return laender.size();
+		return territories.size();
 	}
 
 	public ArrayList<Territory> getRandomTerritoryList() {
 		// erstellen einer zufälligen Länder ArrayList
 	
-		ArrayList<Territory> territoryListCopy = new ArrayList<Territory>(laender.values());
+		ArrayList<Territory> territoryListCopy = new ArrayList<Territory>(territories.values());
 		ArrayList<Territory> territoryListRandom = new ArrayList<Territory>();
 		
 		while(territoryListCopy.size() != 0) {

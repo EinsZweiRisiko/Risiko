@@ -7,13 +7,13 @@ import domain.PlayerManager;
 
 public interface UserInterface {
 
-	Territory getTargetCountry(Player activePlayer, Phases placeunits);
+	Territory getTargetTerritroy(Player activePlayer, Phases placeunits, Territory territory);
 
 	int getAmountUnit(Player activePlayer, Phases placeunits);
 
 	boolean askForAttack(Player activePlayer);
 
-	Territory getOriginatingCountry(Player activePlayer, Phases attack);
+	Territory getOriginatingTerritory(Player activePlayer, Phases attack);
 
 	boolean turnInCards();
 

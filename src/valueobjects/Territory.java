@@ -13,20 +13,20 @@ public class Territory {
 	private Player owner;
 	private int units = 0;
 	private String name;
-	private Continent kontinent;
-	private ArrayList<Territory> nachbarn = new ArrayList<Territory>();
+	private Continent continent;
+	private ArrayList<Territory> neighbors = new ArrayList<Territory>();
 
 	public Territory(String name) {
 		this.name = name;
 
 	}
 
-	public void addNachbar(Territory land) {
-		nachbarn.add(land);
+	public void addNeighbor(Territory land) {
+		neighbors.add(land);
 	}
 
 	public boolean istNachbar(Territory land) {
-		if (nachbarn.contains(land)) {
+		if (neighbors.contains(land)) {
 			return true;
 		} else {
 			return false;
@@ -35,8 +35,8 @@ public class Territory {
 
 	// Getter und Setter
 
-	public ArrayList<Territory> getNachbarn() {
-		return nachbarn;
+	public ArrayList<Territory> getNeighbors() {
+		return neighbors;
 	}
 
 	public String getName() {
@@ -51,7 +51,7 @@ public class Territory {
 		this.owner = owner;
 	}
 
-	public int getAnzahlEinheiten() {
+	public int getAmountOfUnits() {
 		return units;
 	}
 
@@ -59,12 +59,12 @@ public class Territory {
 		this.units = units;
 	}
 
-	public Continent getKontinent() {
-		return kontinent;
+	public Continent getContinent() {
+		return continent;
 	}
 
-	public void setKontinent(Continent kontinent) {
-		this.kontinent = kontinent;
+	public void setKontinent(Continent continent) {
+		this.continent = continent;
 	}
 
 }

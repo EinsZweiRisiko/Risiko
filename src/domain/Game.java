@@ -130,14 +130,14 @@ public class Game {
 	}
 
 	private void placeUnits(int supply) {
-		Territory targetCountry;
+		Territory targetCountry = null;
 		int amountUnitPlace;
 
 		while (supply < 0) {
 
 			// Auf welches Land sollen Einheiten platziert werden?
 			do {
-				targetCountry = userInterface.getTargetCountry(activePlayer, Phases.PLACEUNITS);
+				targetCountry = userInterface.getTargetTerritroy(activePlayer, Phases.PLACEUNITS, targetCountry);
 			} while (!targetCountry.getOwner().equals(activePlayer));
 
 			// Wieviele Einheiten sollen platziert werden?
@@ -156,8 +156,8 @@ public class Game {
 		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
 		while (userInterface.askForAttack(activePlayer)) {
 			
-			Territory originatingCountry;
-			Territory targetCountry;
+			Territory originatingTerritory;
+			Territory targetTerritory;
 			int amountUnitAttack;
 			int amountUnitDefense;
 
@@ -165,37 +165,37 @@ public class Game {
 			// soll. Gehört es dem Spieler nicht erneute Abfrage. Auch neue
 			// Abfrage insofern zu wenig Einheiten zum angreifen vorhanden sind.
 			do {
-				originatingCountry = userInterface.getOriginatingCountry(activePlayer,
+				originatingTerritory = userInterface.getOriginatingTerritory(activePlayer,
 						Phases.ATTACK);
-			} while (!originatingCountry.getOwner().equals(activePlayer)
-					|| originatingCountry.getAnzahlEinheiten() == 1);
+			} while (!originatingTerritory.getOwner().equals(activePlayer)
+					|| originatingTerritory.getAmountOfUnits() == 1);
 
 			// Abfrage durch die CLI welches Land welches Angegriffen werden
 			// soll. Gehört es dem Spieler erneute Abfrage.
 			do {
-				targetCountry = userInterface.getTargetCountry(activePlayer, Phases.ATTACK);
-			} while (targetCountry.getOwner().equals(activePlayer));
+				targetTerritory = userInterface.getTargetTerritroy(activePlayer, Phases.ATTACK, originatingTerritory);
+			} while (targetTerritory.getOwner().equals(activePlayer));
 
 			// Abfrage durch die CLI mit wievielen Einheiten angegriffen werden
 			// soll. Es können zwischen 1 und 3 Einheiten gewählt werden bei
 			// Falscheingabe wiederholung.
 			do {
 				amountUnitAttack = userInterface.getAmountUnit(activePlayer, Phases.ATTACK);
-			} while (originatingCountry.getAnzahlEinheiten() > amountUnitAttack
+			} while (((originatingTerritory.getAmountOfUnits()-1) <= amountUnitAttack)
 					&& (amountUnitAttack < 1 || amountUnitAttack > 3));
 
 			// Besitzer des angegriffenden Landes ermitteln
-			Player attackedPlayer = targetCountry.getOwner();
+			Player attackedPlayer = targetTerritory.getOwner();
 
 			// Abfrage durch die CLI mit wievielen Einheiten verteidigt werden
 			// soll. Es können zwischen 1 und 2 Einheiten gewählt werden.
 			do {
 				amountUnitDefense = userInterface.getAmountUnit(attackedPlayer, Phases.DEFEND);
-			} while (targetCountry.getAnzahlEinheiten() > amountUnitDefense
+			} while (((targetTerritory.getAmountOfUnits()-1) <= amountUnitDefense)
 					&& (amountUnitDefense < 1 || amountUnitDefense > 2));
 
-			BattleSystem kampf = new BattleSystem(amountUnitAttack, amountUnitDefense,
-					originatingCountry, targetCountry);
+			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
+					originatingTerritory, targetTerritory);
 		}
 	}
 
@@ -219,7 +219,7 @@ public class Game {
 		return 0;
 	}
 
-	public Player getGewinner() {
+	public Player getWinner() {
 		// TODO Auto-generated method stub
 		return null;
 	}

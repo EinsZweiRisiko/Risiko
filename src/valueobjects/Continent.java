@@ -15,7 +15,7 @@ public class Continent {
 		this.bonusSupply = bonusSupply;
 	}
 
-	public void addLand(Territory land) {
+	public void addTerritory(Territory land) {
 		laenderListe.add(land);
 	}
 
@@ -23,7 +23,7 @@ public class Continent {
 		return bonusSupply;
 	}
 
-	public ArrayList<Territory> getCountries() {
+	public ArrayList<Territory> getTerritories() {
 		return laenderListe;
 	}
 

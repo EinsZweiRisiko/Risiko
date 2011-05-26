@@ -49,14 +49,14 @@ public class Player {
 //	}
 
 	/**
-	 * Fügt Lünder hinzu
+	 * Fügt Länder hinzu
 	 * 
-	 * @param land
+	 * @param territory
 	 *            Das Land, das hinzugefügt wird
 	 */
-	public void addTerritory(Territory land) {
-		territories.add(land);
-		land.setOwner(this);
+	public void addTerritory(Territory territory) {
+		territories.add(territory);
+		territory.setOwner(this);
 	}
 
 	/**
