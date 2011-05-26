@@ -41,13 +41,13 @@ public class Game {
 
 		// Create territory manager
 		territoryManager = new TerritoryManager();
-		
+
 		// Create player manager
 		playerManager = new PlayerManager();
-		
-		
+
+
 		userInterface = new CommandLineInterface();
-		
+
 
 		// Anfangsrunde
 		setPlayers();
@@ -65,12 +65,28 @@ public class Game {
 		// 2 Spieler: 36
 		// 3 Spieler: 35
 		// 4 Spieler: 30
-		
+
 		// RANDOM Play Funct()
 		if(userInterface.getPlaceMethod()) {
 			//RADNOM PLACE UNITS Algorithmus
-			
-			
+
+//			// ermittelt die Starteinheiten, aber ist voll unnütz!
+//			int startUnits;
+//			if(playerManager.getNumberOfPlayers() == 2) {
+//				startUnits = 36;
+//			}else if(playerManager.getNumberOfPlayers() == 3) {
+//				startUnits = 35;
+//			}else if(playerManager.getNumberOfPlayers() == 4) {
+//				startUnits = 30;
+//			}
+
+			// besetzt alle freien Länder
+			for(Territory territory : territoryManager.getRandomTerritoryList()) {
+				
+				territory.setOwner(playerManager.getPlayer());
+				territory.setUnits(1);
+				playerManager.nextPlayer();
+			}
 			
 		} else {
 			// abwechselnd setzten algorithmus

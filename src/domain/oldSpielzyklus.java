@@ -61,7 +61,7 @@ public class oldSpielzyklus {
 
 			// Nachdem auch die Eingabe des Landes gültig war wird die Anzahl
 			// der Armeen in betreffendem Land um die eingegebene Anzahl erhöht.
-			land.setAnzahlEinheiten(land.getAnzahlEinheiten() + Armeen);
+			land.setUnits(land.getAnzahlEinheiten() + Armeen);
 			spieler.setReserveArmeen(spieler.getReserveArmeen() - Armeen);
 			IO.println("Es wurden " + Armeen + " Armeen in " + land.getName() + " platziert."
 					+ "\n" + "Es befinden sich nun " + land.getAnzahlEinheiten() + " Armeen in "
@@ -151,8 +151,8 @@ public class oldSpielzyklus {
 				verschArmeen = IO.readInt("Anzahl der Armeen: ");
 			}
 
-			quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() - verschArmeen);
-			zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() + verschArmeen);
+			quellLand.setUnits(quellLand.getAnzahlEinheiten() - verschArmeen);
+			zielLand.setUnits(zielLand.getAnzahlEinheiten() + verschArmeen);
 
 			IO.println("Es wurden " + verschArmeen + " Armeen von " + quellLand.getName()
 					+ " nach " + zielLand.getName() + " verschoben." + "\n"

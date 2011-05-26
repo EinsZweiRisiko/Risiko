@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Territory {
 
 	private Player owner;
-	private int anzahlEinheiten = 0;
+	private int units = 0;
 	private String name;
 	private Continent kontinent;
 	private ArrayList<Territory> nachbarn = new ArrayList<Territory>();
@@ -47,16 +47,16 @@ public class Territory {
 		return owner;
 	}
 
-	public void setBesitzer(Player besitzer) {
-		this.owner = besitzer;
+	public void setOwner(Player owner) {
+		this.owner = owner;
 	}
 
 	public int getAnzahlEinheiten() {
-		return anzahlEinheiten;
+		return units;
 	}
 
-	public void setAnzahlEinheiten(int anzahlEinheiten) {
-		this.anzahlEinheiten = anzahlEinheiten;
+	public void setUnits(int units) {
+		this.units = units;
 	}
 
 	public Continent getKontinent() {

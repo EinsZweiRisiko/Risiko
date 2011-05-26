@@ -241,7 +241,7 @@ public class BattleSystem {
 	public void eventMsgOffensive() {
 		angriffe++;
 		// Runter setzten der Einheiten
-		zielLand.setAnzahlEinheiten(zielLand.getAnzahlEinheiten() - 1);
+		zielLand.setUnits(zielLand.getAnzahlEinheiten() - 1);
 
 		if (angriffe == 1) {
 			System.out.println("Angriff1: " + angEins + " schlaegt Defensive1: " + defEins);
@@ -265,7 +265,7 @@ public class BattleSystem {
 		// Anzahl der Angriffe die getaetigt werden
 		angriffe++;
 		// Runter setzten der Einheiten
-		quellLand.setAnzahlEinheiten(quellLand.getAnzahlEinheiten() - 1);
+		quellLand.setUnits(quellLand.getAnzahlEinheiten() - 1);
 
 		if (angriffe == 1) {
 			System.out.println("Defensive1: " + defEins + " schlaegt Offennsive1: " + angEins);

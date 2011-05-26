@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 
 import valueobjects.Continent;
@@ -23,7 +24,7 @@ public class TerritoryManager {
 			"Großbritannien", "Mitteleuropa", "Westeuropa", "Südeuropa", "Ural", "Sibirien",
 			"Jakutien", "Irkutsk", "Kamtschatka", "Mongolei", "Japan", "Afghanistan", "China",
 			"Mittlerer Osten", "Indien", "Siam", "Indonesien", "Neu-Guinea", "West-Australien",
-			"Ost-Australien" };
+	"Ost-Australien" };
 
 	/**
 	 * Eine Liste aller Grenzen, die zwischen jeweils zwei Ländern verlaufen
@@ -190,7 +191,7 @@ public class TerritoryManager {
 		return getLandByName(laenderNamen[number]);
 	}
 
-	public boolean isAlleLaenderBesetzt() {
+	public boolean isAllTerritoryTaken() {
 
 		for (int i = 0; i < 41; i++) {
 			if (getLandByName(laenderNamen[i]).getBesitzer() == null) {
@@ -219,4 +220,20 @@ public class TerritoryManager {
 
 	}
 
+	public int getNumberOfTerritories() {
+		return laender.size();
+	}
+
+	public ArrayList<Territory> getRandomTerritoryList() {
+		// erstellen einer zufälligen Länder ArrayList
+	
+		ArrayList<Territory> territoryListCopy = new ArrayList<Territory>((Collection) laender);
+		ArrayList<Territory> territoryListRandom = new ArrayList<Territory>();
+		
+		while(territoryListCopy.size() != 0) {
+			int rnd = (int) (Math.random() * territoryListCopy.size());
+			territoryListRandom.add(territoryListCopy.get(rnd));
+		}
+		return territoryListRandom;
+	}
 }
