@@ -200,7 +200,7 @@ public class Game {
 				amountUnitDefense = userInterface.getAmountUnit(attackedPlayer,
 						originatingTerritory, targetTerritory, Phases.DEFEND);
 			} while (((targetTerritory.getAmountOfUnits() - 1) < amountUnitDefense)
-					|| (amountUnitDefense < 1 || amountUnitDefense > 2));
+					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
 					originatingTerritory, targetTerritory);
