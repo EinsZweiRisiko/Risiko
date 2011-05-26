@@ -19,4 +19,6 @@ public interface UserInterface {
 
 	void newPlayer(PlayerManager playerManager);
 
+	boolean getPlaceMethod();
+
 }

@@ -65,6 +65,16 @@ public class Game {
 		// 2 Spieler: 36
 		// 3 Spieler: 35
 		// 4 Spieler: 30
+		
+		// RANDOM Play Funct()
+		if(userInterface.getPlaceMethod()) {
+			//RADNOM PLACE UNITS Algorithmus
+			
+			
+			
+		} else {
+			// abwechselnd setzten algorithmus
+		}
 	}
 
 	public boolean ended() {

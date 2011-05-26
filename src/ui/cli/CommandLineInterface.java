@@ -50,6 +50,7 @@ public class CommandLineInterface implements UserInterface {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 
 	@Override
 	public int getAmountUnit(Player activePlayer, Phases placeunits) {
@@ -92,6 +93,18 @@ public class CommandLineInterface implements UserInterface {
 		}
 		
 		playerManager.setPlayers(player);
+	}
+
+	@Override
+	public boolean getPlaceMethod() {
+		// TODO Auto-generated method stub
+		
+		String eingabe = IO.readString("Sollen die Einheiten Zufällig gesetzt werden? (j/n)");
+		if(eingabe == "j") {
+			return true;
+		} else if(eingabe == "n") { return false; }
+		
+		return false;
 	}
 
 }
