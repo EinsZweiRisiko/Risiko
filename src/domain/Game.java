@@ -10,9 +10,10 @@ import valueobjects.Player;
 import valueobjects.Territory;
 
 /**
- * The game class manages a complete game of Risk 
+ * The game class manages a complete game of Risk
+ * 
  * @author Jannes
- *
+ * 
  */
 public class Game {
 
@@ -41,13 +42,11 @@ public class Game {
 
 		// Create territory manager
 		territoryManager = new TerritoryManager();
-		
-		
+
 		userInterface = new CommandLineInterface();
-		
+
 		// Create player manager
 		playerManager = new PlayerManager(userInterface);
-		
 
 		// Anfangsrunde
 		placeStartUnits();
@@ -62,8 +61,8 @@ public class Game {
 		// 4 Spieler: 30
 
 		// RANDOM Play Funct()
-		if(userInterface.getPlaceMethod()) {
-			//RADNOM PLACE UNITS Algorithmus
+		if (userInterface.getPlaceMethod()) {
+			// RADNOM PLACE UNITS Algorithmus
 
 //			// ermittelt die Starteinheiten, aber ist voll unnütz!
 //			int startUnits;
@@ -76,15 +75,15 @@ public class Game {
 //			}
 
 			// besetzt alle freien Länder
-			for(Territory territory : territoryManager.getRandomTerritoryList()) {
-				
+			for (Territory territory : territoryManager.getRandomTerritoryList()) {
+
 				Player player = playerManager.getCurrentPlayer();
 				player.addTerritory(territory);
 				territory.setUnits(2);
-				
+
 				playerManager.nextPlayer();
 			}
-			
+
 		} else {
 			// abwechselnd setzten algorithmus
 		}
@@ -98,7 +97,7 @@ public class Game {
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getCurrentPlayer();
-		
+
 		userInterface.announceCurrentPlayer(activePlayer);
 
 		// Wie viel Verstärkung?
@@ -125,40 +124,43 @@ public class Game {
 
 		// Einheiten verschieben
 		moveUnits();
-		
+
 		playerManager.nextPlayer();
 	}
 
 	private void placeUnits(int supply) {
-		Territory targetCountry = null;
+		Territory targetTerritory = null;
+		Territory originatingTerritory = null;
 		int amountUnitPlace;
-		
 
 		while (supply > 0) {
-			
+
 			activePlayer.setSupply(supply);
-			
+
 			// Auf welches Land sollen Einheiten platziert werden?
 			do {
-				targetCountry = userInterface.getTargetTerritory(activePlayer, Phases.PLACEUNITS, targetCountry);
-			} while (!targetCountry.getOwner().equals(activePlayer));
+				targetTerritory = userInterface.getTargetTerritory(activePlayer, Phases.PLACEUNITS,
+						targetTerritory);
+			} while (!targetTerritory.getOwner().equals(activePlayer));
 
 			// Wieviele Einheiten sollen platziert werden?
 			do {
-				amountUnitPlace = userInterface.getAmountUnit(activePlayer, Phases.PLACEUNITS);
+				amountUnitPlace = userInterface.getAmountUnit(activePlayer, originatingTerritory,
+						targetTerritory, Phases.PLACEUNITS);
 			} while (amountUnitPlace > supply);
 
 			// supply Aktualisieren
 			supply -= amountUnitPlace;
+			targetTerritory.setUnits(targetTerritory.getAmountOfUnits() + amountUnitPlace);
 		}
 
 	}
 
 	private void attack() {
-		
+
 		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
 		while (userInterface.askForPhase(activePlayer, Phases.ATTACK)) {
-			
+
 			Territory originatingTerritory;
 			Territory targetTerritory;
 			int amountUnitAttack;
@@ -176,15 +178,17 @@ public class Game {
 			// Abfrage durch die CLI welches Land welches Angegriffen werden
 			// soll. Gehört es dem Spieler erneute Abfrage.
 			do {
-				targetTerritory = userInterface.getTargetTerritory(activePlayer, Phases.ATTACK, originatingTerritory);
+				targetTerritory = userInterface.getTargetTerritory(activePlayer, Phases.ATTACK,
+						originatingTerritory);
 			} while (targetTerritory.getOwner().equals(activePlayer));
 
 			// Abfrage durch die CLI mit wievielen Einheiten angegriffen werden
 			// soll. Es können zwischen 1 und 3 Einheiten gewählt werden bei
 			// Falscheingabe wiederholung.
 			do {
-				amountUnitAttack = userInterface.getAmountUnit(activePlayer, Phases.ATTACK);
-			} while (((originatingTerritory.getAmountOfUnits() -1) < amountUnitAttack)
+				amountUnitAttack = userInterface.getAmountUnit(activePlayer, originatingTerritory,
+						targetTerritory, Phases.ATTACK);
+			} while (((originatingTerritory.getAmountOfUnits() - 1) < amountUnitAttack)
 					|| (amountUnitAttack < 1 || amountUnitAttack > 3));
 
 			// Besitzer des angegriffenden Landes ermitteln
@@ -193,46 +197,51 @@ public class Game {
 			// Abfrage durch die CLI mit wievielen Einheiten verteidigt werden
 			// soll. Es können zwischen 1 und 2 Einheiten gewählt werden.
 			do {
-				amountUnitDefense = userInterface.getAmountUnit(attackedPlayer, Phases.DEFEND);
-			} while (((targetTerritory.getAmountOfUnits()-1) < amountUnitDefense)
+				amountUnitDefense = userInterface.getAmountUnit(attackedPlayer,
+						originatingTerritory, targetTerritory, Phases.DEFEND);
+			} while (((targetTerritory.getAmountOfUnits() - 1) < amountUnitDefense)
 					|| (amountUnitDefense < 1 || amountUnitDefense > 2));
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
 					originatingTerritory, targetTerritory);
-			
-			//TODO Wenn gewonnen wurde Land besetzten
+
+			/*
+			 * TODO Wenn gewonnen wurde Land besetzten müsste meiner Meinung Nach wohl in das
+			 * BattleSystem mit reinl. Da steig ich noch nicht ganz durch also @Timur wäre ne saubere
+			 * Sache wenn du das realisierst!
+			 */
 		}
 	}
 
 	private void moveUnits() {
-		
+
 		Territory originatingTerritory;
 		Territory targetTerritory;
 		int amountUnitMove;
-		
-		if(userInterface.askForPhase(activePlayer, Phases.MOVE)) {
+
+		if (userInterface.askForPhase(activePlayer, Phases.MOVE)) {
 			do {
 				originatingTerritory = userInterface.getOriginatingTerritory(activePlayer,
 						Phases.MOVE);
 			} while (originatingTerritory.getOwner().equals(activePlayer)
 					&& originatingTerritory.getAmountOfUnits() < 1);
-			
+
 			do {
-				targetTerritory = userInterface.getTargetTerritory(activePlayer,
-						Phases.MOVE, originatingTerritory);
+				targetTerritory = userInterface.getTargetTerritory(activePlayer, Phases.MOVE,
+						originatingTerritory);
 			} while (originatingTerritory.getOwner().equals(activePlayer)
 					&& originatingTerritory.getAmountOfUnits() < 1);
-			
+
 			do {
-				amountUnitMove = userInterface.getAmountUnit(activePlayer, Phases.MOVE);
-			} while ((originatingTerritory.getAmountOfUnits() -1) < amountUnitMove);
-			
-			
-			//Einheiten entsprechend der Eingabe verschieben
-			originatingTerritory.setUnits(originatingTerritory.getAmountOfUnits()-amountUnitMove);
-			targetTerritory.setUnits(targetTerritory.getAmountOfUnits()+amountUnitMove);
+				amountUnitMove = userInterface.getAmountUnit(activePlayer, originatingTerritory,
+						targetTerritory, Phases.MOVE);
+			} while ((originatingTerritory.getAmountOfUnits() - 1) < amountUnitMove);
+
+			// Einheiten entsprechend der Eingabe verschieben
+			originatingTerritory.setUnits(originatingTerritory.getAmountOfUnits() - amountUnitMove);
+			targetTerritory.setUnits(targetTerritory.getAmountOfUnits() + amountUnitMove);
 		}
-		
+
 	}
 
 	private int useBonusCards() {

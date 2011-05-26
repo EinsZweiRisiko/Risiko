@@ -9,7 +9,7 @@ public interface UserInterface {
 
 	Territory getTargetTerritory(Player activePlayer, Phases placeunits, Territory territory);
 
-	int getAmountUnit(Player activePlayer, Phases placeunits);
+	int getAmountUnit(Player activePlayer,Territory originatingTerritory, Territory targetTerritory, Phases placeunits);
 
 	Territory getOriginatingTerritory(Player activePlayer, Phases attack);
 
