@@ -56,6 +56,7 @@ public class Game {
 
 	private void setPlayers() {
 		userInterface.newPlayer(playerManager);
+		playerManager.setCurrentPlayer(1);
 	}
 
 	private void placeStartUnits() {

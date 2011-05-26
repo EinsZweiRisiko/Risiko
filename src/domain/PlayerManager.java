@@ -13,18 +13,28 @@ public class PlayerManager {
 	 * Spielerliste als Array
 	 */
 	private Player[] player;
+	private Player currentPlayer;
 
 	public PlayerManager() {
 
 	}
 
 	// Getter & Setter
+	
+	/**
+	 * Setzt den aktuellen Spieler
+	 * bei der Initialisierung benötigt!
+	 * 
+	 */
+	public void setCurrentPlayer(int cPlayer) {
+		this.currentPlayer = player[cPlayer];
+	}
 
 	/**
 	 * Gibt den aktuellen Spieler zurück
 	 */
 	public Player getCurrentPlayer() {
-		return null;
+		return currentPlayer;
 	}
 
 	/**
