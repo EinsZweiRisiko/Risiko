@@ -3,6 +3,7 @@ package ui;
 import valueobjects.Player;
 import valueobjects.Territory;
 import domain.Game.Phases;
+import domain.PlayerManager;
 
 public interface UserInterface {
 
@@ -15,5 +16,7 @@ public interface UserInterface {
 	Territory getOriginatingCountry(Player activePlayer, Phases attack);
 
 	boolean turnInCards();
+
+	void newPlayer(PlayerManager playerManager);
 
 }

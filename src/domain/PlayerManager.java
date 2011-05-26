@@ -12,35 +12,10 @@ public class PlayerManager {
 	/**
 	 * Spielerliste als Array
 	 */
-	private Player[] spieler;
+	private Player[] player;
 
 	public PlayerManager() {
 
-		/*
-		 * Abfrage der Mitspieler. Hierbei muss eine Zahl zwischen 2 und 6 angegeben werden. Nachdem
-		 * der Anwender dies getan hat wird die Array-Liste Spieler[] mit Anzahl der Mitspielenden
-		 * initialisiert.
-		 */
-//		do {
-//			spielerzahl = IO.readInt("Wieviele Spieler?(2-6): ");
-//		} while (spielerzahl <= 1 || spielerzahl > 6);
-//
-//		spieler = new Spieler[spielerzahl];
-
-		/*
-		 * for-Schleife die den zuvor erstellten Spielern via Abfrage Namen zuordnet.
-		 */
-//		for (int i = 0; i < spielerzahl; i++) {
-//			String name = IO.readString("Name Spieler " + (i + 1) + ": ");
-//			spieler[i] = new Spieler(name);
-//		}
-//
-//		// Spieler auflisten und Kenntlich machen, dass das Spiel gestartet
-//		// wird.
-//		IO.println("Eine neue Runde wird gestartet es treten an :");
-//		for (int i = 0; i < spielerzahl; i++) {
-//			IO.println(spieler[i].getName());
-//		}
 	}
 
 	// Getter & Setter
@@ -59,12 +34,12 @@ public class PlayerManager {
 
 	}
 
-	public Player[] getSpieler() {
-		return spieler;
+	public Player[] getPlayer() {
+		return player;
 	}
 
-	public void setSpieler(Player[] spieler) {
-		this.spieler = spieler;
+	public void setPlayer(Player[] player) {
+		this.player = player;
 	}
 
 }

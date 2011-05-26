@@ -41,14 +41,21 @@ public class Game {
 
 		// Create territory manager
 		territoryManager = new TerritoryManager();
-
+		
 		// Create player manager
 		playerManager = new PlayerManager();
-
-		CommandLineInterface userInterface = new CommandLineInterface();
+		
+		
+		userInterface = new CommandLineInterface();
+		
 
 		// Anfangsrunde
+		setPlayers();
 		placeStartUnits();
+	}
+
+	private void setPlayers() {
+		userInterface.newPlayer(playerManager);
 	}
 
 	private void placeStartUnits() {
