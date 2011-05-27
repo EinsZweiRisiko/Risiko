@@ -28,17 +28,17 @@ public class Game {
 	private TerritoryManager territoryManager;
 	private Player activePlayer;
 	private UserInterface userInterface;
-	private ArrayList<Integer> bonusAmountSteps;
-	private Iterator<Integer> bonusAmountIter;
+	private ArrayList<Integer> bonusSteps;
+	private Iterator<Integer> bonusIter;
 
 	/**
 	 * Constructor for a new game of Risk
 	 */
 	public Game() {
 		// Setup the steps in which bonus units are allocated
-		bonusAmountSteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35,
-				40, 45, 50, 55, 60));
-		bonusAmountIter = bonusAmountSteps.iterator();
+		bonusSteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35, 40, 45,
+				50, 55, 60));
+		bonusIter = bonusSteps.iterator();
 
 		// Create territory manager
 		territoryManager = new TerritoryManager();
@@ -65,14 +65,14 @@ public class Game {
 			// Gets the total amount of start units per player
 			int startUnits;
 			switch (playerManager.getNumberOfPlayers()) {
-				case 2:
-					startUnits = 36;
-					break;
-				case 3:
-					startUnits = 35;
-					break;
-				default:
-					startUnits = 30;
+			case 2:
+				startUnits = 36;
+				break;
+			case 3:
+				startUnits = 35;
+				break;
+			default:
+				startUnits = 30;
 			}
 
 			// Set the start units for each player
@@ -86,10 +86,10 @@ public class Game {
 				// Cycle through all players
 				currentPlayer = playerManager.getCurrentPlayer();
 				playerManager.nextPlayer();
-				
+
 				// Assign the territory to the player's list of territories
 				currentPlayer.addTerritory(territory);
-				
+
 				// Place one unit on the territory and remove it from the player's supply
 				territory.setUnits(1);
 				currentPlayer.removeSupply(1);
@@ -100,7 +100,7 @@ public class Game {
 				// Cycle through all players
 				currentPlayer = playerManager.getCurrentPlayer();
 				playerManager.nextPlayer();
-				
+
 				// Add one unit to a random territory
 				currentPlayer.getRandomTerritory().addUnits(1);
 				// Remove it from the player's supply
