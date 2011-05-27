@@ -60,54 +60,52 @@ public class Game {
 		// 3 Spieler: 35
 		// 4 Spieler: 30
 
-		// RANDOM Play Funct()
+		// Place starting units in a random fashion
 		if (userInterface.getPlaceMethod()) {
-			// RADNOM PLACE UNITS Algorithmus
-
-			Player currentPlayer = null;
-
-			// ermittelt die Starteinheiten, aber ist voll unnütz!
-			int startUnits = 0;
-
-			if (playerManager.getNumberOfPlayers() == 2) {
-				startUnits = 36;
-			} else if (playerManager.getNumberOfPlayers() == 3) {
-				startUnits = 35;
-			} else if (playerManager.getNumberOfPlayers() == 4) {
-				startUnits = 30;
-			} else {
-				startUnits = 30;
+			// Gets the total amount of start units per player
+			int startUnits;
+			switch (playerManager.getNumberOfPlayers()) {
+				case 2:
+					startUnits = 36;
+					break;
+				case 3:
+					startUnits = 35;
+					break;
+				default:
+					startUnits = 30;
 			}
 
-			for (int i = 0; i < playerManager.getNumberOfPlayers(); i++) {
-				playerManager.getPlayer().get(i).setSupply(startUnits);
+			// Set the start units for each player
+			for (Player player : playerManager) {
+				player.setSupply(startUnits);
 			}
 
-			// besetzt alle freien Länder
+			// Randomly places a unit on one territory each
+			Player currentPlayer;
 			for (Territory territory : territoryManager.getRandomTerritoryList()) {
-
+				// Cycle through all players
 				currentPlayer = playerManager.getCurrentPlayer();
-				currentPlayer.addTerritory(territory);
-				territory.setUnits(1);
-
-				currentPlayer.setSupply(currentPlayer.getSupply() - 1);
 				playerManager.nextPlayer();
+				
+				// Assign the territory to the player's list of territories
+				currentPlayer.addTerritory(territory);
+				
+				// Place one unit on the territory and remove it from the player's supply
+				territory.setUnits(1);
+				currentPlayer.removeSupply(1);
 			}
 
-			// Restliche Einheiten verteilen
-
-			for (int i = 0; i < playerManager.getNumberOfPlayers(); i++) {
-				currentPlayer = playerManager.getPlayer().get(i);
-				while (currentPlayer.getSupply() > 0) {
-
-					Territory randomTerritory = currentPlayer.getRandomTerritory(currentPlayer);
-
-					randomTerritory.setUnits(randomTerritory.getAmountOfUnits() + 1);
-
-					currentPlayer.setSupply(currentPlayer.getSupply() - 1);
-				}
+			// Place the remaining units randomly
+			while (!playerManager.supplyAllocated()) {
+				// Cycle through all players
+				currentPlayer = playerManager.getCurrentPlayer();
+				playerManager.nextPlayer();
+				
+				// Add one unit to a random territory
+				currentPlayer.getRandomTerritory().addUnits(1);
+				// Remove it from the player's supply
+				currentPlayer.removeSupply(1);
 			}
-
 		} else {
 			// abwechselnd setzten algorithmus
 		}

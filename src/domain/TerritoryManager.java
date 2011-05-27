@@ -179,28 +179,24 @@ public class TerritoryManager {
 	 *            Landname als String
 	 * @return Landobjekt
 	 */
-	public Territory getTerritoryByName(String name) {
+	private Territory getTerritoryByName(String name) {
 		return territories.get(name);
 	}
 
 	/**
-	 * Liefert ein Land durch Angabe einer Zahl
-	 * 
-	 * @param number
-	 * @return Land mit dieser Nummer
+	 * Tests if all territories have at least one unit
+	 * @return True if every territory has at least one unit
 	 */
-	public Territory getTerritoryByNumber(int number) {
-		// TODO: diese Methode sollte es eigentlich nicht geben
-		return getTerritoryByName(territoryNames[number]);
-	}
+	public boolean allTaken() {
 
-	public boolean isAllTerritoryTaken() {
-
-		for (int i = 0; i < 41; i++) {
-			if (getTerritoryByName(territoryNames[i]).getOwner() == null) {
+		for (Territory territory : territories.values()) {
+			// Check if the territory has an owner
+			if (territory.getOwner() == null) {
 				return false;
 			}
 		}
+		
+		// Every territory has an owner
 		return true;
 	}
 
@@ -223,6 +219,10 @@ public class TerritoryManager {
 
 	}
 
+	/**
+	 * Returns the number of territories that exist
+	 * @return Number of territories
+	 */
 	public int getNumberOfTerritories() {
 		return territories.size();
 	}

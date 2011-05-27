@@ -81,14 +81,24 @@ public class Player {
 		this.supply = supply;
 
 	}
+	
+	public void addSupply(int change) {
+		this.supply += change;
+	}
+	
+	public void removeSupply(int change) {
+		this.supply -= change;
+	}
 
-	public Territory getRandomTerritory(Player currentPlayer) {
-
-		Territory randomTerritory = null;
-
-		ArrayList<Territory> territories = currentPlayer.getTerritories();
-		int rnd = (int) (Math.random() * territories.size());
-		randomTerritory = territories.get(rnd);
+	/**
+	 * Returns a random territory which is owned by the player
+	 * @param player Player
+	 * @return Random rerritory
+	 */
+	public Territory getRandomTerritory() {
+		// Retrieve a random territory
+		int random = (int) (Math.random() * territories.size());
+		Territory randomTerritory = territories.get(random);
 
 		return randomTerritory;
 	}

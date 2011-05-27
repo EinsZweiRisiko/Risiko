@@ -25,7 +25,7 @@ public class Territory {
 		neighbors.add(land);
 	}
 
-	public boolean istNeighbor(Territory land) {
+	public boolean isNeighborOf(Territory land) {
 		if (neighbors.contains(land)) {
 			return true;
 		} else {
@@ -57,6 +57,10 @@ public class Territory {
 
 	public void setUnits(int units) {
 		this.units = units;
+	}
+	
+	public void addUnits(int units) {
+		this.units += units;
 	}
 
 	public Continent getContinent() {

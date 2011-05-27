@@ -10,7 +10,7 @@ import valueobjects.Player;
  * 
  * @author Jannes
  */
-public class PlayerManager {
+public class PlayerManager implements Iterable<Player> {
 
 	/**
 	 * Spielerliste als Array
@@ -54,7 +54,7 @@ public class PlayerManager {
 		currentPlayer = playerIterator.next();
 	}
 
-	public ArrayList<Player> getPlayer() {
+	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 	
@@ -62,4 +62,29 @@ public class PlayerManager {
 		return players.size();
 	}
 
+	/**
+	 * Returns true if every player has allocated all of his supply
+	 * @return True if every player has allocated all of his supply
+	 */
+	public boolean supplyAllocated() {
+		for (Player player : players) {
+			// Check if the player still has supply that needs to be allocated
+			if (player.getSupply() != 0) {
+				return false;
+			}
+		}
+		
+		// No supply pending
+		return true;
+	}
+	
+	/**
+	 * Returns an iterator object of all players
+	 * @return Player iterator object
+	 */
+	@Override
+	public Iterator<Player> iterator() {
+		return players.iterator();
+	}
+	
 }
