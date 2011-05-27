@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import valueobjects.Continent;
 import valueobjects.Territory;
@@ -11,7 +12,7 @@ import valueobjects.Territory;
  * @author Jannes, Timur
  * 
  */
-public class TerritoryManager {
+public class TerritoryManager implements Iterable<Territory> {
 
 	/**
 	 * Liste mit allen Ländernamen
@@ -73,10 +74,6 @@ public class TerritoryManager {
 	 * Liste aller Länderobjekte als Hasthable
 	 */
 	private Hashtable<String, Territory> territories = new Hashtable<String, Territory>();
-
-	public Hashtable<String, Territory> getTerritories() {
-		return territories;
-	}
 
 	/**
 	 * Konstruktor
@@ -239,5 +236,13 @@ public class TerritoryManager {
 			territoryListCopy.remove(rnd);
 		}
 		return territoryListRandom;
+	}
+
+	/**
+	 * Returns an iterator for all territories
+	 */
+	@Override
+	public Iterator<Territory> iterator() {
+		return territories.values().iterator();
 	}
 }
