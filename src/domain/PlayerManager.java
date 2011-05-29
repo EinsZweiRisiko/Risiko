@@ -36,8 +36,6 @@ public class PlayerManager implements Iterable<Player> {
 		}
 
 		playerIterator = players.iterator();
-		nextPlayer();
-
 	}
 
 	/**
@@ -51,17 +49,11 @@ public class PlayerManager implements Iterable<Player> {
 	}
 
 	/**
-	 * Gibt den aktuellen Spieler zurück
-	 */
-	public Player getCurrentPlayer() {
-		return currentPlayer;
-	}
-
-	/**
 	 * Switches to the next player
 	 * 
+	 * @return Next player
 	 */
-	public void nextPlayer() {
+	public Player getNextPlayer() {
 		if (players.size() == 0) {
 			throw new NoPlayersException();
 		}
@@ -70,8 +62,11 @@ public class PlayerManager implements Iterable<Player> {
 		if (!playerIterator.hasNext()) {
 			playerIterator = players.iterator();
 		}
+		
 		// Switch to the next player
 		currentPlayer = playerIterator.next();
+		
+		return currentPlayer;
 	}
 
 	/**

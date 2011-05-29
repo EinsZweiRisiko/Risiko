@@ -83,8 +83,7 @@ public class Game {
 			Player currentPlayer;
 			for (Territory territory : territoryManager.getRandomTerritoryList()) {
 				// Cycle through all players
-				currentPlayer = playerManager.getCurrentPlayer();
-				playerManager.nextPlayer();
+				currentPlayer = playerManager.getNextPlayer();
 
 				// Assign the territory to the player's list of territories
 				currentPlayer.addTerritory(territory);
@@ -97,8 +96,7 @@ public class Game {
 			// Place the remaining units randomly
 			while (!playerManager.supplyAllocated()) {
 				// Cycle through all players
-				currentPlayer = playerManager.getCurrentPlayer();
-				playerManager.nextPlayer();
+				currentPlayer = playerManager.getNextPlayer();
 
 				// Add one unit to a random territory
 				currentPlayer.getRandomTerritory().addUnits(1);
@@ -117,7 +115,7 @@ public class Game {
 
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
-		activePlayer = playerManager.getCurrentPlayer();
+		activePlayer = playerManager.getNextPlayer();
 
 		ui.announceCurrentPlayer(activePlayer);
 
@@ -145,8 +143,6 @@ public class Game {
 
 		// Einheiten verschieben
 		moveUnits();
-
-		playerManager.nextPlayer();
 	}
 
 	private void placeUnits(int supply) {
