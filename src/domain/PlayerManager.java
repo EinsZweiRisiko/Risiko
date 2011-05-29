@@ -54,7 +54,7 @@ public class PlayerManager implements Iterable<Player> {
 	 * @return Next player
 	 */
 	public Player getNextPlayer() {
-		if (players.size() == 0) {
+		if (players.isEmpty()) {
 			throw new NoPlayersException();
 		}
 
