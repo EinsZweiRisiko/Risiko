@@ -39,7 +39,8 @@ public class BattleSystem {
 	// Konstruktur kriegt die Anzahl der Anfreifenden bzw. Verteidigenden Einheiten
 	// Kontruktur bekommt außerdem das Ziel und Quellland als Objekte
 
-	public BattleSystem(int numberOfAttackers, int numberOfDefenders, Territory targetTerritory, Territory originatingTerritory) {
+	public BattleSystem(int numberOfAttackers, int numberOfDefenders,
+			Territory originatingTerritory, Territory targetTerritory) {
 		this.amountOfAttackers = numberOfAttackers;
 		this.amountOfDefenders = numberOfDefenders;
 		this.targetTerritory = targetTerritory;
@@ -115,7 +116,10 @@ public class BattleSystem {
 		if (amountOfAttackers == 1) {
 			attackOne = getBiggestNumber(attack);
 			attackRound++;
-			System.out.println("------ RUNDE (" + attackRound + ") -------- \r\n");
+			System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
+					+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
+					+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
+					+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
 
 			// 1 gegen 1
 			if (amountOfDefenders == 1) {
@@ -150,7 +154,10 @@ public class BattleSystem {
 			attackTwo = getBiggestNumber(attack);
 			attackRound++;
 
-			System.out.println("------ RUNDE (" + attackRound + ") -------- \r\n");
+			System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
+					+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
+					+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
+					+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
 			// 2 gegen 1
 			if (amountOfDefenders == 1) {
 				defenseOne = getBiggestNumber(defense);
@@ -196,8 +203,11 @@ public class BattleSystem {
 			attackOne = getBiggestNumber(attack);
 			attackTwo = getBiggestNumber(attack);
 			attackRound++;
-
-			System.out.println("------ RUNDE (" + attackRound + ") -------- \r\n");
+			
+			System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
+					+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
+					+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
+					+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
 
 			// 3 gegen 1
 			if (amountOfDefenders == 1) {
@@ -246,17 +256,17 @@ public class BattleSystem {
 		if (attacks == 1) {
 			System.out.println("Angriff1: " + attackOne + " schlaegt Defensive1: " + defenseOne);
 
-			System.out.println(targetTerritory.getName() + "(" + targetTerritory.getOwner().getName()
-					+ ") verliert 1 Einheit und " + targetTerritory.getName() + " ("
-					+ targetTerritory.getOwner().getName() + ") hat noch: "
-					+ targetTerritory.getAmountOfUnits() + " Einheiten uebrig");
+			System.out.println(targetTerritory.getName() + "("
+					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
+					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
+					+ ") hat noch: " + targetTerritory.getAmountOfUnits() + " Einheiten uebrig");
 		} else {
 			System.out.println("Angriff2: " + attackTwo + " schlaegt Defensive2: " + defenseTwo);
 
-			System.out.println(targetTerritory.getName() + "(" + targetTerritory.getOwner().getName()
-					+ ") verliert 1 Einheit und " + targetTerritory.getName() + " ("
-					+ targetTerritory.getOwner().getName() + ") hat noch: "
-					+ targetTerritory.getAmountOfUnits() + " Einheiten uebrig");
+			System.out.println(targetTerritory.getName() + "("
+					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
+					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
+					+ ") hat noch: " + targetTerritory.getAmountOfUnits() + " Einheiten uebrig");
 		}
 
 	}
@@ -270,8 +280,9 @@ public class BattleSystem {
 		if (attacks == 1) {
 			System.out.println("Defensive1: " + defenseOne + " schlaegt Offennsive1: " + attackOne);
 
-			System.out.println(originatingTerritory.getName() + "(" + originatingTerritory.getOwner().getName()
-					+ ") verliert 1 Einheit und " + originatingTerritory.getName() + " ("
+			System.out.println(originatingTerritory.getName() + "("
+					+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
+					+ originatingTerritory.getName() + " ("
 					+ originatingTerritory.getOwner().getName() + ") hat noch: "
 					+ originatingTerritory.getAmountOfUnits() + " Einheiten uebrig");
 		} else {
@@ -279,8 +290,9 @@ public class BattleSystem {
 
 			System.out.println(originatingTerritory.getName() + "("
 
-			+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und " + originatingTerritory.getName()
-					+ " (" + originatingTerritory.getOwner().getName() + ") hat noch: "
+			+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
+					+ originatingTerritory.getName() + " ("
+					+ originatingTerritory.getOwner().getName() + ") hat noch: "
 					+ originatingTerritory.getAmountOfUnits() + " Einheiten uebrig");
 		}
 	}
