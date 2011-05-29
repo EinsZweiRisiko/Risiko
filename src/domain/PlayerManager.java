@@ -18,7 +18,7 @@ public class PlayerManager implements Iterable<Player> {
 	 * Spielerliste als Array
 	 */
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private Player currentPlayer;
+	private Player activePlayer;
 	private Iterator<Player> playerIterator;
 
 	/**
@@ -64,9 +64,9 @@ public class PlayerManager implements Iterable<Player> {
 		}
 		
 		// Switch to the next player
-		currentPlayer = playerIterator.next();
+		activePlayer = playerIterator.next();
 		
-		return currentPlayer;
+		return activePlayer;
 	}
 
 	/**

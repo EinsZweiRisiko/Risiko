@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import ui.UserInterface;
-import ui.cli.CommandLineInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
 
