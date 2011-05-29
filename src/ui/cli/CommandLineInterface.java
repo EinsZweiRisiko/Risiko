@@ -35,7 +35,7 @@ public class CommandLineInterface implements UserInterface {
 		// Ausgabe aller Länder die der Spieler beistzt. ++ Anzahl der Einheiten
 		for (int i = 0; i < territories.size(); i++) {
 			IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten" + "("
-					+ territories.get(i).getAmountOfUnits() + ")");
+					+ territories.get(i).getNumberOfUnits() + ")");
 		}
 
 		// Abfrage welches Land gewählt werden soll
@@ -82,7 +82,7 @@ public class CommandLineInterface implements UserInterface {
 					// schließen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
-							+ "(" + territories.get(i).getAmountOfUnits() + ")"
+							+ "(" + territories.get(i).getNumberOfUnits() + ")"
 							+ " || Im Besitz von " + territories.get(i).getOwner().getName());
 				}
 			}
@@ -99,7 +99,7 @@ public class CommandLineInterface implements UserInterface {
 					// TODO alle störenden Einträge entfernen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
-							+ "(" + territories.get(i).getAmountOfUnits() + ")"
+							+ "(" + territories.get(i).getNumberOfUnits() + ")"
 							+ " || Im Besitz von " + territories.get(i).getOwner().getName());
 				}
 			}
@@ -114,7 +114,7 @@ public class CommandLineInterface implements UserInterface {
 			territories = currentPlayer.getTerritories();
 			for (int i = 0; i < territories.size(); i++) {
 				IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
-						+ "(" + territories.get(i).getAmountOfUnits() + ")");
+						+ "(" + territories.get(i).getNumberOfUnits() + ")");
 			}
 			selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n"
 					+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;

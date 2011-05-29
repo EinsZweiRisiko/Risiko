@@ -6,62 +6,75 @@ import java.util.HashSet;
 import domain.TerritoryManager;
 
 /**
- * Spieler-Klasse
+ * A class that represents a player
  * 
  * @author Jannes, Hendrik
  */
 public class Player {
 
-	private String name; // Spielername
-	private String color; // Spielerfarbe
-	private ArrayList<Territory> territories = new ArrayList<Territory>(); // besitzendes Länder
-	private TerritoryManager territoryManager;
+	/**
+	 * The player's name
+	 */
+	private String name;
+
+	/**
+	 * The player's color
+	 */
+	private int color;
+
+	/**
+	 * The territories that the player has conquered
+	 */
+	private ArrayList<Territory> territories = new ArrayList<Territory>();
+
+	/**
+	 * A list of territory cards that the player currently has. These can be exchanged for bonus units
+	 * at the start of every round.
+	 */
 	private HashSet<TerritoryCard> territoryCards = new HashSet<TerritoryCard>();
-	private int supply;
 
-	public int getSupply() {
-		return supply;
+	/**
+	 * The number of units the player still has to place on the board. This happens at the start of
+	 * every round. The player can only start attacking someone else if all units are placed.
+	 */
+	private int supplyToAllocate;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param name
+	 */
+	public Player(String name) {
+		// TODO the player's color or number
+		this.name = name;
 	}
 
-	// Konstruktor
-	public Player(String n) {
-		this.name = n;
-	}
-
+	/**
+	 * Returns the number of countries the player currently owns.
+	 * @return
+	 */
 	public int getTerritoryNumber() {
-		// Länder zühlen
 		return territories.size();
 	}
 
 	/**
-	 * Gibt die Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
+	 * Adds a territory to the list of territories which are owned by the player.
 	 * 
-	 * @return
-	 */
-//	public int getContinentBonus() {
-//		// Alle Kontinente, die wir besitzen, herausfinden
-//		ArrayList<Continent> kontinente = territoryManager.getConqueredContinents(territories);
-//
-//		// Anzahl der Bonuseinheiten, die der Spieler für seine Kontinente bekommt
-//		int bonus = 0;
-//
-//		// Alle Kontinente durchgehen, die es gibt
-//		for (Continent kontinent : kontinente) {
-//			bonus += kontinent.getBonusSupply();
-//		}
-//
-//		return bonus;
-//	}
-
-	/**
-	 * Fügt Länder hinzu
-	 * 
-	 * @param territory
-	 *            Das Land, das hinzugefügt wird
+	 * @param territory 
+	 *          
 	 */
 	public void addTerritory(Territory territory) {
 		territories.add(territory);
-		territory.setOwner(this);
+	}
+	
+	/**
+	 * Removes a territory from the list of territories which are owned by the player.
+	 * 
+	 * @param territory 
+	 *          
+	 */
+	public void removeTerritory(Territory territory) {
+		territories.remove(territory);
 	}
 
 	/**
@@ -77,22 +90,28 @@ public class Player {
 		return name;
 	}
 
+	public int getSupply() {
+		return supplyToAllocate;
+	}
+
 	public void setSupply(int supply) {
-		this.supply = supply;
+		this.supplyToAllocate = supply;
 
 	}
-	
+
 	public void addSupply(int change) {
-		this.supply += change;
+		this.supplyToAllocate += change;
 	}
-	
+
 	public void removeSupply(int change) {
-		this.supply -= change;
+		this.supplyToAllocate -= change;
 	}
 
 	/**
 	 * Returns a random territory which is owned by the player
-	 * @param player Player
+	 * 
+	 * @param player
+	 *            Player
 	 * @return Random rerritory
 	 */
 	public Territory getRandomTerritory() {

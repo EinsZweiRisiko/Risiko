@@ -3,7 +3,7 @@ package valueobjects;
 import java.util.ArrayList;
 
 /**
- * Territory
+ * Represents a territory
  * 
  * @author Jannes
  * 
@@ -39,6 +39,10 @@ public class Territory {
 		return neighbors;
 	}
 
+	public String toString() {
+		return name;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -51,7 +55,7 @@ public class Territory {
 		this.owner = owner;
 	}
 
-	public int getAmountOfUnits() {
+	public int getNumberOfUnits() {
 		return units;
 	}
 
@@ -61,6 +65,10 @@ public class Territory {
 	
 	public void addUnits(int units) {
 		this.units += units;
+	}
+
+	public int getUnits() {
+		return units;
 	}
 
 	public Continent getContinent() {
