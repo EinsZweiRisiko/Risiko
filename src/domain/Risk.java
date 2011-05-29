@@ -1,5 +1,8 @@
 package domain;
 
+import ui.UserInterface;
+import ui.cli.CommandLineInterface;
+
 /**
  * Risk class
  * 
@@ -15,7 +18,8 @@ public class Risk {
 		// TODO Spieleranzahl, Namen, Farben
 
 		// Eine Spielrunde starten
-		Game game = new Game();
+		UserInterface ui = new CommandLineInterface();
+		Game game = new Game(ui);
 
 		// Spiel laufen lassen
 		while (!game.ended()) {

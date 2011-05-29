@@ -1,9 +1,6 @@
 package valueobjects;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-
-import domain.TerritoryManager;
 
 /**
  * A class that represents a player
@@ -17,21 +14,10 @@ public class Player {
 	 */
 	private String name;
 
-	/**
-	 * The player's color
-	 */
-	private int color;
-
-	/**
-	 * The territories that the player has conquered
-	 */
-	private ArrayList<Territory> territories = new ArrayList<Territory>();
-
-	/**
-	 * A list of territory cards that the player currently has. These can be exchanged for bonus units
-	 * at the start of every round.
-	 */
-	private HashSet<TerritoryCard> territoryCards = new HashSet<TerritoryCard>();
+//	/**
+//	 * The player's color
+//	 */
+//	private int color;
 
 	/**
 	 * The number of units the player still has to place on the board. This happens at the start of
@@ -40,73 +26,76 @@ public class Player {
 	private int supplyToAllocate;
 
 	/**
+	 * The territories that the player has conquered
+	 */
+	private ArrayList<Territory> territoryList = new ArrayList<Territory>();
+
+	/**
+	 * A list of territory cards that the player currently has. These can be exchanged for bonus units
+	 * at the start of every round.
+	 */
+	private ArrayList<TerritoryCard> territoryCards = new ArrayList<TerritoryCard>();
+
+	/**
 	 * Constructor
 	 * 
 	 * @param name
 	 */
 	public Player(String name) {
-		// TODO the player's color or number
+		// TODO Add the player's color or assign at least a player number
 		this.name = name;
 	}
 
 	/**
-	 * Returns the number of countries the player currently owns.
-	 * @return
+	 * Gets the player's name
+	 * 
+	 * @return Name
 	 */
-	public int getTerritoryNumber() {
-		return territories.size();
+	public String getName() {
+		return name;
 	}
 
 	/**
 	 * Adds a territory to the list of territories which are owned by the player.
 	 * 
-	 * @param territory 
-	 *          
+	 * @param territory
+	 * 
 	 */
 	public void addTerritory(Territory territory) {
-		territories.add(territory);
+		territoryList.add(territory);
 	}
-	
+
 	/**
 	 * Removes a territory from the list of territories which are owned by the player.
 	 * 
-	 * @param territory 
-	 *          
+	 * @param territory
+	 * 
 	 */
 	public void removeTerritory(Territory territory) {
-		territories.remove(territory);
+		territoryList.remove(territory);
 	}
 
 	/**
-	 * Liefert die Länder
+	 * Returns a list of territories the player owns.
 	 * 
-	 * @return Länder, die der Spieler besitzt
+	 * The list should not be altered in any way.
+	 * 
+	 * @return List of territories
 	 */
 	public ArrayList<Territory> getTerritories() {
-		return territories;
+		// TODO protect the internal list from changes
+		return territoryList;
 	}
 
-	public String getName() {
-		return name;
+	/**
+	 * Returns the number of countries the player currently owns.
+	 * 
+	 * @return
+	 */
+	public int getTerritoryCount() {
+		return territoryList.size();
 	}
-
-	public int getSupply() {
-		return supplyToAllocate;
-	}
-
-	public void setSupply(int supply) {
-		this.supplyToAllocate = supply;
-
-	}
-
-	public void addSupply(int change) {
-		this.supplyToAllocate += change;
-	}
-
-	public void removeSupply(int change) {
-		this.supplyToAllocate -= change;
-	}
-
+	
 	/**
 	 * Returns a random territory which is owned by the player
 	 * 
@@ -115,10 +104,34 @@ public class Player {
 	 * @return Random rerritory
 	 */
 	public Territory getRandomTerritory() {
-		// Retrieve a random territory
-		int random = (int) (Math.random() * territories.size());
-		Territory randomTerritory = territories.get(random);
-
-		return randomTerritory;
+		// Generate a pseudo random number
+		int random = (int) (Math.random() * territoryList.size());
+		// Return the territory
+		return territoryList.get(random);
 	}
+	
+	/**
+	 * Adds the specified number to the amount of units that need to be allocated.
+	 * @param change Value to be added
+	 */
+	public void addSupply(int change) {
+		this.supplyToAllocate += change;
+	}
+	
+	/**
+	 * Substracts the specified number from the amount of units that need to be allocated.
+	 * @param change Value to be substract
+	 */
+	public void subtractSupply(int change) {
+		this.supplyToAllocate -= change;
+	}
+	
+	/**
+	 * Returns the total amount of supply units that the player needs to allocate.
+	 * @return
+	 */
+	public int getSupply() {
+		return supplyToAllocate;
+	}
+	
 }

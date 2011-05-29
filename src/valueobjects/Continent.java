@@ -3,51 +3,44 @@ package valueobjects;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import domain.TerritoryManager;
+
 /**
- * A class that represents a continent. It holds all the territories that make up the continent as a
+ * An abstract class that represents a continent. It holds all the territories that make up the continent as a
  * list.
  * 
  * @author Jannes
  * 
  */
-public class Continent implements Iterable<Territory> {
+public abstract class Continent implements Iterable<Territory> {
 
 	/**
 	 * Name of the continent
 	 */
-	private String name;
+	protected String name;
 
 	/**
 	 * The amount of bonus units a player gets each round when he has conquered the complete continent
 	 */
-	private int supplyBonus;
+	protected int supplyBonus = 0;
 
 	/**
-	 * Contains all territories that make this continent
+	 * Contains all territories that make this continent up
 	 */
-	private ArrayList<Territory> territoryList = new ArrayList<Territory>();
+	protected ArrayList<Territory> territoryList = new ArrayList<Territory>();
 
 	/**
-	 * Constructor
+	 * Returns an iterator which can be used to iterate over all the territories of the continent
 	 * 
-	 * @param name
-	 * @param supplyBonus
-	 */
-	public Continent(String name, int supplyBonus) {
-		this.name = name;
-		this.supplyBonus = supplyBonus;
-	}
-
-	/**
-	 * Adds a territory to the list. This method is only used during initialization
+	 * Territories should not be removed from the list.
 	 * 
-	 * @param territory
-	 *            Territory that is to be added
+	 * @return Iterator
 	 */
-	public void addTerritory(Territory territory) {
-		territoryList.add(territory);
+	@Override
+	public Iterator<Territory> iterator() {
+		return territoryList.iterator();
 	}
-
+	
 	/**
 	 * Returns the name of this continent
 	 * 
@@ -60,32 +53,22 @@ public class Continent implements Iterable<Territory> {
 	/**
 	 * Returns the amount of bonus units a player gets each round for having conquered this territory
 	 * 
-	 * @return
+	 * @return Amount of bonus units
 	 */
 	public int getSupplyBonus() {
 		return supplyBonus;
 	}
-
+	
 	/**
-	 * Returns a list with all territories of the continent
+	 * Returns a list with all territories of the continent.
 	 * 
-	 * @return
+	 * Territories should not be removed from the list.
+	 * 
+	 * @return List of territories
+	 * @see TerritoryManager
 	 */
 	public ArrayList<Territory> getTerritories() {
-		// But this is currently needed for a containsAll() check
 		return territoryList;
-		// TODO: This array should not be given out.
-	}
-
-	/**
-	 * Returns an iterator which can be used to iterate over all the territories of the continent
-	 * 
-	 * @return Iterator
-	 */
-	@Override
-	public Iterator<Territory> iterator() {
-		// TODO: Protect territories from being removed
-		return territoryList.iterator();
 	}
 
 }

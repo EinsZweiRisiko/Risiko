@@ -1,16 +1,24 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import valueobjects.Continent;
 import valueobjects.Player;
 import valueobjects.Territory;
-import domain.exceptions.InvalidStateException;
+import valueobjects.continents.Africa;
+import valueobjects.continents.Asia;
+import valueobjects.continents.Australia;
+import valueobjects.continents.Europe;
+import valueobjects.continents.NorthAmerica;
+import valueobjects.continents.SouthAmerica;
+import domain.exceptions.InvalidTerritoryStateException;
 
 /**
  * This class does contains all territories and performs operations on them
+ * 
  * @author Jannes
  * 
  */
@@ -25,18 +33,6 @@ public class TerritoryManager implements Iterable<Territory> {
 	 * List of all territories coupled with their names
 	 */
 	private HashMap<String, Territory> territories = new HashMap<String, Territory>();
-	
-	/**
-	 * All territory names
-	 */
-	private final String[] territoryNames = { "Alaska", "Nordwest-Territorium", "Grönland",
-			"Alberta", "Ontario", "Quebec", "Weststaaten", "Oststaaten", "Mittelamerika",
-			"Venezuela", "Peru", "Brasilien", "Argentinien", "Nordwestafrika", "Ägypten",
-			"Ostafrika", "Kongo", "Südafrika", "Madagaskar", "Island", "Skandinavien", "Ukraine",
-			"Großbritannien", "Mitteleuropa", "Westeuropa", "Südeuropa", "Ural", "Sibirien",
-			"Jakutien", "Irkutsk", "Kamtschatka", "Mongolei", "Japan", "Afghanistan", "China",
-			"Mittlerer Osten", "Indien", "Siam", "Indonesien", "Neu-Guinea", "West-Australien",
-			"Ost-Australien" };
 
 	/**
 	 * A list which contains all pairs of adjacent territories
@@ -81,81 +77,23 @@ public class TerritoryManager implements Iterable<Territory> {
 	 * Constructor
 	 */
 	public TerritoryManager() {
-		// Create territory objects for every name in the list
-		for (String name : territoryNames) {
-			territories.put(name, new Territory(name));
+		// Create continents (and territories)
+		continents.add(new Africa());
+		continents.add(new Asia());
+		continents.add(new Australia());
+		continents.add(new Europe());
+		continents.add(new NorthAmerica());
+		continents.add(new SouthAmerica());
+
+		// Get all territories and put them in a Map<String, Territory>
+		for (Continent continent : continents) {
+			for (Territory territory : continent.getTerritories()) {
+				territories.put(territory.getName(), territory);
+			}
 		}
 
 		// Initializes all neighboring territories based on the pairs in the 'borders' array
 		initNeighboringTerritories();
-
-		// Create all continents
-		Continent continent;
-		// North America
-		continent = new Continent("Nordamerika", 5);
-		continent.addTerritory(territories.get("Alaska"));
-		continent.addTerritory(territories.get("Nordwest-Territorium"));
-		continent.addTerritory(territories.get("Grönland"));
-		continent.addTerritory(territories.get("Alberta"));
-		continent.addTerritory(territories.get("Ontario"));
-		continent.addTerritory(territories.get("Quebec"));
-		continent.addTerritory(territories.get("Weststaaten"));
-		continent.addTerritory(territories.get("Oststaaten"));
-		continent.addTerritory(territories.get("Mittelamerika"));
-		continents.add(continent);
-
-		// South America
-		continent = new Continent("Südamerika", 2);
-		continent.addTerritory(territories.get("Venezuela"));
-		continent.addTerritory(territories.get("Peru"));
-		continent.addTerritory(territories.get("Brasilien"));
-		continent.addTerritory(territories.get("Argentinien"));
-		continents.add(continent);
-		
-		// Africa
-		continent = new Continent("Afrika", 3);
-		continent.addTerritory(territories.get("Nordwestafrika"));
-		continent.addTerritory(territories.get("Ägypten"));
-		continent.addTerritory(territories.get("Ostafrika"));
-		continent.addTerritory(territories.get("Kongo"));
-		continent.addTerritory(territories.get("Südafrika"));
-		continent.addTerritory(territories.get("Madagaskar"));
-		continents.add(continent);
-
-		// Europe
-		continent = new Continent("Europa", 5);
-		continent.addTerritory(territories.get("Island"));
-		continent.addTerritory(territories.get("Skandinavien"));
-		continent.addTerritory(territories.get("Ukraine"));
-		continent.addTerritory(territories.get("Großbritannien"));
-		continent.addTerritory(territories.get("Mitteleuropa"));
-		continent.addTerritory(territories.get("Westeuropa"));
-		continent.addTerritory(territories.get("Südeuropa"));
-		continents.add(continent);
-
-		// Asia
-		continent = new Continent("Asien", 7);
-		continent.addTerritory(territories.get("Ural"));
-		continent.addTerritory(territories.get("Sibirien"));
-		continent.addTerritory(territories.get("Jakutien"));
-		continent.addTerritory(territories.get("Irkutsk"));
-		continent.addTerritory(territories.get("Kamtschatka"));
-		continent.addTerritory(territories.get("Mongolei"));
-		continent.addTerritory(territories.get("Japan"));
-		continent.addTerritory(territories.get("Afghanistan"));
-		continent.addTerritory(territories.get("China"));
-		continent.addTerritory(territories.get("Mittlerer Osten"));
-		continent.addTerritory(territories.get("Indien"));
-		continent.addTerritory(territories.get("Siam"));
-		continents.add(continent);
-
-		// Australia
-		continent = new Continent("Australien", 2);
-		continent.addTerritory(territories.get("Indonesien"));
-		continent.addTerritory(territories.get("Neu-Guinea"));
-		continent.addTerritory(territories.get("West-Australien"));
-		continent.addTerritory(territories.get("Ost-Australien"));
-		continents.add(continent);
 	}
 
 	/**
@@ -164,7 +102,7 @@ public class TerritoryManager implements Iterable<Territory> {
 	private void initNeighboringTerritories() {
 		Territory territory1;
 		Territory territory2;
-		
+
 		// Go through all pairs
 		for (String[] border : borders) {
 			// Get both territory objects
@@ -183,7 +121,48 @@ public class TerritoryManager implements Iterable<Territory> {
 	public Iterator<Territory> iterator() {
 		return territories.values().iterator();
 	}
-	
+
+//	/**
+//	 * Returns the number of territories that exist
+//	 * 
+//	 * @return Number of territories
+//	 */
+//	public int getNumberOfTerritories() {
+//		return territories.size();
+//	}
+
+	/**
+	 * Changes the owner of a territory. The target territory must be empty (i.e. its unit count must
+	 * be zero).
+	 * 
+	 * @param newOwner
+	 *            The new owner of the territory
+	 * @param territory
+	 *            The territory to be conquered
+	 * @param units
+	 *            The initial amount of units which will be placed on the territory
+	 * @throws InvalidTerritoryStateException
+	 */
+	public void changeTerritoryOwner(Player newOwner, Territory territory, int units)
+			throws InvalidTerritoryStateException {
+		// If the territory still holds units the owner cannot be changed
+		if (territory.getUnits() != 0) {
+			throw new InvalidTerritoryStateException("The territory " + territory.toString()
+					+ " still holds units.");
+		}
+
+		// Set the new owner
+		Player oldOwner = territory.getOwner();
+		territory.setOwner(newOwner);
+
+		// Set the amount of units that the new owner has on this territory
+		territory.setUnits(units);
+
+		// Reflect the change in the player's lists of their territories
+		oldOwner.removeTerritory(territory);
+		newOwner.addTerritory(territory);
+	}
+
 	/**
 	 * Tests if all territories hold at least one unit
 	 * 
@@ -201,86 +180,44 @@ public class TerritoryManager implements Iterable<Territory> {
 		return true;
 	}
 
-//	/**
-//	 * Returns a list with all continents that are completely conquered
-//	 * @param countries
-//	 * @return
-//	 */
-//	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> countries) {
-//		// Array für das Ergebnis
-//		ArrayList<Continent> conqueredContinents = new ArrayList<Continent>();
-//
-//		// durchläuft jeden kotninent[] und überprüft den Besitzer
-//		Continent currentContinent;
-//		for (int i = 0; i < continents.size(); i++) {
-//			currentContinent = continents.get(i);
-//
-//			// Überprüft, ob die Länderliste den kompletten Kontinent enthält
-//			if (countries.containsAll(currentContinent.getTerritories())) {
-//				conqueredContinents.add(currentContinent);
-//			}
-//		}
-//
-//		return conqueredContinents;
-//
-//	}
-
-//	/**
-//	 * Returns the number of territories that exist
-//	 * 
-//	 * @return Number of territories
-//	 */
-//	public int getNumberOfTerritories() {
-//		return territories.size();
-//	}
-	
 	/**
-	 * Creates a new list which contains all territories sorted in a random way
-	 * @return Random territory list
+	 * Returns a list with all continents that are completely conquered
+	 * 
+	 * @param countries
+	 * @return
 	 */
-	public ArrayList<Territory> getRandomTerritoryList() {
-		// Creates two lists
-		ArrayList<Territory> territoryListCopy = new ArrayList<Territory>(territories.values());
-		ArrayList<Territory> territoryListRandom = new ArrayList<Territory>();
+	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> countries) {
+		// Array für das Ergebnis
+		ArrayList<Continent> conqueredContinents = new ArrayList<Continent>();
 
-		while (territoryListCopy.size() != 0) {
-			int rnd = (int) (Math.random() * territoryListCopy.size());
-			territoryListRandom.add(territoryListCopy.get(rnd));
-			territoryListCopy.remove(rnd);
+		// durchläuft jeden kotninent[] und überprüft den Besitzer
+		Continent currentContinent;
+		for (int i = 0; i < continents.size(); i++) {
+			currentContinent = continents.get(i);
+
+			// Überprüft, ob die Länderliste den kompletten Kontinent enthält
+			if (countries.containsAll(currentContinent.getTerritories())) {
+				conqueredContinents.add(currentContinent);
+			}
 		}
-		
-		return territoryListRandom;
+
+		return conqueredContinents;
+
 	}
 
 	/**
-	 * Changes the owner of a territory
+	 * Creates a new list which contains all territories sorted in a random way
 	 * 
-	 * @param newOwner
-	 *            The new owner of the territory
-	 * @param territory
-	 *            The territory to be conquered
-	 * @param units
-	 *            The initial amount of units which will be placed on the territory
-	 * @throws InvalidStateException
+	 * @return Random territory list
 	 */
-	public void changeTerritoryOwner(Player newOwner, Territory territory, int units)
-			throws InvalidStateException {
-		// If the territory still holds units the owner cannot be changed
-		if (territory.getUnits() != 0) {
-			throw new InvalidStateException("The territory " + territory.toString()
-					+ " still holds units.");
-		}
+	public ArrayList<Territory> getRandomTerritoryList() {
+		// Create a copy of the values
+		ArrayList<Territory> territoryList = new ArrayList<Territory>(territories.values());
 
-		// Set the new owner
-		Player oldOwner = territory.getOwner();
-		territory.setOwner(newOwner);
-		
-		// Set the amount of units that the new owner has on this territory
-		territory.setUnits(units);
-		
-		// Reflect the change in the player's lists of their territories 
-		oldOwner.removeTerritory(territory);
-		newOwner.addTerritory(territory);
+		// Shuffle it
+		Collections.shuffle(territoryList);
+
+		return territoryList;
 	}
 
 }

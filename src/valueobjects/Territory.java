@@ -14,19 +14,18 @@ public class Territory {
 	private int units = 0;
 	private String name;
 	private Continent continent;
-	private ArrayList<Territory> neighbors = new ArrayList<Territory>();
+	private ArrayList<Territory> neighborList = new ArrayList<Territory>();
 
 	public Territory(String name) {
 		this.name = name;
-
 	}
 
 	public void addNeighbor(Territory land) {
-		neighbors.add(land);
+		neighborList.add(land);
 	}
 
 	public boolean isNeighborOf(Territory land) {
-		if (neighbors.contains(land)) {
+		if (neighborList.contains(land)) {
 			return true;
 		} else {
 			return false;
@@ -36,7 +35,7 @@ public class Territory {
 	// Getter und Setter
 
 	public ArrayList<Territory> getNeighbors() {
-		return neighbors;
+		return neighborList;
 	}
 
 	public String toString() {
@@ -55,7 +54,7 @@ public class Territory {
 		this.owner = owner;
 	}
 
-	public int getNumberOfUnits() {
+	public int getUnitCount() {
 		return units;
 	}
 

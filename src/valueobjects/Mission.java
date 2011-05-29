@@ -1,7 +1,7 @@
 package valueobjects;
 
 /**
- * The Mission class represents a mission that a player has
+ * The Mission class represents a mission that a player has to accomplish
  * 
  * @author Jannes
  * 
