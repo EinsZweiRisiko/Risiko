@@ -23,12 +23,12 @@ public class Game {
 		PLACEUNITS, ATTACK, MOVE, DEFEND
 	};
 
+	private UserInterface ui;
 	private PlayerManager playerManager;
 	private TerritoryManager territoryManager;
 	private Player activePlayer;
-	private UserInterface ui;
-	private ArrayList<Integer> bonusSteps;
-	private Iterator<Integer> bonusIter;
+	private ArrayList<Integer> bonusSupplySteps;
+	private Iterator<Integer> bonusSupplyIter;
 
 	/**
 	 * Constructor for a new game of Risk
@@ -37,9 +37,9 @@ public class Game {
 		this.ui = ui;
 		
 		// Setup the steps in which bonus units are allocated
-		bonusSteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35, 40, 45,
+		bonusSupplySteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35, 40, 45,
 				50, 55, 60));
-		bonusIter = bonusSteps.iterator();
+		bonusSupplyIter = bonusSupplySteps.iterator();
 
 		// Create territory manager
 		territoryManager = new TerritoryManager();
