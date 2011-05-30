@@ -38,11 +38,12 @@ public class CommandLineInterface implements UserInterface {
 		IO.println("\n");
 
 		int selection = 0;
+		
+		//Copy of the territores-list of the current Player
 		ArrayList<Territory> territories = new ArrayList<Territory>(currentPlayer.getTerritories());
-		ArrayList<Territory> neighbors;
 
 		Territory territory;
-
+		
 		if (phase == Phases.ATTACK) {
 			for (Iterator<Territory> iter = territories.iterator(); iter.hasNext();) {
 				territory = iter.next();
