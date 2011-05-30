@@ -11,7 +11,7 @@ public abstract class Mission {
 	/**
 	 * Constructor
 	 */
-	public Mission() {
+	public Mission(TerritoryManager territoryManager, Player player) {
 		
 	}
 	

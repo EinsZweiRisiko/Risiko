@@ -68,6 +68,14 @@ public class PlayerManager implements Iterable<Player> {
 		
 		return activePlayer;
 	}
+	
+	/**
+	 * Returns the currently active player
+	 * @return Currently active player
+	 */
+	public Player getActivePlayer() {
+		return activePlayer;
+	}
 
 	/**
 	 * Returns all players
