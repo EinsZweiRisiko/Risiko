@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 
+import ui.UserInterface;
 import valueobjects.Territory;
 
 /**
@@ -32,7 +33,7 @@ public class BattleSystem {
 	// Ziell und Quellland
 	Territory targetTerritory;
 	Territory originatingTerritory;
-
+	UserInterface ui;
 	// Angriffe wieviele Angriffe werden in einem Angriff getßtigt
 	int attacks = 0;
 
@@ -40,11 +41,12 @@ public class BattleSystem {
 	// Kontruktur bekommt außerdem das Ziel und Quellland als Objekte
 
 	public BattleSystem(int numberOfAttackers, int numberOfDefenders,
-			Territory originatingTerritory, Territory targetTerritory) {
+			Territory originatingTerritory, Territory targetTerritory, UserInterface ui) {
 		this.amountOfAttackers = numberOfAttackers;
 		this.amountOfDefenders = numberOfDefenders;
 		this.targetTerritory = targetTerritory;
 		this.originatingTerritory = originatingTerritory;
+		this.ui = ui;
 		fight();
 	}
 
@@ -252,23 +254,7 @@ public class BattleSystem {
 		attacks++;
 		// Runter setzten der Einheiten
 		targetTerritory.setUnits(targetTerritory.getUnitCount() - 1);
-
-		if (attacks == 1) {
-			System.out.println("Angriff1: " + attackOne + " schlaegt Defensive1: " + defenseOne);
-
-			System.out.println(targetTerritory.getName() + "("
-					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
-					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
-					+ ") hat noch: " + targetTerritory.getUnitCount() + " Einheiten uebrig");
-		} else {
-			System.out.println("Angriff2: " + attackTwo + " schlaegt Defensive2: " + defenseTwo);
-
-			System.out.println(targetTerritory.getName() + "("
-					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
-					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
-					+ ") hat noch: " + targetTerritory.getUnitCount() + " Einheiten uebrig");
-		}
-
+		ui.battleMsgOffense();
 	}
 
 	public void eventMsgDefense() {
@@ -276,24 +262,6 @@ public class BattleSystem {
 		attacks++;
 		// Runter setzten der Einheiten
 		originatingTerritory.setUnits(originatingTerritory.getUnitCount() - 1);
-
-		if (attacks == 1) {
-			System.out.println("Defensive1: " + defenseOne + " schlaegt Offennsive1: " + attackOne);
-
-			System.out.println(originatingTerritory.getName() + "("
-					+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
-					+ originatingTerritory.getName() + " ("
-					+ originatingTerritory.getOwner().getName() + ") hat noch: "
-					+ originatingTerritory.getUnitCount() + " Einheiten uebrig");
-		} else {
-			System.out.println("Defensive2: " + defenseTwo + " schlaegt Offensive2: " + attackTwo);
-
-			System.out.println(originatingTerritory.getName() + "("
-
-			+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
-					+ originatingTerritory.getName() + " ("
-					+ originatingTerritory.getOwner().getName() + ") hat noch: "
-					+ originatingTerritory.getUnitCount() + " Einheiten uebrig");
-		}
+		ui.battleMsgDefense();
 	}
 }

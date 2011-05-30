@@ -23,5 +23,9 @@ public interface UserInterface {
 	void announceCurrentPlayer(Player activePlayer);
 
 	boolean askForPhase(Player activePlayer, Phases move);
+	
+	void battleMsgOffense(int attacks, Territory targetTerritory, int attackOne, int attackTwo, int defenseOne, int defenseTwo);
+	
+	void battleMsgDefense(int attacks, Territory originatingTerritory, int attackOne, int attackTwo, int defenseOne, int defenseTwo);
 
 }
