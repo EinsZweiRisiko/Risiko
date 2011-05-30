@@ -254,7 +254,7 @@ public class BattleSystem {
 		attacks++;
 		// Runter setzten der Einheiten
 		targetTerritory.setUnits(targetTerritory.getUnitCount() - 1);
-		ui.battleMsgOffense();
+		ui.battleMsgOffense(attacks, targetTerritory, attackOne, attackTwo, defenseOne, defenseTwo);
 	}
 
 	public void eventMsgDefense() {
@@ -262,6 +262,6 @@ public class BattleSystem {
 		attacks++;
 		// Runter setzten der Einheiten
 		originatingTerritory.setUnits(originatingTerritory.getUnitCount() - 1);
-		ui.battleMsgDefense();
+		ui.battleMsgDefense(attacks, originatingTerritory, attackOne, attackTwo, defenseOne, defenseTwo);
 	}
 }
