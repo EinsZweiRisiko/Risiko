@@ -276,14 +276,14 @@ public class BattleSystem {
 		// falls keine Verteidiger mehr vorhanden
 		if(targetTerritory.getUnits() == 0) {
 			try {
+				originatingTerritory.setUnits(originatingTerritory.getUnits() - amountOfAttackers);
 				territoryManager.changeTerritoryOwner(playerManager.getActivePlayer() , targetTerritory, amountOfAttackers);
 			} catch (InvalidTerritoryStateException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		
 	}
+	
 	// beim gewinnen der DEFENSE
 	public void eventMsgDefense() {
 		// Anzahl der Angriffe die getaetigt werden
