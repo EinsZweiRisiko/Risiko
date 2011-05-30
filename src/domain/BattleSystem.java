@@ -130,10 +130,8 @@ public class BattleSystem {
 			attackOne = getBiggestNumber(attack);
 			attackRound++;
 			
-			System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
-					+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
-					+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
-					+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
+			//Ausgabe des Kampfstatus also wer gegen wenn
+			ui.battleStatusMsg(targetTerritory, originatingTerritory, amountOfAttackers, amountOfDefenders);
 
 			// 1 gegen 1
 			if (amountOfDefenders == 1) {
@@ -168,10 +166,9 @@ public class BattleSystem {
 			attackTwo = getBiggestNumber(attack);
 			attackRound++;
 
-			System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
-					+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
-					+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
-					+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
+			//Ausgabe des Kampfstatus also wer gegen wenn
+			ui.battleStatusMsg(targetTerritory, originatingTerritory, amountOfAttackers, amountOfDefenders);
+			
 			// 2 gegen 1
 			if (amountOfDefenders == 1) {
 				defenseOne = getBiggestNumber(defense);
@@ -215,10 +212,8 @@ public class BattleSystem {
 			attackTwo = getBiggestNumber(attack);
 			attackRound++;
 			
-			System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
-					+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
-					+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
-					+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
+			//Ausgabe des Kampfstatus also wer gegen wenn
+			ui.battleStatusMsg(targetTerritory, originatingTerritory, amountOfAttackers, amountOfDefenders);
 
 			// 3 gegen 1
 			if (amountOfDefenders == 1) {

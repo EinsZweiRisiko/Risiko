@@ -269,5 +269,12 @@ public class CommandLineInterface implements UserInterface {
 					+ originatingTerritory.getUnits() + " Einheiten uebrig");
 		}
 	}
+	
+	public void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory, int amountOfAttackers, int amountOfDefenders) {
+		System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
+				+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
+				+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
+				+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
+	}
 
 }
