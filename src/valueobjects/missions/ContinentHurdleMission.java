@@ -6,8 +6,18 @@ import valueobjects.Continent;
 import valueobjects.Player;
 import domain.TerritoryManager;
 
-public class ContinentHurdleMission extends AbstractMission {
+public class ContinentHurdleMission implements Mission {
 
+	/**
+	 * TerritoryManager. Not every subclass initializes this attribute.
+	 */
+	protected TerritoryManager territoryManager;
+
+	/**
+	 * The player who owns this mission
+	 */
+	protected Player player;
+	
 	/**
 	 * List of continents which have to be conquered
 	 */

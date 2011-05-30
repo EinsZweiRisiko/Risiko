@@ -1,7 +1,5 @@
 package valueobjects.missions;
 
-import valueobjects.Player;
-import domain.TerritoryManager;
 
 /**
  * The Mission interface represents a mission that a player has to accomplish

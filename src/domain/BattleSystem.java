@@ -2,10 +2,9 @@ package domain;
 
 import java.util.ArrayList;
 
-import domain.exceptions.InvalidTerritoryStateException;
-
 import ui.UserInterface;
 import valueobjects.Territory;
+import domain.exceptions.InvalidTerritoryStateException;
 
 /**
  * 

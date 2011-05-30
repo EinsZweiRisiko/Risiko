@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import domain.exceptions.InvalidTerritoryStateException;
-
 import ui.UserInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
+import domain.exceptions.InvalidTerritoryStateException;
 
 /**
  * The game class manages a complete game of Risk

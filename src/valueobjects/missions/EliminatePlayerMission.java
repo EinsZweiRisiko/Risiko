@@ -2,7 +2,7 @@ package valueobjects.missions;
 
 import valueobjects.Player;
 
-public class EliminatePlayerMission extends AbstractMission {
+public class EliminatePlayerMission implements Mission {
 
 //	private Player player;
 	private Player playerToEliminate;

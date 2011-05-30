@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import valueobjects.Player;
 import valueobjects.Territory;
 
-public class TerritoryHurdleMission extends AbstractMission {
+public class TerritoryHurdleMission implements Mission {
 
+	/**
+	 * The player who owns this mission
+	 */
+	protected Player player;
 	private int territoryHurdle;
 	private int territoryUnitHurdle;
 	
