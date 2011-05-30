@@ -85,14 +85,13 @@ public class Game {
 				// Cycle through all players
 				currentPlayer = playerManager.getNextPlayer();
 
-				
 				// Place one unit on the territory
 				try {
 					territoryManager.changeTerritoryOwner(currentPlayer, territory, 1);
 				} catch (InvalidTerritoryStateException e) {
 					e.printStackTrace();
 				}
-				
+
 				// Remove the placed units from the player's supply
 				currentPlayer.subtractSupply(1);
 			}
@@ -145,9 +144,9 @@ public class Game {
 
 		// Einheiten setzen lassen
 		placeUnits(supply);
-		
+
 		// TODO useMissionCard();
-		
+
 		// Angreifen
 		attack();
 
@@ -158,14 +157,14 @@ public class Game {
 	private void placeUnits(int supply) {
 		// gibt aus welcher Spieler dran ist
 		ui.announceCurrentPlayer(activePlayer);
-		
+
 		Territory targetTerritory = null;
 		Territory originatingTerritory = null;
 		int amountUnitPlace;
 
-		while (supply > 0) {
+		activePlayer.addSupply(supply);
 
-			activePlayer.addSupply(supply);
+		do {
 
 			// Auf welches Land sollen Einheiten platziert werden?
 			do {
@@ -177,19 +176,17 @@ public class Game {
 			do {
 				amountUnitPlace = ui.getAmountUnit(activePlayer, originatingTerritory,
 						targetTerritory, Phases.PLACEUNITS);
-			} while (amountUnitPlace > supply);
+			} while (amountUnitPlace > activePlayer.getSupply());
 
 			// supply Aktualisieren
-			supply = supply - amountUnitPlace;
+			activePlayer.subtractSupply(amountUnitPlace);
 			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitPlace);
-		}
 
+		} while (activePlayer.getSupply() > 0);
 	}
 
 	private void attack() {
-		// gibt aus welcher Spieler dran ist
-		ui.announceCurrentPlayer(activePlayer);
-		
+
 		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
 		while (ui.askForPhase(activePlayer, Phases.ATTACK)) {
 
@@ -239,9 +236,7 @@ public class Game {
 	}
 
 	private void moveUnits() {
-		// gibt aus welcher Spieler dran ist
-		ui.announceCurrentPlayer(activePlayer);
-		
+
 		Territory originatingTerritory;
 		Territory targetTerritory;
 		int amountUnitMove;
