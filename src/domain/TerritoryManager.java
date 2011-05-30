@@ -159,7 +159,9 @@ public class TerritoryManager implements Iterable<Territory> {
 		territory.setUnits(units);
 
 		// Reflect the change in the player's lists of their territories
-		oldOwner.removeTerritory(territory);
+		if (oldOwner != null) {
+			oldOwner.removeTerritory(territory);
+		}
 		newOwner.addTerritory(territory);
 	}
 

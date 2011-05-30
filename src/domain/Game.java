@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import domain.exceptions.InvalidTerritoryStateException;
+
 import ui.UserInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
@@ -84,11 +86,15 @@ public class Game {
 				// Cycle through all players
 				currentPlayer = playerManager.getNextPlayer();
 
-				// Assign the territory to the player's list of territories
-				currentPlayer.addTerritory(territory);
-
-				// Place one unit on the territory and remove it from the player's supply
-				territory.setUnits(1);
+				
+				// Place one unit on the territory
+				try {
+					territoryManager.changeTerritoryOwner(currentPlayer, territory, 1);
+				} catch (InvalidTerritoryStateException e) {
+					e.printStackTrace();
+				}
+				
+				// Remove the placed units from the player's supply
 				currentPlayer.subtractSupply(1);
 			}
 
