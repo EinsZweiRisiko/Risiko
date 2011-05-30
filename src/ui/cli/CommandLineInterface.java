@@ -41,7 +41,7 @@ public class CommandLineInterface implements UserInterface {
 		// Ausgabe aller Länder die der Spieler beistzt. ++ Anzahl der Einheiten
 		for (int i = 0; i < territories.size(); i++) {
 			IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten" + "("
-					+ territories.get(i).getUnitCount() + ")");
+					+ territories.get(i).getUnits() + ")");
 		}
 
 		// Abfrage welches Land gewählt werden soll
@@ -88,7 +88,7 @@ public class CommandLineInterface implements UserInterface {
 					// schließen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
-							+ "(" + territories.get(i).getUnitCount() + ")"
+							+ "(" + territories.get(i).getUnits() + ")"
 							+ " || Im Besitz von " + territories.get(i).getOwner().getName());
 				}
 			}
@@ -105,7 +105,7 @@ public class CommandLineInterface implements UserInterface {
 					// TODO alle störenden Einträge entfernen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
-							+ "(" + territories.get(i).getUnitCount() + ")"
+							+ "(" + territories.get(i).getUnits() + ")"
 							+ " || Im Besitz von " + territories.get(i).getOwner().getName());
 				}
 			}
@@ -120,7 +120,7 @@ public class CommandLineInterface implements UserInterface {
 			territories = currentPlayer.getTerritories();
 			for (int i = 0; i < territories.size(); i++) {
 				IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
-						+ "(" + territories.get(i).getUnitCount() + ")");
+						+ "(" + territories.get(i).getUnits() + ")");
 			}
 			selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n"
 					+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
@@ -238,14 +238,14 @@ public class CommandLineInterface implements UserInterface {
 			System.out.println(targetTerritory.getName() + "("
 					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
-					+ ") hat noch: " + targetTerritory.getUnitCount() + " Einheiten uebrig");
+					+ ") hat noch: " + targetTerritory.getUnits() + " Einheiten uebrig");
 		} else {
 			System.out.println("Angriff2: " + attackTwo + " schlaegt Defensive2: " + defenseTwo);
 
 			System.out.println(targetTerritory.getName() + "("
 					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
-					+ ") hat noch: " + targetTerritory.getUnitCount() + " Einheiten uebrig");
+					+ ") hat noch: " + targetTerritory.getUnits() + " Einheiten uebrig");
 		}
 	}
 	
@@ -257,7 +257,7 @@ public class CommandLineInterface implements UserInterface {
 					+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ originatingTerritory.getName() + " ("
 					+ originatingTerritory.getOwner().getName() + ") hat noch: "
-					+ originatingTerritory.getUnitCount() + " Einheiten uebrig");
+					+ originatingTerritory.getUnits() + " Einheiten uebrig");
 		} else {
 			System.out.println("Defensive2: " + defenseTwo + " schlaegt Offensive2: " + attackTwo);
 
@@ -266,7 +266,7 @@ public class CommandLineInterface implements UserInterface {
 			+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ originatingTerritory.getName() + " ("
 					+ originatingTerritory.getOwner().getName() + ") hat noch: "
-					+ originatingTerritory.getUnitCount() + " Einheiten uebrig");
+					+ originatingTerritory.getUnits() + " Einheiten uebrig");
 		}
 	}
 

@@ -178,7 +178,7 @@ public class Game {
 
 			// supply Aktualisieren
 			supply -= amountUnitPlace;
-			targetTerritory.setUnits(targetTerritory.getUnitCount() + amountUnitPlace);
+			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitPlace);
 		}
 
 	}
@@ -199,7 +199,7 @@ public class Game {
 			do {
 				originatingTerritory = ui.getOriginatingTerritory(activePlayer, Phases.ATTACK);
 			} while (!originatingTerritory.getOwner().equals(activePlayer)
-					|| originatingTerritory.getUnitCount() == 1);
+					|| originatingTerritory.getUnits() == 1);
 
 			// Abfrage durch die CLI welches Land welches Angegriffen werden
 			// soll. Gehört es dem Spieler erneute Abfrage.
@@ -214,7 +214,7 @@ public class Game {
 			do {
 				amountUnitAttack = ui.getAmountUnit(activePlayer, originatingTerritory,
 						targetTerritory, Phases.ATTACK);
-			} while (((originatingTerritory.getUnitCount() - 1) < amountUnitAttack)
+			} while (((originatingTerritory.getUnits() - 1) < amountUnitAttack)
 					|| (amountUnitAttack < 1 || amountUnitAttack > 3));
 
 			// Besitzer des angegriffenden Landes ermitteln
@@ -225,7 +225,7 @@ public class Game {
 			do {
 				amountUnitDefense = ui.getAmountUnit(attackedPlayer, originatingTerritory,
 						targetTerritory, Phases.DEFEND);
-			} while ((targetTerritory.getUnitCount() < amountUnitDefense)
+			} while ((targetTerritory.getUnits() < amountUnitDefense)
 					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
@@ -249,22 +249,22 @@ public class Game {
 			do {
 				originatingTerritory = ui.getOriginatingTerritory(activePlayer, Phases.MOVE);
 			} while (originatingTerritory.getOwner().equals(activePlayer)
-					&& originatingTerritory.getUnitCount() < 1);
+					&& originatingTerritory.getUnits() < 1);
 
 			do {
 				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.MOVE,
 						originatingTerritory);
 			} while (originatingTerritory.getOwner().equals(activePlayer)
-					&& originatingTerritory.getUnitCount() < 1);
+					&& originatingTerritory.getUnits() < 1);
 
 			do {
 				amountUnitMove = ui.getAmountUnit(activePlayer, originatingTerritory,
 						targetTerritory, Phases.MOVE);
-			} while ((originatingTerritory.getUnitCount() - 1) < amountUnitMove);
+			} while ((originatingTerritory.getUnits() - 1) < amountUnitMove);
 
 			// Einheiten entsprechend der Eingabe verschieben
-			originatingTerritory.setUnits(originatingTerritory.getUnitCount() - amountUnitMove);
-			targetTerritory.setUnits(targetTerritory.getUnitCount() + amountUnitMove);
+			originatingTerritory.setUnits(originatingTerritory.getUnits() - amountUnitMove);
+			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitMove);
 		}
 
 	}
