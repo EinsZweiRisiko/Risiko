@@ -3,6 +3,7 @@ package valueobjects.missions;
 import java.util.ArrayList;
 
 import valueobjects.Continent;
+import valueobjects.Mission;
 import valueobjects.Player;
 import domain.TerritoryManager;
 

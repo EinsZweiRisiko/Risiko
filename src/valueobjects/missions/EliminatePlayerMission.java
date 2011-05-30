@@ -1,5 +1,6 @@
 package valueobjects.missions;
 
+import valueobjects.Mission;
 import valueobjects.Player;
 
 public class EliminatePlayerMission implements Mission {

@@ -2,6 +2,7 @@ package valueobjects.missions;
 
 import java.util.ArrayList;
 
+import valueobjects.Mission;
 import valueobjects.Player;
 import valueobjects.Territory;
 
@@ -16,6 +17,7 @@ public class TerritoryHurdleMission implements Mission {
 	
 	// TODO javadoc
 	public TerritoryHurdleMission(Player player, int territoryHurdle, int territoryUnitHurdle) {
+		// TODO 2nd constructor without territoryUnitHurdle 
 		this.player = player;
 		this.territoryHurdle = territoryHurdle;
 		this.territoryUnitHurdle = territoryUnitHurdle;
