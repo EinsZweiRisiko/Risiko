@@ -56,6 +56,15 @@ public class Player {
 	}
 
 	/**
+	 * Gets the player's name
+	 * 
+	 * @return name
+	 */
+	public String toString() {
+		return name;
+	}
+	
+	/**
 	 * Adds a territory to the list of territories which are owned by the player.
 	 * 
 	 * @param territory

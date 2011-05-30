@@ -86,14 +86,13 @@ public class Game {
 				// Cycle through all players
 				currentPlayer = playerManager.getNextPlayer();
 
-				
 				// Place one unit on the territory
 				try {
 					territoryManager.changeTerritoryOwner(currentPlayer, territory, 1);
 				} catch (InvalidTerritoryStateException e) {
 					e.printStackTrace();
 				}
-				
+
 				// Remove the placed units from the player's supply
 				currentPlayer.subtractSupply(1);
 			}
@@ -145,9 +144,9 @@ public class Game {
 
 		// Einheiten setzen lassen
 		placeUnits(supply);
-		
+
 		// TODO useMissionCard();
-		
+
 		// Angreifen
 		attack();
 
@@ -160,11 +159,9 @@ public class Game {
 		Territory originatingTerritory = null;
 		int amountUnitPlace;
 
-		while (supply > 0) {
-
-			activePlayer.addSupply(supply);
-
-			// Auf welches Land sollen Einheiten platziert werden?
+		activePlayer.addSupply(supply);
+		// Auf welches Land sollen Einheiten platziert werden?
+		do {
 			do {
 				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.PLACEUNITS,
 						targetTerritory);
@@ -174,12 +171,11 @@ public class Game {
 			do {
 				amountUnitPlace = ui.getAmountUnit(activePlayer, originatingTerritory,
 						targetTerritory, Phases.PLACEUNITS);
-			} while (amountUnitPlace > supply);
-
+			} while (amountUnitPlace > activePlayer.getSupply());
 			// supply Aktualisieren
-			supply -= amountUnitPlace;
+			activePlayer.subtractSupply(amountUnitPlace);
 			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitPlace);
-		}
+		} while (activePlayer.getSupply() > 0);
 
 	}
 

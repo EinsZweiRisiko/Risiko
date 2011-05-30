@@ -1,6 +1,7 @@
 package ui.cli;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ui.UserInterface;
 import valueobjects.Player;
@@ -36,9 +37,45 @@ public class CommandLineInterface implements UserInterface {
 		IO.println("\n");
 
 		int selection = 0;
-		ArrayList<Territory> territories = currentPlayer.getTerritories();
+		ArrayList<Territory> territories = new ArrayList<Territory>(currentPlayer.getTerritories());
+		ArrayList<Territory> neighbors;
 
-		// Ausgabe aller Länder die der Spieler beistzt. ++ Anzahl der Einheiten
+		Territory territory;
+
+		if (phase == Phases.ATTACK) {
+			for (Iterator<Territory> iter = territories.iterator(); iter.hasNext();) {
+				territory = iter.next();
+
+				boolean allYourTerritoryAreBelongToUs = true;
+				for (Territory neighbor : territory.getNeighbors()) {
+					if (!neighbor.getOwner().equals(currentPlayer)) {
+						allYourTerritoryAreBelongToUs = false;
+					}
+				}
+
+				if (allYourTerritoryAreBelongToUs) {
+					iter.remove();
+				}
+			}
+		}
+		if (phase == Phases.MOVE) {
+			for (Iterator<Territory> iter = territories.iterator(); iter.hasNext();) {
+				territory = iter.next();
+
+				boolean noNeighborBelongToMe = true;
+				for (Territory neighbor : territory.getNeighbors()) {
+					if (neighbor.getOwner().equals(currentPlayer)) {
+						noNeighborBelongToMe = false;
+					}
+				}
+
+				if (noNeighborBelongToMe) {
+					iter.remove();
+				}
+			}
+		}
+
+		// Ausgabe aller Länder die der Spieler besitzt. ++ Anzahl der Einheiten
 		for (int i = 0; i < territories.size(); i++) {
 			IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten" + "("
 					+ territories.get(i).getUnits() + ")");
@@ -83,6 +120,8 @@ public class CommandLineInterface implements UserInterface {
 		if (phase == Phases.ATTACK) {
 			territories = originatingTerritory.getNeighbors();
 			for (int i = 0; i < territories.size(); i++) {
+				// If a Territory in this list belongs to the Attacker it won't show up, also it won't
+				// be listed if there are no enemy territories.
 				if (territories.get(i).getOwner().equals(currentPlayer)) {
 					// TODO alle störenden Einträge entfernen und Liste ggf. neuordnen um Lücken zu
 					// schließen
@@ -273,12 +312,14 @@ public class CommandLineInterface implements UserInterface {
 					+ originatingTerritory.getUnits() + " Einheiten uebrig");
 		}
 	}
-	
-	public void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory, int amountOfAttackers, int amountOfDefenders) {
+
+	public void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory,
+			int amountOfAttackers, int amountOfDefenders) {
 		System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
-				+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
-				+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
-				+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
+				+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers + " Armee"
+				+ "(" + "n" + ")" + " " + " vs. " + amountOfDefenders + " Armee" + "(" + "n" + ")"
+				+ " " + targetTerritory.getName() + "(" + targetTerritory.getOwner().getName()
+				+ ")" + "-----" + "\n");
 	}
 
 }
