@@ -54,7 +54,7 @@ public class Territory {
 		this.owner = owner;
 	}
 
-	public int getUnitCount() {
+	public int getUnits() {
 		return units;
 	}
 
@@ -64,10 +64,6 @@ public class Territory {
 	
 	public void addUnits(int units) {
 		this.units += units;
-	}
-
-	public int getUnits() {
-		return units;
 	}
 
 	public Continent getContinent() {
