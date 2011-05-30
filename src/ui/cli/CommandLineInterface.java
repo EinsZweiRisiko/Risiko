@@ -7,6 +7,12 @@ import valueobjects.Player;
 import valueobjects.Territory;
 import domain.Game.Phases;
 
+/**
+ * 
+ * @author Hendrik, Jannes, Timur
+ * 
+ */
+
 public class CommandLineInterface implements UserInterface {
 
 	/**

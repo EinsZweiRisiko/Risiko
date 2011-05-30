@@ -11,7 +11,7 @@ import valueobjects.Territory;
 /**
  * The game class manages a complete game of Risk
  * 
- * @author Jannes
+ * @author Jannes, Hendrik
  * 
  */
 public class Game {
@@ -35,10 +35,10 @@ public class Game {
 	 */
 	public Game(UserInterface ui) {
 		this.ui = ui;
-		
+
 		// Setup the steps in which bonus units are allocated
-		bonusSupplySteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35, 40, 45,
-				50, 55, 60));
+		bonusSupplySteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35,
+				40, 45, 50, 55, 60));
 		bonusSupplyIter = bonusSupplySteps.iterator();
 
 		// Create territory manager
@@ -53,7 +53,7 @@ public class Game {
 
 	private void placeStartUnits() {
 		// Entweder zufällig platzieren oder Spieler entscheiden lassen
-		// Anfang start einheiten bei 2 - 4 Spielern
+		// Anfangsstarteinheiten bei 2 - 4 Spielern
 		// 2 Spieler: 36
 		// 3 Spieler: 35
 		// 4 Spieler: 30
@@ -109,6 +109,9 @@ public class Game {
 
 	public boolean ended() {
 		// TODO Auto-generated method stub
+		// Wäre es nicht einfach folgendes zu machen:
+		// if(spieler.size() == 1){return true;}
+		// man kann ja einfach jeden Spieler der aus dem Spiel ausscheidet aus dem PlMngr nehmen
 		return false;
 	}
 
@@ -136,7 +139,9 @@ public class Game {
 
 		// Einheiten setzen lassen
 		placeUnits(supply);
-
+		
+		// TODO useMissionCard();
+		
 		// Angreifen
 		attack();
 
@@ -186,8 +191,7 @@ public class Game {
 			// soll. Gehört es dem Spieler nicht erneute Abfrage. Auch neue
 			// Abfrage insofern zu wenig Einheiten zum angreifen vorhanden sind.
 			do {
-				originatingTerritory = ui.getOriginatingTerritory(activePlayer,
-						Phases.ATTACK);
+				originatingTerritory = ui.getOriginatingTerritory(activePlayer, Phases.ATTACK);
 			} while (!originatingTerritory.getOwner().equals(activePlayer)
 					|| originatingTerritory.getUnitCount() == 1);
 
@@ -213,8 +217,8 @@ public class Game {
 			// Abfrage durch die CLI mit wievielen Einheiten verteidigt werden
 			// soll. Es können zwischen 1 und 2 Einheiten gewählt werden.
 			do {
-				amountUnitDefense = ui.getAmountUnit(attackedPlayer,
-						originatingTerritory, targetTerritory, Phases.DEFEND);
+				amountUnitDefense = ui.getAmountUnit(attackedPlayer, originatingTerritory,
+						targetTerritory, Phases.DEFEND);
 			} while ((targetTerritory.getUnitCount() < amountUnitDefense)
 					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
@@ -237,8 +241,7 @@ public class Game {
 
 		if (ui.askForPhase(activePlayer, Phases.MOVE)) {
 			do {
-				originatingTerritory = ui.getOriginatingTerritory(activePlayer,
-						Phases.MOVE);
+				originatingTerritory = ui.getOriginatingTerritory(activePlayer, Phases.MOVE);
 			} while (originatingTerritory.getOwner().equals(activePlayer)
 					&& originatingTerritory.getUnitCount() < 1);
 

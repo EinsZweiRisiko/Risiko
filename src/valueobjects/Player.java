@@ -39,7 +39,7 @@ public class Player {
 	/**
 	 * Constructor
 	 * 
-	 * @param name
+	 * @param name of the player.
 	 */
 	public Player(String name) {
 		// TODO Add the player's color or assign at least a player number
@@ -49,7 +49,7 @@ public class Player {
 	/**
 	 * Gets the player's name
 	 * 
-	 * @return Name
+	 * @return name
 	 */
 	public String getName() {
 		return name;
@@ -90,7 +90,7 @@ public class Player {
 	/**
 	 * Returns the number of countries the player currently owns.
 	 * 
-	 * @return
+	 * @return the number of countries the player currently owns.
 	 */
 	public int getTerritoryCount() {
 		return territoryList.size();
@@ -99,9 +99,7 @@ public class Player {
 	/**
 	 * Returns a random territory which is owned by the player
 	 * 
-	 * @param player
-	 *            Player
-	 * @return Random rerritory
+	 * @return a random Territory
 	 */
 	public Territory getRandomTerritory() {
 		// Generate a pseudo random number

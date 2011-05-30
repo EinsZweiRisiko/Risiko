@@ -183,10 +183,10 @@ public class TerritoryManager implements Iterable<Territory> {
 	/**
 	 * Returns a list with all continents that are completely conquered
 	 * 
-	 * @param countries
+	 * @param territroy
 	 * @return
 	 */
-	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> countries) {
+	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> territroy) {
 		// Array für das Ergebnis
 		ArrayList<Continent> conqueredContinents = new ArrayList<Continent>();
 
@@ -196,7 +196,7 @@ public class TerritoryManager implements Iterable<Territory> {
 			currentContinent = continents.get(i);
 
 			// Überprüft, ob die Länderliste den kompletten Kontinent enthält
-			if (countries.containsAll(currentContinent.getTerritories())) {
+			if (territroy.containsAll(currentContinent.getTerritories())) {
 				conqueredContinents.add(currentContinent);
 			}
 		}
