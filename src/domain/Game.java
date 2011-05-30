@@ -125,6 +125,7 @@ public class Game {
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getNextPlayer();
 
+		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
 
 		// Wie viel Verstärkung?
@@ -156,6 +157,9 @@ public class Game {
 	}
 
 	private void placeUnits(int supply) {
+		// gibt aus welcher Spieler dran ist
+		ui.announceCurrentPlayer(activePlayer);
+		
 		Territory targetTerritory = null;
 		Territory originatingTerritory = null;
 		int amountUnitPlace;
@@ -177,14 +181,16 @@ public class Game {
 			} while (amountUnitPlace > supply);
 
 			// supply Aktualisieren
-			supply -= amountUnitPlace;
+			supply = supply - amountUnitPlace;
 			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitPlace);
 		}
 
 	}
 
 	private void attack() {
-
+		// gibt aus welcher Spieler dran ist
+		ui.announceCurrentPlayer(activePlayer);
+		
 		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
 		while (ui.askForPhase(activePlayer, Phases.ATTACK)) {
 
@@ -234,7 +240,9 @@ public class Game {
 	}
 
 	private void moveUnits() {
-
+		// gibt aus welcher Spieler dran ist
+		ui.announceCurrentPlayer(activePlayer);
+		
 		Territory originatingTerritory;
 		Territory targetTerritory;
 		int amountUnitMove;

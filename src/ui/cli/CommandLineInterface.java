@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ui.UserInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
+import domain.PlayerManager;
 import domain.Game.Phases;
 
 /**
@@ -280,5 +281,4 @@ public class CommandLineInterface implements UserInterface {
 				+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
 				+ "(" + targetTerritory.getOwner().getName() + ")" + "-----" + "\n");
 	}
-
 }

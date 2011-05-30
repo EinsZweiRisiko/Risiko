@@ -2,6 +2,7 @@ package ui;
 
 import valueobjects.Player;
 import valueobjects.Territory;
+import domain.PlayerManager;
 import domain.Game.Phases;
 
 public interface UserInterface {
