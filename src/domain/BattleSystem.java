@@ -33,7 +33,14 @@ public class BattleSystem {
 	// Ziell und Quellland
 	Territory targetTerritory;
 	Territory originatingTerritory;
+	
+	//Userinterface
 	UserInterface ui;
+	
+	// Manager
+	TerritoryManager territoryManager;
+	PlayerManager playerManager;
+	
 	// Angriffe wieviele Angriffe werden in einem Angriff getßtigt
 	int attacks = 0;
 
@@ -41,12 +48,14 @@ public class BattleSystem {
 	// Kontruktur bekommt außerdem das Ziel und Quellland als Objekte
 
 	public BattleSystem(int numberOfAttackers, int numberOfDefenders,
-			Territory originatingTerritory, Territory targetTerritory, UserInterface ui) {
+			Territory originatingTerritory, Territory targetTerritory, UserInterface ui, TerritoryManager territoryManager , PlayerManager playerManager) {
 		this.amountOfAttackers = numberOfAttackers;
 		this.amountOfDefenders = numberOfDefenders;
 		this.targetTerritory = targetTerritory;
 		this.originatingTerritory = originatingTerritory;
 		this.ui = ui;
+		this.territoryManager = territoryManager;
+		this.playerManager = playerManager;
 		fight();
 	}
 
@@ -118,6 +127,7 @@ public class BattleSystem {
 		if (amountOfAttackers == 1) {
 			attackOne = getBiggestNumber(attack);
 			attackRound++;
+			
 			System.out.println("\n" + "-----" + originatingTerritory.getName() + "("
 					+ originatingTerritory.getOwner().getName() + ") " + amountOfAttackers
 					+ " Armee"+"("+"n"+")"+" " + " vs. " + amountOfDefenders + " Armee"+"("+"n"+")"+" " + targetTerritory.getName()
@@ -195,9 +205,6 @@ public class BattleSystem {
 					eventMsgDefense();
 				}
 			}
-		} else {
-			// System.out.println("Sei muessen min. 1 Soldaten auf dem Angreifenden Land lassen. Geben sie eine neue Anzahl an!");
-			// TODO : neu eingabe der anzahl der Soldaten FUNKTION
 		}
 
 		// Angriff 3
@@ -250,18 +257,35 @@ public class BattleSystem {
 
 	// Kampfgeschehen wird ausgegeben und die Einheiten werden auf den
 	// jeweiligen Laendern reduziert um 1
+	// gewinnen der OFFENSE
 	public void eventMsgOffense() {
 		attacks++;
+		amountOfDefenders--;
 		// Runter setzten der Einheiten
 		targetTerritory.setUnits(targetTerritory.getUnitCount() - 1);
+		
 		ui.battleMsgOffense(attacks, targetTerritory, attackOne, attackTwo, defenseOne, defenseTwo);
+		
+		// überprüfung ob das Land 0 Einheiten hat, wenn ja dann:
+		// - die Einheiten des Angreifenden werden gezählt
+		// - targetTerritory wird mit den angreifenden Owner gesetzt
+		// - und das Land wird mit diesen Einheiten besetzt
+		
+		// falls keine Verteidiger mehr vorhanden
+		if(targetTerritory.getUnitCount() == 0) {
+			territoryManager.changeTerritoryOwner(playerManager.getActivePlayer() , targetTerritory, amountOfAttackers)
+		}
+		
+		
 	}
-
+	// beim gewinnen der DEFENSE
 	public void eventMsgDefense() {
 		// Anzahl der Angriffe die getaetigt werden
 		attacks++;
+		amountOfAttackers--;
 		// Runter setzten der Einheiten
 		originatingTerritory.setUnits(originatingTerritory.getUnitCount() - 1);
 		ui.battleMsgDefense(attacks, originatingTerritory, attackOne, attackTwo, defenseOne, defenseTwo);
+		
 	}
 }
