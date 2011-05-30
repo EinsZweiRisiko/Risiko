@@ -147,8 +147,7 @@ public class TerritoryManager implements Iterable<Territory> {
 			throws InvalidTerritoryStateException {
 		// If the territory still holds units the owner cannot be changed
 		if (territory.getUnits() != 0) {
-			throw new InvalidTerritoryStateException("The territory " + territory.toString()
-					+ " still holds units.");
+			throw new InvalidTerritoryStateException(territory);
 		}
 
 		// Set the new owner

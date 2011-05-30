@@ -2,6 +2,7 @@ package ui;
 
 import valueobjects.Player;
 import valueobjects.Territory;
+import domain.PlayerManager;
 import domain.Game.Phases;
 
 public interface UserInterface {
@@ -27,5 +28,7 @@ public interface UserInterface {
 	void battleMsgOffense(int attacks, Territory targetTerritory, int attackOne, int attackTwo, int defenseOne, int defenseTwo);
 	
 	void battleMsgDefense(int attacks, Territory originatingTerritory, int attackOne, int attackTwo, int defenseOne, int defenseTwo);
+	
+	void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory, int amountOfAttackers, int amountOfDefenders);
 
 }

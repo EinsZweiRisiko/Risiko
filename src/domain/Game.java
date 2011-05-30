@@ -125,6 +125,7 @@ public class Game {
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getNextPlayer();
 
+		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
 
 		// Wie viel Verstärkung?
@@ -156,6 +157,9 @@ public class Game {
 	}
 
 	private void placeUnits(int supply) {
+		// gibt aus welcher Spieler dran ist
+		ui.announceCurrentPlayer(activePlayer);
+		
 		Territory targetTerritory = null;
 		Territory originatingTerritory = null;
 		int amountUnitPlace;
@@ -177,14 +181,16 @@ public class Game {
 			} while (amountUnitPlace > supply);
 
 			// supply Aktualisieren
-			supply -= amountUnitPlace;
+			supply = supply - amountUnitPlace;
 			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitPlace);
 		}
 
 	}
 
 	private void attack() {
-
+		// gibt aus welcher Spieler dran ist
+		ui.announceCurrentPlayer(activePlayer);
+		
 		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
 		while (ui.askForPhase(activePlayer, Phases.ATTACK)) {
 
@@ -229,18 +235,14 @@ public class Game {
 					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
-					originatingTerritory, targetTerritory, ui);
-
-			/*
-			 * TODO Wenn gewonnen wurde Land besetzten müsste meiner Meinung Nach wohl in das
-			 * BattleSystem mit reinl. Da steig ich noch nicht ganz durch also @Timur wäre ne saubere
-			 * Sache wenn du das realisierst!
-			 */
+					originatingTerritory, targetTerritory, ui, territoryManager, playerManager);
 		}
 	}
 
 	private void moveUnits() {
-
+		// gibt aus welcher Spieler dran ist
+		ui.announceCurrentPlayer(activePlayer);
+		
 		Territory originatingTerritory;
 		Territory targetTerritory;
 		int amountUnitMove;
