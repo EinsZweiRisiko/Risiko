@@ -2,6 +2,8 @@ package domain;
 
 import java.util.ArrayList;
 
+import domain.exceptions.InvalidTerritoryStateException;
+
 import ui.UserInterface;
 import valueobjects.Territory;
 
@@ -272,12 +274,16 @@ public class BattleSystem {
 		// - und das Land wird mit diesen Einheiten besetzt
 		
 		// falls keine Verteidiger mehr vorhanden
-		if(targetTerritory.getUnitCount() == 0) {
-			territoryManager.changeTerritoryOwner(playerManager.getActivePlayer() , targetTerritory, amountOfAttackers)
+		if(targetTerritory.getUnits() == 0) {
+			try {
+				originatingTerritory.setUnits(originatingTerritory.getUnits() - amountOfAttackers);
+				territoryManager.changeTerritoryOwner(playerManager.getActivePlayer() , targetTerritory, amountOfAttackers);
+			} catch (InvalidTerritoryStateException e) {
+				e.printStackTrace();
+			}
 		}
-		
-		
 	}
+	
 	// beim gewinnen der DEFENSE
 	public void eventMsgDefense() {
 		// Anzahl der Angriffe die getaetigt werden
