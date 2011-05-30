@@ -147,8 +147,7 @@ public class TerritoryManager implements Iterable<Territory> {
 			throws InvalidTerritoryStateException {
 		// If the territory still holds units the owner cannot be changed
 		if (territory.getUnits() != 0) {
-			throw new InvalidTerritoryStateException("The territory " + territory.toString()
-					+ " still holds units.");
+			throw new InvalidTerritoryStateException(territory);
 		}
 
 		// Set the new owner
@@ -185,10 +184,10 @@ public class TerritoryManager implements Iterable<Territory> {
 	/**
 	 * Returns a list with all continents that are completely conquered
 	 * 
-	 * @param territroy
+	 * @param territory List of territories against which this check is performed
 	 * @return
 	 */
-	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> territroy) {
+	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> territory) {
 		// Array für das Ergebnis
 		ArrayList<Continent> conqueredContinents = new ArrayList<Continent>();
 
@@ -198,7 +197,7 @@ public class TerritoryManager implements Iterable<Territory> {
 			currentContinent = continents.get(i);
 
 			// Überprüft, ob die Länderliste den kompletten Kontinent enthält
-			if (territroy.containsAll(currentContinent.getTerritories())) {
+			if (territory.containsAll(currentContinent.getTerritories())) {
 				conqueredContinents.add(currentContinent);
 			}
 		}

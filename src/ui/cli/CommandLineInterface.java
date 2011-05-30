@@ -6,6 +6,7 @@ import java.util.Iterator;
 import ui.UserInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
+import domain.PlayerManager;
 import domain.Game.Phases;
 
 /**
@@ -321,5 +322,4 @@ public class CommandLineInterface implements UserInterface {
 				+ " " + targetTerritory.getName() + "(" + targetTerritory.getOwner().getName()
 				+ ")" + "-----" + "\n");
 	}
-
 }

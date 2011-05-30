@@ -106,6 +106,14 @@ public class Player {
 	}
 	
 	/**
+	 * Returns if the player is dead
+	 * @return True, if the player has no territories left
+	 */
+	public boolean isDead() {
+		return territoryList.isEmpty();
+	}
+	
+	/**
 	 * Returns a random territory which is owned by the player
 	 * 
 	 * @return a random Territory
