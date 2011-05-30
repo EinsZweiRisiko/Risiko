@@ -223,7 +223,7 @@ public class Game {
 					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
-					originatingTerritory, targetTerritory, ui);
+					originatingTerritory, targetTerritory, ui, territoryManager, playerManager);
 
 			/*
 			 * TODO Wenn gewonnen wurde Land besetzten müsste meiner Meinung Nach wohl in das
