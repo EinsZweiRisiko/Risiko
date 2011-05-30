@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import valueobjects.Player;
 import valueobjects.Territory;
 
-public class TerritoryHurdleMission extends Mission {
+public class TerritoryHurdleMission extends AbstractMission {
 
 	private int territoryHurdle;
 	private int territoryUnitHurdle;

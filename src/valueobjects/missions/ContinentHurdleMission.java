@@ -6,7 +6,7 @@ import valueobjects.Continent;
 import valueobjects.Player;
 import domain.TerritoryManager;
 
-public class ContinentHurdleMission extends Mission {
+public class ContinentHurdleMission extends AbstractMission {
 
 	/**
 	 * List of continents which have to be conquered
