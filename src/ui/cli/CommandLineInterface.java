@@ -163,11 +163,21 @@ public class CommandLineInterface implements UserInterface {
 
 		// Fallunterscheidung je nach Phase anderer String
 		if (phase == Phases.ATTACK) {
-			units = IO.readInt("Wieviele Einheiten sollen Angreifen?(1-3): ");
+			int maxUnits = originatingTerritory.getUnits();
+			if (maxUnits > 3) {
+				maxUnits = 3;
+			}
+			units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")"+": ");
 		}
 		if (phase == Phases.DEFEND) {
+			int maxUnits = targetTerritory.getUnits();
+			if (maxUnits > 2) {
+				maxUnits = 2;
+				units = IO.readInt(targetTerritory.getOwner().getName()
+						+ " wieviele Einheiten sollen Verteidigen? (1-2): ");
+			}
 			units = IO.readInt(targetTerritory.getOwner().getName()
-					+ " wieviele Einheiten sollen Verteidigen?(1-2): ");
+					+ " wieviele Einheiten sollen Verteidigen? (1): ");
 		}
 		if (phase == Phases.MOVE) {
 			units = IO.readInt("Wieviele Einheiten sollen verschoben werden?: ");
