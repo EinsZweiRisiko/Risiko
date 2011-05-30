@@ -262,8 +262,8 @@ public class BattleSystem {
 		attacks++;
 		amountOfDefenders--;
 		// Runter setzten der Einheiten
-		targetTerritory.setUnits(targetTerritory.getUnitCount() - 1);
-		
+		targetTerritory.setUnits(targetTerritory.getUnits() - 1);
+
 		ui.battleMsgOffense(attacks, targetTerritory, attackOne, attackTwo, defenseOne, defenseTwo);
 		
 		// überprüfung ob das Land 0 Einheiten hat, wenn ja dann:
@@ -284,7 +284,7 @@ public class BattleSystem {
 		attacks++;
 		amountOfAttackers--;
 		// Runter setzten der Einheiten
-		originatingTerritory.setUnits(originatingTerritory.getUnitCount() - 1);
+		originatingTerritory.setUnits(originatingTerritory.getUnits() - 1);
 		ui.battleMsgDefense(attacks, originatingTerritory, attackOne, attackTwo, defenseOne, defenseTwo);
 		
 	}

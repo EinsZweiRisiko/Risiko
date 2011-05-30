@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import domain.exceptions.InvalidTerritoryStateException;
+
 import ui.UserInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
@@ -84,11 +86,15 @@ public class Game {
 				// Cycle through all players
 				currentPlayer = playerManager.getNextPlayer();
 
-				// Assign the territory to the player's list of territories
-				currentPlayer.addTerritory(territory);
-
-				// Place one unit on the territory and remove it from the player's supply
-				territory.setUnits(1);
+				
+				// Place one unit on the territory
+				try {
+					territoryManager.changeTerritoryOwner(currentPlayer, territory, 1);
+				} catch (InvalidTerritoryStateException e) {
+					e.printStackTrace();
+				}
+				
+				// Remove the placed units from the player's supply
 				currentPlayer.subtractSupply(1);
 			}
 
@@ -172,7 +178,7 @@ public class Game {
 
 			// supply Aktualisieren
 			supply -= amountUnitPlace;
-			targetTerritory.setUnits(targetTerritory.getUnitCount() + amountUnitPlace);
+			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitPlace);
 		}
 
 	}
@@ -193,7 +199,7 @@ public class Game {
 			do {
 				originatingTerritory = ui.getOriginatingTerritory(activePlayer, Phases.ATTACK);
 			} while (!originatingTerritory.getOwner().equals(activePlayer)
-					|| originatingTerritory.getUnitCount() == 1);
+					|| originatingTerritory.getUnits() == 1);
 
 			// Abfrage durch die CLI welches Land welches Angegriffen werden
 			// soll. Gehört es dem Spieler erneute Abfrage.
@@ -208,7 +214,7 @@ public class Game {
 			do {
 				amountUnitAttack = ui.getAmountUnit(activePlayer, originatingTerritory,
 						targetTerritory, Phases.ATTACK);
-			} while (((originatingTerritory.getUnitCount() - 1) < amountUnitAttack)
+			} while (((originatingTerritory.getUnits() - 1) < amountUnitAttack)
 					|| (amountUnitAttack < 1 || amountUnitAttack > 3));
 
 			// Besitzer des angegriffenden Landes ermitteln
@@ -219,11 +225,11 @@ public class Game {
 			do {
 				amountUnitDefense = ui.getAmountUnit(attackedPlayer, originatingTerritory,
 						targetTerritory, Phases.DEFEND);
-			} while ((targetTerritory.getUnitCount() < amountUnitDefense)
+			} while ((targetTerritory.getUnits() < amountUnitDefense)
 					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
-					originatingTerritory, targetTerritory, ui);
+					originatingTerritory, targetTerritory, ui, territoryManager, playerManager);
 
 			/*
 			 * TODO Wenn gewonnen wurde Land besetzten müsste meiner Meinung Nach wohl in das
@@ -243,22 +249,22 @@ public class Game {
 			do {
 				originatingTerritory = ui.getOriginatingTerritory(activePlayer, Phases.MOVE);
 			} while (originatingTerritory.getOwner().equals(activePlayer)
-					&& originatingTerritory.getUnitCount() < 1);
+					&& originatingTerritory.getUnits() < 1);
 
 			do {
 				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.MOVE,
 						originatingTerritory);
 			} while (originatingTerritory.getOwner().equals(activePlayer)
-					&& originatingTerritory.getUnitCount() < 1);
+					&& originatingTerritory.getUnits() < 1);
 
 			do {
 				amountUnitMove = ui.getAmountUnit(activePlayer, originatingTerritory,
 						targetTerritory, Phases.MOVE);
-			} while ((originatingTerritory.getUnitCount() - 1) < amountUnitMove);
+			} while ((originatingTerritory.getUnits() - 1) < amountUnitMove);
 
 			// Einheiten entsprechend der Eingabe verschieben
-			originatingTerritory.setUnits(originatingTerritory.getUnitCount() - amountUnitMove);
-			targetTerritory.setUnits(targetTerritory.getUnitCount() + amountUnitMove);
+			originatingTerritory.setUnits(originatingTerritory.getUnits() - amountUnitMove);
+			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitMove);
 		}
 
 	}

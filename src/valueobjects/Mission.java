@@ -6,8 +6,21 @@ package valueobjects;
  * @author Jannes
  * 
  */
-public class Mission {
-	public Mission() {
-		// TODO: implement Mission
+public abstract class Mission {
+	
+	/**
+	 * Constructor
+	 */
+	public Mission(TerritoryManager territoryManager, Player player) {
+		
 	}
+	
+	/**
+	 * Returns whether this mission has been accomplished
+	 * @return
+	 */
+	public boolean test() {
+		return false;
+	}
+	
 }
