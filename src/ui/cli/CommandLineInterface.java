@@ -88,11 +88,11 @@ public class CommandLineInterface implements UserInterface {
 					// schließen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
-							+ "(" + territories.get(i).getUnits() + ")"
-							+ " || Im Besitz von " + territories.get(i).getOwner().getName());
+							+ "(" + territories.get(i).getUnits() + ")" + " || Im Besitz von "
+							+ territories.get(i).getOwner().getName());
 				}
 			}
-			selection = IO.readInt("Geben Sie das Land an, dass sie angreifen wollen: ") - 1;
+			selection = IO.readInt("\n" + "Geben Sie das Land an, dass sie angreifen wollen: ") - 1;
 
 			// TODO Exception falls die Zurückgegebene ArrayList leer ist
 			return territories.get(selection);
@@ -105,12 +105,12 @@ public class CommandLineInterface implements UserInterface {
 					// TODO alle störenden Einträge entfernen
 				} else {
 					IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
-							+ "(" + territories.get(i).getUnits() + ")"
-							+ " || Im Besitz von " + territories.get(i).getOwner().getName());
+							+ "(" + territories.get(i).getUnits() + ")" + " || Im Besitz von "
+							+ territories.get(i).getOwner().getName());
 				}
 			}
-			selection = IO
-					.readInt("Geben Sie das Land an in welches sie Einheiten verschieben möchten: ") - 1;
+			selection = IO.readInt("\n"
+					+ "Geben Sie das Land an in welches sie Einheiten verschieben möchten: ") - 1;
 
 			// TODO Exception falls die Zurückgegebene ArrayList leer ist
 			return territories.get(selection);
@@ -166,8 +166,10 @@ public class CommandLineInterface implements UserInterface {
 			int maxUnits = originatingTerritory.getUnits();
 			if (maxUnits > 3) {
 				maxUnits = 3;
+			} else if (maxUnits == 3) {
+				maxUnits = 2;
 			}
-			units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")"+": ");
+			units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")" + ": ");
 		}
 		if (phase == Phases.DEFEND) {
 			int maxUnits = targetTerritory.getUnits();
@@ -230,8 +232,9 @@ public class CommandLineInterface implements UserInterface {
 		System.out.println(activePlayer.getName() + " ist an der Reihe.");
 
 	}
-	
-	public void battleMsgOffense(int attacks, Territory targetTerritory, int attackOne, int attackTwo, int defenseOne, int defenseTwo) {
+
+	public void battleMsgOffense(int attacks, Territory targetTerritory, int attackOne,
+			int attackTwo, int defenseOne, int defenseTwo) {
 		if (attacks == 1) {
 			System.out.println("Angriff1: " + attackOne + " schlaegt Defensive1: " + defenseOne);
 
@@ -248,8 +251,9 @@ public class CommandLineInterface implements UserInterface {
 					+ ") hat noch: " + targetTerritory.getUnits() + " Einheiten uebrig");
 		}
 	}
-	
-	public void battleMsgDefense(int attacks, Territory originatingTerritory, int attackOne, int attackTwo, int defenseOne, int defenseTwo) {
+
+	public void battleMsgDefense(int attacks, Territory originatingTerritory, int attackOne,
+			int attackTwo, int defenseOne, int defenseTwo) {
 		if (attacks == 1) {
 			System.out.println("Defensive1: " + defenseOne + " schlaegt Offennsive1: " + attackOne);
 
