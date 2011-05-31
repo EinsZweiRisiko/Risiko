@@ -2,12 +2,14 @@ package ui;
 
 import java.util.HashSet;
 
+import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
-import valueobjects.BonusCard;
 import domain.Game.Phases;
 
 public interface UserInterface {
+
+	boolean wantToLoad ();
 
 	Territory getTargetTerritory(Player activePlayer, Phases placeunits, Territory territory);
 
@@ -33,9 +35,14 @@ public interface UserInterface {
 	
 	void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory, int amountOfAttackers, int amountOfDefenders);
 
-	void announceTerritoryCard(BonusCard card, Player activePlayer);
+	void announceBonusCard(BonusCard card, Player activePlayer);
 
 	void announceRedeeming(Player activePlayer);
 
 	HashSet<BonusCard> askForBonusCards();
+
+	boolean wantToSave();
+
+	void announceSuccesfulSave();
+	
 }

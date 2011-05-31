@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import ui.UserInterface;
+import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
-import valueobjects.BonusCard;
 import domain.Game.Phases;
 
 /**
@@ -177,21 +177,26 @@ public class CommandLineInterface implements UserInterface {
 	 */
 	@Override
 	public boolean askForPhase(Player activePlayer, Phases phase) {
-
+		String input = "";
+		boolean isNotValid = false;
+		
 		IO.println("\n");
 
-		if (phase == Phases.ATTACK) {
-			String wantToAttack = IO.readString(activePlayer.getName()
-					+ " möchtest du angreifen? (j/n)");
-			return wantToAttack.equals("j");
-		}
-
-		if (phase == Phases.MOVE) {
-			String wantToMove = IO.readString(activePlayer.getName()
-					+ " möchtest du Einheiten verschieben? (j/n)");
-			return wantToMove.equals("j");
-		}
-
+		do{
+			if(phase == Phases.ATTACK) { 
+				input = IO.readString(activePlayer.getName()+ " möchtest du angreifen? (j/n)");
+			}else if(phase == Phases.MOVE) {
+				input = IO.readString(activePlayer.getName() + " möchtest du Einheiten verschieben? (j/n)");
+			}
+	
+			if(input.equals("j")) {
+				return true; 
+			}else if(input.equals("n")) { 
+				return false;
+			}else {
+				isNotValid = true;
+			}
+		}while(isNotValid);
 		return false;
 	}
 
@@ -213,6 +218,7 @@ public class CommandLineInterface implements UserInterface {
 			}
 			units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")" + ": ");
 		}
+		
 		if (phase == Phases.DEFEND) {
 			int maxUnits = targetTerritory.getUnits();
 			if (maxUnits > 2) {
@@ -223,9 +229,11 @@ public class CommandLineInterface implements UserInterface {
 			units = IO.readInt(targetTerritory.getOwner().getName()
 					+ " wieviele Einheiten sollen Verteidigen? (1): ");
 		}
+		
 		if (phase == Phases.MOVE) {
 			units = IO.readInt("Wieviele Einheiten sollen verschoben werden?: ");
 		}
+		
 		if (phase == Phases.PLACEUNITS) {
 			units = IO.readInt("Wieviele Einheiten sollen gesetzt werden?" + "("
 					+ activePlayer.getSupply() + " Einheiten verfügbar): ");
@@ -235,27 +243,37 @@ public class CommandLineInterface implements UserInterface {
 
 	@Override
 	public boolean turnInCards() {
-		String submission = IO.readString("Möchten sie Karten eintauschen? (j/n");
-		if (submission.equals("j")) {
-			return true;
-		} else if (submission.equals("n")) {
-			return false;
-		}
+		String input = IO.readString("Möchten sie Karten eintauschen? (j/n");
+		boolean isNotValid = false;
 
+		do{
+			if(input.equals("j")) {
+				return true; 
+			}else if(input.equals("n")) { 
+				return false;
+			}else {
+				isNotValid = true;
+			}
+		}while(isNotValid);
 		return false;
 	}
 
-	@Override
 	public boolean getPlaceMethod() {
 		// TODO Auto-generated method stub
-
-		String submission = IO.readString("Sollen die Einheiten Zufällig gesetzt werden? (j/n)");
-		if (submission.equals("j")) {
-			return true;
-		} else if (submission.equals("n")) {
-			return false;
-		}
-
+		boolean isNotValid = false;
+		String input;
+		
+		do{
+			input = IO.readString("Sollen die Einheiten Zufällig gesetzt werden? (j/n)");
+			if(input.equals("j")) {
+				return true; 
+			}else if(input.equals("n")) { 
+				return false;
+			}else {
+				isNotValid = true;
+				IO.println("False Eingabe"+ input +" bitte geben Sie J oder N ein!");
+			}
+		}while(isNotValid);
 		return false;
 	}
 
@@ -264,6 +282,9 @@ public class CommandLineInterface implements UserInterface {
 		int numberOfPlayers;
 		do {
 			numberOfPlayers = IO.readInt("Wieviele Mitspieler?(2-6)");
+			if(numberOfPlayers > 6 || numberOfPlayers < 2) {
+				IO.println("Bitte geben Sie eine Zahl zwischen 2-6 an!");
+			}
 		} while (numberOfPlayers <= 1 || numberOfPlayers > 6);
 		return numberOfPlayers;
 	}
@@ -315,7 +336,7 @@ public class CommandLineInterface implements UserInterface {
 
 			System.out.println(originatingTerritory.getName() + "("
 
-			+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
+					+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ originatingTerritory.getName() + " ("
 					+ originatingTerritory.getOwner().getName() + ") hat noch: "
 					+ originatingTerritory.getUnits() + " Einheiten uebrig");
@@ -332,7 +353,7 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public void announceTerritoryCard(BonusCard card, Player activePlayer) {
+	public void announceBonusCard(BonusCard card, Player activePlayer) {
 		System.out.println("\n" + activePlayer.getName()
 				+ ", Sie haben mindstens ein Land erobert und erhalten eine " + card
 				+ " Karte");
@@ -348,5 +369,22 @@ public class CommandLineInterface implements UserInterface {
 	public HashSet<BonusCard> askForBonusCards() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean wantToLoad() {
+		String wantToLoad = IO.readString("Möchten sie ein Spiel laden? (j/n)");
+		return wantToLoad.equals("j");
+	}
+
+	@Override
+	public boolean wantToSave() {
+		String wantToLoad = IO.readString("Möchten sie das Spiel speichern (j/n)");
+		return wantToLoad.equals("j");
+	}
+
+	@Override
+	public void announceSuccesfulSave() {
+		IO.println(" \n Schreibvorgang erfolgreich \n");
 	}
 }

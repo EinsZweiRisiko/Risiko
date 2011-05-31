@@ -10,6 +10,8 @@ import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
 import domain.exceptions.InvalidTerritoryStateException;
+import domain.persistence.FilePersistenceManager;
+import domain.persistence.PersistenceManager;
 
 /**
  * The game class manages a complete game of Risk
@@ -67,6 +69,8 @@ public class Game {
 		// 4 Spieler: 30
 
 		// Place starting units in a random fashion
+
+
 		if (ui.getPlaceMethod()) {
 			// Gets the total amount of start units per player
 			int startUnits;
@@ -126,17 +130,17 @@ public class Game {
 		return false;
 	}
 
-	public void run() {
+	public void run() {		
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getNextPlayer();
 
 		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
-		
-		
+
+
 		// save number of current territories
 		int occupiedTerritories = activePlayer.getTerritoryCount();
-		
+
 		// Wie viel Verstärkung?
 		int supply = 0;
 
@@ -163,14 +167,21 @@ public class Game {
 
 		// Einheiten verschieben
 		moveUnits();
-		
+
 		// If the player conquered at least one territory
 		if (occupiedTerritories < activePlayer.getTerritoryCount()) {
 			// Give the player a bonus card
 			BonusCard card = bonusCardManager.retrieveRandomCard();
 			activePlayer.addBonusCard(card);
 			// Let the user know which card he got
-			ui.announceTerritoryCard(card, activePlayer);
+			ui.announceBonusCard(card, activePlayer);
+		}
+		
+		if(ui.wantToSave()) {
+			PersistenceManager pm = new FilePersistenceManager();
+			if(pm.saveGame(this, "risikoSave.ser")){
+				ui.announceSuccesfulSave();
+			}
 		}
 	}
 
@@ -253,6 +264,7 @@ public class Game {
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
 					originatingTerritory, targetTerritory, ui, territoryManager, playerManager);
 		}
+
 	}
 
 	private void moveUnits() {
@@ -288,7 +300,7 @@ public class Game {
 	private int redeemBonusCards() {
 		HashSet<BonusCard> cards = activePlayer.getBonusCards();
 		// TODO check if a triple of cards is availabe
-		
+
 		if (cards.size() >= 5) {
 			// Redeeming is mandatory
 			ui.announceRedeeming(activePlayer);
@@ -317,6 +329,11 @@ public class Game {
 	public Player getWinner() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public PlayerManager getPlayerManager() {
+		return playerManager;
+		
 	}
 
 }
