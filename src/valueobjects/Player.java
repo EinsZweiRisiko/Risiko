@@ -1,6 +1,7 @@
 package valueobjects;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * A class that represents a player
@@ -34,7 +35,7 @@ public class Player {
 	 * A list of territory cards that the player currently has. These can be exchanged for bonus units
 	 * at the start of every round.
 	 */
-	private ArrayList<TerritoryCard> territoryCards = new ArrayList<TerritoryCard>();
+	private HashSet<TerritoryCard> territoryCards = new HashSet<TerritoryCard>();
 
 	/**
 	 * Constructor
@@ -149,4 +150,19 @@ public class Player {
 		return supplyToAllocate;
 	}
 	
+	/**
+	 * Adds a card to the player's list of territory cards
+	 * @param card The territory card to be added
+	 */
+	public void addTerritoryCard(TerritoryCard card) {
+		territoryCards.add(card);
+	}
+	
+	/**
+	 * Returns the player's list of territory cards which can be exchanged for bonus units
+	 * @return List of territory cards
+	 */
+	public HashSet<TerritoryCard> getTerritoryCards() {
+		return territoryCards;
+	}
 }

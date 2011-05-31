@@ -2,11 +2,13 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import ui.UserInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
+import valueobjects.TerritoryCard;
 import domain.exceptions.InvalidTerritoryStateException;
 
 /**
@@ -30,6 +32,7 @@ public class Game {
 	private Player activePlayer;
 	private ArrayList<Integer> bonusSupplySteps;
 	private Iterator<Integer> bonusSupplyIter;
+	private int currentBonusSupply;
 
 	/**
 	 * Constructor for a new game of Risk
@@ -140,7 +143,7 @@ public class Game {
 //		supply += activePlayer.getContinentBonus();
 
 		// Bonuseinheiten durch Karten SPäTER, weil kein interface vorhanden
-		supply += useBonusCards();
+		supply += redeemBonusCards();
 
 		// Einheiten setzen lassen
 		placeUnits(supply);
@@ -265,19 +268,32 @@ public class Game {
 
 	}
 
-	private int useBonusCards() {
-		// TODO Auto-generated method stub
-
+	private int redeemBonusCards() {
 		int bonus = 0;
-		if (ui.turnInCards()) {
+		HashSet<TerritoryCard> cards = activePlayer.getTerritoryCards();
+		// TODO check if a triple of cards is availabe
+		
+		if (cards.size() >= 5) {
+			// Redeeming is mandatory
+			ui.announceCards(activePlayer, cards);
+			bonus = getCardBonus();
+		} else if (ui.turnInCards()) {
+			// The player wants to redeem cards
+			// TODO
+//			redeemCards = ui.askForBonusCards();
+//			activePlayer.removeTerritoryCards();
+//			ui.announceCards(activePlayer, cards);
 			bonus = getCardBonus();
 		}
+
 		return bonus;
 	}
 
 	private int getCardBonus() {
-		// TODO Kartenbonus berechnen (Reiter)
-		return 0;
+		if (bonusSupplyIter.hasNext()) {
+			currentBonusSupply = bonusSupplyIter.next();
+		}
+		return currentBonusSupply;
 	}
 
 	public Player getWinner() {
