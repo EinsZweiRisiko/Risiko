@@ -1,10 +1,11 @@
 package ui;
 
+import java.util.HashSet;
+
+import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
-import valueobjects.TerritoryCard;
 import domain.Game.Phases;
-import domain.exceptions.InvalidInputException;
 
 public interface UserInterface {
 
@@ -34,9 +35,14 @@ public interface UserInterface {
 	
 	void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory, int amountOfAttackers, int amountOfDefenders);
 
-	void announceTerritoryCard(TerritoryCard card, Player activePlayer);
+	void announceBonusCard(BonusCard card, Player activePlayer);
+
+	void announceRedeeming(Player activePlayer);
+
+	HashSet<BonusCard> askForBonusCards();
 
 	boolean wantToSave();
 
 	void announceSuccesfulSave();
+	
 }

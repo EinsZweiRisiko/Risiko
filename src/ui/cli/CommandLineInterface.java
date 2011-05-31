@@ -1,14 +1,14 @@
 package ui.cli;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import ui.UserInterface;
+import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
-import valueobjects.TerritoryCard;
 import domain.Game.Phases;
-import domain.exceptions.InvalidInputException;
 
 /**
  * 
@@ -354,10 +354,22 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public void announceTerritoryCard(TerritoryCard card, Player activePlayer) {
+	public void announceBonusCard(BonusCard card, Player activePlayer) {
 		System.out.println("\n" + activePlayer.getName()
 				+ ", Sie haben mindstens ein Land erobert und erhalten eine " + card
 				+ " Karte");
+	}
+
+	@Override
+	public void announceRedeeming(Player activePlayer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public HashSet<BonusCard> askForBonusCards() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
