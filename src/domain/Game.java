@@ -265,7 +265,7 @@ public class Game implements Serializable{
 			} while ((targetTerritory.getUnits() < amountUnitDefense)
 					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
-			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
+			new BattleSystem(amountUnitAttack, amountUnitDefense,
 					originatingTerritory, targetTerritory, ui, territoryManager, playerManager);
 		}
 
@@ -303,24 +303,26 @@ public class Game implements Serializable{
 
 	private int redeemBonusCards() {
 		HashSet<BonusCard> cards = activePlayer.getBonusCards();
+		// TODO remove this return statement
+		return 0;
 		// TODO check if a triple of cards is availabe
 
-		if (cards.size() >= 5) {
-			// Redeeming is mandatory
-			ui.announceRedeeming(activePlayer);
-			HashSet<BonusCard> redeemCards = ui.askForBonusCards();
-			activePlayer.removeBonusCards(redeemCards);
-			return getCardBonus();
-			
-		} else if (ui.turnInCards()) {
-			// The player wants to redeem cards
-			// TODO check for validity
-			HashSet<BonusCard> redeemCards = ui.askForBonusCards();
-			activePlayer.removeBonusCards(redeemCards);
-			return getCardBonus();
-		}
-		
-		return 0;
+//		if (cards.size() >= 5) {
+//			// Redeeming is mandatory
+//			ui.announceRedeeming(activePlayer);
+//			HashSet<BonusCard> redeemCards = ui.askForBonusCards();
+//			activePlayer.removeBonusCards(redeemCards);
+//			return getCardBonus();
+//			
+//		} else if (ui.turnInCards()) {
+//			// The player wants to redeem cards
+//			// TODO check for validity
+//			HashSet<BonusCard> redeemCards = ui.askForBonusCards();
+//			activePlayer.removeBonusCards(redeemCards);
+//			return getCardBonus();
+//		}
+//		
+//		return 0;
 	}
 
 	private int getCardBonus() {

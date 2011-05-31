@@ -167,8 +167,12 @@ public class CommandLineInterface implements UserInterface {
 				IO.println("(" + (i + 1) + ")" + territories.get(i).getName() + " || Einheiten"
 						+ "(" + territories.get(i).getUnits() + ")");
 			}
-			selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n"
-					+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
+
+			do{
+				selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n"
+						+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
+			}while(selection < 1 || selection > territories.size());
+
 			return territories.get(selection);
 		}
 		return originatingTerritory;
