@@ -1,5 +1,7 @@
 package domain;
 
+import domain.persistence.FilePersistenceManager;
+import domain.persistence.PersistenceManager;
 import ui.UserInterface;
 import ui.cli.CommandLineInterface;
 
@@ -19,7 +21,17 @@ public class Risk {
 
 		// Eine Spielrunde starten
 		UserInterface ui = new CommandLineInterface();
-		Game game = new Game(ui);
+		
+		Game game;
+		
+		if (ui.wantToLoad()) {
+			// load a game
+			PersistenceManager pm = new FilePersistenceManager();
+			game = pm.loadGame("risikoSave.ser");
+		} else {
+		// create a new Game
+		game = new Game(ui);
+		}
 
 		// Spiel laufen lassen
 		while (!game.ended()) {

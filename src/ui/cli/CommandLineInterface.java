@@ -336,4 +336,16 @@ public class CommandLineInterface implements UserInterface {
 				+ ", Sie haben mindstens ein Land erobert und erhalten eine " + card
 				+ " Karte");
 	}
+
+	@Override
+	public boolean wantToLoad() {
+		String wantToLoad = IO.readString("Möchten sie ein Spiel laden? (j/n)");
+		return wantToLoad.equals("j");
+	}
+
+	@Override
+	public boolean wantToSave() {
+		String wantToLoad = IO.readString("Möchten sie das Spiel speichern (j/n)");
+		return wantToLoad.equals("j");
+	}
 }
