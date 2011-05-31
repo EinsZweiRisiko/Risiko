@@ -1,5 +1,6 @@
 package valueobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +9,13 @@ import java.util.ArrayList;
  * @author Jannes
  * 
  */
-public class Territory {
+public class Territory implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6066401685730744821L;
+	
 	private Player owner;
 	private int units = 0;
 	private String name;
