@@ -166,8 +166,6 @@ public class Game implements Serializable{
 		// Einheiten setzen lassen
 		placeUnits(supply);
 
-		// TODO useMissionCard();
-
 		// Angreifen
 		attack();
 
