@@ -8,6 +8,8 @@ import domain.exceptions.InvalidInputException;
 
 public interface UserInterface {
 
+	boolean wantToLoad ();
+
 	Territory getTargetTerritory(Player activePlayer, Phases placeunits, Territory territory);
 
 	int getAmountUnit(Player activePlayer,Territory originatingTerritory, Territory targetTerritory, Phases placeunits);
@@ -33,4 +35,6 @@ public interface UserInterface {
 	void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory, int amountOfAttackers, int amountOfDefenders);
 
 	void announceTerritoryCard(TerritoryCard card, Player activePlayer);
+
+	boolean wantToSave();
 }

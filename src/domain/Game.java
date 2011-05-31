@@ -12,6 +12,8 @@ import valueobjects.Territory;
 import valueobjects.TerritoryCard;
 import domain.exceptions.InvalidInputException;
 import domain.exceptions.InvalidTerritoryStateException;
+import domain.persistence.FilePersistenceManager;
+import domain.persistence.PersistenceManager;
 
 /**
  * The game class manages a complete game of Risk
@@ -126,7 +128,7 @@ public class Game {
 		return false;
 	}
 
-	public void run() {
+	public void run() {		
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getNextPlayer();
 
@@ -169,6 +171,11 @@ public class Game {
 			TerritoryCard card = getRandomTerritoryCard();
 			activePlayer.addTerritoryCard(card);
 			ui.announceTerritoryCard(card, activePlayer);
+		}
+		
+		if(ui.wantToSave()) {
+			PersistenceManager pm = new FilePersistenceManager();
+			pm.saveGame(this, "risikoSave.ser");
 		}
 	}
 
@@ -315,6 +322,11 @@ public class Game {
 	public Player getWinner() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public PlayerManager getPlayerManager() {
+		return playerManager;
+		
 	}
 
 }
