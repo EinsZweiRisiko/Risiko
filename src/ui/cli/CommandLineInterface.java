@@ -6,6 +6,7 @@ import java.util.Iterator;
 import ui.UserInterface;
 import valueobjects.Player;
 import valueobjects.Territory;
+import valueobjects.TerritoryCard;
 import domain.Game.Phases;
 
 /**
@@ -37,12 +38,12 @@ public class CommandLineInterface implements UserInterface {
 		IO.println("\n");
 
 		int selection = 0;
-		
-		//Copy of the territores-list of the current Player
+
+		// Copy of the territores-list of the current Player
 		ArrayList<Territory> territories = new ArrayList<Territory>(currentPlayer.getTerritories());
 
 		Territory territory;
-		
+
 		if (phase == Phases.ATTACK) {
 			for (Iterator<Territory> iter = territories.iterator(); iter.hasNext();) {
 				territory = iter.next();
@@ -233,7 +234,13 @@ public class CommandLineInterface implements UserInterface {
 
 	@Override
 	public boolean turnInCards() {
-		// TODO Auto-generated method stub
+		String submission = IO.readString("Möchten sie Karten eintauschen? (j/n");
+		if (submission.equals("j")) {
+			return true;
+		} else if (submission.equals("n")) {
+			return false;
+		}
+
 		return false;
 	}
 
@@ -321,5 +328,12 @@ public class CommandLineInterface implements UserInterface {
 				+ "(" + "n" + ")" + " " + " vs. " + amountOfDefenders + " Armee" + "(" + "n" + ")"
 				+ " " + targetTerritory.getName() + "(" + targetTerritory.getOwner().getName()
 				+ ")" + "-----" + "\n");
+	}
+
+	@Override
+	public void announceTerritoryCard(TerritoryCard card, Player activePlayer) {
+		System.out.println("\n" + activePlayer.getName()
+				+ ", Sie haben mindstens ein Land erobert und erhalten eine " + card
+				+ " Karte");
 	}
 }

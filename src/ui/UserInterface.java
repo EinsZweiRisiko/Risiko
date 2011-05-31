@@ -2,6 +2,7 @@ package ui;
 
 import valueobjects.Player;
 import valueobjects.Territory;
+import valueobjects.TerritoryCard;
 import domain.Game.Phases;
 
 public interface UserInterface {
@@ -30,4 +31,5 @@ public interface UserInterface {
 	
 	void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory, int amountOfAttackers, int amountOfDefenders);
 
+	void announceTerritoryCard(TerritoryCard card, Player activePlayer);
 }
