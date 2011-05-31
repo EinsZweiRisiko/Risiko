@@ -4,6 +4,7 @@ import valueobjects.Player;
 import valueobjects.Territory;
 import valueobjects.TerritoryCard;
 import domain.Game.Phases;
+import domain.exceptions.InvalidInputException;
 
 public interface UserInterface {
 

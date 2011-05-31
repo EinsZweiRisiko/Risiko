@@ -6,9 +6,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import ui.UserInterface;
+import ui.cli.IO;
 import valueobjects.Player;
 import valueobjects.Territory;
 import valueobjects.TerritoryCard;
+import domain.exceptions.InvalidInputException;
 import domain.exceptions.InvalidTerritoryStateException;
 import domain.persistence.FilePersistenceManager;
 import domain.persistence.PersistenceManager;
@@ -65,6 +67,8 @@ public class Game {
 		// 4 Spieler: 30
 
 		// Place starting units in a random fashion
+
+
 		if (ui.getPlaceMethod()) {
 			// Gets the total amount of start units per player
 			int startUnits;
@@ -130,11 +134,11 @@ public class Game {
 
 		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
-		
-		
+
+
 		// save number of current territories
 		int occupiedTerritories = activePlayer.getTerritoryCount();
-		
+
 		// Wie viel Verstärkung?
 		int supply = 0;
 
@@ -161,7 +165,7 @@ public class Game {
 
 		// Einheiten verschieben
 		moveUnits();
-		
+
 		// compare saved number of territories with number of current territories
 		if (occupiedTerritories == activePlayer.getTerritoryCount()) {
 			TerritoryCard card = getRandomTerritoryCard();
@@ -256,6 +260,7 @@ public class Game {
 			BattleSystem battleSystem = new BattleSystem(amountUnitAttack, amountUnitDefense,
 					originatingTerritory, targetTerritory, ui, territoryManager, playerManager);
 		}
+
 	}
 
 	private void moveUnits() {
@@ -292,7 +297,7 @@ public class Game {
 		int bonus = 0;
 		HashSet<TerritoryCard> cards = activePlayer.getTerritoryCards();
 		// TODO check if a triple of cards is availabe
-		
+
 		if (cards.size() >= 5) {
 			// Redeeming is mandatory
 			ui.announceCards(activePlayer, cards);
