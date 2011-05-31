@@ -168,7 +168,6 @@ public class CommandLineInterface implements UserInterface {
 					+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
 			return territories.get(selection);
 		}
-
 		return originatingTerritory;
 	}
 
@@ -195,6 +194,7 @@ public class CommandLineInterface implements UserInterface {
 				return false;
 			}else {
 				isNotValid = true;
+				IO.println("False Eingabe"+ input +" bitte geben Sie J oder N ein!");
 			}
 		}while(isNotValid);
 		return false;
@@ -253,6 +253,7 @@ public class CommandLineInterface implements UserInterface {
 				return false;
 			}else {
 				isNotValid = true;
+				IO.println("False Eingabe"+ input +" bitte geben Sie J oder N ein!");
 			}
 		}while(isNotValid);
 		return false;
@@ -305,14 +306,14 @@ public class CommandLineInterface implements UserInterface {
 	public void battleMsgOffense(int attacks, Territory targetTerritory, int attackOne,
 			int attackTwo, int defenseOne, int defenseTwo) {
 		if (attacks == 1) {
-			System.out.println("Angriff1: " + attackOne + " schlaegt Defensive1: " + defenseOne);
+			System.out.println("Würfel gewürfelt; Angriff1: " + attackOne + " schlaegt Defensive1: " + defenseOne);
 
 			System.out.println(targetTerritory.getName() + "("
 					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
 					+ ") hat noch: " + targetTerritory.getUnits() + " Einheiten uebrig");
 		} else {
-			System.out.println("Angriff2: " + attackTwo + " schlaegt Defensive2: " + defenseTwo);
+			System.out.println("Würfel gewürfelt; Angriff2: " + attackTwo + " schlaegt Defensive2: " + defenseTwo);
 
 			System.out.println(targetTerritory.getName() + "("
 					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
@@ -324,7 +325,7 @@ public class CommandLineInterface implements UserInterface {
 	public void battleMsgDefense(int attacks, Territory originatingTerritory, int attackOne,
 			int attackTwo, int defenseOne, int defenseTwo) {
 		if (attacks == 1) {
-			System.out.println("Defensive1: " + defenseOne + " schlaegt Offennsive1: " + attackOne);
+			System.out.println("Würfel gewürfelt; Defensive1: " + defenseOne + " schlaegt Offennsive1: " + attackOne);
 
 			System.out.println(originatingTerritory.getName() + "("
 					+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
@@ -332,7 +333,7 @@ public class CommandLineInterface implements UserInterface {
 					+ originatingTerritory.getOwner().getName() + ") hat noch: "
 					+ originatingTerritory.getUnits() + " Einheiten uebrig");
 		} else {
-			System.out.println("Defensive2: " + defenseTwo + " schlaegt Offensive2: " + attackTwo);
+			System.out.println("Würfel gewürfelt; Defensive2: " + defenseTwo + " schlaegt Offensive2: " + attackTwo);
 
 			System.out.println(originatingTerritory.getName() + "("
 
