@@ -134,7 +134,10 @@ public class CommandLineInterface implements UserInterface {
 							+ territories.get(i).getOwner().getName());
 				}
 			}
-			selection = IO.readInt("\n" + "Geben Sie das Land an, dass sie angreifen wollen: ") - 1;
+			// Abfrage ob die eingegebene Zahl sich im Bereich der verfügbaren Länder sich befindet
+			do{
+				selection = IO.readInt("\n" + "Geben Sie das Land an, dass sie angreifen wollen: ") - 1;
+			}while(selection < 1 || selection > territories.size());
 
 			// TODO Exception falls die Zurückgegebene ArrayList leer ist
 			return territories.get(selection);
@@ -178,7 +181,7 @@ public class CommandLineInterface implements UserInterface {
 	public boolean askForPhase(Player activePlayer, Phases phase) {
 		String input = "";
 		boolean isNotValid = false;
-		
+
 		IO.println("\n");
 
 		do{
@@ -187,7 +190,7 @@ public class CommandLineInterface implements UserInterface {
 			}else if(phase == Phases.MOVE) {
 				input = IO.readString(activePlayer.getName() + " möchtest du Einheiten verschieben? (j/n)");
 			}
-	
+
 			if(input.equals("j")) {
 				return true; 
 			}else if(input.equals("n")) { 
@@ -216,27 +219,34 @@ public class CommandLineInterface implements UserInterface {
 			} else if (maxUnits == 3) {
 				maxUnits = 2;
 			}
-			units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")" + ": ");
+
+			do{
+				units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")" + ": ");
+			}while(units < 1 || units > maxUnits);
 		}
-		
+
 		if (phase == Phases.DEFEND) {
 			int maxUnits = targetTerritory.getUnits();
 			if (maxUnits > 2) {
 				maxUnits = 2;
-				units = IO.readInt(targetTerritory.getOwner().getName()
-						+ " wieviele Einheiten sollen Verteidigen? (1-2): ");
+				do{
+					units = IO.readInt(targetTerritory.getOwner().getName() + " wieviele Einheiten sollen Verteidigen? (1-2): ");	
+				}while(units != 1 && units !=2 );
 			}
-			units = IO.readInt(targetTerritory.getOwner().getName()
-					+ " wieviele Einheiten sollen Verteidigen? (1): ");
+			do{
+				units = IO.readInt(targetTerritory.getOwner().getName() + " wieviele Einheiten sollen Verteidigen? (1): ");
+			}while(units != 1);
 		}
-		
+
 		if (phase == Phases.MOVE) {
 			units = IO.readInt("Wieviele Einheiten sollen verschoben werden?: ");
 		}
-		
+
 		if (phase == Phases.PLACEUNITS) {
-			units = IO.readInt("Wieviele Einheiten sollen gesetzt werden?" + "("
-					+ activePlayer.getSupply() + " Einheiten verfügbar): ");
+			do{
+				units = IO.readInt("Wieviele Einheiten sollen gesetzt werden?" + "("
+						+ activePlayer.getSupply() + " Einheiten verfügbar): ");
+			}while(units > activePlayer.getSupply());
 		}
 		return units;
 	}
@@ -263,7 +273,7 @@ public class CommandLineInterface implements UserInterface {
 		// TODO Auto-generated method stub
 		boolean isNotValid = false;
 		String input;
-		
+
 		do{
 			input = IO.readString("Sollen die Einheiten Zufällig gesetzt werden? (j/n)");
 			if(input.equals("j")) {
@@ -363,7 +373,7 @@ public class CommandLineInterface implements UserInterface {
 	@Override
 	public void announceRedeeming(Player activePlayer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
