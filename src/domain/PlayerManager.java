@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -12,8 +13,13 @@ import domain.exceptions.NoPlayersException;
  * 
  * @author Jannes
  */
-public class PlayerManager implements Iterable<Player> {
+public class PlayerManager implements Iterable<Player>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7984052981309484762L;
+	
 	/**
 	 * Spielerliste als Array
 	 */

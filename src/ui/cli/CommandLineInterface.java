@@ -134,7 +134,10 @@ public class CommandLineInterface implements UserInterface {
 							+ territories.get(i).getOwner().getName());
 				}
 			}
-			selection = IO.readInt("\n" + "Geben Sie das Land an, dass sie angreifen wollen: ") - 1;
+			// Abfrage ob die eingegebene Zahl sich im Bereich der verfügbaren Länder sich befindet
+			do{
+				selection = IO.readInt("\n" + "Geben Sie das Land an, dass sie angreifen wollen: ") - 1;
+			}while(selection < 1 || selection > territories.size());
 
 			// TODO Exception falls die Zurückgegebene ArrayList leer ist
 			return territories.get(selection);
@@ -168,7 +171,6 @@ public class CommandLineInterface implements UserInterface {
 					+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
 			return territories.get(selection);
 		}
-
 		return originatingTerritory;
 	}
 
@@ -179,7 +181,7 @@ public class CommandLineInterface implements UserInterface {
 	public boolean askForPhase(Player activePlayer, Phases phase) {
 		String input = "";
 		boolean isNotValid = false;
-		
+
 		IO.println("\n");
 
 		do{
@@ -188,13 +190,14 @@ public class CommandLineInterface implements UserInterface {
 			}else if(phase == Phases.MOVE) {
 				input = IO.readString(activePlayer.getName() + " möchtest du Einheiten verschieben? (j/n)");
 			}
-	
+
 			if(input.equals("j")) {
 				return true; 
 			}else if(input.equals("n")) { 
 				return false;
 			}else {
 				isNotValid = true;
+				IO.println("False Eingabe"+ input +" bitte geben Sie J oder N ein!");
 			}
 		}while(isNotValid);
 		return false;
@@ -216,34 +219,41 @@ public class CommandLineInterface implements UserInterface {
 			} else if (maxUnits == 3) {
 				maxUnits = 2;
 			}
-			units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")" + ": ");
+
+			do{
+				units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")" + ": ");
+			}while(units < 1 || units > maxUnits);
 		}
-		
+
 		if (phase == Phases.DEFEND) {
 			int maxUnits = targetTerritory.getUnits();
 			if (maxUnits > 2) {
 				maxUnits = 2;
-				units = IO.readInt(targetTerritory.getOwner().getName()
-						+ " wieviele Einheiten sollen Verteidigen? (1-2): ");
+				do{
+					units = IO.readInt(targetTerritory.getOwner().getName() + " wieviele Einheiten sollen Verteidigen? (1-2): ");	
+				}while(units != 1 && units !=2 );
 			}
-			units = IO.readInt(targetTerritory.getOwner().getName()
-					+ " wieviele Einheiten sollen Verteidigen? (1): ");
+			do{
+				units = IO.readInt(targetTerritory.getOwner().getName() + " wieviele Einheiten sollen Verteidigen? (1): ");
+			}while(units != 1);
 		}
-		
+
 		if (phase == Phases.MOVE) {
 			units = IO.readInt("Wieviele Einheiten sollen verschoben werden?: ");
 		}
-		
+
 		if (phase == Phases.PLACEUNITS) {
-			units = IO.readInt("Wieviele Einheiten sollen gesetzt werden?" + "("
-					+ activePlayer.getSupply() + " Einheiten verfügbar): ");
+			do{
+				units = IO.readInt("Wieviele Einheiten sollen gesetzt werden?" + "("
+						+ activePlayer.getSupply() + " Einheiten verfügbar): ");
+			}while(units > activePlayer.getSupply());
 		}
 		return units;
 	}
 
 	@Override
 	public boolean turnInCards() {
-		String input = IO.readString("Möchten sie Karten eintauschen? (j/n");
+		String input = IO.readString("Möchten sie Karten eintauschen? (j/n)");
 		boolean isNotValid = false;
 
 		do{
@@ -253,6 +263,7 @@ public class CommandLineInterface implements UserInterface {
 				return false;
 			}else {
 				isNotValid = true;
+				IO.println("False Eingabe"+ input +" bitte geben Sie J oder N ein!");
 			}
 		}while(isNotValid);
 		return false;
@@ -262,7 +273,7 @@ public class CommandLineInterface implements UserInterface {
 		// TODO Auto-generated method stub
 		boolean isNotValid = false;
 		String input;
-		
+
 		do{
 			input = IO.readString("Sollen die Einheiten Zufällig gesetzt werden? (j/n)");
 			if(input.equals("j")) {
@@ -305,14 +316,14 @@ public class CommandLineInterface implements UserInterface {
 	public void battleMsgOffense(int attacks, Territory targetTerritory, int attackOne,
 			int attackTwo, int defenseOne, int defenseTwo) {
 		if (attacks == 1) {
-			System.out.println("Angriff1: " + attackOne + " schlaegt Defensive1: " + defenseOne);
+			System.out.println("Würfel gewürfelt; Angriff1: " + attackOne + " schlaegt Defensive1: " + defenseOne);
 
 			System.out.println(targetTerritory.getName() + "("
 					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
 					+ ") hat noch: " + targetTerritory.getUnits() + " Einheiten uebrig");
 		} else {
-			System.out.println("Angriff2: " + attackTwo + " schlaegt Defensive2: " + defenseTwo);
+			System.out.println("Würfel gewürfelt; Angriff2: " + attackTwo + " schlaegt Defensive2: " + defenseTwo);
 
 			System.out.println(targetTerritory.getName() + "("
 					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
@@ -324,7 +335,7 @@ public class CommandLineInterface implements UserInterface {
 	public void battleMsgDefense(int attacks, Territory originatingTerritory, int attackOne,
 			int attackTwo, int defenseOne, int defenseTwo) {
 		if (attacks == 1) {
-			System.out.println("Defensive1: " + defenseOne + " schlaegt Offennsive1: " + attackOne);
+			System.out.println("Würfel gewürfelt; Defensive1: " + defenseOne + " schlaegt Offennsive1: " + attackOne);
 
 			System.out.println(originatingTerritory.getName() + "("
 					+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
@@ -332,7 +343,7 @@ public class CommandLineInterface implements UserInterface {
 					+ originatingTerritory.getOwner().getName() + ") hat noch: "
 					+ originatingTerritory.getUnits() + " Einheiten uebrig");
 		} else {
-			System.out.println("Defensive2: " + defenseTwo + " schlaegt Offensive2: " + attackTwo);
+			System.out.println("Würfel gewürfelt; Defensive2: " + defenseTwo + " schlaegt Offensive2: " + attackTwo);
 
 			System.out.println(originatingTerritory.getName() + "("
 
@@ -362,7 +373,7 @@ public class CommandLineInterface implements UserInterface {
 	@Override
 	public void announceRedeeming(Player activePlayer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

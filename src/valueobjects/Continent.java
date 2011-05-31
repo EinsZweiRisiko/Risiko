@@ -1,5 +1,6 @@
 package valueobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -12,7 +13,12 @@ import domain.TerritoryManager;
  * @author Jannes
  * 
  */
-public abstract class Continent implements Iterable<Territory> {
+public abstract class Continent implements Iterable<Territory>, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5185991367106849737L;
 
 	/**
 	 * Name of the continent
