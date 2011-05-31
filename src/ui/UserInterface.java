@@ -37,4 +37,6 @@ public interface UserInterface {
 	void announceTerritoryCard(TerritoryCard card, Player activePlayer);
 
 	boolean wantToSave();
+
+	void announceSuccesfulSave();
 }

@@ -175,7 +175,9 @@ public class Game {
 		
 		if(ui.wantToSave()) {
 			PersistenceManager pm = new FilePersistenceManager();
-			pm.saveGame(this, "risikoSave.ser");
+			if(pm.saveGame(this, "risikoSave.ser")){
+				ui.announceSuccesfulSave();
+			}
 		}
 	}
 
