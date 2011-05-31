@@ -128,7 +128,11 @@ public class Game {
 
 		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
-
+		
+		
+		// save number of current territories
+		int occupiedTerritories = activePlayer.getTerritoryCount();
+		
 		// Wie viel Verstärkung?
 		int supply = 0;
 
@@ -155,6 +159,13 @@ public class Game {
 
 		// Einheiten verschieben
 		moveUnits();
+		
+		// compare saved number of territories with number of current territories
+		if (occupiedTerritories == activePlayer.getTerritoryCount()) {
+			TerritoryCard card = getRandomTerritoryCard();
+			activePlayer.addTerritoryCard(card);
+			ui.announceTerritoryCard(card, activePlayer);
+		}
 	}
 
 	private void placeUnits(int supply) {
