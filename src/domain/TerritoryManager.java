@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +23,12 @@ import domain.exceptions.InvalidTerritoryStateException;
  * @author Jannes
  * 
  */
-public class TerritoryManager implements Iterable<Territory> {
+public class TerritoryManager implements Iterable<Territory>, Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7300659610469486110L;
 
 	/**
 	 * List of all continents

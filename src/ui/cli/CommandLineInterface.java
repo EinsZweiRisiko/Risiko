@@ -253,7 +253,7 @@ public class CommandLineInterface implements UserInterface {
 
 	@Override
 	public boolean turnInCards() {
-		String input = IO.readString("Möchten sie Karten eintauschen? (j/n");
+		String input = IO.readString("Möchten sie Karten eintauschen? (j/n)");
 		boolean isNotValid = false;
 
 		do{
