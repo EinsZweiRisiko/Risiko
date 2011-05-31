@@ -35,7 +35,7 @@ public class Player {
 	 * A list of territory cards that the player currently has. These can be exchanged for bonus units
 	 * at the start of every round.
 	 */
-	private HashSet<TerritoryCard> territoryCards = new HashSet<TerritoryCard>();
+	private HashSet<BonusCard> territoryCards = new HashSet<BonusCard>();
 
 	/**
 	 * Constructor
@@ -154,7 +154,7 @@ public class Player {
 	 * Adds a card to the player's list of territory cards
 	 * @param card The territory card to be added
 	 */
-	public void addTerritoryCard(TerritoryCard card) {
+	public void addBonusCard(BonusCard card) {
 		territoryCards.add(card);
 	}
 	
@@ -162,7 +162,15 @@ public class Player {
 	 * Returns the player's list of territory cards which can be exchanged for bonus units
 	 * @return List of territory cards
 	 */
-	public HashSet<TerritoryCard> getTerritoryCards() {
+	public HashSet<BonusCard> getBonusCards() {
 		return territoryCards;
+	}
+
+	/**
+	 * Removes cards from the player's bonus cards
+	 * @param cards Cards to remove
+	 */
+	public void removeBonusCards(HashSet<BonusCard> cards) {
+		territoryCards.removeAll(cards);
 	}
 }

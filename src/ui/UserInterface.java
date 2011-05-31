@@ -1,8 +1,10 @@
 package ui;
 
+import java.util.HashSet;
+
 import valueobjects.Player;
 import valueobjects.Territory;
-import valueobjects.TerritoryCard;
+import valueobjects.BonusCard;
 import domain.Game.Phases;
 
 public interface UserInterface {
@@ -31,5 +33,9 @@ public interface UserInterface {
 	
 	void battleStatusMsg(Territory targetTerritory, Territory originatingTerritory, int amountOfAttackers, int amountOfDefenders);
 
-	void announceTerritoryCard(TerritoryCard card, Player activePlayer);
+	void announceTerritoryCard(BonusCard card, Player activePlayer);
+
+	void announceRedeeming(Player activePlayer);
+
+	HashSet<BonusCard> askForBonusCards();
 }

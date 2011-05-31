@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import ui.UserInterface;
+import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
-import valueobjects.TerritoryCard;
 import domain.exceptions.InvalidTerritoryStateException;
 
 /**
@@ -29,6 +29,7 @@ public class Game {
 	private UserInterface ui;
 	private PlayerManager playerManager;
 	private TerritoryManager territoryManager;
+	private BonusCardManager bonusCardManager;
 	private Player activePlayer;
 	private ArrayList<Integer> bonusSupplySteps;
 	private Iterator<Integer> bonusSupplyIter;
@@ -50,6 +51,9 @@ public class Game {
 
 		// Create player manager
 		playerManager = new PlayerManager(ui);
+		
+		// Create bonus card manager
+		bonusCardManager = new BonusCardManager();
 
 		// Anfangsrunde
 		placeStartUnits();
@@ -160,10 +164,12 @@ public class Game {
 		// Einheiten verschieben
 		moveUnits();
 		
-		// compare saved number of territories with number of current territories
-		if (occupiedTerritories == activePlayer.getTerritoryCount()) {
-			TerritoryCard card = getRandomTerritoryCard();
-			activePlayer.addTerritoryCard(card);
+		// If the player conquered at least one territory
+		if (occupiedTerritories < activePlayer.getTerritoryCount()) {
+			// Give the player a bonus card
+			BonusCard card = bonusCardManager.retrieveRandomCard();
+			activePlayer.addBonusCard(card);
+			// Let the user know which card he got
 			ui.announceTerritoryCard(card, activePlayer);
 		}
 	}
@@ -280,24 +286,25 @@ public class Game {
 	}
 
 	private int redeemBonusCards() {
-		int bonus = 0;
-		HashSet<TerritoryCard> cards = activePlayer.getTerritoryCards();
+		HashSet<BonusCard> cards = activePlayer.getBonusCards();
 		// TODO check if a triple of cards is availabe
 		
 		if (cards.size() >= 5) {
 			// Redeeming is mandatory
-			ui.announceCards(activePlayer, cards);
-			bonus = getCardBonus();
+			ui.announceRedeeming(activePlayer);
+			HashSet<BonusCard> redeemCards = ui.askForBonusCards();
+			activePlayer.removeBonusCards(redeemCards);
+			return getCardBonus();
+			
 		} else if (ui.turnInCards()) {
 			// The player wants to redeem cards
-			// TODO
-//			redeemCards = ui.askForBonusCards();
-//			activePlayer.removeTerritoryCards();
-//			ui.announceCards(activePlayer, cards);
-			bonus = getCardBonus();
+			// TODO check for validity
+			HashSet<BonusCard> redeemCards = ui.askForBonusCards();
+			activePlayer.removeBonusCards(redeemCards);
+			return getCardBonus();
 		}
-
-		return bonus;
+		
+		return 0;
 	}
 
 	private int getCardBonus() {
