@@ -9,6 +9,9 @@ package valueobjects;
  */
 public interface Mission {
 	
+//	private Player owner;
+//	private String text;
+	
 	/**
 	 * Returns whether this mission has been accomplished or not
 	 * @return True, if the mission was accomplished

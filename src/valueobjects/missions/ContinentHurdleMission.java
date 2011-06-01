@@ -43,6 +43,7 @@ public class ContinentHurdleMission implements Mission {
 	 */
 	public ContinentHurdleMission(Player player, TerritoryManager territoryManager,
 			ArrayList<Continent> continentList) {
+//		super(player);
 		this.player = player;
 		this.territoryManager = territoryManager;
 //		if (continentList.size() > 2) {
