@@ -53,5 +53,7 @@ public interface UserInterface {
 	void announceWinner(Player winner);
 	
 	int getEmptyTerritoryManualSet(ArrayList<Territory> territory);
+
+	void announceGameStart();
 	
 }
