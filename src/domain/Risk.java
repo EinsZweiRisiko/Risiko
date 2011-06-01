@@ -1,7 +1,7 @@
 package domain;
 
-import domain.persistence.FilePersistenceManager;
-import domain.persistence.PersistenceManager;
+import persistence.FilePersistenceManager;
+import persistence.PersistenceManager;
 import ui.UserInterface;
 import ui.cli.CommandLineInterface;
 
