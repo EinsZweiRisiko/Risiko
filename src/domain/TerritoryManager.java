@@ -35,6 +35,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	 */
 	private ArrayList<Continent> continents = new ArrayList<Continent>();
 
+
 	/**
 	 * List of all territories coupled with their names
 	 */
@@ -226,5 +227,9 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 
 		return territoryList;
 	}
-
+	
+	public ArrayList<Continent> getContinents() {
+		return continents;
+	}
+	
 }

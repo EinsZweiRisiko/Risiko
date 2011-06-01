@@ -24,6 +24,7 @@ public class PlayerManager implements Iterable<Player>, Serializable {
 	 * Spielerliste als Array
 	 */
 	private ArrayList<Player> players = new ArrayList<Player>();
+
 	private Player activePlayer;
 	private Iterator<Player> playerIterator;
 
@@ -117,6 +118,10 @@ public class PlayerManager implements Iterable<Player>, Serializable {
 
 		// No supply pending
 		return true;
+	}
+
+	public void removePlayer(Player activePlayer) {
+		players.remove(activePlayer);
 	}
 
 }
