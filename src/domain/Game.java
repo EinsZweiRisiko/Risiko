@@ -146,16 +146,18 @@ public class Game implements Serializable {
 			}
 			
 			activePlayer = playerManager.getNextPlayer();
-				
+			
 			if (territoryManager.allOccupied()) {
+				// walk trough the list of players and let every Player place the rest of the supply
 				for (Player player : playerManager.getPlayers()) {
 					ui.announceCurrentPlayer(player);
 					placeUnits(0);
 					activePlayer = playerManager.getNextPlayer();
 				}
 			}
-			playerManager.getNextPlayer();
 			
+			//Go to the first Player and announce the start of the game
+			playerManager.getNextPlayer();
 			ui.announceGameStart();
 		}
 	}
