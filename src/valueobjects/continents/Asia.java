@@ -10,6 +10,12 @@ import valueobjects.Territory;
  * 
  */
 public class Asia extends Continent {
+	
+	/**
+	 * UID
+	 */
+	private static final long serialVersionUID = 6046402604974587744L;
+
 	public Asia() {
 		name = "Asien";
 		supplyBonus = 7;
@@ -26,4 +32,5 @@ public class Asia extends Continent {
 		territoryList.add(new Territory("Indien"));
 		territoryList.add(new Territory("Siam"));
 	}
+	
 }

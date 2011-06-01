@@ -10,6 +10,12 @@ import valueobjects.Territory;
  *
  */
 public class SouthAmerica extends Continent {
+
+	/**
+	 * UID
+	 */
+	private static final long serialVersionUID = -767593745864522688L;
+
 	public SouthAmerica() {
 		name = "Südamerika";
 		supplyBonus = 2;
@@ -18,4 +24,5 @@ public class SouthAmerica extends Continent {
 		territoryList.add(new Territory("Brasilien"));
 		territoryList.add(new Territory("Argentinien"));
 	}
+
 }

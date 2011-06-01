@@ -10,6 +10,11 @@ import valueobjects.Territory;
  */
 public class NorthAmerica extends Continent {
 
+	/**
+	 * UID
+	 */
+	private static final long serialVersionUID = 4544042189783571553L;
+
 	public NorthAmerica() {
 		name = "Nordamerika";
 		supplyBonus = 5;
