@@ -10,6 +10,8 @@ import domain.Game.Phases;
 
 public interface UserInterface {
 
+	boolean askForNextRound();
+
 	boolean wantToLoad ();
 
 	Territory getTargetTerritory(Player activePlayer, Phases placeunits, Territory territory);
@@ -45,6 +47,10 @@ public interface UserInterface {
 	boolean wantToSave();
 
 	void announceSuccesfulSave();
+
+	void announceYouLose(Player activePlayer);
+
+	void announceWinner(Player winner);
 	
 	int getEmptyTerritoryManualSet(ArrayList<Territory> territory);
 	

@@ -44,7 +44,9 @@ public class CommandLineInterface implements UserInterface {
 		ArrayList<Territory> territories = new ArrayList<Territory>(currentPlayer.getTerritories());
 
 		Territory territory;
-
+		
+		
+		//TODO LOGIC to DOMAIN!
 		if (phase == Phases.ATTACK) {
 			for (Iterator<Territory> iter = territories.iterator(); iter.hasNext();) {
 				territory = iter.next();
@@ -55,8 +57,9 @@ public class CommandLineInterface implements UserInterface {
 						allYourTerritoryAreBelongToUs = false;
 					}
 				}
-
-				if (allYourTerritoryAreBelongToUs) {
+				
+				//Remove all those who have no enemys and those who has just one unit
+				if (allYourTerritoryAreBelongToUs || (territory.getUnits() == 1)) {
 					iter.remove();
 				}
 			}
@@ -71,8 +74,9 @@ public class CommandLineInterface implements UserInterface {
 						noNeighborBelongToMe = false;
 					}
 				}
-
-				if (noNeighborBelongToMe) {
+				
+				//Remove all those who have no neighbors and those who has just one unit
+				if (noNeighborBelongToMe || (territory.getUnits() == 1)) {
 					iter.remove();
 				}
 			}
@@ -135,9 +139,9 @@ public class CommandLineInterface implements UserInterface {
 				}
 			}
 			// Abfrage ob die eingegebene Zahl sich im Bereich der verfügbaren Länder sich befindet
-			do{
+			do {
 				selection = IO.readInt("\n" + "Geben Sie das Land an, dass sie angreifen wollen: ") - 1;
-			}while(selection < 1 || selection > territories.size());
+			} while (selection < 0 || selection > territories.size());
 
 			// TODO Exception falls die Zurückgegebene ArrayList leer ist
 			return territories.get(selection);
@@ -154,8 +158,10 @@ public class CommandLineInterface implements UserInterface {
 							+ territories.get(i).getOwner().getName());
 				}
 			}
-			selection = IO.readInt("\n"
-					+ "Geben Sie das Land an in welches sie Einheiten verschieben möchten: ") - 1;
+			do {
+				selection = IO.readInt("\n"
+						+ "Geben Sie das Land an in welches sie Einheiten verschieben möchten: ") - 1;
+			} while (selection < 0 || selection > territories.size());
 
 			// TODO Exception falls die Zurückgegebene ArrayList leer ist
 			return territories.get(selection);
@@ -168,10 +174,10 @@ public class CommandLineInterface implements UserInterface {
 						+ "(" + territories.get(i).getUnits() + ")");
 			}
 
-			//do{
-			selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n"
-					+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
-			//}while(selection < 1 || selection > territories.size());
+			do {
+				selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n"
+						+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
+			} while (selection < 0 || selection > territories.size());
 
 			return territories.get(selection);
 		}
@@ -188,22 +194,23 @@ public class CommandLineInterface implements UserInterface {
 
 		IO.println("\n");
 
-		do{
-			if(phase == Phases.ATTACK) { 
-				input = IO.readString(activePlayer.getName()+ " möchtest du angreifen? (j/n)");
-			}else if(phase == Phases.MOVE) {
-				input = IO.readString(activePlayer.getName() + " möchtest du Einheiten verschieben? (j/n)");
+		do {
+			if (phase == Phases.ATTACK) {
+				input = IO.readString(activePlayer.getName() + " möchtest du angreifen? (j/n)");
+			} else if (phase == Phases.MOVE) {
+				input = IO.readString(activePlayer.getName()
+						+ " möchtest du Einheiten verschieben? (j/n)");
 			}
 
-			if(input.equals("j")) {
-				return true; 
-			}else if(input.equals("n")) { 
+			if (input.equals("j")) {
+				return true;
+			} else if (input.equals("n")) {
 				return false;
-			}else {
+			} else {
 				isNotValid = true;
-				IO.println("False Eingabe"+ input +" bitte geben Sie J oder N ein!");
+				IO.println("False Eingabe" + input + " bitte geben Sie J oder N ein!");
 			}
-		}while(isNotValid);
+		} while (isNotValid);
 		return false;
 	}
 
@@ -224,33 +231,38 @@ public class CommandLineInterface implements UserInterface {
 				maxUnits = 2;
 			}
 
-			do{
-				units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")" + ": ");
-			}while(units < 1 || units > maxUnits);
+			do {
+				units = IO.readInt("Wieviele Einheiten sollen Angreifen? (1-" + maxUnits + ")"
+						+ ": ");
+			} while (units < 1 || units > maxUnits);
 		}
 
 		if (phase == Phases.DEFEND) {
 			int maxUnits = targetTerritory.getUnits();
-			if (maxUnits > 2) {
+			if (maxUnits >= 2) {
 				maxUnits = 2;
-				do{
-					units = IO.readInt(targetTerritory.getOwner().getName() + " wieviele Einheiten sollen Verteidigen? (1-2): ");	
-				}while(units != 1 && units !=2 );
+				do {
+					units = IO.readInt(targetTerritory.getOwner().getName()
+							+ " wieviele Einheiten sollen Verteidigen? (1-2): ");
+				} while (units != 1 && units != 2);
+			} else {
+				do {
+					units = IO.readInt(targetTerritory.getOwner().getName()
+							+ " wieviele Einheiten sollen Verteidigen? (1): ");
+				} while (units != 1);
 			}
-			do{
-				units = IO.readInt(targetTerritory.getOwner().getName() + " wieviele Einheiten sollen Verteidigen? (1): ");
-			}while(units != 1);
 		}
 
 		if (phase == Phases.MOVE) {
-			units = IO.readInt("Wieviele Einheiten sollen verschoben werden?: ");
+			units = IO.readInt("Wieviele Einheiten sollen verschoben werden? (1-"
+					+ (originatingTerritory.getUnits() - 1) + "): ");
 		}
 
 		if (phase == Phases.PLACEUNITS) {
-			do{
+			do {
 				units = IO.readInt("Wieviele Einheiten sollen gesetzt werden?" + "("
 						+ activePlayer.getSupply() + " Einheiten verfügbar): ");
-			}while(units > activePlayer.getSupply());
+			} while (units > activePlayer.getSupply());
 		}
 		return units;
 	}
@@ -260,16 +272,16 @@ public class CommandLineInterface implements UserInterface {
 		String input = IO.readString("Möchten sie Karten eintauschen? (j/n)");
 		boolean isNotValid = false;
 
-		do{
-			if(input.equals("j")) {
-				return true; 
-			}else if(input.equals("n")) { 
+		do {
+			if (input.equals("j")) {
+				return true;
+			} else if (input.equals("n")) {
 				return false;
-			}else {
+			} else {
 				isNotValid = true;
-				IO.println("False Eingabe"+ input +" bitte geben Sie J oder N ein!");
+				IO.println("False Eingabe" + input + " bitte geben Sie J oder N ein!");
 			}
-		}while(isNotValid);
+		} while (isNotValid);
 		return false;
 	}
 
@@ -278,17 +290,17 @@ public class CommandLineInterface implements UserInterface {
 		boolean isNotValid = false;
 		String input;
 
-		do{
+		do {
 			input = IO.readString("Sollen die Einheiten Zufällig gesetzt werden? (j/n)");
-			if(input.equals("j")) {
-				return true; 
-			}else if(input.equals("n")) { 
+			if (input.equals("j")) {
+				return true;
+			} else if (input.equals("n")) {
 				return false;
-			}else {
+			} else {
 				isNotValid = true;
-				IO.println("False Eingabe"+ input +" bitte geben Sie J oder N ein!");
+				IO.println("False Eingabe" + input + " bitte geben Sie J oder N ein!");
 			}
-		}while(isNotValid);
+		} while (isNotValid);
 		return false;
 	}
 
@@ -297,7 +309,7 @@ public class CommandLineInterface implements UserInterface {
 		int numberOfPlayers;
 		do {
 			numberOfPlayers = IO.readInt("Wieviele Mitspieler?(2-6)");
-			if(numberOfPlayers > 6 || numberOfPlayers < 2) {
+			if (numberOfPlayers > 6 || numberOfPlayers < 2) {
 				IO.println("Bitte geben Sie eine Zahl zwischen 2-6 an!");
 			}
 		} while (numberOfPlayers <= 1 || numberOfPlayers > 6);
@@ -320,14 +332,16 @@ public class CommandLineInterface implements UserInterface {
 	public void battleMsgOffense(int attacks, Territory targetTerritory, int attackOne,
 			int attackTwo, int defenseOne, int defenseTwo) {
 		if (attacks == 1) {
-			System.out.println("Würfel gewürfelt; Angriff1: " + attackOne + " schlaegt Defensive1: " + defenseOne);
+			System.out.println("Würfel gewürfelt; Angriff1: " + attackOne
+					+ " schlaegt Defensive1: " + defenseOne);
 
 			System.out.println(targetTerritory.getName() + "("
 					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ targetTerritory.getName() + " (" + targetTerritory.getOwner().getName()
 					+ ") hat noch: " + targetTerritory.getUnits() + " Einheiten uebrig");
 		} else {
-			System.out.println("Würfel gewürfelt; Angriff2: " + attackTwo + " schlaegt Defensive2: " + defenseTwo);
+			System.out.println("Würfel gewürfelt; Angriff2: " + attackTwo
+					+ " schlaegt Defensive2: " + defenseTwo);
 
 			System.out.println(targetTerritory.getName() + "("
 					+ targetTerritory.getOwner().getName() + ") verliert 1 Einheit und "
@@ -339,7 +353,8 @@ public class CommandLineInterface implements UserInterface {
 	public void battleMsgDefense(int attacks, Territory originatingTerritory, int attackOne,
 			int attackTwo, int defenseOne, int defenseTwo) {
 		if (attacks == 1) {
-			System.out.println("Würfel gewürfelt; Defensive1: " + defenseOne + " schlaegt Offennsive1: " + attackOne);
+			System.out.println("Würfel gewürfelt; Defensive1: " + defenseOne
+					+ " schlaegt Offennsive1: " + attackOne);
 
 			System.out.println(originatingTerritory.getName() + "("
 					+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
@@ -347,11 +362,12 @@ public class CommandLineInterface implements UserInterface {
 					+ originatingTerritory.getOwner().getName() + ") hat noch: "
 					+ originatingTerritory.getUnits() + " Einheiten uebrig");
 		} else {
-			System.out.println("Würfel gewürfelt; Defensive2: " + defenseTwo + " schlaegt Offensive2: " + attackTwo);
+			System.out.println("Würfel gewürfelt; Defensive2: " + defenseTwo
+					+ " schlaegt Offensive2: " + attackTwo);
 
 			System.out.println(originatingTerritory.getName() + "("
 
-					+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
+			+ originatingTerritory.getOwner().getName() + ") verliert 1 Einheit und "
 					+ originatingTerritory.getName() + " ("
 					+ originatingTerritory.getOwner().getName() + ") hat noch: "
 					+ originatingTerritory.getUnits() + " Einheiten uebrig");
@@ -370,8 +386,7 @@ public class CommandLineInterface implements UserInterface {
 	@Override
 	public void announceBonusCard(BonusCard card, Player activePlayer) {
 		System.out.println("\n" + activePlayer.getName()
-				+ ", Sie haben mindstens ein Land erobert und erhalten eine " + card
-				+ " Karte");
+				+ ", Sie haben mindstens ein Land erobert und erhalten eine " + card + " Karte");
 	}
 
 	@Override
@@ -401,6 +416,23 @@ public class CommandLineInterface implements UserInterface {
 	@Override
 	public void announceSuccesfulSave() {
 		IO.println(" \n Schreibvorgang erfolgreich \n");
+	}
+
+	@Override
+	public void announceYouLose(Player activePlayer) {
+		IO.println(activePlayer.getName() + " Sie haben das Spiel verloren!");
+
+	}
+
+	@Override
+	public void announceWinner(Player winner) {
+		IO.println(winner.getName() + " Sie haben das Spiel gewonnen!");
+	}
+
+	@Override
+	public boolean askForNextRound() {
+		String wantToLoad = IO.readString("Möchtest du eine weiter Runde spielen? (j/n)");
+		return wantToLoad.equals("j");
 	}
 
 	public int getEmptyTerritoryManualSet(ArrayList<Territory> territory) {

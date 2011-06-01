@@ -18,10 +18,12 @@ public class Risk {
 	 */
 	public Risk() {
 		// TODO Spieleranzahl, Namen, Farben
-
-		// Eine Spielrunde starten
+		
 		UserInterface ui = new CommandLineInterface();
 		
+		do {
+		
+		// Eine Spielrunde starten
 		Game game;
 		
 		if (ui.wantToLoad()) {
@@ -39,6 +41,9 @@ public class Risk {
 		}
 
 		// Gewinner ausgeben
+		ui.announceWinner(game.getWinner());
+		
+		} while (ui.askForNextRound());
 	}
 
 	/**

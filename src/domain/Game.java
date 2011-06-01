@@ -3,6 +3,7 @@ package domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -93,6 +94,27 @@ public class Game implements Serializable {
 
 		Player currentPlayer;
 		// Place starting units in a random fashion
+
+
+		if (ui.getPlaceMethod()) {
+			// Gets the total amount of start units per player
+			int startUnits;
+			switch (playerManager.getPlayerCount()) {
+			case 2:
+				startUnits = 36;
+				break;
+			case 3:
+				startUnits = 35;
+				break;
+			default:
+				startUnits = 30;
+			}
+
+			// Set the start units for each player
+			for (Player player : playerManager) {
+				player.addSupply(startUnits);
+			}
+
 		if (ui.getPlaceMethod()) { // true=random // false = abwechselnd
 			// Randomly places a unit on one territory each
 			for (Territory territory : territoryManager.getRandomTerritoryList()) {
@@ -166,19 +188,20 @@ public class Game implements Serializable {
 	}
 
 	public boolean ended() {
-		// TODO Auto-generated method stub
-		// Wäre es nicht einfach folgendes zu machen:
-		// if(spieler.size() == 1){return true;}
-		// man kann ja einfach jeden Spieler der aus dem Spiel ausscheidet aus dem PlMngr nehmen
+		if (playerManager.getPlayers().size() == 1) {
+			return true;
+		}
 		return false;
 	}
 
+	public void run() {		
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getNextPlayer();
 
 		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
+
 
 		// save number of current territories
 		int occupiedTerritories = activePlayer.getTerritoryCount();
@@ -193,16 +216,28 @@ public class Game implements Serializable {
 			supply = 3;
 		}
 
-		// Bonuseinheiten durch eroberte Kontinente
-// supply += activePlayer.getContinentBonus();
+		// bonussupply by owned continents
+		int contintentBonus = 0;
+
+		// count up to walk through all continents
+		for (int i = 0; i < territoryManager.getContinents().size(); i++) {
+			/*
+			 * search for full contintents in players territory list if continten is in the list get
+			 * the supply
+			 */
+			if (activePlayer.getTerritories().containsAll(
+					(Collection<?>) territoryManager.getContinents().get(i).getTerritories())) {
+				contintentBonus += territoryManager.getContinents().get(i).getSupplyBonus();
+			}
+		}
+
+		supply += contintentBonus;
 
 		// Bonuseinheiten durch Karten SPäTER, weil kein interface vorhanden
 		supply += redeemBonusCards();
 
 		// Einheiten setzen lassen
 		placeUnits(supply);
-
-		// TODO useMissionCard();
 
 		// Angreifen
 		attack();
@@ -219,6 +254,9 @@ public class Game implements Serializable {
 			ui.announceBonusCard(card, activePlayer);
 		}
 
+		// test if player is kicked out of the game :: LOSE the game
+		testIfPlayerLose(activePlayer);
+
 		if (ui.wantToSave()) {
 			PersistenceManager pm = new FilePersistenceManager();
 			if (pm.saveGame(this, "risikoSave.ser")) {
@@ -228,8 +266,6 @@ public class Game implements Serializable {
 	}
 
 	private void placeUnits(int supply) {
-		// gibt aus welcher Spieler dran ist
-		ui.announceCurrentPlayer(activePlayer);
 
 		Territory targetTerritory = null;
 		Territory originatingTerritory = null;
@@ -344,22 +380,8 @@ public class Game implements Serializable {
 		return 0;
 		// TODO check if a triple of cards is availabe
 
-// if (cards.size() >= 5) {
-// // Redeeming is mandatory
-// ui.announceRedeeming(activePlayer);
-// HashSet<BonusCard> redeemCards = ui.askForBonusCards();
-// activePlayer.removeBonusCards(redeemCards);
-// return getCardBonus();
 //			
-// } else if (ui.turnInCards()) {
-// // The player wants to redeem cards
-// // TODO check for validity
-// HashSet<BonusCard> redeemCards = ui.askForBonusCards();
-// activePlayer.removeBonusCards(redeemCards);
-// return getCardBonus();
-// }
 //		
-// return 0;
 	}
 
 	private int getCardBonus() {
@@ -369,9 +391,17 @@ public class Game implements Serializable {
 		return currentBonusSupply;
 	}
 
+	private void testIfPlayerLose(Player activePlayer2) {
+		if (activePlayer2.getTerritories().size() == 0) {
+			playerManager.removePlayer(activePlayer2);
+			ui.announceYouLose(activePlayer2);
+		}
+
+	}
+
 	public Player getWinner() {
-		// TODO Auto-generated method stub
-		return null;
+		// if all players are erased the nextPlayer would be the last man standing
+		return playerManager.getNextPlayer();
 	}
 
 	public PlayerManager getPlayerManager() {
