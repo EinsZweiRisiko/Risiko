@@ -69,14 +69,10 @@ public class Game implements Serializable {
 	}
 
 	private void placeStartUnits() {
-		// Entweder zufällig platzieren oder Spieler entscheiden lassen
-		// Anfangsstarteinheiten bei 2 - 4 Spielern
-		// 2 Spieler: 36
-		// 3 Spieler: 35
-		// 4 Spieler: 30
-
+		Player currentPlayer;
 		// Gets the total amount of start units per player
 		int startUnits;
+
 		switch (playerManager.getPlayerCount()) {
 		case 2:
 			startUnits = 36;
@@ -87,33 +83,11 @@ public class Game implements Serializable {
 		default:
 			startUnits = 30;
 		}
+
 		// Set the start units for each player
 		for (Player player : playerManager) {
 			player.addSupply(startUnits);
 		}
-
-		Player currentPlayer;
-		// Place starting units in a random fashion
-
-
-		if (ui.getPlaceMethod()) {
-			// Gets the total amount of start units per player
-			int startUnits;
-			switch (playerManager.getPlayerCount()) {
-			case 2:
-				startUnits = 36;
-				break;
-			case 3:
-				startUnits = 35;
-				break;
-			default:
-				startUnits = 30;
-			}
-
-			// Set the start units for each player
-			for (Player player : playerManager) {
-				player.addSupply(startUnits);
-			}
 
 		if (ui.getPlaceMethod()) { // true=random // false = abwechselnd
 			// Randomly places a unit on one territory each
@@ -143,6 +117,8 @@ public class Game implements Serializable {
 				currentPlayer.subtractSupply(1);
 			}
 		} else {
+
+			System.out.println("selber setzten");
 			// abwechselnd setzten algorithmus
 			// holt sich alle Länder und speichert sie in eine ArrayList
 			ArrayList<Territory> emptyTerritories = new ArrayList<Territory>();
@@ -157,7 +133,8 @@ public class Game implements Serializable {
 
 				try {
 					// besetzt das Land mit einer Einheit
-					territoryManager.changeTerritoryOwner(currentPlayer, emptyTerritories.get(input), 1);
+					territoryManager.changeTerritoryOwner(currentPlayer,
+							emptyTerritories.get(input), 1);
 					emptyTerritories.remove(emptyTerritories.get(input));
 
 					// Remove the placed units from the player's supply
@@ -168,12 +145,11 @@ public class Game implements Serializable {
 					e.printStackTrace();
 				}
 			}
-			
+
 			activePlayer = playerManager.getNextPlayer();
-			
+
 			if (territoryManager.allOccupied()) {
 				for (Player player : playerManager.getPlayers()) {
-					int supply = player.getSupply();
 					placeUnits(0);
 				}
 			}
@@ -194,14 +170,12 @@ public class Game implements Serializable {
 		return false;
 	}
 
-	public void run() {		
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getNextPlayer();
 
 		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
-
 
 		// save number of current territories
 		int occupiedTerritories = activePlayer.getTerritoryCount();
