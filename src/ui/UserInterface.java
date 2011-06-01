@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import valueobjects.BonusCard;
@@ -44,5 +45,7 @@ public interface UserInterface {
 	boolean wantToSave();
 
 	void announceSuccesfulSave();
+	
+	int getEmptyTerritoryManualSet(ArrayList<Territory> territory);
 	
 }

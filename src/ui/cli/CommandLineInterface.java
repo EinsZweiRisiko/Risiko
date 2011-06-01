@@ -168,10 +168,10 @@ public class CommandLineInterface implements UserInterface {
 						+ "(" + territories.get(i).getUnits() + ")");
 			}
 
-			do{
-				selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n"
-						+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
-			}while(selection < 1 || selection > territories.size());
+			//do{
+			selection = IO.readInt("\n" + "Einheiten platzieren: " + "\n"
+					+ "Geben Sie das Land ein in dem Sie Einheiten platzieren möchten: ") - 1;
+			//}while(selection < 1 || selection > territories.size());
 
 			return territories.get(selection);
 		}
@@ -401,5 +401,17 @@ public class CommandLineInterface implements UserInterface {
 	@Override
 	public void announceSuccesfulSave() {
 		IO.println(" \n Schreibvorgang erfolgreich \n");
+	}
+
+	public int getEmptyTerritoryManualSet(ArrayList<Territory> territory) {
+		int input;
+		for(int i = 0; i < territory.size(); i++) {
+			IO.println("("+ (i + 1) +") "+ territory.get(i).getName());
+		}
+		
+		do{
+			input = IO.readInt("Welches Land soll mit einer Einheit besetzt werden: ");
+			return input-1;
+		}while(input < 0 || input > territory.size());
 	}
 }
