@@ -139,20 +139,24 @@ public class Game implements Serializable {
 
 					// Remove the placed units from the player's supply
 					currentPlayer.subtractSupply(1);
-					System.out.println("test: " + input);
 				} catch (InvalidTerritoryStateException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-
+			
 			activePlayer = playerManager.getNextPlayer();
-
+				
 			if (territoryManager.allOccupied()) {
 				for (Player player : playerManager.getPlayers()) {
+					ui.announceCurrentPlayer(player);
 					placeUnits(0);
+					activePlayer = playerManager.getNextPlayer();
 				}
 			}
+			playerManager.getNextPlayer();
+			
+			ui.announceGameStart();
 		}
 	}
 
@@ -171,28 +175,29 @@ public class Game implements Serializable {
 	}
 
 	public void run() {
+		
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getNextPlayer();
-
+	
 		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
-
+	
 		// save number of current territories
 		int occupiedTerritories = activePlayer.getTerritoryCount();
-
+	
 		// Wie viel Verstärkung?
 		int supply = 0;
-
+	
 		// Wie viele Einheiten bekommt der Spieler durch eroberte Länder?
 		supply += activePlayer.getTerritoryCount() / 3;
 		// Der Spieler bekommt mindestens 3 Einheiten
 		if (supply < 3) {
 			supply = 3;
 		}
-
+	
 		// bonussupply by owned continents
 		int contintentBonus = 0;
-
+	
 		// count up to walk through all continents
 		for (int i = 0; i < territoryManager.getContinents().size(); i++) {
 			/*
@@ -204,21 +209,21 @@ public class Game implements Serializable {
 				contintentBonus += territoryManager.getContinents().get(i).getSupplyBonus();
 			}
 		}
-
+	
 		supply += contintentBonus;
-
+	
 		// Bonuseinheiten durch Karten SPäTER, weil kein interface vorhanden
 		supply += redeemBonusCards();
-
+	
 		// Einheiten setzen lassen
 		placeUnits(supply);
-
+	
 		// Angreifen
 		attack();
-
+	
 		// Einheiten verschieben
 		moveUnits();
-
+	
 		// If the player conquered at least one territory
 		if (occupiedTerritories < activePlayer.getTerritoryCount()) {
 			// Give the player a bonus card
@@ -227,10 +232,10 @@ public class Game implements Serializable {
 			// Let the user know which card he got
 			ui.announceBonusCard(card, activePlayer);
 		}
-
+	
 		// test if player is kicked out of the game :: LOSE the game
 		testIfPlayerLose(activePlayer);
-
+	
 		if (ui.wantToSave()) {
 			PersistenceManager pm = new FilePersistenceManager();
 			if (pm.saveGame(this, "risikoSave.ser")) {

@@ -44,9 +44,8 @@ public class CommandLineInterface implements UserInterface {
 		ArrayList<Territory> territories = new ArrayList<Territory>(currentPlayer.getTerritories());
 
 		Territory territory;
-		
-		
-		//TODO LOGIC to DOMAIN!
+
+		// TODO LOGIC to DOMAIN!
 		if (phase == Phases.ATTACK) {
 			for (Iterator<Territory> iter = territories.iterator(); iter.hasNext();) {
 				territory = iter.next();
@@ -57,8 +56,8 @@ public class CommandLineInterface implements UserInterface {
 						allYourTerritoryAreBelongToUs = false;
 					}
 				}
-				
-				//Remove all those who have no enemys and those who has just one unit
+
+				// Remove all those who have no enemys and those who has just one unit
 				if (allYourTerritoryAreBelongToUs || (territory.getUnits() == 1)) {
 					iter.remove();
 				}
@@ -74,8 +73,8 @@ public class CommandLineInterface implements UserInterface {
 						noNeighborBelongToMe = false;
 					}
 				}
-				
-				//Remove all those who have no neighbors and those who has just one unit
+
+				// Remove all those who have no neighbors and those who has just one unit
 				if (noNeighborBelongToMe || (territory.getUnits() == 1)) {
 					iter.remove();
 				}
@@ -437,13 +436,19 @@ public class CommandLineInterface implements UserInterface {
 
 	public int getEmptyTerritoryManualSet(ArrayList<Territory> territory) {
 		int input;
-		for(int i = 0; i < territory.size(); i++) {
-			IO.println("("+ (i + 1) +") "+ territory.get(i).getName());
+		for (int i = 0; i < territory.size(); i++) {
+			IO.println("(" + (i + 1) + ") " + territory.get(i).getName());
 		}
-		
-		do{
+
+		do {
 			input = IO.readInt("Welches Land soll mit einer Einheit besetzt werden: ");
-			return input-1;
-		}while(input < 0 || input > territory.size());
+			return input - 1;
+		} while (input < 0 || input > territory.size());
+	}
+
+	@Override
+	public void announceGameStart() {
+		IO.println("\n \n ------------------------------- \n Alle Einheiten wurden gesetzt. Das Spiel wird gestartet! \n");
+
 	}
 }
