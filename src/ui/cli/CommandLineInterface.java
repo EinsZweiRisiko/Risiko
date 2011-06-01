@@ -228,6 +228,8 @@ public class CommandLineInterface implements UserInterface {
 				maxUnits = 3;
 			} else if (maxUnits == 3) {
 				maxUnits = 2;
+			} else if (maxUnits == 2) {
+				maxUnits = 1;
 			}
 
 			do {
