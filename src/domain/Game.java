@@ -115,6 +115,10 @@ public class Game implements Serializable {
 				// Remove it from the player's supply
 				currentPlayer.subtractSupply(1);
 			}
+			for(int i = 0 ; i < playerManager.getPlayerCount(); i++){
+				activePlayer = playerManager.getNextPlayer();
+			}
+			
 		} else {
 	
 			System.out.println("selber setzten");
@@ -164,8 +168,12 @@ public class Game implements Serializable {
 	public void run() {
 		
 		// Herausfinden, welcher Spieler dran ist
+		Player lastPlayer = activePlayer;
 		activePlayer = playerManager.getNextPlayer();
-	
+		
+		// test if player is kicked out of the game :: LOSE the game
+		testIfPlayerLose(lastPlayer);
+		
 		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
 	
@@ -219,9 +227,6 @@ public class Game implements Serializable {
 			// Let the user know which card he got
 			ui.announceBonusCard(card, activePlayer);
 		}
-	
-		// test if player is kicked out of the game :: LOSE the game
-		testIfPlayerLose(activePlayer);
 	
 		if (ui.wantToSave()) {
 			PersistenceManager pm = new FilePersistenceManager();
@@ -366,10 +371,10 @@ public class Game implements Serializable {
 		return currentBonusSupply;
 	}
 
-	private void testIfPlayerLose(Player activePlayer2) {
-		if (activePlayer2.getTerritories().isEmpty()) {
-			ui.announceYouLose(activePlayer2);
-			playerManager.removePlayer(activePlayer2);
+	private void testIfPlayerLose(Player lastPlayer) {
+		if (lastPlayer.getTerritories().isEmpty()) {
+			ui.announceYouLose(lastPlayer);
+			playerManager.removePlayer(lastPlayer);
 		}
 
 	}
