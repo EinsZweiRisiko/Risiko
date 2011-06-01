@@ -346,9 +346,9 @@ public class Game implements Serializable {
 	}
 
 	private void testIfPlayerLose(Player activePlayer2) {
-		if (activePlayer2.getTerritories().size() == 0) {
-			playerManager.removePlayer(activePlayer2);
+		if (activePlayer2.getTerritories().isEmpty()) {
 			ui.announceYouLose(activePlayer2);
+			playerManager.removePlayer(activePlayer2);
 		}
 
 	}
