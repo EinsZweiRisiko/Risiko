@@ -75,7 +75,26 @@ public class Game implements Serializable {
 		// 3 Spieler: 35
 		// 4 Spieler: 30
 
+		// Gets the total amount of start units per player
+		int startUnits;
+		switch (playerManager.getPlayerCount()) {
+		case 2:
+			startUnits = 36;
+			break;
+		case 3:
+			startUnits = 35;
+			break;
+		default:
+			startUnits = 30;
+		}
+		// Set the start units for each player
+		for (Player player : playerManager) {
+			player.addSupply(startUnits);
+		}
+
+		Player currentPlayer;
 		// Place starting units in a random fashion
+
 
 		if (ui.getPlaceMethod()) {
 			// Gets the total amount of start units per player
@@ -96,8 +115,8 @@ public class Game implements Serializable {
 				player.addSupply(startUnits);
 			}
 
+		if (ui.getPlaceMethod()) { // true=random // false = abwechselnd
 			// Randomly places a unit on one territory each
-			Player currentPlayer;
 			for (Territory territory : territoryManager.getRandomTerritoryList()) {
 				// Cycle through all players
 				currentPlayer = playerManager.getNextPlayer();
@@ -125,7 +144,47 @@ public class Game implements Serializable {
 			}
 		} else {
 			// abwechselnd setzten algorithmus
+			// holt sich alle Länder und speichert sie in eine ArrayList
+			ArrayList<Territory> emptyTerritories = new ArrayList<Territory>();
+			emptyTerritories = territoryManager.getTerritoryList();
+
+			while (!territoryManager.allOccupied()) {
+				currentPlayer = playerManager.getNextPlayer();
+				// gibt aus welcher Spieler dran ist
+				ui.announceCurrentPlayer(currentPlayer);
+				// Auswahl des Landes als Zahl in Input
+				int input = ui.getEmptyTerritoryManualSet(emptyTerritories);
+
+				try {
+					// besetzt das Land mit einer Einheit
+					territoryManager.changeTerritoryOwner(currentPlayer, emptyTerritories.get(input), 1);
+					emptyTerritories.remove(emptyTerritories.get(input));
+
+					// Remove the placed units from the player's supply
+					currentPlayer.subtractSupply(1);
+					System.out.println("test: " + input);
+				} catch (InvalidTerritoryStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			activePlayer = playerManager.getNextPlayer();
+			
+			if (territoryManager.allOccupied()) {
+				for (Player player : playerManager.getPlayers()) {
+					int supply = player.getSupply();
+					placeUnits(0);
+				}
+			}
 		}
+	}
+
+	public void placeUnitsManual(Territory targetTerritory, Player currentPlayer) {
+		do {
+			targetTerritory = ui.getTargetTerritory(currentPlayer, Phases.PLACEUNITS,
+					targetTerritory);
+		} while (!targetTerritory.getOwner().equals(currentPlayer));
 	}
 
 	public boolean ended() {
@@ -135,12 +194,14 @@ public class Game implements Serializable {
 		return false;
 	}
 
+	public void run() {		
 	public void run() {
 		// Herausfinden, welcher Spieler dran ist
 		activePlayer = playerManager.getNextPlayer();
 
 		// gibt den aktiven Spieler aus
 		ui.announceCurrentPlayer(activePlayer);
+
 
 		// save number of current territories
 		int occupiedTerritories = activePlayer.getTerritoryCount();
@@ -213,7 +274,6 @@ public class Game implements Serializable {
 		activePlayer.addSupply(supply);
 
 		do {
-
 			// Auf welches Land sollen Einheiten platziert werden?
 			do {
 				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.PLACEUNITS,
@@ -320,22 +380,8 @@ public class Game implements Serializable {
 		return 0;
 		// TODO check if a triple of cards is availabe
 
-//		if (cards.size() >= 5) {
-//			// Redeeming is mandatory
-//			ui.announceRedeeming(activePlayer);
-//			HashSet<BonusCard> redeemCards = ui.askForBonusCards();
-//			activePlayer.removeBonusCards(redeemCards);
-//			return getCardBonus();
 //			
-//		} else if (ui.turnInCards()) {
-//			// The player wants to redeem cards
-//			// TODO check for validity
-//			HashSet<BonusCard> redeemCards = ui.askForBonusCards();
-//			activePlayer.removeBonusCards(redeemCards);
-//			return getCardBonus();
-//		}
 //		
-//		return 0;
 	}
 
 	private int getCardBonus() {

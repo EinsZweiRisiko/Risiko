@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import valueobjects.BonusCard;
@@ -50,5 +51,7 @@ public interface UserInterface {
 	void announceYouLose(Player activePlayer);
 
 	void announceWinner(Player winner);
+	
+	int getEmptyTerritoryManualSet(ArrayList<Territory> territory);
 	
 }

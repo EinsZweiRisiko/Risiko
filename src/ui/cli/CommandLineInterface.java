@@ -434,4 +434,16 @@ public class CommandLineInterface implements UserInterface {
 		String wantToLoad = IO.readString("Möchtest du eine weiter Runde spielen? (j/n)");
 		return wantToLoad.equals("j");
 	}
+
+	public int getEmptyTerritoryManualSet(ArrayList<Territory> territory) {
+		int input;
+		for(int i = 0; i < territory.size(); i++) {
+			IO.println("("+ (i + 1) +") "+ territory.get(i).getName());
+		}
+		
+		do{
+			input = IO.readInt("Welches Land soll mit einer Einheit besetzt werden: ");
+			return input-1;
+		}while(input < 0 || input > territory.size());
+	}
 }

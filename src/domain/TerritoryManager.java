@@ -232,4 +232,9 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 		return continents;
 	}
 	
+	
+	public ArrayList<Territory> getTerritoryList() {
+		ArrayList<Territory> territoryList = new ArrayList<Territory>(territories.values());
+		return territoryList;
+	}
 }

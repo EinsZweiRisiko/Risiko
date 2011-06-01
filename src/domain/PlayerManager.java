@@ -120,6 +120,17 @@ public class PlayerManager implements Iterable<Player>, Serializable {
 		return true;
 	}
 
+	
+	/**
+	 * Returns null if the player has allocated all of his supply.
+	 * 
+	 * @return player, if the player has allocated his supply
+	 */
+	public boolean playerSupplyAllocated(Player player) {
+		if(player.getSupply() != 0) {
+			return false;
+		}else return true;
+	}
 	public void removePlayer(Player activePlayer) {
 		players.remove(activePlayer);
 	}
