@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import valueobjects.BonusCard;
 
-public class BonusCardManager implements Serializable{
+public class BonusCardManager implements Serializable {
 
 	/**
 	 * 
@@ -15,7 +15,8 @@ public class BonusCardManager implements Serializable{
 	 * Constructor
 	 */
 	public BonusCardManager() {
-		//
+		// 14 von jeder sorte
+		// 2 joker
 	}
 	
 	public BonusCard retrieveRandomCard() {

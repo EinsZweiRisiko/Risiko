@@ -51,8 +51,7 @@ public class Game implements Serializable {
 		this.ui = ui;
 
 		// Setup the steps in which bonus units are allocated
-		bonusSupplySteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 15, 20, 25, 30, 35,
-				40, 45, 50, 55, 60));
+		bonusSupplySteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 12, 15));
 		bonusSupplyIter = bonusSupplySteps.iterator();
 
 		// Create territory manager
@@ -361,6 +360,8 @@ public class Game implements Serializable {
 	private int getCardBonus() {
 		if (bonusSupplyIter.hasNext()) {
 			currentBonusSupply = bonusSupplyIter.next();
+		} else {
+			currentBonusSupply += 5;
 		}
 		return currentBonusSupply;
 	}
