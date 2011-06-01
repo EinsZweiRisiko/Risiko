@@ -363,6 +363,8 @@ public class Game implements Serializable {
 			currentBonusSupply = bonusSupplyIter.next();
 		}
 		return currentBonusSupply;
+		
+		// test
 	}
 
 	private void testIfPlayerLose(Player activePlayer2) {
