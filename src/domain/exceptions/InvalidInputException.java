@@ -1,5 +1,6 @@
 package domain.exceptions;
 
+@SuppressWarnings("serial")
 public class InvalidInputException extends Exception {
 
 	public InvalidInputException(String input) {

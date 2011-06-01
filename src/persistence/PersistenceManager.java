@@ -1,4 +1,4 @@
-package domain.persistence;
+package persistence;
 
 import domain.Game;
 

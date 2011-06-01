@@ -11,6 +11,11 @@ import valueobjects.Territory;
  */
 public class Australia extends Continent {
 
+	/**
+	 * UID
+	 */
+	private static final long serialVersionUID = 6052958239532645054L;
+
 	public Australia() {
 		name = "Australien";
 		supplyBonus = 2;

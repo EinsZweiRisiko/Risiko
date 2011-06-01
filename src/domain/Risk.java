@@ -1,7 +1,7 @@
 package domain;
 
-import domain.persistence.FilePersistenceManager;
-import domain.persistence.PersistenceManager;
+import persistence.FilePersistenceManager;
+import persistence.PersistenceManager;
 import ui.UserInterface;
 import ui.cli.CommandLineInterface;
 
@@ -18,31 +18,31 @@ public class Risk {
 	 */
 	public Risk() {
 		// TODO Spieleranzahl, Namen, Farben
-		
+
 		UserInterface ui = new CommandLineInterface();
-		
+
 		do {
-		
-		// Eine Spielrunde starten
-		Game game;
-		
-		if (ui.wantToLoad()) {
-			// load a game
-			PersistenceManager pm = new FilePersistenceManager();
-			game = pm.loadGame("risikoSave.ser");
-		} else {
-		// create a new Game
-		game = new Game(ui);
-		}
 
-		// Spiel laufen lassen
-		while (!game.ended()) {
-			game.run();
-		}
+			// Eine Spielrunde starten
+			Game game;
 
-		// Gewinner ausgeben
-		ui.announceWinner(game.getWinner());
-		
+			if (ui.wantToLoad()) {
+				// load a game
+				PersistenceManager pm = new FilePersistenceManager();
+				game = pm.loadGame("risikoSave.ser");
+			} else {
+				// create a new Game
+				game = new Game(ui);
+			}
+
+			// Spiel laufen lassen
+			while (!game.ended()) {
+				game.run();
+			}
+
+			// Gewinner ausgeben
+			ui.announceWinner(game.getWinner());
+
 		} while (ui.askForNextRound());
 	}
 

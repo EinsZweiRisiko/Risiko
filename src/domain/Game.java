@@ -12,8 +12,8 @@ import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
 import domain.exceptions.InvalidTerritoryStateException;
-import domain.persistence.FilePersistenceManager;
-import domain.persistence.PersistenceManager;
+import persistence.FilePersistenceManager;
+import persistence.PersistenceManager;
 
 /**
  * The game class manages a complete game of Risk
