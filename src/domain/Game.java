@@ -302,8 +302,8 @@ public class Game {
 			} while ((targetTerritory.getUnits() < amountUnitDefense)
 					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
 
-			new BattleSystem(amountUnitAttack, amountUnitDefense, originatingTerritory,
-					targetTerritory, ui, territoryManager, playerManager);
+//			new BattleSystem(amountUnitAttack, amountUnitDefense, originatingTerritory,
+//					targetTerritory, ui, territoryManager, playerManager);
 		}
 
 	}
