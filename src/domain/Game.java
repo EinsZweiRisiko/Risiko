@@ -1,6 +1,5 @@
 package domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,8 +11,6 @@ import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
 import domain.exceptions.InvalidTerritoryStateException;
-import persistence.FilePersistenceManager;
-import persistence.PersistenceManager;
 
 /**
  * The game class manages a complete game of Risk
@@ -21,12 +18,7 @@ import persistence.PersistenceManager;
  * @author Jannes, Hendrik
  * 
  */
-public class Game implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3052179679499624839L;
+public class Game {
 
 	/**
 	 * Phases of a player's turn
@@ -227,13 +219,7 @@ public class Game implements Serializable {
 			// Let the user know which card he got
 			ui.announceBonusCard(card, activePlayer);
 		}
-	
-		if (ui.wantToSave()) {
-			PersistenceManager pm = new FilePersistenceManager();
-			if (pm.saveGame(this, "risikoSave.ser")) {
-				ui.announceSuccesfulSave();
-			}
-		}
+
 	}
 
 	public void placeUnitsManual(Territory targetTerritory, Player currentPlayer) {

@@ -409,12 +409,6 @@ public class CommandLineInterface implements UserInterface {
 	}
 
 	@Override
-	public boolean wantToSave() {
-		String wantToLoad = IO.readString("Möchten sie das Spiel speichern (j/n)");
-		return wantToLoad.equals("j");
-	}
-
-	@Override
 	public void announceSuccesfulSave() {
 		IO.println(" \n Schreibvorgang erfolgreich \n");
 	}

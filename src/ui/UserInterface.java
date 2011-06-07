@@ -44,8 +44,6 @@ public interface UserInterface {
 
 	HashSet<BonusCard> askForBonusCards();
 
-	boolean wantToSave();
-
 	void announceSuccesfulSave();
 
 	void announceYouLose(Player activePlayer);

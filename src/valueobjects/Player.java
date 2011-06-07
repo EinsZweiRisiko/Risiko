@@ -1,6 +1,5 @@
 package valueobjects;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -9,13 +8,7 @@ import java.util.HashSet;
  * 
  * @author Jannes, Hendrik
  */
-public class Player implements Serializable{
-
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3778400008770682270L;
+public class Player {
 
 	/**
 	 * The player's name
