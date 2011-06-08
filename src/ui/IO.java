@@ -1,95 +1,58 @@
 package ui;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
-// Hilfsklasse mit Ein-/Ausgabeanweisungen
+/**
+ * Helper class for command line I/O
+ * 
+ * @author Jannes
+ * 
+ */
 public class IO {
+	/*
+	 * How to convert Strings to something else:
+	 * (new Integer(str)).intValue()
+	 * (new Long(str)).longValue()
+	 * (new Float(str)).floatValue()
+	 * (new Double(str)).doubleValue()
+	 */
 
-	// Einlesen eines char
-	public static char readChar() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = input.readLine();
-			return eingabe.charAt(0);
-		} catch (Exception e) {
-			return '\0';
-		}
-	}
-
-	// Einlesen eines short
-	public static short readShort() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = input.readLine();
-			Integer String_to_short = new Integer(eingabe);
-			return (short) String_to_short.intValue();
-		} catch (Exception e) {
-			return 0;
-		}
-	}
-
-	// Einlesen eines int
-	public static int readInt() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = input.readLine();
-			Integer String_to_int = new Integer(eingabe);
-			return String_to_int.intValue();
-		} catch (Exception e) {
-			return 0;
-		}
-	}
-
-	// Einlesen eines long
-	public static long readLong() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = input.readLine();
-			Long String_to_long = new Long(eingabe);
-			return String_to_long.longValue();
-		} catch (Exception e) {
-			return 0L;
-		}
-	}
-
-	// Einlesen eines float
-	public static float readFloat() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = input.readLine();
-			Float String_to_float = new Float(eingabe);
-			return String_to_float.floatValue();
-		} catch (Exception e) {
-			return 0.0F;
-		}
-	}
-
-	// Einlesen eines double
-	public static double readDouble() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = input.readLine();
-			Double String_to_double = new Double(eingabe);
-			return String_to_double.doubleValue();
-		} catch (Exception e) {
-			return 0.0;
-		}
-	}
-
-	// Einlesen eines Strings
+	/**
+	 * Reads a String.<br/>
+	 * <br/>
+	 * Returns an empty String if an error occured. Checking exceptions for
+	 * every print statement would suck and make the code unreadable.
+	 * 
+	 * @return String which contains the input from the user
+	 */
 	public static String readString() {
 		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+			BufferedReader input = new BufferedReader(new InputStreamReader(
+					System.in));
 			return input.readLine();
-		} catch (Exception e) {
+		} catch (IOException e) {
+			// The program is allowed to recover from this error without
+			// checking for exceptions. But at least a stack trace is printed to
+			// indicate that something went wrong.
+			e.printStackTrace();
 			return "";
 		}
 	}
 
-	// Ausgeben eines Strings und Einlesen eines string
-	public static String readString(String str) {
-		System.out.print(str);
+	/**
+	 * Outputs a String, then reads a String.<br/>
+	 * <br/>
+	 * Returns an empty String if an error occured. Checking exceptions for
+	 * every print statement would suck and make the code unreadable.
+	 * 
+	 * @param message
+	 *            String which is printed
+	 * @return String which contains the input from the user
+	 */
+	public static String readString(String message) {
+		System.out.print(message);
 		return readString();
 	}
 }

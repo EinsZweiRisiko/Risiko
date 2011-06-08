@@ -27,7 +27,6 @@ public class Game {
 		PLACEUNITS, ATTACK, MOVE, DEFEND
 	};
 
-	private UserInterface ui;
 	private PlayerManager playerManager;
 	private TerritoryManager territoryManager;
 	private BonusCardManager bonusCardManager;
@@ -39,8 +38,7 @@ public class Game {
 	/**
 	 * Constructor for a new game of Risk
 	 */
-	public Game(UserInterface ui) {
-		this.ui = ui;
+	public Game() {
 
 		// Setup the steps in which bonus units are allocated
 		bonusSupplySteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 12, 15));
@@ -343,9 +341,6 @@ public class Game {
 		// TODO remove this return statement
 		return 0;
 		// TODO check if a triple of cards is availabe
-
-//			
-//		
 	}
 
 	private int getCardBonus() {
