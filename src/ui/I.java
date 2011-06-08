@@ -5,19 +5,29 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Helper class for command line I/O
+ * Helper class for command line I/O<br/>
+ * <br/>
+ * How to convert Strings to Integer:
+ * <ul>
+ * <li>int primitive
+ * 	<ul><li>Integer.parseInt()</li><li>(new Integer(str)).intValue()</li></ul>
+ * </li>
+ * <li>Integer object
+ *  <ul><li>Integer.valueOf(str)</li><li>new Integer(str)</li></ul>
+ * </li>
+ * </ul>
+ * This works the same for other types:
+ * <ul>
+ * <li>Long</li>
+ * <li>Float</li>
+ * <li>Double</li>
+ * </ul>
  * 
  * @author Jannes
  * 
  */
-public class IO {
-	/*
-	 * How to convert Strings to something else:
-	 * (new Integer(str)).intValue()
-	 * (new Long(str)).longValue()
-	 * (new Float(str)).floatValue()
-	 * (new Double(str)).doubleValue()
-	 */
+
+public class I {
 
 	/**
 	 * Reads a String.<br/>
@@ -27,7 +37,7 @@ public class IO {
 	 * 
 	 * @return String which contains the input from the user
 	 */
-	public static String readString() {
+	public static String read() {
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(
 					System.in));
@@ -51,8 +61,8 @@ public class IO {
 	 *            String which is printed
 	 * @return String which contains the input from the user
 	 */
-	public static String readString(String message) {
+	public static String read(String message) {
 		System.out.print(message);
-		return readString();
+		return read();
 	}
 }

@@ -24,8 +24,8 @@ public class RiskUI {
 	 * Creates a new Game instance. This method is only useful for non-networked games.
 	 */
 	public void startNewGame() {
-//		int
-		game = new Game();
+		int playerNumber = Integer.parseInt(I.read());
+		//game = new Game();
 	}
 	
 	public static void main(String[] args) {
