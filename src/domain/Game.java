@@ -24,7 +24,7 @@ public class Game {
 	 * Phases of a player's turn
 	 */
 	public static enum Phases {
-		PLACEUNITS, ATTACK, MOVE, DEFEND
+		PLACE, ATTACK, MOVE, DEFEND
 	};
 
 	private PlayerManager playerManager;
@@ -38,7 +38,7 @@ public class Game {
 	/**
 	 * Constructor for a new game of Risk
 	 */
-	public Game() {
+	public Game(ArrayList<String> playerNames) {
 
 		// Setup the steps in which bonus units are allocated
 		bonusSupplySteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 12, 15));
@@ -222,7 +222,7 @@ public class Game {
 
 	public void placeUnitsManual(Territory targetTerritory, Player currentPlayer) {
 		do {
-			targetTerritory = ui.getTargetTerritory(currentPlayer, Phases.PLACEUNITS,
+			targetTerritory = ui.getTargetTerritory(currentPlayer, Phases.PLACE,
 					targetTerritory);
 		} while (!targetTerritory.getOwner().equals(currentPlayer));
 	}
@@ -238,14 +238,14 @@ public class Game {
 		do {
 			// Auf welches Land sollen Einheiten platziert werden?
 			do {
-				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.PLACEUNITS,
+				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.PLACE,
 						targetTerritory);
 			} while (!targetTerritory.getOwner().equals(activePlayer));
 
 			// Wieviele Einheiten sollen platziert werden?
 			do {
 				amountUnitPlace = ui.getAmountUnit(activePlayer, originatingTerritory,
-						targetTerritory, Phases.PLACEUNITS);
+						targetTerritory, Phases.PLACE);
 			} while (amountUnitPlace > activePlayer.getSupply());
 
 			// supply Aktualisieren
