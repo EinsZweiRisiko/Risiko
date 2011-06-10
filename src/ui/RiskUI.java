@@ -2,7 +2,9 @@ package ui;
 
 import java.util.ArrayList;
 
+import valueobjects.Player;
 import domain.Game;
+import domain.Game.Phases;
 
 /**
  * This class contains the user interface of the game
@@ -20,14 +22,15 @@ public class RiskUI {
 	public RiskUI() {
 		// Determines how many players want to play and creates a Game instance
 		startNewGame();
-		
+
 		// Places the start units on the board
 		placeStartUnits();
-		
-		while (!game.ended()) {
-			// TODO turn() does nothing so this loop gets pretty hot
-			turn();
-		}
+
+//		while (!game.ended()) {
+//			// TODO turn() does nothing so this loop gets pretty hot
+//			turn();
+//		}
+		run();
 	}
 
 	/**
@@ -36,14 +39,18 @@ public class RiskUI {
 	 */
 	private void startNewGame() {
 		// How many players participate in the game?
-		int playerNumber = Input.readNumberInRange("Wie viele Spieler wollen mitspielen?", 2, 6);
+		int playerNumber = Input.readNumberInRange(
+				"Wie viele Spieler wollen mitspielen?", 2, 6);
+		// TODO the min and max check should be done by the Game class. It's
+		// game logic.
 
 		// Ask each player for his name
 		ArrayList<String> playerNames = new ArrayList<String>(playerNumber);
 		for (int i = 0; i < playerNumber; ++i) {
-			playerNames.add(Input.read("Spieler " + (i + 1) + ", wie heißt du?"));
+			playerNames.add(Input
+					.read("Spieler " + (i + 1) + ", wie heißt du?"));
 		}
-		
+
 		// Create the game instance
 		game = new Game(playerNames);
 	}
@@ -52,13 +59,12 @@ public class RiskUI {
 	 * Places the start units on the board.
 	 */
 	private void placeStartUnits() {
-		boolean placementMethod = Input.readYesNo("Sollen die Einheiten zufällig gesetzt werden?");
-	
-		
+		boolean placementMethod = Input
+				.readYesNo("Sollen die Einheiten zufällig gesetzt werden?");
+
 		if (placementMethod) {
 			// Randomly places the units on one territory each
 			game.placeStartUnitsRandomly();
-			
 		} else {
 //			// Abwechselnd Einheiten setzen
 //			// holt sich alle Länder und speichert sie in eine ArrayList
@@ -102,17 +108,37 @@ public class RiskUI {
 //			ui.announceGameStart();
 		}
 	}
-	
-	/**
-	 * TODO
-	 */
-	private void turn() {
-		
+
+	private void run() {
+		Player player = game.getActivePlayer();
+		Phases phase = game.getActivePhase();
+
+		switch (phase) {
+			case PLACE:
+				// Number of supply
+				// Show territories owned by the player
+				// Get target territory
+				// How many units should be placed?
+				// Place the supply
+				
+				break;
+
+			case ATTACK:
+				break;
+
+			case MOVE:
+				break;
+
+			case DEFEND:
+				break;
+		}
 	}
-	
+
 	/**
 	 * Main method
-	 * @param args Command line arguments
+	 * 
+	 * @param args
+	 *            Command line arguments
 	 */
 	public static void main(String[] args) {
 		new RiskUI();

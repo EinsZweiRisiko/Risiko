@@ -9,6 +9,7 @@ import java.util.Iterator;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
+import domain.Game.Phases;
 import domain.exceptions.InvalidTerritoryStateException;
 
 /**
@@ -18,7 +19,7 @@ import domain.exceptions.InvalidTerritoryStateException;
  * 
  */
 public class Game {
-
+	
 	/**
 	 * Phases of a player's turn
 	 */
@@ -296,7 +297,7 @@ public class Game {
 	}
 
 
-	//---------------HERE BEGINS A NEW ERA-------------------
+	//--------------- A NEW ERA BEGINS HERE -------------------
 
 	/**
 	 * TODO
@@ -334,6 +335,26 @@ public class Game {
 		for(int i = 0 ; i < playerManager.getPlayerCount(); ++i) {
 			activePlayer = playerManager.getNextPlayer();
 		}
+	}
+
+
+	/**
+	 * 
+	 * @return Player
+	 */
+	public Player getActivePlayer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	/**
+	 * 
+	 * @return Phase
+	 */
+	public Phases getActivePhase() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
