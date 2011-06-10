@@ -3,7 +3,6 @@ package domain;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import ui.UserInterface;
 import valueobjects.Player;
 import domain.exceptions.NoPlayersException;
 
@@ -15,7 +14,7 @@ import domain.exceptions.NoPlayersException;
 public class PlayerManager implements Iterable<Player> {
 	
 	/**
-	 * Spielerliste als Array
+	 * Array that contains all players
 	 */
 	private ArrayList<Player> players = new ArrayList<Player>();
 
@@ -27,15 +26,13 @@ public class PlayerManager implements Iterable<Player> {
 	 * 
 	 * @param ui
 	 */
-	public PlayerManager(UserInterface ui) {
-
-		int numberOfPlayers = ui.getNumberOfPlayers();
-
-		for (int i = 0; i < numberOfPlayers; i++) {
-			String name = ui.getPlayerName(i + 1);
+	public PlayerManager(ArrayList<String> playerNames) {
+		// Creates new player instances for each player
+		for (String name : playerNames) {
 			players.add(new Player(name));
 		}
 
+		// Creates an iterator to determine the current player
 		playerIterator = players.iterator();
 	}
 
@@ -84,7 +81,7 @@ public class PlayerManager implements Iterable<Player> {
 	 * @return List of players
 	 */
 	public ArrayList<Player> getPlayers() {
-		// TODO protect this list from changes
+		// TODO This doesn't keep the list safe from changes
 		return players;
 	}
 

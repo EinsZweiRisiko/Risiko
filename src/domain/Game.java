@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import ui.UserInterface;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
@@ -48,112 +47,31 @@ public class Game {
 		territoryManager = new TerritoryManager();
 
 		// Create player manager
-		playerManager = new PlayerManager(ui);
+		playerManager = new PlayerManager(playerNames);
 
 		// Create bonus card manager
 		bonusCardManager = new BonusCardManager();
 
-		// Anfangsrunde
-		placeStartUnits();
-	}
-
-	private void placeStartUnits() {
-		Player currentPlayer;
 		// Gets the total amount of start units per player
 		int startUnits;
-	
 		switch (playerManager.getPlayerCount()) {
-		case 2:
-			startUnits = 36;
-			break;
-		case 3:
-			startUnits = 35;
-			break;
-		default:
-			startUnits = 30;
+			case 2:
+				startUnits = 36;
+				break;
+			case 3:
+				startUnits = 35;
+				break;
+			default:
+				startUnits = 30;
 		}
 	
 		// Set the start units for each player
 		for (Player player : playerManager) {
 			player.addSupply(startUnits);
 		}
-	
-		if (ui.getPlaceMethod()) { // true=random // false = abwechselnd
-			// Randomly places a unit on one territory each
-			for (Territory territory : territoryManager.getRandomTerritoryList()) {
-				// Cycle through all players
-				currentPlayer = playerManager.getNextPlayer();
-	
-				// Place one unit on the territory
-				try {
-					territoryManager.changeTerritoryOwner(currentPlayer, territory, 1);
-				} catch (InvalidTerritoryStateException e) {
-					e.printStackTrace();
-				}
-	
-				// Remove the placed units from the player's supply
-				currentPlayer.subtractSupply(1);
-			}
-	
-			// Place the remaining units randomly
-			while (!playerManager.supplyAllocated()) {
-				// Cycle through all players
-				currentPlayer = playerManager.getNextPlayer();
-	
-				// Add one unit to a random territory
-				currentPlayer.getRandomTerritory().addUnits(1);
-				// Remove it from the player's supply
-				currentPlayer.subtractSupply(1);
-			}
-			for(int i = 0 ; i < playerManager.getPlayerCount(); i++){
-				activePlayer = playerManager.getNextPlayer();
-			}
-			
-		} else {
-	
-			System.out.println("selber setzten");
-			// abwechselnd setzten algorithmus
-			// holt sich alle Länder und speichert sie in eine ArrayList
-			ArrayList<Territory> emptyTerritories = new ArrayList<Territory>();
-			emptyTerritories = territoryManager.getTerritoryList();
-	
-			while (!territoryManager.allOccupied()) {
-				currentPlayer = playerManager.getNextPlayer();
-				// gibt aus welcher Spieler dran ist
-				ui.announceCurrentPlayer(currentPlayer);
-				// Auswahl des Landes als Zahl in Input
-				int input = ui.getEmptyTerritoryManualSet(emptyTerritories);
-	
-				try {
-					// besetzt das Land mit einer Einheit
-					territoryManager.changeTerritoryOwner(currentPlayer,
-							emptyTerritories.get(input), 1);
-					emptyTerritories.remove(emptyTerritories.get(input));
-	
-					// Remove the placed units from the player's supply
-					currentPlayer.subtractSupply(1);
-				} catch (InvalidTerritoryStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			activePlayer = playerManager.getNextPlayer();
-			
-			if (territoryManager.allOccupied()) {
-				// walk trough the list of players and let every Player place the rest of the supply
-				for (Player player : playerManager.getPlayers()) {
-					ui.announceCurrentPlayer(player);
-					placeUnits(0);
-					activePlayer = playerManager.getNextPlayer();
-				}
-			}
-			
-			//Go to the first Player and announce the start of the game
-			playerManager.getNextPlayer();
-			ui.announceGameStart();
-		}
 	}
+
+	
 
 	public void run() {
 		
@@ -375,6 +293,47 @@ public class Game {
 	public PlayerManager getPlayerManager() {
 		return playerManager;
 
+	}
+
+
+	//---------------HERE BEGINS A NEW ERA-------------------
+
+	/**
+	 * TODO
+	 */
+	public void placeStartUnitsRandomly() {
+		Player currentPlayer;
+		for (Territory territory : territoryManager.getRandomTerritoryList()) {
+			// Cycle through all players
+			currentPlayer = playerManager.getNextPlayer();
+
+			// Place one unit on the territory
+			try {
+				territoryManager.changeTerritoryOwner(currentPlayer, territory, 1);
+			} catch (InvalidTerritoryStateException e) {
+				e.printStackTrace();
+			}
+
+			// Remove the placed units from the player's supply
+			currentPlayer.subtractSupply(1);
+		}
+
+		// Place the remaining units randomly
+		while (!playerManager.supplyAllocated()) {
+			// Cycle through all players
+			currentPlayer = playerManager.getNextPlayer();
+
+			// Add one unit to a random territory
+			currentPlayer.getRandomTerritory().addUnits(1);
+			// Remove it from the player's supply
+			currentPlayer.subtractSupply(1);
+		}
+		
+		// TODO there has to be a better way to do this
+		// Fast-forward through the players to find out whose turn it is
+		for(int i = 0 ; i < playerManager.getPlayerCount(); ++i) {
+			activePlayer = playerManager.getNextPlayer();
+		}
 	}
 
 }

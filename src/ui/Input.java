@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import ui.exceptions.NoInputException;
+import ui.exceptions.YesNoFormatException;
 
 /**
  * Helper class for command line I/O<br/>
@@ -24,7 +25,7 @@ import ui.exceptions.NoInputException;
  * </ul>
  * </li>
  * </ul>
- * This works in the same way for other types:
+ * This works in a similar way for other types:
  * <ul>
  * <li>Long</li>
  * <li>Float</li>
@@ -78,22 +79,93 @@ public class Input {
 	 *            String which is printed
 	 * @return int which contains the input from the user
 	 */
-	public static int readInt(String message) {
-		// Contains the int that is to be returned
-		int value = 0;
-		// Contains whether the entered String was valid or not
-		boolean successful = false;
+	public static int readNumber(String message) {
+		// Ask for input
+		while (true) {
+			try {
+				return Integer.parseInt(read(message));
+			} catch (NumberFormatException e) {
+				System.out.println("That's not a number.");
+			}
+		}
+	}
+
+	// TODO I'm not completely sure that these kinds of checks are allowed in
+	// the UI. But for now let's leave them in.
+	/**
+	 * Prints a message and reads an integer. The integer must be between
+	 * <code>min</code> and <code>max</code>. If the user doesn't put a
+	 * valid number in, he is prompted again.
+	 * 
+	 * @param message
+	 *            String which is printed
+	 * @return int which contains the input from the user
+	 */
+	public static int readNumberInRange(String message, int min, int max) {
+		// Add the range to the end of the message
+		message += String.format(" (%d-%d)", min, max);
 
 		// Ask for input
-		do {
-			try {
-				value = Integer.parseInt(read(message));
-				successful = true;
-			} catch (NumberFormatException e) {
-				System.out.println("Das ist keine gültige Zahl.");
+		int value;
+		while (true) {
+			value = readNumber(message);
+			if (min <= value && value <= max) {
+				// Valid input
+				return value;
+			} else {
+				// Invalid input, the user will be asked again
+				System.out.println("That's not between " + min + " and " + max
+						+ ".");
 			}
-		} while (!successful);
-
-		return value;
+		}
 	}
+
+	/**
+	 * Prints a message and reads 'yes' or 'no' from the input. If the user
+	 * doesn't put a valid answer in, he is prompted again.
+	 * 
+	 * @param message
+	 *            String which is printed
+	 * @return boolean which contains the answer from the user
+	 */
+	public static boolean readYesNo(String message) {
+		// Add yes/no to the end of the message
+		message += " (yes/no)";
+
+		// Ask for input
+		while (true) {
+			try {
+				return parseYesNo(read(message));
+			} catch (YesNoFormatException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	/**
+	 * Returns the boolean that represents the String argument. Case and
+	 * surrounding whitespace of the String is ignored.<br/>
+	 * true, if the String equals to "yes", "y" or "1".<br/>
+	 * false, if the String equals to "no", "n" or "0".
+	 * 
+	 * @param input
+	 *            String that should be parsed.
+	 * @return The boolean parse from the String argument.
+	 * 
+	 * @throws YesNoFormatException
+	 */
+	private static boolean parseYesNo(String input) throws YesNoFormatException {
+		// Normalize the input
+		input = input.toLowerCase().trim();
+
+		// Check whether the input is valid and, if so, return it
+		if (input.equals("y") || input.equals("yes") || input.equals("1")) {
+			return true;
+		} else if (input.equals("n") || input.equals("no") || input.equals("0")) {
+			return false;
+		} else {
+			throw new YesNoFormatException(input);
+		}
+	}
+
 }
