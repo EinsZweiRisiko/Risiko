@@ -24,7 +24,7 @@ public class Game {
 	 * Phases of a player's turn
 	 */
 	public static enum Phases {
-		PLACE, ATTACK, MOVE, DEFEND
+		TURNINCARDS, PLACE, ATTACK, MOVE, DEFEND
 	};
 
 	private PlayerManager playerManager;
@@ -339,22 +339,34 @@ public class Game {
 
 
 	/**
-	 * 
+	 * TODO
 	 * @return Player
 	 */
 	public Player getActivePlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return activePlayer;
 	}
 
 
 	/**
-	 * 
+	 * TODO
+	 */
+	public void nextPlayer() {
+		activePlayer = playerManager.getNextPlayer();
+	}
+
+	/**
+	 * TODO
 	 * @return Phase
 	 */
-	public Phases getActivePhase() {
-		// TODO Auto-generated method stub
-		return null;
+	public Phases getNextPhase() {
+		
+		// Turn in bonus cards
+//		allocateSupply();
+		// Place supply
+		// Attack
+		// Move units
+
+		return Phases.PLACE;
 	}
 
 }

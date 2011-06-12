@@ -1,10 +1,13 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import valueobjects.Player;
+import valueobjects.Territory;
 import domain.Game;
-import domain.Game.Phases;
 
 /**
  * This class contains the user interface of the game
@@ -27,10 +30,8 @@ public class RiskUI {
 		placeStartUnits();
 
 //		while (!game.ended()) {
-//			// TODO turn() does nothing so this loop gets pretty hot
-//			turn();
+//			run();
 //		}
-		run();
 	}
 
 	/**
@@ -111,16 +112,22 @@ public class RiskUI {
 
 	private void run() {
 		Player player = game.getActivePlayer();
-		Phases phase = game.getActivePhase();
 
-		switch (phase) {
+		switch (game.getNextPhase()) {
+			case TURNINCARDS:
+				break;
+
 			case PLACE:
 				// Number of supply
 				// Show territories owned by the player
 				// Get target territory
 				// How many units should be placed?
 				// Place the supply
-				
+				int supply = player.getSupply();
+				write("Your supply is: " + supply);
+				write("You own these territories:");
+				writeList(player.getTerritories());
+				Input.readNumber("Where do you want to place your supply units?");
 				break;
 
 			case ATTACK:
@@ -134,6 +141,36 @@ public class RiskUI {
 		}
 	}
 
+	/**
+	 * Prints a message to the console
+	 * 
+	 * @param message
+	 *            String which is going to be printed
+	 */
+	private static void write(String message) {
+		System.out.println(message);
+	}
+
+	/**
+	 * Prints every item of a List and its position in the List.<br>
+	 * <br>
+	 * Example output:
+	 * 
+	 * <pre>
+	 * (1) Alaska
+	 * (2) Ural
+	 * </pre>
+	 * 
+	 * @param list
+	 */
+	private static void writeList(List<?> list) {
+//		for (int i = 0, length = list.size(); i < length; ++i) {
+		Iterator<?> iter = list.iterator();
+		for (int i = 1; iter.hasNext(); ++i) {
+			write("(" + i + ") " + iter.next());
+		}
+	}
+	
 	/**
 	 * Main method
 	 * 

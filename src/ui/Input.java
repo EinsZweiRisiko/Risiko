@@ -8,8 +8,8 @@ import ui.exceptions.NoInputException;
 import ui.exceptions.YesNoFormatException;
 
 /**
- * Helper class for command line I/O<br/>
- * <br/>
+ * Helper class for command line I/O<br>
+ * <br>
  * How to convert Strings to Integer:
  * <ul>
  * <li>As primitive
@@ -144,8 +144,8 @@ public class Input {
 
 	/**
 	 * Returns the boolean that represents the String argument. Case and
-	 * surrounding whitespace of the String is ignored.<br/>
-	 * true, if the String equals to "yes", "y" or "1".<br/>
+	 * surrounding whitespace of the String is ignored.<br>
+	 * true, if the String equals to "yes", "y" or "1".<br>
 	 * false, if the String equals to "no", "n" or "0".
 	 * 
 	 * @param input
