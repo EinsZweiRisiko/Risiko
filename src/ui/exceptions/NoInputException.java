@@ -7,5 +7,5 @@ public class NoInputException extends RuntimeException {
 	public NoInputException(Exception e) {
 		super("The program was unable to read input from the command line.");
 	}
-	
+
 }

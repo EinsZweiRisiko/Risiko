@@ -1,16 +1,15 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
-import domain.Game.Phases;
 import domain.exceptions.InvalidTerritoryStateException;
+import domain.managers.BonusCardStack;
+import domain.managers.PlayerManager;
+import domain.managers.TerritoryManager;
 
 /**
  * The game class manages a complete game of Risk
@@ -19,31 +18,37 @@ import domain.exceptions.InvalidTerritoryStateException;
  * 
  */
 public class Game {
+
+	private PlayerManager playerManager;
+	private TerritoryManager territoryManager;
+	private BonusCardStack bonusCardManager;
+	private BonusTracker bonusTracker;
+	
+	/**
+	 * The current player
+	 */
+	private Player activePlayer;
 	
 	/**
 	 * Phases of a player's turn
 	 */
-	public static enum Phases {
-		TURNINCARDS, PLACE, ATTACK, MOVE, DEFEND
+	public static enum Action {
+		START, TURNINCARDS, PLACEMENT, ATTACK, MOVEMENT
 	};
-
-	private PlayerManager playerManager;
-	private TerritoryManager territoryManager;
-	private BonusCardManager bonusCardManager;
-	private Player activePlayer;
-	private ArrayList<Integer> bonusSupplySteps;
-	private Iterator<Integer> bonusSupplyIter;
-	private int currentBonusSupply;
+	
+	/**
+	 * The current phase of a player's turn
+	 */
+	private Action currentAction = Action.START;
 
 	/**
 	 * Constructor for a new game of Risk
 	 */
 	public Game(ArrayList<String> playerNames) {
-
-		// Setup the steps in which bonus units are allocated
-		bonusSupplySteps = new ArrayList<Integer>(Arrays.asList(4, 6, 8, 10, 12, 15));
-		bonusSupplyIter = bonusSupplySteps.iterator();
-
+		// Determine that the number of players is valid
+		int playerCount = playerNames.size();
+		assert playerCount >= 2 && playerCount <= 6; // TODO throw an ordinary exception
+		
 		// Create territory manager
 		territoryManager = new TerritoryManager();
 
@@ -51,256 +56,196 @@ public class Game {
 		playerManager = new PlayerManager(playerNames);
 
 		// Create bonus card manager
-		bonusCardManager = new BonusCardManager();
+		bonusCardManager = new BonusCardStack();
 
-		// Gets the total amount of start units per player
-		int startUnits;
-		switch (playerManager.getPlayerCount()) {
-			case 2:
-				startUnits = 36;
-				break;
-			case 3:
-				startUnits = 35;
-				break;
-			default:
-				startUnits = 30;
+		// Create bonus tracker
+		bonusTracker = new BonusTracker();
+		
+		// Get the total amount of start units per player
+		int startUnits;		
+		if (playerCount > 3) {
+			startUnits = 30;
+		} else if (playerCount == 3) {
+			startUnits = 35;
+		} else {
+			// TODO implement logic for 2 player games
+			startUnits = 36;
 		}
-	
+
 		// Set the start units for each player
 		for (Player player : playerManager) {
-			player.addSupply(startUnits);
+			player.addSupplies(startUnits);
 		}
 	}
 
-	
+	/**
+	 * Returns whether the game is over
+	 * @return True, if somebody has won the game
+	 */
+	public boolean isOver() {
+		// TODO Distinguish between world domination/missions
+		return playerManager.getCount() == 1;
+	}
 
-	public void run() {
-		
-		// Herausfinden, welcher Spieler dran ist
-		Player lastPlayer = activePlayer;
+	/**
+	 * Returns the winner of the game, if there is one.<br>
+	 * If the game isn't finished yet, <code>null</code> will be returned.
+	 * @return Winner of the game
+	 */
+	public Player getWinner() {
+		// Return the last man standing
+		Player winner = null;
+		if (isOver()) {
+			winner = playerManager.getNextPlayer();
+		}
+		return winner;
+	}
+
+	/**
+	 * TODO doc
+	 * 
+	 * @return Player
+	 */
+	public Player getActivePlayer() {
+		return activePlayer;
+	}
+	
+	/**
+	 * Prepares and returns the next action in the sequence. This method can
+	 * change the active player, so always use this method before getting the
+	 * active player.<br>
+	 * <br>
+	 * The sequence of actions in a turn:
+	 * <ol>
+	 * <li>TURNINCARDS</li>
+	 * <li>PLACEMENT</li>
+	 * <li>ATTACK</li>
+	 * <li>MOVEMENT</li>
+	 * </ol>
+	 * 
+	 * @return Action The next action/phase
+	 */
+	public Action getNextAction() {
+		// Which action comes afterwards the current one?
+		switch (currentAction) {
+			// The first action is at the end of this switch block
+			case TURNINCARDS:
+				// Placing the supply units is next
+				preparePlacementAction();
+
+			case PLACEMENT:
+				// Attacking other players is next
+				prepareAttackAction();
+
+			case ATTACK:
+				// Moving units is next
+				prepareMovementAction();
+
+			case MOVEMENT:
+				// TODO Only if the player conquered at least one territory
+				activePlayer.addBonusCard(bonusCardManager.retrieveCard());
+				// End of a player's turn. Start a new one.
+			default:
+				// Start
+				nextPlayer();
+				// Turning in cards is next
+				prepareTurnInAction();
+		}
+
+		// Return the new action
+		return currentAction;
+	}
+
+	/**
+	 * TODO doc
+	 */
+	private void nextPlayer() {
+		// Advance to the next player
 		activePlayer = playerManager.getNextPlayer();
+		// A new turn has started so we have to compute the player's supply
+		calculateSupplies();
+	}
+	
+	/**
+	 * Calculates supply for the current player. This is only called once
+	 * in every turn.<br>
+	 * <br>
+	 * This doesn't include unit supplies for cards that the player may turn in later.
+	 */
+	private void calculateSupplies() {
+		// Base unit amount for occupied territories
+		int supplies = activePlayer.getTerritoryCount() / 3;
+		// At least 3
+		if (supplies < 3) {
+			supplies = 3;
+		}
 		
-		// test if player is kicked out of the game :: LOSE the game
-		testIfPlayerLose(lastPlayer);
+		// TODO Extra supplies for conquered continents
+//		for (Continent continent : activePlayer.getContinents()) {
+//			supplies += continent.getBonusSupplies();
+//		}
 		
-		// gibt den aktiven Spieler aus
-		ui.announceCurrentPlayer(activePlayer);
-	
-		// save number of current territories
-		int occupiedTerritories = activePlayer.getTerritoryCount();
-	
-		// Wie viel Verstärkung?
-		int supply = 0;
-	
-		// Wie viele Einheiten bekommt der Spieler durch eroberte Länder?
-		supply += activePlayer.getTerritoryCount() / 3;
-		// Der Spieler bekommt mindestens 3 Einheiten
-		if (supply < 3) {
-			supply = 3;
-		}
-	
-		// bonussupply by owned continents
-		int contintentBonus = 0;
-	
-		// count up to walk through all continents
-		for (int i = 0; i < territoryManager.getContinents().size(); i++) {
-			/*
-			 * search for full contintents in players territory list if continten is in the list get
-			 * the supply
-			 */
-			if (activePlayer.getTerritories().containsAll(
-					(Collection<?>) territoryManager.getContinents().get(i).getTerritories())) {
-				contintentBonus += territoryManager.getContinents().get(i).getSupplyBonus();
-			}
-		}
-	
-		supply += contintentBonus;
-	
-		// Bonuseinheiten durch Karten SPäTER, weil kein interface vorhanden
-		supply += redeemBonusCards();
-	
-		// Einheiten setzen lassen
-		placeUnits(supply);
-	
-		// Angreifen
-		attack();
-	
-		// Einheiten verschieben
-		moveUnits();
-	
-		// If the player conquered at least one territory
-		if (occupiedTerritories < activePlayer.getTerritoryCount()) {
-			// Give the player a bonus card
-			BonusCard card = bonusCardManager.retrieveRandomCard();
-			activePlayer.addBonusCard(card);
-			// Let the user know which card he got
-			ui.announceBonusCard(card, activePlayer);
-		}
-
+		// Add the supplies
+		activePlayer.addSupplies(supplies);
 	}
-
-	public void placeUnitsManual(Territory targetTerritory, Player currentPlayer) {
-		do {
-			targetTerritory = ui.getTargetTerritory(currentPlayer, Phases.PLACE,
-					targetTerritory);
-		} while (!targetTerritory.getOwner().equals(currentPlayer));
-	}
-
-	private void placeUnits(int supply) {
-
-		Territory targetTerritory = null;
-		Territory originatingTerritory = null;
-		int amountUnitPlace;
-
-		activePlayer.addSupply(supply);
-
-		do {
-			// Auf welches Land sollen Einheiten platziert werden?
-			do {
-				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.PLACE,
-						targetTerritory);
-			} while (!targetTerritory.getOwner().equals(activePlayer));
-
-			// Wieviele Einheiten sollen platziert werden?
-			do {
-				amountUnitPlace = ui.getAmountUnit(activePlayer, originatingTerritory,
-						targetTerritory, Phases.PLACE);
-			} while (amountUnitPlace > activePlayer.getSupply());
-
-			// supply Aktualisieren
-			activePlayer.subtractSupply(amountUnitPlace);
-			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitPlace);
-
-		} while (activePlayer.getSupply() > 0);
-	}
-
-	private void attack() {
-
-		// Schleife die den aktuellen Spieler Fragt ob er angreifen möchte.
-		while (ui.askForPhase(activePlayer, Phases.ATTACK)) {
-
-			Territory originatingTerritory;
-			Territory targetTerritory;
-			int amountUnitAttack;
-			int amountUnitDefense;
-
-			// Abfrage durch die CLI von welchem Land welches Angegriffen werden
-			// soll. Gehört es dem Spieler nicht erneute Abfrage. Auch neue
-			// Abfrage insofern zu wenig Einheiten zum angreifen vorhanden sind.
-			do {
-				originatingTerritory = ui.getOriginatingTerritory(activePlayer, Phases.ATTACK);
-			} while (!originatingTerritory.getOwner().equals(activePlayer)
-					|| originatingTerritory.getUnits() == 1);
-
-			// Abfrage durch die CLI welches Land welches Angegriffen werden
-			// soll. Gehört es dem Spieler erneute Abfrage.
-			do {
-				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.ATTACK,
-						originatingTerritory);
-			} while (targetTerritory.getOwner().equals(activePlayer));
-
-			// Abfrage durch die CLI mit wievielen Einheiten angegriffen werden
-			// soll. Es können zwischen 1 und 3 Einheiten gewählt werden bei
-			// Falscheingabe wiederholung.
-			do {
-				amountUnitAttack = ui.getAmountUnit(activePlayer, originatingTerritory,
-						targetTerritory, Phases.ATTACK);
-			} while (((originatingTerritory.getUnits() - 1) < amountUnitAttack)
-					|| (amountUnitAttack < 1 || amountUnitAttack > 3));
-
-			// Besitzer des angegriffenden Landes ermitteln
-			Player attackedPlayer = targetTerritory.getOwner();
-
-			// Abfrage durch die CLI mit wievielen Einheiten verteidigt werden
-			// soll. Es können zwischen 1 und 2 Einheiten gewählt werden.
-			do {
-				amountUnitDefense = ui.getAmountUnit(attackedPlayer, originatingTerritory,
-						targetTerritory, Phases.DEFEND);
-			} while ((targetTerritory.getUnits() < amountUnitDefense)
-					|| (amountUnitDefense < 0 || amountUnitDefense > 2));
-
-//			new BattleSystem(amountUnitAttack, amountUnitDefense, originatingTerritory,
-//					targetTerritory, ui, territoryManager, playerManager);
-		}
-
-	}
-
-	private void moveUnits() {
-
-		Territory originatingTerritory;
-		Territory targetTerritory;
-		int amountUnitMove;
-
-		if (ui.askForPhase(activePlayer, Phases.MOVE)) {
-			do {
-				originatingTerritory = ui.getOriginatingTerritory(activePlayer, Phases.MOVE);
-			} while (originatingTerritory.getOwner().equals(activePlayer)
-					&& originatingTerritory.getUnits() < 1);
-
-			do {
-				targetTerritory = ui.getTargetTerritory(activePlayer, Phases.MOVE,
-						originatingTerritory);
-			} while (originatingTerritory.getOwner().equals(activePlayer)
-					&& originatingTerritory.getUnits() < 1);
-
-			do {
-				amountUnitMove = ui.getAmountUnit(activePlayer, originatingTerritory,
-						targetTerritory, Phases.MOVE);
-			} while ((originatingTerritory.getUnits() - 1) < amountUnitMove);
-
-			// Einheiten entsprechend der Eingabe verschieben
-			originatingTerritory.setUnits(originatingTerritory.getUnits() - amountUnitMove);
-			targetTerritory.setUnits(targetTerritory.getUnits() + amountUnitMove);
-		}
-
-	}
-
-	private int redeemBonusCards() {
-		HashSet<BonusCard> cards = activePlayer.getBonusCards();
-		// TODO remove this return statement
-		return 0;
-		// TODO check if a triple of cards is availabe
-	}
-
-	private int getCardBonus() {
-		if (bonusSupplyIter.hasNext()) {
-			currentBonusSupply = bonusSupplyIter.next();
-		} else {
-			currentBonusSupply += 5;
-		}
-		return currentBonusSupply;
-	}
-
-	private void testIfPlayerLose(Player lastPlayer) {
-		if (lastPlayer.getTerritories().isEmpty()) {
-			ui.announceYouLose(lastPlayer);
-			playerManager.removePlayer(lastPlayer);
-		}
-
-	}
-
-	public boolean ended() {
-		if (playerManager.getPlayers().size() == 1) {
-			return true;
-		}
+	
+	/**
+	 * TODO doc
+	 * @param player
+	 * @return
+	 */
+	private boolean playerCanTurnInCards(Player player) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public Player getWinner() {
-		// if all players are erased the nextPlayer would be the last man standing
-		return playerManager.getNextPlayer();
+	/**
+	 * TODO doc
+	 */
+	private void prepareTurnInAction() {
+		// Can the player turn in cards?
+		if (playerCanTurnInCards(activePlayer)) {
+			currentAction = Action.TURNINCARDS;
+		} else {
+			// If the player can't turn in cards, skip to the next step
+			preparePlacementAction();
+			currentAction = Action.PLACEMENT;
+		}
 	}
-
-	public PlayerManager getPlayerManager() {
-		return playerManager;
-
-	}
-
-
-	//--------------- A NEW ERA BEGINS HERE -------------------
 
 	/**
-	 * TODO
+	 * TODO doc
+	 */
+	private void preparePlacementAction() {
+		currentAction = Action.PLACEMENT;
+	}
+
+	/**
+	 * TODO doc
+	 */
+	private void prepareAttackAction() {
+		/*
+		 * Figure out which territories of the current player could be used for an attack
+		 *   Must be owned by the player
+		 *   Must have at least 2 units
+		 */
+		currentAction = Action.ATTACK;
+	}
+	
+	/**
+	 * TODO doc
+	 */
+	private void prepareMovementAction() {
+		/*
+		 * Figure out which territories have units which are eligible to be moved
+		 *   The territory's units must not have participated in a battle
+		 *   The territory needs at least 2 units
+		 */
+		currentAction = Action.MOVEMENT;
+	}
+
+	/**
+	 * TODO doc
 	 */
 	public void placeStartUnitsRandomly() {
 		Player currentPlayer;
@@ -310,13 +255,14 @@ public class Game {
 
 			// Place one unit on the territory
 			try {
-				territoryManager.changeTerritoryOwner(currentPlayer, territory, 1);
+				territoryManager.changeTerritoryOwner(currentPlayer, territory,
+						1);
 			} catch (InvalidTerritoryStateException e) {
 				e.printStackTrace();
 			}
 
 			// Remove the placed units from the player's supply
-			currentPlayer.subtractSupply(1);
+			currentPlayer.subtractSupplies(1);
 		}
 
 		// Place the remaining units randomly
@@ -327,46 +273,25 @@ public class Game {
 			// Add one unit to a random territory
 			currentPlayer.getRandomTerritory().addUnits(1);
 			// Remove it from the player's supply
-			currentPlayer.subtractSupply(1);
+			currentPlayer.subtractSupplies(1);
 		}
+
+		// Reset the current player to player 1
+		playerManager.resetActivePlayer();
+	}
+
+	/**
+	 * TODO doc
+	 */
+	public void redeemBonusCards(List<BonusCard> cards) {
+		// TODO make this a real exception
+		assert activePlayer.getBonusCards().containsAll(cards);
+		assert cards.size() == 3;
+		// TODO Check if the card triple is valid
 		
-		// TODO there has to be a better way to do this
-		// Fast-forward through the players to find out whose turn it is
-		for(int i = 0 ; i < playerManager.getPlayerCount(); ++i) {
-			activePlayer = playerManager.getNextPlayer();
-		}
+		// Redeem the cards
+		activePlayer.removeBonusCards(cards);
+		activePlayer.addSupplies(bonusTracker.getNextBonus());
 	}
-
-
-	/**
-	 * TODO
-	 * @return Player
-	 */
-	public Player getActivePlayer() {
-		return activePlayer;
-	}
-
-
-	/**
-	 * TODO
-	 */
-	public void nextPlayer() {
-		activePlayer = playerManager.getNextPlayer();
-	}
-
-	/**
-	 * TODO
-	 * @return Phase
-	 */
-	public Phases getNextPhase() {
-		
-		// Turn in bonus cards
-//		allocateSupply();
-		// Place supply
-		// Attack
-		// Move units
-
-		return Phases.PLACE;
-	}
-
+	
 }

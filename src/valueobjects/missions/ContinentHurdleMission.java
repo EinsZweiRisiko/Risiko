@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import valueobjects.Continent;
 import valueobjects.Mission;
 import valueobjects.Player;
-import domain.TerritoryManager;
+import domain.managers.TerritoryManager;
 
 public class ContinentHurdleMission implements Mission {
 

@@ -3,10 +3,11 @@ package valueobjects;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import domain.TerritoryManager;
+import domain.managers.TerritoryManager;
 
 /**
- * An abstract class that represents a continent. It holds all the territories that make up the continent as a
+ * An abstract class that represents a continent. It holds all the territories
+ * that make up the continent as a
  * list.
  * 
  * @author Jannes
@@ -20,9 +21,10 @@ public abstract class Continent implements Iterable<Territory> {
 	protected String name;
 
 	/**
-	 * The amount of bonus units a player gets each round when he has conquered the complete continent
+	 * The amount of bonus units a player gets each round when he has conquered
+	 * the complete continent
 	 */
-	protected int supplyBonus = 0;
+	protected int supplies = 0;
 
 	/**
 	 * Contains all territories that make this continent up
@@ -30,7 +32,8 @@ public abstract class Continent implements Iterable<Territory> {
 	protected ArrayList<Territory> territoryList = new ArrayList<Territory>();
 
 	/**
-	 * Returns an iterator which can be used to iterate over all the territories of the continent
+	 * Returns an iterator which can be used to iterate over all the territories
+	 * of the continent
 	 * 
 	 * Territories should not be removed from the list.
 	 * 
@@ -40,7 +43,7 @@ public abstract class Continent implements Iterable<Territory> {
 	public Iterator<Territory> iterator() {
 		return territoryList.iterator();
 	}
-	
+
 	/**
 	 * Returns the name of this continent
 	 * 
@@ -51,14 +54,15 @@ public abstract class Continent implements Iterable<Territory> {
 	}
 
 	/**
-	 * Returns the amount of bonus units a player gets each round for having conquered this territory
+	 * Returns the amount of bonus units a player gets each round for having
+	 * conquered this territory
 	 * 
-	 * @return Amount of bonus units
+	 * @return Amount of bonus supplies
 	 */
-	public int getSupplyBonus() {
-		return supplyBonus;
+	public int getBonusSupplies() {
+		return supplies;
 	}
-	
+
 	/**
 	 * Returns a list with all territories of the continent.
 	 * 

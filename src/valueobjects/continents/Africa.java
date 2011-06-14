@@ -13,7 +13,7 @@ public class Africa extends Continent {
 
 	public Africa() {
 		name = "Afrika";
-		supplyBonus = 3;
+		supplies = 3;
 		territoryList.add(new Territory("Nordwestafrika"));
 		territoryList.add(new Territory("Ägypten"));
 		territoryList.add(new Territory("Ostafrika"));

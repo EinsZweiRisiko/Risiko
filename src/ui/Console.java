@@ -3,12 +3,14 @@ package ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.List;
 
 import ui.exceptions.NoInputException;
 import ui.exceptions.YesNoFormatException;
 
 /**
- * Helper class for command line I/O<br>
+ * Helper class for command line input/output<br>
  * <br>
  * How to convert Strings to Integer:
  * <ul>
@@ -35,8 +37,19 @@ import ui.exceptions.YesNoFormatException;
  * @author Jannes
  * 
  */
+class Console {
 
-public class Input {
+	/**
+	 * Buffered read which is used for all read() methods
+	 */
+	private BufferedReader reader;
+
+	/**
+	 * Constructor
+	 */
+	Console() {
+		reader = new BufferedReader(new InputStreamReader(System.in));
+	}
 
 	/**
 	 * Reads a String.
@@ -46,10 +59,9 @@ public class Input {
 	 *             in the rare case that it wasn't possible to read from the
 	 *             command line.
 	 */
-	public static String read() {
+	String read() {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					System.in));
+
 			return reader.readLine();
 		} catch (IOException e) {
 			throw new NoInputException(e);
@@ -66,7 +78,7 @@ public class Input {
 	 *             in the rare case that it wasn't possible to read from the
 	 *             command line.
 	 */
-	public static String read(String message) {
+	String read(String message) {
 		System.out.print(message + " ");
 		return read();
 	}
@@ -79,7 +91,7 @@ public class Input {
 	 *            String which is printed
 	 * @return int which contains the input from the user
 	 */
-	public static int readNumber(String message) {
+	int readNumber(String message) {
 		// Ask for input
 		while (true) {
 			try {
@@ -90,8 +102,7 @@ public class Input {
 		}
 	}
 
-	// TODO I'm not completely sure that these kinds of checks are allowed in
-	// the UI. But for now let's leave them in.
+	// TODO These kinds of checks are not allowed in the UI.
 	/**
 	 * Prints a message and reads an integer. The integer must be between
 	 * <code>min</code> and <code>max</code>. If the user doesn't put a
@@ -101,7 +112,8 @@ public class Input {
 	 *            String which is printed
 	 * @return int which contains the input from the user
 	 */
-	public static int readNumberInRange(String message, int min, int max) {
+	@Deprecated
+	int readNumberInRange(String message, int min, int max) {
 		// Add the range to the end of the message
 		message += String.format(" (%d-%d)", min, max);
 
@@ -128,7 +140,7 @@ public class Input {
 	 *            String which is printed
 	 * @return boolean which contains the answer from the user
 	 */
-	public static boolean readYesNo(String message) {
+	boolean readYesNo(String message) {
 		// Add yes/no to the end of the message
 		message += " (yes/no)";
 
@@ -165,6 +177,36 @@ public class Input {
 			return false;
 		} else {
 			throw new YesNoFormatException(input);
+		}
+	}
+
+	/**
+	 * Prints a message to the console
+	 * 
+	 * @param message
+	 *            String which is going to be printed
+	 */
+	void write(String message) {
+		System.out.println(message);
+	}
+
+	/**
+	 * Prints every item of a List and its position in the List.<br>
+	 * <br>
+	 * Example output:
+	 * 
+	 * <pre>
+	 * (1) Alaska
+	 * (2) Ural
+	 * </pre>
+	 * 
+	 * @param list
+	 */
+	void writeList(List<?> list) {
+		// for (int i = 0, length = list.size(); i < length; ++i) {
+		Iterator<?> iter = list.iterator();
+		for (int i = 1; iter.hasNext(); ++i) {
+			write("(" + i + ") " + iter.next());
 		}
 	}
 

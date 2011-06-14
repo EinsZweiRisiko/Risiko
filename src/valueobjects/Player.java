@@ -2,6 +2,7 @@ package valueobjects;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * A class that represents a player
@@ -21,10 +22,12 @@ public class Player {
 //	private int color;
 
 	/**
-	 * The number of units the player still has to place on the board. This happens at the start of
-	 * every round. The player can only start attacking someone else if all units are placed.
+	 * The number of units the player still has to place on the board. This
+	 * happens at the start of
+	 * every round. The player can only start attacking someone else if all
+	 * units are placed.
 	 */
-	private int supplyToAllocate;
+	private int suppliesToAllocate;
 
 	/**
 	 * The territories that the player has conquered
@@ -32,7 +35,8 @@ public class Player {
 	private ArrayList<Territory> territoryList = new ArrayList<Territory>();
 
 	/**
-	 * A list of territory cards that the player currently has. These can be exchanged for bonus units
+	 * A list of territory cards that the player currently has. These can be
+	 * exchanged for bonus units
 	 * at the start of every round.
 	 */
 	private HashSet<BonusCard> territoryCards = new HashSet<BonusCard>();
@@ -40,7 +44,8 @@ public class Player {
 	/**
 	 * Constructor
 	 * 
-	 * @param name of the player.
+	 * @param name
+	 *            of the player.
 	 */
 	public Player(String name) {
 		// TODO Add the player's color or assign at least a player number
@@ -64,9 +69,10 @@ public class Player {
 	public String toString() {
 		return name;
 	}
-	
+
 	/**
-	 * Adds a territory to the list of territories which are owned by the player.
+	 * Adds a territory to the list of territories which are owned by the
+	 * player.
 	 * 
 	 * @param territory
 	 * 
@@ -76,7 +82,8 @@ public class Player {
 	}
 
 	/**
-	 * Removes a territory from the list of territories which are owned by the player.
+	 * Removes a territory from the list of territories which are owned by the
+	 * player.
 	 * 
 	 * @param territory
 	 * 
@@ -105,15 +112,16 @@ public class Player {
 	public int getTerritoryCount() {
 		return territoryList.size();
 	}
-	
+
 	/**
 	 * Returns if the player is dead
+	 * 
 	 * @return True, if the player has no territories left
 	 */
 	public boolean isDead() {
 		return territoryList.isEmpty();
 	}
-	
+
 	/**
 	 * Returns a random territory which is owned by the player
 	 * 
@@ -125,41 +133,53 @@ public class Player {
 		// Return the territory
 		return territoryList.get(random);
 	}
-	
+
 	/**
-	 * Adds the specified number to the amount of units that need to be allocated.
-	 * @param change Value to be added
+	 * Adds the specified number to the amount of units that need to be
+	 * allocated.
+	 * 
+	 * @param change
+	 *            Value to be added
 	 */
-	public void addSupply(int change) {
-		this.supplyToAllocate += change;
+	public void addSupplies(int change) {
+		this.suppliesToAllocate += change;
 	}
-	
+
 	/**
-	 * Substracts the specified number from the amount of units that need to be allocated.
-	 * @param change Value to be substract
+	 * Substracts the specified number from the amount of units that need to be
+	 * allocated.
+	 * 
+	 * @param change
+	 *            Value to be substract
 	 */
-	public void subtractSupply(int change) {
-		this.supplyToAllocate -= change;
+	public void subtractSupplies(int change) {
+		this.suppliesToAllocate -= change;
 	}
-	
+
 	/**
-	 * Returns the total amount of supply units that the player needs to allocate.
+	 * Returns the total amount of supply units that the player needs to
+	 * allocate.
+	 * 
 	 * @return
 	 */
-	public int getSupply() {
-		return supplyToAllocate;
+	public int getSupplies() {
+		return suppliesToAllocate;
 	}
-	
+
 	/**
 	 * Adds a card to the player's list of territory cards
-	 * @param card The territory card to be added
+	 * 
+	 * @param card
+	 *            The territory card to be added
 	 */
 	public void addBonusCard(BonusCard card) {
 		territoryCards.add(card);
 	}
-	
+
 	/**
-	 * Returns the player's list of territory cards which can be exchanged for bonus units
+	 * Returns the player's list of territory cards which can be exchanged for
+	 * bonus units
+	 * 
 	 * @return List of territory cards
 	 */
 	public HashSet<BonusCard> getBonusCards() {
@@ -168,9 +188,31 @@ public class Player {
 
 	/**
 	 * Removes cards from the player's bonus cards
-	 * @param cards Cards to remove
+	 * 
+	 * @param cards
+	 *            Cards to remove
 	 */
-	public void removeBonusCards(HashSet<BonusCard> cards) {
+	public void removeBonusCards(List<BonusCard> cards) {
 		territoryCards.removeAll(cards);
+	}
+
+	// TODO this method is in the wrong class
+	/**
+	 * TODO doc
+	 * 
+	 * @return
+	 */
+	public ArrayList<Continent> getContinents() {
+//		// Will hold the list of continents this player owns
+//		ArrayList<Continent> continents = new ArrayList<Continent>();
+//		
+//		for (Continent continent : territoryManager.getContinents()) {
+//			if (territoryList.containsAll(continent.getTerritories())) {
+//				continents.add(continent);
+//			}
+//		}
+//		
+//		return continents;
+		return null;
 	}
 }

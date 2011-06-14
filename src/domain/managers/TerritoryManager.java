@@ -1,4 +1,4 @@
-package domain;
+package domain.managers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,6 @@ public class TerritoryManager implements Iterable<Territory> {
 	 */
 	private ArrayList<Continent> continents = new ArrayList<Continent>();
 
-
 	/**
 	 * List of all territories coupled with their names
 	 */
@@ -40,39 +39,56 @@ public class TerritoryManager implements Iterable<Territory> {
 	 */
 	private final String[][] borders = { { "Alaska", "Nordwest-Territorium" },
 			{ "Alaska", "Alberta" }, { "Alaska", "Kamtschatka" },
-			{ "Nordwest-Territorium", "Alberta" }, { "Nordwest-Territorium", "Grönland" },
+			{ "Nordwest-Territorium", "Alberta" },
+			{ "Nordwest-Territorium", "Grönland" },
 			{ "Nordwest-Territorium", "Ontario" }, { "Alberta", "Ontario" },
-			{ "Alberta", "Weststaaten" }, { "Ontario", "Oststaaten" }, { "Ontario", "Quebec" },
-			{ "Ontario", "Grönland" }, { "Grönland", "Quebec" }, { "Grönland", "Island" },
-			{ "Weststaaten", "Oststaaten" }, { "Weststaaten", "Mittelamerika" },
+			{ "Alberta", "Weststaaten" }, { "Ontario", "Oststaaten" },
+			{ "Ontario", "Quebec" },
+			{ "Ontario", "Grönland" }, { "Grönland", "Quebec" },
+			{ "Grönland", "Island" },
+			{ "Weststaaten", "Oststaaten" },
+			{ "Weststaaten", "Mittelamerika" },
 			{ "Oststaaten", "Quebec" }, { "Oststaaten", "Mittelamerika" },
 			{ "Mittelamerika", "Venezuela" }, { "Venezuela", "Peru" },
-			{ "Venezuela", "Brasilien" }, { "Peru", "Brasilien" }, { "Peru", "Argentinien" },
+			{ "Venezuela", "Brasilien" }, { "Peru", "Brasilien" },
+			{ "Peru", "Argentinien" },
 			{ "Brasilien", "Nordwestafrika" }, { "Brasilien", "Argentinien" },
-			{ "Nordwestafrika", "Westeuropa" }, { "Nordwestafrika", "Südeuropa" },
+			{ "Nordwestafrika", "Westeuropa" },
+			{ "Nordwestafrika", "Südeuropa" },
 			{ "Nordwestafrika", "Ägypten" }, { "Nordwestafrika", "Ostafrika" },
 			{ "Nordwestafrika", "Kongo" }, { "Ägypten", "Mitteleuropa" },
 			{ "Ägypten", "Südeuropa" }, { "Ägypten", "Ostafrika" },
 			{ "Ostafrika", "Mittlerer Osten" }, { "Ostafrika", "Kongo" },
-			{ "Ostafrika", "Südafrika" }, { "Ostafrika", "Madagaskar" }, { "Südafrika", "Kongo" },
+			{ "Ostafrika", "Südafrika" }, { "Ostafrika", "Madagaskar" },
+			{ "Südafrika", "Kongo" },
 			{ "Südafrika", "Madagaskar" }, { "Westeuropa", "Mitteleuropa" },
 			{ "Westeuropa", "Südeuropa" }, { "Westeuropa", "Großbritannien" },
-			{ "Großbritannien", "Skandinavien" }, { "Großbritannien", "Island" },
-			{ "Großbritannien", "Mitteleuropa" }, { "Mitteleuropa", "Ukraine" },
+			{ "Großbritannien", "Skandinavien" },
+			{ "Großbritannien", "Island" },
+			{ "Großbritannien", "Mitteleuropa" },
+			{ "Mitteleuropa", "Ukraine" },
 			{ "Mitteleuropa", "Skandinavien" }, { "Island", "Skandinavien" },
 			{ "Skandinavien", "Ukraine" }, { "Südeuropa", "Mittlerer Osten" },
-			{ "Mittlerer Osten", "Indien" }, { "Mittlerer Osten", "Afghanistan" },
-			{ "Mittlerer Osten", "Ukraine" }, { "Ukraine", "Afghanistan" }, { "Ukraine", "Ural" },
-			{ "Ural", "Sibirien" }, { "Ural", "Afghanistan" }, { "Ural", "China" },
-			{ "Afghanistan", "China" }, { "Afghanistan", "Indien" }, { "Indien", "China" },
+			{ "Mittlerer Osten", "Indien" },
+			{ "Mittlerer Osten", "Afghanistan" },
+			{ "Mittlerer Osten", "Ukraine" }, { "Ukraine", "Afghanistan" },
+			{ "Ukraine", "Ural" },
+			{ "Ural", "Sibirien" }, { "Ural", "Afghanistan" },
+			{ "Ural", "China" },
+			{ "Afghanistan", "China" }, { "Afghanistan", "Indien" },
+			{ "Indien", "China" },
 			{ "Indien", "Siam" }, { "China", "Mongolei" }, { "China", "Siam" },
-			{ "China", "Sibirien" }, { "Sibirien", "Mongolei" }, { "Sibirien", "Irkutsk" },
+			{ "China", "Sibirien" }, { "Sibirien", "Mongolei" },
+			{ "Sibirien", "Irkutsk" },
 			{ "Sibirien", "Kamtschatka" }, { "Jakutien", "Irkutsk" },
 			{ "Jakutien", "Kamtschatka" }, { "Irkutsk", "Kamtschatka" },
-			{ "Japan", "Kamtschatka" }, { "Japan", "Mongolei" }, { "Mongolei", "Kamtschatka" },
+			{ "Japan", "Kamtschatka" }, { "Japan", "Mongolei" },
+			{ "Mongolei", "Kamtschatka" },
 			{ "Siam", "Indonesien" }, { "Indonesien", "Neu-Guinea" },
-			{ "Indonesien", "West-Australien" }, { "West-Australien", "Ost-Australien" },
-			{ "West-Australien", "Neu-Guinea" }, { "Ost-Australien", "Neu-Guinea" } };
+			{ "Indonesien", "West-Australien" },
+			{ "West-Australien", "Ost-Australien" },
+			{ "West-Australien", "Neu-Guinea" },
+			{ "Ost-Australien", "Neu-Guinea" } };
 
 	/**
 	 * Constructor
@@ -93,7 +109,8 @@ public class TerritoryManager implements Iterable<Territory> {
 			}
 		}
 
-		// Initializes all neighboring territories based on the pairs in the 'borders' array
+		// Initializes all neighboring territories based on the pairs in the
+		// 'borders' array
 		initNeighboringTerritories();
 	}
 
@@ -133,7 +150,8 @@ public class TerritoryManager implements Iterable<Territory> {
 //	}
 
 	/**
-	 * Changes the owner of a territory. The target territory must be empty (i.e. its unit count must
+	 * Changes the owner of a territory. The target territory must be empty
+	 * (i.e. its unit count must
 	 * be zero).
 	 * 
 	 * @param newOwner
@@ -141,10 +159,12 @@ public class TerritoryManager implements Iterable<Territory> {
 	 * @param territory
 	 *            The territory to be conquered
 	 * @param units
-	 *            The initial amount of units which will be placed on the territory
+	 *            The initial amount of units which will be placed on the
+	 *            territory
 	 * @throws InvalidTerritoryStateException
 	 */
-	public void changeTerritoryOwner(Player newOwner, Territory territory, int units)
+	public void changeTerritoryOwner(Player newOwner, Territory territory,
+			int units)
 			throws InvalidTerritoryStateException {
 		// If the territory still holds units the owner cannot be changed
 		if (territory.getUnits() != 0) {
@@ -185,10 +205,12 @@ public class TerritoryManager implements Iterable<Territory> {
 	/**
 	 * Returns a list with all continents that are completely conquered
 	 * 
-	 * @param territory List of territories against which this check is performed
+	 * @param territory
+	 *            List of territories against which this check is performed
 	 * @return
 	 */
-	public ArrayList<Continent> getConqueredContinents(ArrayList<Territory> territory) {
+	public ArrayList<Continent> getConqueredContinents(
+			ArrayList<Territory> territory) {
 		// Array für das Ergebnis
 		ArrayList<Continent> conqueredContinents = new ArrayList<Continent>();
 
@@ -214,21 +236,22 @@ public class TerritoryManager implements Iterable<Territory> {
 	 */
 	public ArrayList<Territory> getRandomTerritoryList() {
 		// Create a copy of the values
-		ArrayList<Territory> territoryList = new ArrayList<Territory>(territories.values());
+		ArrayList<Territory> territoryList = new ArrayList<Territory>(
+				territories.values());
 
 		// Shuffle it
 		Collections.shuffle(territoryList);
 
 		return territoryList;
 	}
-	
+
 	public ArrayList<Continent> getContinents() {
 		return continents;
 	}
-	
-	
+
 	public ArrayList<Territory> getTerritoryList() {
-		ArrayList<Territory> territoryList = new ArrayList<Territory>(territories.values());
+		ArrayList<Territory> territoryList = new ArrayList<Territory>(
+				territories.values());
 		return territoryList;
 	}
 }

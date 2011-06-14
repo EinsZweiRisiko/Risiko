@@ -12,7 +12,7 @@ public class NorthAmerica extends Continent {
 
 	public NorthAmerica() {
 		name = "Nordamerika";
-		supplyBonus = 5;
+		supplies = 5;
 		territoryList.add(new Territory("Alaska"));
 		territoryList.add(new Territory("Nordwest-Territorium"));
 		territoryList.add(new Territory("Grönland"));

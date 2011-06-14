@@ -7,5 +7,5 @@ public class YesNoFormatException extends Exception {
 	public YesNoFormatException(String input) {
 		super("You didn't answer with 'yes' or 'no'.");
 	}
-	
+
 }

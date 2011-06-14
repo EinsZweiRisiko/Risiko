@@ -13,7 +13,7 @@ public class Australia extends Continent {
 
 	public Australia() {
 		name = "Australien";
-		supplyBonus = 2;
+		supplies = 2;
 		territoryList.add(new Territory("Indonesien"));
 		territoryList.add(new Territory("Neu-Guinea"));
 		territoryList.add(new Territory("West-Australien"));

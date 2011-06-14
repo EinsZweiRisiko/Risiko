@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 
  */
 public class Territory {
-	
+
 	private Player owner;
 	private int units = 0;
 	private String name;
@@ -61,7 +61,7 @@ public class Territory {
 	public void setUnits(int units) {
 		this.units = units;
 	}
-	
+
 	public void addUnits(int units) {
 		this.units += units;
 	}

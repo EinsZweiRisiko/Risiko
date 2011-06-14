@@ -13,7 +13,7 @@ public class Asia extends Continent {
 
 	public Asia() {
 		name = "Asien";
-		supplyBonus = 7;
+		supplies = 7;
 		territoryList.add(new Territory("Ural"));
 		territoryList.add(new Territory("Sibirien"));
 		territoryList.add(new Territory("Jakutien"));
@@ -27,5 +27,5 @@ public class Asia extends Continent {
 		territoryList.add(new Territory("Indien"));
 		territoryList.add(new Territory("Siam"));
 	}
-	
+
 }
