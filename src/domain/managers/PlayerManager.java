@@ -18,6 +18,10 @@ public class PlayerManager implements Iterable<Player> {
 	 * needs to be updated.
 	 */
 	private ArrayList<Player> players = new ArrayList<Player>();
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
 	private int activePlayer;
 
 	/**
@@ -27,8 +31,8 @@ public class PlayerManager implements Iterable<Player> {
 	 */
 	public PlayerManager(ArrayList<String> playerNames) {
 		// Creates new player instances for each player
-		for (String name : playerNames) {
-			players.add(new Player(name));
+		for (int i = 0; i < playerNames.size(); i++) {
+			players.add(new Player(playerNames.get(i),i));
 		}
 
 		// Set the index to determine the current player

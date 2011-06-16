@@ -16,10 +16,10 @@ public class Player {
 	 */
 	private String name;
 
-//	/**
-//	 * The player's color
-//	 */
-//	private int color;
+	/**
+	 * The player's color
+	 */
+	private int color;
 
 	/**
 	 * The number of units the player still has to place on the board. This
@@ -47,9 +47,10 @@ public class Player {
 	 * @param name
 	 *            of the player.
 	 */
-	public Player(String name) {
+	public Player(String name,int color) {
 		// TODO Add the player's color or assign at least a player number
 		this.name = name;
+		this.color = color;
 	}
 
 	/**
@@ -214,5 +215,19 @@ public class Player {
 //		
 //		return continents;
 		return null;
+	}
+
+	public int getColor() {
+		return color;
+	}
+	
+	public int getAllUnits() {
+		int units = 0;
+		
+		for(Territory territory: territoryList){
+			units += territory.getUnits();
+		}
+		
+		return units;
 	}
 }

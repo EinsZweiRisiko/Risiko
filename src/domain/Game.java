@@ -78,6 +78,14 @@ public class Game {
 		}
 	}
 
+	public PlayerManager getPlayerManager() {
+		return playerManager;
+	}
+
+	public TerritoryManager getTerritoryManager() {
+		return territoryManager;
+	}
+
 	/**
 	 * Returns whether the game is over
 	 * @return True, if somebody has won the game

@@ -254,4 +254,8 @@ public class TerritoryManager implements Iterable<Territory> {
 				territories.values());
 		return territoryList;
 	}
+	
+	public Territory getTerritoryByName(String name) {
+		return territories.get(name);
+	}
 }
