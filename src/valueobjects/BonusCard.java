@@ -12,9 +12,7 @@ package valueobjects;
  */
 public class BonusCard {
 
-	public static enum Types {
-		Infantry, Cavalry, Artillery, WildCard
-	};
+	public static enum Types {Infantry, Cavalry, Artillery, WildCard};
 
 	public BonusCard() {
 

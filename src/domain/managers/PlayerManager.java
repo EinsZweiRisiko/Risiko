@@ -18,6 +18,7 @@ public class PlayerManager implements Iterable<Player> {
 	 * needs to be updated.
 	 */
 	private ArrayList<Player> players = new ArrayList<Player>();
+	
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
