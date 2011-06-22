@@ -29,6 +29,8 @@ public class Player {
 	 */
 	private int suppliesToAllocate;
 
+
+
 	/**
 	 * The territories that the player has conquered
 	 */
@@ -40,6 +42,7 @@ public class Player {
 	 * at the start of every round.
 	 */
 	private HashSet<BonusCard> territoryCards = new HashSet<BonusCard>();
+
 
 	/**
 	 * Constructor
@@ -186,7 +189,15 @@ public class Player {
 	public HashSet<BonusCard> getBonusCards() {
 		return territoryCards;
 	}
-
+	/**
+	 * Returns the count of supply that the player must set
+	 * 
+	 * @return count of supplies that to be set
+	 */
+	public int getSuppliesToAllocate() {
+		return suppliesToAllocate;
+	}
+	
 	/**
 	 * Removes cards from the player's bonus cards
 	 * 
