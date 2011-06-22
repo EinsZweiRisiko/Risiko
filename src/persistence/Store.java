@@ -27,7 +27,7 @@ public class Store {
 	 * 
 	 * 
 	 */
-	
+
 	/* es werden vom SPIELER folgende Informationen abgespeichert:
 	 * 
 	 * Name
@@ -41,62 +41,68 @@ public class Store {
 	 * 
 	 */
 	Player player;
-	
+
 	public Store(Player player) {
 		this.player = player;
 	}
-	
-	public void save() {
-		
-		//Allgemeine Informationen
-        //Zeilenweise in Textdatei schreiben
-        File file = new File("c:/save.txt");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-		
-        //zusammen bauen des input Arrays
-        buildInput();
-		
-	}
-		
+
+
+
 	public ArrayList<String> buildInput() {
-		
+
 		ArrayList<String> input = new ArrayList<String>();
 		ArrayList<Territory> territories;
-		
+
 		// Allgemeines Input Build
-		
-		
+
+
 		//Spieler input Build
 		input.add(player.getName());					// Name
 		input.add(String.valueOf(player.getColor()));	// Farbe
 		// Bonus Karten
 		HashSet<BonusCard> territoryCards = player.getBonusCards();
 		input.add(String.valueOf(territoryCards.size())); 		//Anzahl von Karten
-		
+
 		// TODO Typen der Bonuskarten einlesen und jeden Typ Zeilenweise schreiben/speichern
-		
+
 		//Länder im Besitz
 		input.add(String.valueOf(player.getTerritoryCount())); // Anzahl der Länder
-		
+
 		territories = player.getTerritories();				// Name der Länder
 		for(int i = 0; i <= territories.size(); i++) {
 			input.add(territories.get(i).getName());
 		}
-		
+
 		//anzahl der gesamten Einheiten
 		input.add(String.valueOf(player.getAllUnits()));
-	
+
 		//anzahl der noch zu setzenden Einheiten
 		input.add(String.valueOf(player.getSuppliesToAllocate()));
-		
+
 		// TODO Mission abspeichern
-		
-		
+
+
 		return input;
 	}
-	
+
 	public void load() {
-		
+
+	}
+
+	public void save() {
+
+		//zusammen bauen des input Arrays
+		try{
+			java.io.FileOutputStream fos = new java.io.FileOutputStream("C:\\test.txt");
+			java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(fos);
+
+			// TODO speichert er es Zeilenweise oder alles in eine Zeile?!
+			oos.writeObject((java.util.ArrayList)  buildInput());
+			oos.flush();
+			fos.close();
+		}
+		catch(Exception e){}
+
 	}
 
 }
