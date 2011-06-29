@@ -241,4 +241,14 @@ public class Player {
 		
 		return units;
 	}
+
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		this.name = name;
+	}
+
+	public void setColor(int color) {
+		// TODO Auto-generated method stub
+		this.color = color;
+	}
 }

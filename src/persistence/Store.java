@@ -117,12 +117,15 @@ public class Store {
 		BufferedReader br;
 		String line;
 		int i = 0;
+		ArrayList<String> loadText = new ArrayList<String>();
 		
 		try {
 			br = new BufferedReader(new FileReader(SAVE_PATH));
 			
 			while((line = br.readLine()) != null){
-				
+				// hier wird zeilenweise eingelsen
+				loadText.add(line);
+				filterLoadFile(loadText);
 			}
 			
 			} catch (Exception e) {
@@ -131,8 +134,28 @@ public class Store {
 			}
 		}
 
+		public void filterLoadFile(ArrayList<String> loadText) {
+			int player = 0;
+			
+			for(int i = 0; i <= loadText.size(); i++) {
+				if(loadText.get(i) == "# Name") {
+					player++;
+					players.get(player).setName(loadText.get(i+1));
+				}
+				if(loadText.get(i) == "# Farbe") {
+					players.get(player).setColor(Integer.parseInt(loadText.get(i+1)));
+				}
+				if(loadText.get(i) == "# Bonuskarten") {
+					while(loadText.get(i+1).contains("#")) {
+						
+					}
+					//players.get(player).setBonusCards
+				}
+				
+			}
+		}
+		
 		public void save() {
-
 			//zusammen bauen des input Arrays
 			try{
 				java.io.FileOutputStream fos = new java.io.FileOutputStream(SAVE_PATH);
