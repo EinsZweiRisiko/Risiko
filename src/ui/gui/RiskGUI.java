@@ -3,18 +3,20 @@ package ui.gui;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
@@ -32,7 +34,8 @@ public class RiskGUI {
 	private Shell shell;
 	private Image map;
 	private Image[] units = new Image[6];
-	private Composite composition;
+	private Composite mainWindow;
+	private Composite attackPopUp;
 	private int imgWidth;
 	private int imgHeight;
 	private final int defaultSizeX = 800;
@@ -41,7 +44,7 @@ public class RiskGUI {
 	private final int maxSizeY = 1080;
 	private TerritoryManager territoryManager;
 	private PlayerManager playerManager;
-	private Button[] button = new Button[44];
+	private Button[] button = new Button[42];
 	private Button[] playerButtons;
 	
 	/**
@@ -70,9 +73,6 @@ public class RiskGUI {
 		territoryManager = game.getTerritoryManager();
 		playerManager = game.getPlayerManager();
 		
-		//TODO
-		
-		
 		//Create a new Shell with Title
 		shell = new Shell(display);
 		shell.setText("EinsZweiRisiko");
@@ -81,15 +81,15 @@ public class RiskGUI {
 		shell.setSize(defaultSizeX, defaultSizeY);
 
 		//Create a new Composite make it default size adjust the Shell
-		composition = new Composite(shell, SWT.NONE);
-		composition.setSize(defaultSizeX, defaultSizeY);
+		mainWindow = new Composite(shell, SWT.NONE);
+		mainWindow.setSize(defaultSizeX, defaultSizeY);
 		shell.pack();
 		
 		//Shell set minimum size to default size
 		shell.setMinimumSize(shell.getBounds().width, shell.getBounds().height);
 		
 		//Composite set size to max size
-		composition.setSize(maxSizeX, maxSizeY);
+		mainWindow.setSize(maxSizeX, maxSizeY);
 
 		Device dev = shell.getDisplay();
 
@@ -123,12 +123,12 @@ public class RiskGUI {
 		imgWidth = map.getBounds().width;
 		imgHeight = map.getBounds().height;
 
-		composition.setBackgroundImage(map);
+		mainWindow.setBackgroundImage(map);
 		createButtons();
 
 		shell.addListener(SWT.Resize, new Listener() {
 			public void handleEvent(Event e) {
-				centerImage();
+				centerImage(mainWindow);
 				createButtons();
 			}
 		});
@@ -136,31 +136,31 @@ public class RiskGUI {
 		shell.addShellListener(new ShellListener() {
 			@Override
 			public void shellActivated(ShellEvent e) {
-				centerImage();
+				centerImage(mainWindow);
 				createButtons();
 			}
 
 			@Override
 			public void shellClosed(ShellEvent e) {
-				centerImage();
+				centerImage(mainWindow);
 				createButtons();
 			}
 
 			@Override
 			public void shellDeactivated(ShellEvent e) {
-				centerImage();
+				centerImage(mainWindow);
 				createButtons();
 			}
 
 			@Override
 			public void shellDeiconified(ShellEvent e) {
-				centerImage();
+				centerImage(mainWindow);
 				createButtons();
 			}
 
 			@Override
 			public void shellIconified(ShellEvent e) {
-				centerImage();
+				centerImage(mainWindow);
 				createButtons();
 			}
 		});
@@ -175,14 +175,14 @@ public class RiskGUI {
 			}
 		}
 	}
-
+	
 	/**
 	 * creates a Button on every Territory
 	 */
 	private void createButtons() {
 		
 		//clear composite
-		for(Control kid: composition.getChildren()){
+		for(Control kid: mainWindow.getChildren()){
 			kid.dispose();
 		}
 		
@@ -196,15 +196,33 @@ public class RiskGUI {
 		
 		//Alaska
 		territory = territoryManager.getTerritoryByName("Alaska");
-		button[0] = new Button(composition, SWT.PUSH);
+		button[0] = new Button(mainWindow, SWT.PUSH);
 		button[0].setImage(units[territory.getOwner().getColor()]);
 		button[0].setText(String.valueOf(territory.getUnits()));
 		button[0].setBounds(615-buttonSizeW/2, 332-buttonSizeH/2, buttonSizeW, buttonSizeH);
 		button[0].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
+		button[0].addMouseListener(new MouseListener() {
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseDown(MouseEvent e) {
+					 openDialog(e);
+				}
+
+				@Override
+				public void mouseUp(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+		      });
 		
 		//Nordwest-Territorium
 		territory = territoryManager.getTerritoryByName("Nordwest-Territorium");
-		button[1] = new Button(composition, SWT.PUSH);
+		button[1] = new Button(mainWindow, SWT.PUSH);
 		button[1].setImage(units[territory.getOwner().getColor()]);
 		button[1].setText(String.valueOf(territory.getUnits()));
 		button[1].setBounds(690-buttonSizeW/2, 342-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -212,7 +230,7 @@ public class RiskGUI {
 		
 		//Alberta
 		territory = territoryManager.getTerritoryByName("Alberta");
-		button[2] = new Button(composition, SWT.PUSH);
+		button[2] = new Button(mainWindow, SWT.PUSH);
 		button[2].setImage(units[territory.getOwner().getColor()]);
 		button[2].setText(String.valueOf(territory.getUnits()));
 		button[2].setBounds(682-buttonSizeW/2, 382-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -220,7 +238,7 @@ public class RiskGUI {
 		
 		//Ontario
 		territory = territoryManager.getTerritoryByName("Ontario");
-		button[3] = new Button(composition, SWT.PUSH);
+		button[3] = new Button(mainWindow, SWT.PUSH);
 		button[3].setImage(units[territory.getOwner().getColor()]);
 		button[3].setText(String.valueOf(territory.getUnits()));
 		button[3].setBounds(736-buttonSizeW/2, 400-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -228,7 +246,7 @@ public class RiskGUI {
 		
 		//Quebec
 		territory = territoryManager.getTerritoryByName("Quebec");
-		button[4] = new Button(composition, SWT.PUSH);
+		button[4] = new Button(mainWindow, SWT.PUSH);
 		button[4].setImage(units[territory.getOwner().getColor()]);
 		button[4].setText(String.valueOf(territory.getUnits()));
 		button[4].setBounds(790-buttonSizeW/2, 404-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -236,7 +254,7 @@ public class RiskGUI {
 		
 		//Weststaaten
 		territory = territoryManager.getTerritoryByName("Weststaaten");
-		button[5] = new Button(composition, SWT.PUSH);
+		button[5] = new Button(mainWindow, SWT.PUSH);
 		button[5].setImage(units[territory.getOwner().getColor()]);
 		button[5].setText(String.valueOf(territory.getUnits()));
 		button[5].setBounds(687-buttonSizeW/2, 445-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -244,7 +262,7 @@ public class RiskGUI {
 		
 		//Oststaaten
 		territory = territoryManager.getTerritoryByName("Oststaaten");
-		button[6] = new Button(composition, SWT.PUSH);
+		button[6] = new Button(mainWindow, SWT.PUSH);
 		button[6].setImage(units[territory.getOwner().getColor()]);
 		button[6].setText(String.valueOf(territory.getUnits()));
 		button[6].setBounds(750-buttonSizeW/2, 465-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -252,7 +270,7 @@ public class RiskGUI {
 		
 		//Mittel-Amerika
 		territory = territoryManager.getTerritoryByName("Mittelamerika");
-		button[7] = new Button(composition, SWT.PUSH);
+		button[7] = new Button(mainWindow, SWT.PUSH);
 		button[7].setImage(units[territory.getOwner().getColor()]);
 		button[7].setText(String.valueOf(territory.getUnits()));
 		button[7].setBounds(690-buttonSizeW/2, 512-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -260,7 +278,7 @@ public class RiskGUI {
 		
 		//Grönland
 		territory = territoryManager.getTerritoryByName("Grönland");
-		button[8] = new Button(composition, SWT.PUSH);
+		button[8] = new Button(mainWindow, SWT.PUSH);
 		button[8].setImage(units[territory.getOwner().getColor()]);
 		button[8].setText(String.valueOf(territory.getUnits()));
 		button[8].setBounds(843-buttonSizeW/2, 320-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -270,7 +288,7 @@ public class RiskGUI {
 		
 		//Venezuela
 		territory = territoryManager.getTerritoryByName("Venezuela");
-		button[9] = new Button(composition, SWT.PUSH);
+		button[9] = new Button(mainWindow, SWT.PUSH);
 		button[9].setImage(units[territory.getOwner().getColor()]);
 		button[9].setText(String.valueOf(territory.getUnits()));
 		button[9].setBounds(748-buttonSizeW/2, 571-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -278,7 +296,7 @@ public class RiskGUI {
 		
 		//Peru
 		territory = territoryManager.getTerritoryByName("Peru");
-		button[10] = new Button(composition, SWT.PUSH);
+		button[10] = new Button(mainWindow, SWT.PUSH);
 		button[10].setImage(units[territory.getOwner().getColor()]);
 		button[10].setText(String.valueOf(territory.getUnits()));
 		button[10].setBounds(757-buttonSizeW/2, 641-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -286,7 +304,7 @@ public class RiskGUI {
 		
 		//Brasilien
 		territory = territoryManager.getTerritoryByName("Brasilien");
-		button[11] = new Button(composition, SWT.PUSH);
+		button[11] = new Button(mainWindow, SWT.PUSH);
 		button[11].setImage(units[territory.getOwner().getColor()]);
 		button[11].setText(String.valueOf(territory.getUnits()));
 		button[11].setBounds(810-buttonSizeW/2, 623-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -294,7 +312,7 @@ public class RiskGUI {
 		
 		//Argentinien
 		territory = territoryManager.getTerritoryByName("Argentinien");
-		button[12] = new Button(composition, SWT.PUSH);
+		button[12] = new Button(mainWindow, SWT.PUSH);
 		button[12].setImage(units[territory.getOwner().getColor()]);
 		button[12].setText(String.valueOf(territory.getUnits()));
 		button[12].setBounds(765-buttonSizeW/2, 710-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -304,7 +322,7 @@ public class RiskGUI {
 		
 		//Island
 		territory = territoryManager.getTerritoryByName("Island");
-		button[13] = new Button(composition, SWT.PUSH);
+		button[13] = new Button(mainWindow, SWT.PUSH);
 		button[13].setImage(units[territory.getOwner().getColor()]);
 		button[13].setText(String.valueOf(territory.getUnits()));
 		button[13].setBounds(910-buttonSizeW/2, 378-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -312,7 +330,7 @@ public class RiskGUI {
 		
 		//Skandinavien
 		territory = territoryManager.getTerritoryByName("Skandinavien");
-		button[14] = new Button(composition, SWT.PUSH);
+		button[14] = new Button(mainWindow, SWT.PUSH);
 		button[14].setImage(units[territory.getOwner().getColor()]);
 		button[14].setText(String.valueOf(territory.getUnits()));
 		button[14].setBounds(968-buttonSizeW/2, 383-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -320,7 +338,7 @@ public class RiskGUI {
 		
 		//Großbritannien
 		territory = territoryManager.getTerritoryByName("Großbritannien");
-		button[15] = new Button(composition, SWT.PUSH);
+		button[15] = new Button(mainWindow, SWT.PUSH);
 		button[15].setImage(units[territory.getOwner().getColor()]);
 		button[15].setText(String.valueOf(territory.getUnits()));
 		button[15].setBounds(892-buttonSizeW/2, 444-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -328,7 +346,7 @@ public class RiskGUI {
 		
 		//MittelEuropa
 		territory = territoryManager.getTerritoryByName("Mitteleuropa");
-		button[16] = new Button(composition, SWT.PUSH);
+		button[16] = new Button(mainWindow, SWT.PUSH);
 		button[16].setImage(units[territory.getOwner().getColor()]);
 		button[16].setText(String.valueOf(territory.getUnits()));
 		button[16].setBounds(967-buttonSizeW/2, 454-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -336,7 +354,7 @@ public class RiskGUI {
 		
 		//SüdEuropa
 		territory = territoryManager.getTerritoryByName("Südeuropa");
-		button[18] = new Button(composition, SWT.PUSH);
+		button[18] = new Button(mainWindow, SWT.PUSH);
 		button[18].setImage(units[territory.getOwner().getColor()]);
 		button[18].setText(String.valueOf(territory.getUnits()));
 		button[18].setBounds(976-buttonSizeW/2, 503-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -344,7 +362,7 @@ public class RiskGUI {
 		
 		//WestEuropa
 		territory = territoryManager.getTerritoryByName("Westeuropa");
-		button[19] = new Button(composition, SWT.PUSH);
+		button[19] = new Button(mainWindow, SWT.PUSH);
 		button[19].setImage(units[territory.getOwner().getColor()]);
 		button[19].setText(String.valueOf(territory.getUnits()));
 		button[19].setBounds(915-buttonSizeW/2, 508-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -352,7 +370,7 @@ public class RiskGUI {
 		
 		//Ukraine
 		territory = territoryManager.getTerritoryByName("Ukraine");
-		button[20] = new Button(composition, SWT.PUSH);
+		button[20] = new Button(mainWindow, SWT.PUSH);
 		button[20].setImage(units[territory.getOwner().getColor()]);
 		button[20].setText(String.valueOf(territory.getUnits()));
 		button[20].setBounds(1042-buttonSizeW/2, 415-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -362,7 +380,7 @@ public class RiskGUI {
 		
 		//Nordwestafrika
 		territory = territoryManager.getTerritoryByName("Nordwestafrika");
-		button[21] = new Button(composition, SWT.PUSH);
+		button[21] = new Button(mainWindow, SWT.PUSH);
 		button[21].setImage(units[territory.getOwner().getColor()]);
 		button[21].setText(String.valueOf(territory.getUnits()));
 		button[21].setBounds(938-buttonSizeW/2, 606-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -370,7 +388,7 @@ public class RiskGUI {
 		
 		//Ägypten
 		territory = territoryManager.getTerritoryByName("Ägypten");
-		button[22] = new Button(composition, SWT.PUSH);
+		button[22] = new Button(mainWindow, SWT.PUSH);
 		button[22].setImage(units[territory.getOwner().getColor()]);
 		button[22].setText(String.valueOf(territory.getUnits()));
 		button[22].setBounds(998-buttonSizeW/2, 577-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -378,7 +396,7 @@ public class RiskGUI {
 		
 		//Ostafrika
 		territory = territoryManager.getTerritoryByName("Ostafrika");
-		button[23] = new Button(composition, SWT.PUSH);
+		button[23] = new Button(mainWindow, SWT.PUSH);
 		button[23].setImage(units[territory.getOwner().getColor()]);
 		button[23].setText(String.valueOf(territory.getUnits()));
 		button[23].setBounds(1037-buttonSizeW/2, 649-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -386,7 +404,7 @@ public class RiskGUI {
 		
 		//Kongo
 		territory = territoryManager.getTerritoryByName("Kongo");
-		button[24] = new Button(composition, SWT.PUSH);
+		button[24] = new Button(mainWindow, SWT.PUSH);
 		button[24].setImage(units[territory.getOwner().getColor()]);
 		button[24].setText(String.valueOf(territory.getUnits()));
 		button[24].setBounds(998-buttonSizeW/2, 678-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -394,7 +412,7 @@ public class RiskGUI {
 		
 		//Südafrika
 		territory = territoryManager.getTerritoryByName("Südafrika");
-		button[25] = new Button(composition, SWT.PUSH);
+		button[25] = new Button(mainWindow, SWT.PUSH);
 		button[25].setImage(units[territory.getOwner().getColor()]);
 		button[25].setText(String.valueOf(territory.getUnits()));
 		button[25].setBounds(999-buttonSizeW/2, 743-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -402,7 +420,7 @@ public class RiskGUI {
 		
 		//Madagaskar
 		territory = territoryManager.getTerritoryByName("Madagaskar");
-		button[26] = new Button(composition, SWT.PUSH);
+		button[26] = new Button(mainWindow, SWT.PUSH);
 		button[26].setImage(units[territory.getOwner().getColor()]);
 		button[26].setText(String.valueOf(territory.getUnits()));
 		button[26].setBounds(1075-buttonSizeW/2, 745-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -412,7 +430,7 @@ public class RiskGUI {
 		
 		//Ural
 		territory = territoryManager.getTerritoryByName("Ural");
-		button[28] = new Button(composition, SWT.PUSH);
+		button[28] = new Button(mainWindow, SWT.PUSH);
 		button[28].setImage(units[territory.getOwner().getColor()]);
 		button[28].setText(String.valueOf(territory.getUnits()));
 		button[28].setBounds(1121-buttonSizeW/2, 404-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -420,7 +438,7 @@ public class RiskGUI {
 		
 		//Sibirien
 		territory = territoryManager.getTerritoryByName("Sibirien");
-		button[29] = new Button(composition, SWT.PUSH);
+		button[29] = new Button(mainWindow, SWT.PUSH);
 		button[29].setImage(units[territory.getOwner().getColor()]);
 		button[29].setText(String.valueOf(territory.getUnits()));
 		button[29].setBounds(1165-buttonSizeW/2, 365-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -428,7 +446,7 @@ public class RiskGUI {
 		
 		//Jakutien
 		territory = territoryManager.getTerritoryByName("Jakutien");
-		button[30]= new Button(composition, SWT.PUSH);
+		button[30]= new Button(mainWindow, SWT.PUSH);
 		button[30].setImage(units[territory.getOwner().getColor()]);
 		button[30].setText(String.valueOf(territory.getUnits()));
 		button[30].setBounds(1219-buttonSizeW/2, 344-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -436,7 +454,7 @@ public class RiskGUI {
 		
 		//Kamtschatka
 		territory = territoryManager.getTerritoryByName("Kamtschatka");
-		button[31]= new Button(composition, SWT.PUSH);
+		button[31]= new Button(mainWindow, SWT.PUSH);
 		button[31].setImage(units[territory.getOwner().getColor()]);
 		button[31].setText(String.valueOf(territory.getUnits()));
 		button[31].setBounds(1285-buttonSizeW/2, 346-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -444,7 +462,7 @@ public class RiskGUI {
 		
 		//Irkutsk
 		territory = territoryManager.getTerritoryByName("Irkutsk");
-		button[32]= new Button(composition, SWT.PUSH);
+		button[32]= new Button(mainWindow, SWT.PUSH);
 		button[32].setImage(units[territory.getOwner().getColor()]);
 		button[32].setText(String.valueOf(territory.getUnits()));
 		button[32].setBounds(1200-buttonSizeW/2, 416-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -452,7 +470,7 @@ public class RiskGUI {
 		
 		//Mongolei
 		territory = territoryManager.getTerritoryByName("Mongolei");
-		button[33]= new Button(composition, SWT.PUSH);
+		button[33]= new Button(mainWindow, SWT.PUSH);
 		button[33].setImage(units[territory.getOwner().getColor()]);
 		button[33].setText(String.valueOf(territory.getUnits()));
 		button[33].setBounds(1218-buttonSizeW/2, 460-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -460,7 +478,7 @@ public class RiskGUI {
 		
 		//China
 		territory = territoryManager.getTerritoryByName("China");
-		button[34]= new Button(composition, SWT.PUSH);
+		button[34]= new Button(mainWindow, SWT.PUSH);
 		button[34].setImage(units[territory.getOwner().getColor()]);
 		button[34].setText(String.valueOf(territory.getUnits()));
 		button[34].setBounds(1195-buttonSizeW/2, 509-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -468,7 +486,7 @@ public class RiskGUI {
 		
 		//Japan
 		territory = territoryManager.getTerritoryByName("Japan");
-		button[35]= new Button(composition, SWT.PUSH);
+		button[35]= new Button(mainWindow, SWT.PUSH);
 		button[35].setImage(units[territory.getOwner().getColor()]);
 		button[35].setText(String.valueOf(territory.getUnits()));
 		button[35].setBounds(1299-buttonSizeW/2, 464-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -476,7 +494,7 @@ public class RiskGUI {
 		
 		//Afghanistan
 		territory = territoryManager.getTerritoryByName("Afghanistan");
-		button[36]= new Button(composition, SWT.PUSH);
+		button[36]= new Button(mainWindow, SWT.PUSH);
 		button[36].setImage(units[territory.getOwner().getColor()]);
 		button[36].setText(String.valueOf(territory.getUnits()));
 		button[36].setBounds(1105-buttonSizeW/2, 472-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -484,7 +502,7 @@ public class RiskGUI {
 		
 		//Mittlerer Osten
 		territory = territoryManager.getTerritoryByName("Mittlerer Osten");
-		button[37]= new Button(composition, SWT.PUSH);
+		button[37]= new Button(mainWindow, SWT.PUSH);
 		button[37].setImage(units[territory.getOwner().getColor()]);
 		button[37].setText(String.valueOf(territory.getUnits()));
 		button[37].setBounds(1054-buttonSizeW/2, 558-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -492,7 +510,7 @@ public class RiskGUI {
 		
 		//Indien
 		territory = territoryManager.getTerritoryByName("Indien");
-		button[38]= new Button(composition, SWT.PUSH);
+		button[38]= new Button(mainWindow, SWT.PUSH);
 		button[38].setImage(units[territory.getOwner().getColor()]);
 		button[38].setText(String.valueOf(territory.getUnits()));
 		button[38].setBounds(1153-buttonSizeW/2, 550-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -500,7 +518,7 @@ public class RiskGUI {
 		
 		//Siam
 		territory = territoryManager.getTerritoryByName("Siam");
-		button[39]= new Button(composition, SWT.PUSH);
+		button[39]= new Button(mainWindow, SWT.PUSH);
 		button[39].setImage(units[territory.getOwner().getColor()]);
 		button[39].setText(String.valueOf(territory.getUnits()));
 		button[39].setBounds(1214-buttonSizeW/2, 576-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -510,7 +528,7 @@ public class RiskGUI {
 		
 		//Indonesien
 		territory = territoryManager.getTerritoryByName("Indonesien");
-		button[40]= new Button(composition, SWT.PUSH);
+		button[40]= new Button(mainWindow, SWT.PUSH);
 		button[40].setImage(units[territory.getOwner().getColor()]);
 		button[40].setText(String.valueOf(territory.getUnits()));
 		button[40].setBounds(1226-buttonSizeW/2, 664-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -518,7 +536,7 @@ public class RiskGUI {
 		
 		//Neu-Guinea
 		territory = territoryManager.getTerritoryByName("Neu-Guinea");
-		button[41]= new Button(composition, SWT.PUSH);
+		button[41]= new Button(mainWindow, SWT.PUSH);
 		button[41].setImage(units[territory.getOwner().getColor()]);
 		button[41].setText(String.valueOf(territory.getUnits()));
 		button[41].setBounds(1292-buttonSizeW/2, 638-buttonSizeH/2, buttonSizeW, buttonSizeH);
@@ -526,19 +544,19 @@ public class RiskGUI {
 		
 		//Westaustralien
 		territory = territoryManager.getTerritoryByName("West-Australien");
-		button[42]= new Button(composition, SWT.PUSH);
-		button[42].setImage(units[territory.getOwner().getColor()]);
-		button[42].setText(String.valueOf(territory.getUnits()));
-		button[42].setBounds(1258-buttonSizeW/2, 740-buttonSizeH/2, buttonSizeW, buttonSizeH);
-		button[42].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
+		button[27]= new Button(mainWindow, SWT.PUSH);
+		button[27].setImage(units[territory.getOwner().getColor()]);
+		button[27].setText(String.valueOf(territory.getUnits()));
+		button[27].setBounds(1258-buttonSizeW/2, 740-buttonSizeH/2, buttonSizeW, buttonSizeH);
+		button[27].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Ostaustralien
 		territory = territoryManager.getTerritoryByName("Ost-Australien");
-		button[43]= new Button(composition, SWT.PUSH);
-		button[43].setImage(units[territory.getOwner().getColor()]);
-		button[43].setText(String.valueOf(territory.getUnits()));
-		button[43].setBounds(1306-buttonSizeW/2, 712-buttonSizeH/2, buttonSizeW, buttonSizeH);
-		button[43].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
+		button[17]= new Button(mainWindow, SWT.PUSH);
+		button[17].setImage(units[territory.getOwner().getColor()]);
+		button[17].setText(String.valueOf(territory.getUnits()));
+		button[17].setBounds(1306-buttonSizeW/2, 712-buttonSizeH/2, buttonSizeW, buttonSizeH);
+		button[17].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		playerButtons = new Button[playerManager.getCount()];
 		int biggestButton = 0;
@@ -546,7 +564,7 @@ public class RiskGUI {
 		//Create some Buttons and Display the Player names Colors and current Unitammount
 		//TODO rausfinden warum das der ALIGN nicht klappt
 		for(int i = 0; i < playerManager.getCount();i++){
-			playerButtons[i] = new Button(composition, SWT.TOGGLE | SWT.LEFT);
+			playerButtons[i] = new Button(mainWindow, SWT.TOGGLE | SWT.LEFT);
 			playerButtons[i].setImage(units[playerManager.getPlayers().get(i).getColor()]);
 			playerButtons[i].setText(playerManager.getPlayers().get(i).getName() + "(" + playerManager.getPlayers().get(i).getAllUnits() + ")");
 			playerButtons[i].setAlignment(SWT.LEFT);
@@ -569,6 +587,67 @@ public class RiskGUI {
 		}
 	}
 
+	private void openDialog(MouseEvent e) {
+		
+		Button clickedButton = (Button) e.widget;
+		
+		
+		Territory territory = territoryManager.getTerritoryByName(cutTooltip(clickedButton.getToolTipText()));
+		
+		String phase;
+		
+		//ATTACK
+		phase = "ATTACK";
+		
+		//DENFENSE
+		
+		//PLACE
+		
+		//MOVE
+		
+		MyDialog dialog = new MyDialog(shell,SWT.NONE,phase,territory);
+		
+		dialog.open();
+		
+		territory.setUnits(Integer.parseInt(dialog.result.toString()));
+		
+		//currently this function disables all playowned buttons
+		for(int i = 0; i < button.length; i++){
+			Territory territory2 = territoryManager.getTerritoryByName(cutTooltip(button[i].getToolTipText()));
+			if(territory2.getOwner().equals(territory.getOwner())){
+				button[i].setEnabled(false);
+			}
+		}
+		shell.update();
+	}
+	
+	/**
+	 * 
+	 * @param toolTipText of the calling Button
+	 * @return the name of the Territory of the calling Button
+	 */
+	private String cutTooltip(String toolTipText) {
+		String cutted = "";
+		
+		char[] toolTipChar = toolTipText.toCharArray();
+		
+		for(int i = 0; i < toolTipChar.length; i++ ){
+			if(toolTipChar[i] == ' '){
+				if(cutted.equals("Mittlerer")){
+					cutted = "Mittlerer Osten";
+				}
+				return cutted;
+			}
+			cutted += toolTipChar[i];
+		}
+		
+		return cutted;
+	}
+
+	public void getButtonsTerritory(){
+		
+	}
+
 	/**
 	 * Centers a Shell in the middle of the Screen
 	 * @param shell which should be centered
@@ -588,20 +667,19 @@ public class RiskGUI {
 	/**
 	 * Centers an image in the middle of the Shell
 	 */
-	private void centerImage() {
+	private void centerImage(Composite window) {
 		// center Composition
 		int shellClientWidth = shell.getClientArea().width;
 		int shellClientHeight = shell.getClientArea().height;
 
-		Rectangle bds = composition.getBounds();
-		Point p = composition.getSize();
+		Rectangle bds = window.getBounds();
+		Point p = window.getSize();
 
 		int nLeft = (bds.width - p.x) / 2;
 		int nTop = (bds.height - p.y) / 2;
 
-		composition.setBounds(-((imgWidth - shellClientWidth) / 2) + nLeft,
-				-((imgHeight - shellClientHeight) / 2) + nTop, maxSizeX,
-				maxSizeY);
+		window.setLocation(-((imgWidth - shellClientWidth) / 2) + nLeft,
+				-((imgHeight - shellClientHeight) / 2) + nTop);
 	}
 
 	@Override
