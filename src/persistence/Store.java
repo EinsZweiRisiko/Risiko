@@ -48,7 +48,7 @@ public class Store {
 	 */
 	ArrayList<Player> players;
 	PlayerManager playerManager;
-	private final String SAVE_PATH = "C:\\riskSave.txt";
+	private final String SAVE_PATH = "C:\\riskSave2.txt";
 
 	public Store(PlayerManager playerManager) {
 		this.playerManager = playerManager;
@@ -70,10 +70,11 @@ public class Store {
 		 *  alle spieler bekommen wir von PlayerManager mit getPlayers();
 		 */
 
-		for(int a = 0; a <= players.size(); a++) {
+		for(int a = 0; a <= players.size()-1; a++) {
 			//Spieler input Build
 			input.add("# Name");
-			input.add(players.get(a).getName());					// Name
+			input.add(players.get(a).getName());	// Name
+			/*
 			input.add("# Farbe");
 			input.add(String.valueOf(players.get(a).getColor()));	// Farbe
 
@@ -82,19 +83,20 @@ public class Store {
 			HashSet<BonusCard> territoryCards = players.get(a).getBonusCards();
 			input.add("# AnzahlBonusKarten");
 			input.add(String.valueOf(territoryCards.size())); 		//Anzahl von Karten
-
+*/
 			// TODO Typen der Bonuskarten einlesen und jeden Typ Zeilenweise schreiben/speichern
 			input.add("# Bonuskarten");
 
 			//Länder im Besitz
 			input.add("# AnzahlLänder");
 			input.add(String.valueOf(players.get(a).getTerritoryCount())); // Anzahl der Länder
-
+			/*
 			input.add("# BesitzendeLänder");
 			territories = players.get(a).getTerritories();				// Name der Länder
 			for(int i = 0; i <= territories.size(); i++) {
 				input.add(territories.get(i).getName());
 			}
+			
 
 			//anzahl der gesamten Einheiten
 			input.add("# AnzahlGesamtEinheiten");
@@ -105,9 +107,65 @@ public class Store {
 			input.add(String.valueOf(players.get(a).getSuppliesToAllocate()));
 
 			// TODO Mission abspeichern
-
+*/
 		}
 		return input;
+	}
+
+	public void save() {
+		/*
+		System.out.println("START DES SPEICHERNS");
+		for(int i = 0; i <= buildInput().size(); i++) {
+			System.out.println(buildInput().get(i));
+		}
+		System.out.println("ENDE DES SPEICHERNS");
+		 */
+
+		//zusammen bauen des input Arrays
+		ArrayList<String> input = new ArrayList<String>();
+		for(int i = 0; i <= buildInput().size()-1; i++) {
+			System.out.println("Es wurde folgendes gelesen: "+ buildInput().get(i));
+			input.add(buildInput().get(i));
+		}
+
+		// speichert
+		try
+		{
+			File file = new File(SAVE_PATH);
+			FileWriter fw = new FileWriter(file);
+
+			for(int i = 0; i <= input.size()-1; i++) {
+				fw.write(input.get(i));
+				fw.write("\r\n");
+			}
+			fw.flush();
+			fw.close();
+		}
+		catch( IOException e )
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+	public void filterLoadFile(ArrayList<String> loadText) {
+		int player = 0;
+
+		for(int i = 0; i <= loadText.size(); i++) {
+			if(loadText.get(i) == "# Name") {
+				player++;
+				players.get(player).setName(loadText.get(i+1));
+			}
+			if(loadText.get(i) == "# Farbe") {
+				players.get(player).setColor(Integer.parseInt(loadText.get(i+1)));
+			}
+			if(loadText.get(i) == "# Bonuskarten") {
+				while(loadText.get(i+1).contains("#")) {
+
+				}
+				//players.get(player).setBonusCards
+			}
+		}
 	}
 
 	public void load() {
@@ -118,55 +176,19 @@ public class Store {
 		String line;
 		int i = 0;
 		ArrayList<String> loadText = new ArrayList<String>();
-		
+
 		try {
 			br = new BufferedReader(new FileReader(SAVE_PATH));
-			
+
 			while((line = br.readLine()) != null){
 				// hier wird zeilenweise eingelsen
 				loadText.add(line);
 				filterLoadFile(loadText);
 			}
-			
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
-		public void filterLoadFile(ArrayList<String> loadText) {
-			int player = 0;
-			
-			for(int i = 0; i <= loadText.size(); i++) {
-				if(loadText.get(i) == "# Name") {
-					player++;
-					players.get(player).setName(loadText.get(i+1));
-				}
-				if(loadText.get(i) == "# Farbe") {
-					players.get(player).setColor(Integer.parseInt(loadText.get(i+1)));
-				}
-				if(loadText.get(i) == "# Bonuskarten") {
-					while(loadText.get(i+1).contains("#")) {
-						
-					}
-					//players.get(player).setBonusCards
-				}
-				
-			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		public void save() {
-			//zusammen bauen des input Arrays
-			try{
-				java.io.FileOutputStream fos = new java.io.FileOutputStream(SAVE_PATH);
-				java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(fos);
-
-				// TODO speichert er es Zeilenweise oder alles in eine Zeile?!
-				oos.writeObject((java.util.ArrayList)  buildInput());
-				oos.flush();
-				fos.close();
-			}
-			catch(Exception e){}
-		}
-
 	}
+}

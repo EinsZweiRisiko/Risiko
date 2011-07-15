@@ -3,6 +3,8 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import persistence.Store;
+
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.Territory;
@@ -76,6 +78,10 @@ public class Game {
 		for (Player player : playerManager) {
 			player.addSupplies(startUnits);
 		}
+		
+		// save the stand
+		Store store = new Store(playerManager);
+		store.save();
 	}
 
 	public PlayerManager getPlayerManager() {
