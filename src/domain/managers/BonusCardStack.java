@@ -1,12 +1,13 @@
 package domain.managers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import valueobjects.BonusCard;
 
 public class BonusCardStack {
 
-	private ArrayList<BonusCard> stack;
+	private ArrayList<BonusCard> stack = new ArrayList<BonusCard>();
 	
 	/**
 	 * Constructor
@@ -19,11 +20,28 @@ public class BonusCardStack {
 		// 2: Kavlerier
 		// 3: Kanone
 		
+		//Random generate a Stack of Bonus cards
+		for(int i = 1; i <= 44; i++) {
+			if(i <= 14) {
+				stack.get(i).setType("Infantry");
+			}
+			if(i <= 28) {
+				stack.get(i).setType("Cavalry");
+			}
+			if(i <= 42) {
+				stack.get(i).setType("Artillery");
+			}
+			if(i <= 44) {
+				stack.get(i).setType("WildCard");
+			}
+		}
+		//Mix it
+		Collections.shuffle(stack);
 	}
 
 	public BonusCard retrieveCard() {
 		// TODO Auto-generated method stub
-		return null;
+		stack.remove(1);
+		return stack.get(1);
 	}
-
 }

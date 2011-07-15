@@ -11,11 +11,20 @@ package valueobjects;
  * 
  */
 public class BonusCard {
-
-	public static enum Types {Infantry, Cavalry, Artillery, WildCard};
-
-	public BonusCard() {
-
+	
+	/*
+	 * Typen
+	 * Infantry, Cavalry, Artillery, WildCard
+	 */
+	
+	private String type;
+	
+	public BonusCard() {}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
-
+	public String getType() {
+		return type;
+	}
 }
