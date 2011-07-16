@@ -14,11 +14,15 @@ public class ClientApp {
 	private Lookup connection;
 	private GameMethods game;
 	
+	
+	/**
+	 * Constructor initiates a connection to the server
+	 */
 	public ClientApp() {
+		// Try to connect to the server
 		try {
-			// Connect to the server
 			connect();
-			game.login("TestUser", new ClientMethodsImpl());
+			game.addPlayer("TestUser", new ClientMethodsImpl());
 			
 			game.print("Hello World");
 		} catch (UnknownHostException e) {
@@ -29,6 +33,8 @@ public class ClientApp {
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	
 	
 	/**
 	 * Create a connection to the server

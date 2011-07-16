@@ -3,6 +3,7 @@ package ui;
 import server.GameMethodsImpl;
 import valueobjects.Player;
 
+@Deprecated
 public class PlayerClient implements Runnable {
 
 	private GameMethodsImpl game;

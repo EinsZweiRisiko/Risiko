@@ -8,10 +8,18 @@ import server.GameMethodsImpl;
  * @author Jannes
  * 
  */
+@Deprecated
 public class RiskApp {
 
-	private GameMethodsImpl game;
+	/**
+	 * Responsible for printing and reading from the console
+	 */
 	private IO io = new IO();
+	
+	/**
+	 * SIMON connection
+	 */
+	private GameMethodsImpl game;
 
 	/**
 	 * Create a new game UI

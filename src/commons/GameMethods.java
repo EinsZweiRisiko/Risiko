@@ -17,11 +17,13 @@ public interface GameMethods {
 	
 	// Netzwerk
 	public void print(String msg);
-	public void login(String name, ClientMethods client);
 	
-	public void addPlayer(String name);
+	// Setup
+	public void addPlayer(String name, ClientMethods client) throws SimonRemoteException;
+	
 	public void save();
 	public void load();
+	
 	public void start();
 	public PlayerCollection getPlayers();
 	

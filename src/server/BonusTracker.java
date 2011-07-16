@@ -10,25 +10,26 @@ package server;
  */
 class BonusTracker {
 
+	/**
+	 * Steps in which bonus supplies are awarded
+	 */
 	private static final int[] steps = {4, 6, 8, 10, 12, 15};
-	private int currentIndex;
-	private int currentValue;
 
 	/**
-	 * Constructor
+	 * Current location in the list
 	 */
-	public BonusTracker() {
-		// Current location in the list
-		currentIndex = -1;
-	}
+	private int currentIndex = 0;
+	
+	/**
+	 * Current step. This is neccessary if we exceed the steps in the list.
+	 */
+	private int currentValue;
 
 	/**
 	 * TODO doc
 	 * @return
 	 */
 	public int getNextBonus() {
-		++currentIndex;
-		
 		if (currentIndex < steps.length) {
 			// The list isn't exceeded
 			currentValue = steps[currentIndex];
@@ -37,6 +38,7 @@ class BonusTracker {
 			currentValue += 5;
 		}
 		
+		++currentIndex;
 		return currentValue;
 	}
 
