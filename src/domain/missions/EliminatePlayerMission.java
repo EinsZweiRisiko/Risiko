@@ -1,6 +1,6 @@
 package domain.missions;
 
-import valueobjects.Mission;
+import domain.Mission;
 import valueobjects.Player;
 
 public class EliminatePlayerMission implements Mission {

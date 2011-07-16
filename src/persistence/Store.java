@@ -57,7 +57,7 @@ public class Store {
 	public ArrayList<String> buildInput() {
 
 		// holt sich alle Spieler und schreibt sie lokal
-		players = playerManager.getPlayers();
+		players = playerManager;
 
 		// in Input werden die Daten 
 		ArrayList<String> input = new ArrayList<String>();

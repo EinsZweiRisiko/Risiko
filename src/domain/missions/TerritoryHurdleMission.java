@@ -2,7 +2,8 @@ package domain.missions;
 
 import java.util.ArrayList;
 
-import valueobjects.Mission;
+import domain.Mission;
+
 import valueobjects.Player;
 import valueobjects.Territory;
 

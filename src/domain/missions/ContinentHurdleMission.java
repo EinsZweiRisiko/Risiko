@@ -3,8 +3,8 @@ package domain.missions;
 import java.util.ArrayList;
 
 import valueobjects.Continent;
-import valueobjects.Mission;
 import valueobjects.Player;
+import domain.Mission;
 import domain.TerritoryManager;
 
 public class ContinentHurdleMission implements Mission {
