@@ -1,4 +1,4 @@
-package Server;
+package ausprobieren.Server;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
