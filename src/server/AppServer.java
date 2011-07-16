@@ -7,7 +7,7 @@ import ui.IO;
 
 import de.root1.simon.exceptions.NameBindingException;
 
-public class ServerApp {
+public class AppServer {
 
 	private static IO io = new IO();
 	
@@ -28,7 +28,7 @@ public class ServerApp {
 			new GameMethodsImpl("risk", 50001);
 
 			// Ausgabe der "Welcome message" nach Start des Servers.
-			ServerApp.printWelcomeMessage();
+			AppServer.printWelcomeMessage();
 			
 		} catch (UnknownHostException e) {
 			io.writeError(e.getMessage());

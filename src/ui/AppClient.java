@@ -9,7 +9,7 @@ import de.root1.simon.Simon;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.exceptions.LookupFailedException;
 
-public class ClientApp {
+public class AppClient {
 	
 	private Lookup connection;
 	private GameMethods game;
@@ -18,7 +18,7 @@ public class ClientApp {
 	/**
 	 * Constructor initiates a connection to the server
 	 */
-	public ClientApp() {
+	public AppClient() {
 		// Try to connect to the server
 		try {
 			connect();
@@ -52,6 +52,6 @@ public class ClientApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new ClientApp();
+		new AppClient();
 	}
 }
