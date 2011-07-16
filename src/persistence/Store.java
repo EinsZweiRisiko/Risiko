@@ -74,7 +74,7 @@ public class Store {
 			//Spieler input Build
 			input.add("# Name");
 			input.add(players.get(a).getName());	// Name
-			/*
+/*
 			input.add("# Farbe");
 			input.add(String.valueOf(players.get(a).getColor()));	// Farbe
 
