@@ -612,12 +612,14 @@ public class RiskGUI {
 		dialog.open();
 		
 		boolean dialogCancel = false;
-		
+
+		//TODO THIS STUPID SHIT DOENST WORK
 		if(dialog != null){
 			dialogCancel = true;
+			System.out.print("true");
 		}
 		
-		if(!dialogCancel){
+		if(dialogCancel){
 			territory.setUnits(Integer.parseInt(dialog.result.toString()));
 			
 			//currently this function disables all playowned buttons
