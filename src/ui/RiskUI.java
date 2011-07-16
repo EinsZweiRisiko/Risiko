@@ -14,7 +14,7 @@ import domain.Game;
 public class RiskUI {
 
 	private Game game;
-	private Console io = new Console();
+	private IO io = new IO();
 
 	/**
 	 * Create a new game UI
