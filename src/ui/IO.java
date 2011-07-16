@@ -16,14 +16,14 @@ import ui.exceptions.YesNoFormatException;
  * <ul>
  * <li>As primitive
  * <ul>
- * <li><code>Integer.parseInt()</code></li>
- * <li><code>(new Integer(str)).intValue()</code></li>
+ * <li>{@code Integer.parseInt()}</li>
+ * <li>{@code (new Integer(str)).intValue()}</li>
  * </ul>
  * </li>
  * <li>As object
  * <ul>
- * <li><code>new Integer(str)</code></li>
- * <li><code>Integer.valueOf(str)</code></li>
+ * <li>{@code new Integer(str)}</li>
+ * <li>{@code Integer.valueOf(str)}</li>
  * </ul>
  * </li>
  * </ul>
@@ -37,7 +37,7 @@ import ui.exceptions.YesNoFormatException;
  * @author Jannes
  * 
  */
-class Console {
+public class IO {
 
 	/**
 	 * Buffered read which is used for all read() methods
@@ -47,7 +47,7 @@ class Console {
 	/**
 	 * Constructor
 	 */
-	Console() {
+	IO() {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 	}
 
@@ -105,7 +105,7 @@ class Console {
 	// TODO These kinds of checks are not allowed in the UI.
 	/**
 	 * Prints a message and reads an integer. The integer must be between
-	 * <code>min</code> and <code>max</code>. If the user doesn't put a
+	 * {@code min} and {@code max}. If the user doesn't put a
 	 * valid number in, he is prompted again.
 	 * 
 	 * @param message
@@ -186,10 +186,20 @@ class Console {
 	 * @param message
 	 *            String which is going to be printed
 	 */
-	void write(String message) {
+	public static void write(String message) {
 		System.out.println(message);
 	}
 
+	/**
+	 * Prints an error message to the console
+	 * 
+	 * @param message
+	 *            String which is going to be printed
+	 */
+	public static void writeError(String message) {
+		System.err.println(message);
+	}
+	
 	/**
 	 * Prints every item of a List and its position in the List.<br>
 	 * <br>
@@ -202,7 +212,7 @@ class Console {
 	 * 
 	 * @param list
 	 */
-	void writeList(List<?> list) {
+	public static void writeList(List<?> list) {
 		// for (int i = 0, length = list.size(); i < length; ++i) {
 		Iterator<?> iter = list.iterator();
 		for (int i = 1; iter.hasNext(); ++i) {
