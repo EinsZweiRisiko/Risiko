@@ -57,16 +57,14 @@ public class RiskGUI {
 		//TODO
 		
 		//SETUP GAME
-		// Create a predefined game setup
-		ArrayList<String> playerNames = new ArrayList<String>();
-		playerNames.add("Hendrik");
-		playerNames.add("Jannes");
-		playerNames.add("Timur");
-		playerNames.add("Philipp");
-		playerNames.add("Teschke");
-		playerNames.add("Eirund");
 		// Create the game instance
-		game = new Game(playerNames);
+		game = new Game();
+		game.addPlayer("Hendrik");
+		game.addPlayer("Jannes");
+		game.addPlayer("Timur");
+		game.addPlayer("Philipp");
+		game.addPlayer("Teschke");
+		game.addPlayer("Eirund");
 		// Automatically place start units
 		game.placeStartUnitsRandomly();
 		
@@ -561,22 +559,22 @@ public class RiskGUI {
 		      });
 		}
 		
-		playerButtons = new Button[playerManager.getCount()];
+		playerButtons = new Button[playerManager.size()];
 		int biggestButton = 0;
 		
 		//Create some Buttons and Display the Player names Colors and current Unitammount
 		//TODO rausfinden warum das der ALIGN nicht klappt
-		for(int i = 0; i < playerManager.getCount();i++){
+		for(int i = 0; i < playerManager.size();i++){
 			playerButtons[i] = new Button(mainWindow, SWT.TOGGLE | SWT.LEFT);
-			playerButtons[i].setImage(units[playerManager.getPlayers().get(i).getColor()]);
-			playerButtons[i].setText(playerManager.getPlayers().get(i).getName() + "(" + playerManager.getPlayers().get(i).getAllUnits() + ")");
+			playerButtons[i].setImage(units[playerManager.get(i).getColor()]);
+			playerButtons[i].setText(playerManager.get(i).getName() + "(" + playerManager.get(i).getAllUnits() + ")");
 			playerButtons[i].setAlignment(SWT.LEFT);
 			playerButtons[i].pack();
 			if(playerButtons[i].getBounds().width > biggestButton){
 				biggestButton = playerButtons[i].getBounds().width;
 				playerButtons[i].setSize(biggestButton, 20);
 			}
-			playerButtons[i].setLocation(new Point(((imgWidth -shell.getClientArea().width)/ 2 + 10),((imgHeight - shell.getClientArea().height)/2 + shell.getClientArea().height -10 - playerManager.getCount()*20 + (i*20))));
+			playerButtons[i].setLocation(new Point(((imgWidth -shell.getClientArea().width)/ 2 + 10),((imgHeight - shell.getClientArea().height)/2 + shell.getClientArea().height -10 - playerManager.size()*20 + (i*20))));
 		}
 		
 		//make all Buttons same size
