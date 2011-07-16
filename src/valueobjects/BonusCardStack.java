@@ -6,6 +6,8 @@ import java.util.Collections;
 
 public class BonusCardStack extends ArrayList<BonusCard> {
 
+	private ArrayList<BonusCard> stack = new ArrayList<BonusCard>();
+
 	private static final long serialVersionUID = -55075093605778452L;
 
 	/**
@@ -18,24 +20,23 @@ public class BonusCardStack extends ArrayList<BonusCard> {
 		// 1: infanterie
 		// 2: Kavlerier
 		// 3: Kanone
-		
+		/*
 		//Random generate a Stack of Bonus cards
-		for(int i = 1; i <= 44; i++) {
-			if(i <= 14) {
+		for(int i = 0; i <= 43; i++) {
+			
+			if(i <= 13) {
 				get(i).setType("Infantry");
-			}
-			if(i <= 28) {
+			}else if(i <= 27) {
 				get(i).setType("Cavalry");
-			}
-			if(i <= 42) {
+			}else if(i <= 41) {
 				get(i).setType("Artillery");
-			}
-			if(i <= 44) {
+			}else if(i <= 43) {
 				get(i).setType("WildCard");
 			}
 		}
 		//Mix it
 		Collections.shuffle(this);
+		*/
 	}
 
 	public BonusCard retrieveCard() {
