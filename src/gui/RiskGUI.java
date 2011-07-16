@@ -1,7 +1,5 @@
 package gui;
 
-import java.util.ArrayList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -16,13 +14,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import server.GameMethodsImpl;
 import server.TerritoryManager;
+import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
 
@@ -69,7 +67,7 @@ public class RiskGUI {
 		game.addPlayer("Eirund");
 		
 		territoryManager = game.getTerritoryManager();
-		playerManager = game.getPlayerManager();
+		playerManager = game.getPlayers();
 		
 		//TEST SETUP ENDE ---}
 		
