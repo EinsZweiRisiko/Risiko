@@ -30,8 +30,8 @@ public class Player extends BasePlayer {
 	 * @param name
 	 *            of the player.
 	 */
-	public Player(String name,int color) {
-		super(name, color);
+	public Player(String name) {
+		super(name);
 	}
 
 	/**
