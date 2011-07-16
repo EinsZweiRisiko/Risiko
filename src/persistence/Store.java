@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import domain.managers.PlayerManager;
 
 import valueobjects.BonusCard;
 import valueobjects.Player;
+import valueobjects.PlayerCollection;
 import valueobjects.Territory;
 
 /**
@@ -47,10 +47,10 @@ public class Store {
 	 * 
 	 */
 	ArrayList<Player> players;
-	PlayerManager playerManager;
+	PlayerCollection playerManager;
 	private final String SAVE_PATH = "C:\\riskSave2.txt";
 
-	public Store(PlayerManager playerManager) {
+	public Store(PlayerCollection playerManager) {
 		this.playerManager = playerManager;
 	}
 

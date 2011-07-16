@@ -1,17 +1,14 @@
 package domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import persistence.Store;
-
 import valueobjects.BonusCard;
+import valueobjects.BonusCardStack;
 import valueobjects.Player;
+import valueobjects.PlayerCollection;
 import valueobjects.Territory;
 import domain.exceptions.InvalidTerritoryStateException;
-import domain.managers.BonusCardStack;
-import domain.managers.PlayerManager;
-import domain.managers.TerritoryManager;
 
 /**
  * The game class manages a complete game of Risk
@@ -21,7 +18,7 @@ import domain.managers.TerritoryManager;
  */
 public class Game {
 
-	private PlayerManager players;
+	private PlayerCollection players;
 	private TerritoryManager territoryManager;
 	private BonusCardStack bonusCardManager;
 	private BonusTracker bonusTracker;
@@ -106,7 +103,7 @@ public class Game {
 		store.save();
 	}
 	
-	public PlayerManager getPlayerManager() {
+	public PlayerCollection getPlayerManager() {
 		return players;
 	}
 

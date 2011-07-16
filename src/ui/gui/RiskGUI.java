@@ -20,10 +20,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
+import valueobjects.PlayerCollection;
 import valueobjects.Territory;
 import domain.Game;
-import domain.managers.PlayerManager;
-import domain.managers.TerritoryManager;
+import domain.TerritoryManager;
 
 /**
  * @author Hendrik
@@ -43,7 +43,7 @@ public class RiskGUI {
 	private final int maxSizeX = 1920;
 	private final int maxSizeY = 1080;
 	private TerritoryManager territoryManager;
-	private PlayerManager playerManager;
+	private PlayerCollection playerManager;
 	private Button[] button = new Button[42];
 	private Button[] playerButtons;
 	

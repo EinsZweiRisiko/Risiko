@@ -1,14 +1,13 @@
-package domain.managers;
+package valueobjects;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import valueobjects.BonusCard;
 
-public class BonusCardStack {
+public class BonusCardStack extends ArrayList<BonusCard> {
 
-	private ArrayList<BonusCard> stack = new ArrayList<BonusCard>();
-	
+	private static final long serialVersionUID = -55075093605778452L;
+
 	/**
 	 * Constructor
 	 */
@@ -23,25 +22,25 @@ public class BonusCardStack {
 		//Random generate a Stack of Bonus cards
 		for(int i = 1; i <= 44; i++) {
 			if(i <= 14) {
-				stack.get(i).setType("Infantry");
+				get(i).setType("Infantry");
 			}
 			if(i <= 28) {
-				stack.get(i).setType("Cavalry");
+				get(i).setType("Cavalry");
 			}
 			if(i <= 42) {
-				stack.get(i).setType("Artillery");
+				get(i).setType("Artillery");
 			}
 			if(i <= 44) {
-				stack.get(i).setType("WildCard");
+				get(i).setType("WildCard");
 			}
 		}
 		//Mix it
-		Collections.shuffle(stack);
+		Collections.shuffle(this);
 	}
 
 	public BonusCard retrieveCard() {
 		// TODO Auto-generated method stub
-		stack.remove(1);
-		return stack.get(1);
+		remove(1);
+		return get(1);
 	}
 }

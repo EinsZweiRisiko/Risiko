@@ -1,4 +1,4 @@
-package domain.managers;
+package domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
