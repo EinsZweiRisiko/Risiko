@@ -1,5 +1,7 @@
 package valueobjects;
 
+import java.io.Serializable;
+
 /**
  * This class represents a bonus card that a player receives at the end of his
  * turn if he captured at
@@ -10,7 +12,9 @@ package valueobjects;
  * @author Jannes
  * 
  */
-public class BonusCard {
+public class BonusCard implements Serializable {
+	
+	private static final long serialVersionUID = -5904440912901516998L;
 	
 //	public static enum Types {
 //		Infantry, Cavalry, Artillery, WildCard

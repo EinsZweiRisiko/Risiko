@@ -1,12 +1,10 @@
-package domain;
+package ausprobieren;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
-import net.miginfocom.swing.MigLayout;
 
 public class GameLoopTest {
 
@@ -39,7 +37,7 @@ public class GameLoopTest {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[30][30][30][30][30][][30][30][30]", "[40][40][40][40][40]"));
+		//frame.getContentPane().setLayout(new MigLayout("", "[30][30][30][30][30][][30][30][30]", "[40][40][40][40][40]"));
 		
 		btnGameLoop = new JButton("Game Loop");
 		btnGameLoop.addActionListener(new ActionListener() {

@@ -1,14 +1,28 @@
-package domain;
+package server;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
-import persistence.Store;
+import server.exceptions.InvalidTerritoryStateException;
 import valueobjects.BonusCard;
 import valueobjects.BonusCardStack;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
-import domain.exceptions.InvalidTerritoryStateException;
+
+import commons.ClientMethods;
+import commons.GameMethods;
+
+import de.root1.simon.Registry;
+import de.root1.simon.Simon;
+import de.root1.simon.annotation.SimonRemote;
+import de.root1.simon.exceptions.NameBindingException;
+import de.root1.simon.exceptions.SimonRemoteException;
 
 /**
  * The game class manages a complete game of Risk
@@ -16,23 +30,27 @@ import domain.exceptions.InvalidTerritoryStateException;
  * @author Jannes, Hendrik
  * 
  */
-public class Game {
+@SimonRemote
+public class GameMethodsImpl implements GameMethods, Serializable {
 
-	private PlayerCollection players;
-	private TerritoryManager territoryManager;
-	private BonusCardStack bonusCardManager;
-	private BonusTracker bonusTracker;
-	
+	private static final long serialVersionUID = -3491803188267650698L;
+
+	private PlayerCollection players = new PlayerCollection();
+	private TerritoryManager territoryManager = new TerritoryManager();
+	private BonusCardStack bonusCardManager = new BonusCardStack();
+	private BonusTracker bonusTracker = new BonusTracker();
+	private List<ClientMethods> clients = new ArrayList<ClientMethods>();
+
 	/**
 	 * The current player
 	 */
 	private Player currentPlayer;
-	
+
 	/**
 	 * The current phase of a player's turn
 	 */
 	private Action currentAction = Action.START;
-	
+
 	/**
 	 * Phases of a player's turn
 	 */
@@ -40,47 +58,34 @@ public class Game {
 		START, TURNINCARDS, PLACEMENT, ATTACK, MOVEMENT
 	};
 
+	public GameMethodsImpl(String name, int port) throws UnknownHostException,
+			IOException, NameBindingException {
+		Registry registry = Simon.createRegistry(port);
+		registry.bind(name, this);
+	}
+
 	/**
 	 * Constructor for a new game of Risk
 	 */
-	public Game() {
-		// Create territory manager
-		territoryManager = new TerritoryManager();
+	public GameMethodsImpl() {
 
-		// Create player manager
-		players = new PlayerCollection();
-		
-		// Create bonus card manager
-		bonusCardManager = new BonusCardStack();
-
-		// Create bonus tracker
-		bonusTracker = new BonusTracker();
-
-		// Set the start units for each player
-		for (Player player : players) {
-			player.addSupplies(startUnits);
-		}
-		
 		// save the stand
-		Store store = new Store(players);
-		store.save();
+//		Store store = new Store(players);
+//		store.save();
 	}
 
-	public Player addPlayer(String name) {
-		// Determine that the number of players is valid
-//		int playerCount = playerNames.size();
+	public void addPlayer(String name) {
+		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
-		
 		players.add(player);
-		return player;
 	}
-	
+
 	public void start() {
 		int playerCount = players.size();
-		
+
 		// Start units for every player
 		int startUnits;
-		
+
 		// Get the total amount of start units per player
 		if (playerCount > 3) {
 			startUnits = 30;
@@ -95,13 +100,9 @@ public class Game {
 		for (Player player : players) {
 			player.addSupplies(startUnits);
 		}
-
-		// Place start units
-		
-
 	}
-	
-	public PlayerCollection getPlayerManager() {
+
+	public PlayerCollection getPlayers() {
 		return players;
 	}
 
@@ -111,16 +112,18 @@ public class Game {
 
 	/**
 	 * Returns whether the game is over
+	 * 
 	 * @return True, if somebody has won the game
 	 */
 	public boolean isOver() {
 		// TODO Distinguish between world domination/missions
-		return players.getCount() == 1;
+		return players.size() == 1;
 	}
 
 	/**
 	 * Returns the winner of the game, if there is one.<br>
 	 * If the game isn't finished yet, <code>null</code> will be returned.
+	 * 
 	 * @return Winner of the game
 	 */
 	public Player getWinner() {
@@ -140,7 +143,7 @@ public class Game {
 	public Player getActivePlayer() {
 		return currentPlayer;
 	}
-	
+
 	/**
 	 * Prepares and returns the next action in the sequence. This method can
 	 * change the active player, so always use this method before getting the
@@ -159,7 +162,7 @@ public class Game {
 	public Action getNextAction() {
 		// Which action comes afterwards the current one?
 		switch (currentAction) {
-			// The first action is at the end of this switch block
+		// The first action is at the end of this switch block
 			case TURNINCARDS:
 				// Placing the supply units is next
 				preparePlacementAction();
@@ -196,12 +199,13 @@ public class Game {
 		// A new turn has started so we have to compute the player's supply
 		calculateSupplies();
 	}
-	
+
 	/**
 	 * Calculates supply for the current player. This is only called once
 	 * in every turn.<br>
 	 * <br>
-	 * This doesn't include unit supplies for cards that the player may turn in later.
+	 * This doesn't include unit supplies for cards that the player may turn in
+	 * later.
 	 */
 	private void calculateSupplies() {
 		// Base unit amount for occupied territories
@@ -210,24 +214,14 @@ public class Game {
 		if (supplies < 3) {
 			supplies = 3;
 		}
-		
+
 		// TODO Extra supplies for conquered continents
 //		for (Continent continent : activePlayer.getContinents()) {
 //			supplies += continent.getBonusSupplies();
 //		}
-		
+
 		// Add the supplies
 		currentPlayer.addSupplies(supplies);
-	}
-	
-	/**
-	 * TODO doc
-	 * @param player
-	 * @return
-	 */
-	private boolean playerCanTurnInCards(Player player) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	/**
@@ -256,21 +250,23 @@ public class Game {
 	 */
 	private void prepareAttackAction() {
 		/*
-		 * Figure out which territories of the current player could be used for an attack
-		 *   Must be owned by the player
-		 *   Must have at least 2 units
+		 * Figure out which territories of the current player could be used for
+		 * an attack
+		 * Must be owned by the player
+		 * Must have at least 2 units
 		 */
 		currentAction = Action.ATTACK;
 	}
-	
+
 	/**
 	 * TODO doc
 	 */
 	private void prepareMovementAction() {
 		/*
-		 * Figure out which territories have units which are eligible to be moved
-		 *   The territory's units must not have participated in a battle
-		 *   The territory needs at least 2 units
+		 * Figure out which territories have units which are eligible to be
+		 * moved
+		 * The territory's units must not have participated in a battle
+		 * The territory needs at least 2 units
 		 */
 		currentAction = Action.MOVEMENT;
 	}
@@ -319,18 +315,104 @@ public class Game {
 		assert currentPlayer.getBonusCards().containsAll(cards);
 		assert cards.size() == 3;
 		// TODO Check if the card triple is valid
-		
+
 		// Redeem the cards
 		currentPlayer.removeBonusCards(cards);
 		currentPlayer.addSupplies(bonusTracker.getNextBonus());
 	}
+
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Mission getMyMission(Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BonusCard> getMyBonusCards(Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HashMap<String, Territory> getTerritories() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Territory> getMyTerritories(Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Territory> getMyTerritoriesForAttacking(Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Territory> getMyTerritoriesForMoving(Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Territory> getOpposingNeighborsOf(Territory territory) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Territory> getSimilarNeighborsOf(Territory territory) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void placeUnits(Territory territory, int amount) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void attack(Territory attackingTerritory,
+			Territory attackedTerritory, int amount) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void move(Territory source, Territory target, int amount)
+			throws SimonRemoteException {
+		// TODO Auto-generated method stub
+
+	}
+
+	// Netzwerk
+	public void login(String name, ClientMethods client) {
+		clients.add(client);
+	}
 	
-	/**
-	 * TODO doc
-	 */
-	@Deprecated
-	public List<Player> getPlayers() {
-		return players;
+	
+	public void print(String msg) {
+		System.out.println(msg);
+		
+		for (ClientMethods client : clients) {
+			client.print("Hello World Zurück");
+		}
 	}
 	
 }

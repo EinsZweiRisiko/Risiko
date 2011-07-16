@@ -6,17 +6,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import domain.Game;
+import server.GameMethodsImpl;
+
 
 public class FilePersistenceManager implements PersistenceManager {
 
 	@Override
-	public Game loadGame(String filename) {
+	public GameMethodsImpl loadGame(String filename) {
 
 		try {
 			FileInputStream file = new FileInputStream(filename);
 			ObjectInputStream o = new ObjectInputStream(file);
-			Game game = (Game) o.readObject();
+			GameMethodsImpl game = (GameMethodsImpl) o.readObject();
 			o.close();
 			return game;
 		} catch (IOException e) {
@@ -28,7 +29,7 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	@Override
-	public Boolean saveGame(Game game, String filename) {
+	public Boolean saveGame(GameMethodsImpl game, String filename) {
 		try {
 			FileOutputStream file = new FileOutputStream(filename);
 			ObjectOutputStream o = new ObjectOutputStream(file);

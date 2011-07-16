@@ -1,9 +1,8 @@
 package valueobjects;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import domain.exceptions.NoPlayersException;
+import server.exceptions.NoPlayersException;
 
 /**
  * Spielerverwaltung

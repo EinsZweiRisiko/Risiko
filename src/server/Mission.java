@@ -1,4 +1,4 @@
-package domain;
+package server;
 
 /**
  * The Mission interface represents a mission that a player has to accomplish

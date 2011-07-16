@@ -3,8 +3,14 @@ package valueobjects;
 import java.io.Serializable;
 
 public class BasePlayer implements Serializable {
+	
 	private static final long serialVersionUID = -6379595885605245743L;
 
+	/**
+	 * This is a static attribute that is used to assign each player a unique ID
+	 */
+	private static int playerCounter = 0;
+	
 	/**
 	 * The player's name
 	 */
@@ -23,10 +29,9 @@ public class BasePlayer implements Serializable {
 	 */
 	protected int suppliesToAllocate = 0;
 	
-	public BasePlayer(String name, int color) {
-		// TODO Add the player's color or assign at least a player number
+	public BasePlayer(String name) {
 		this.name = name;
-		this.color = color;
+		this.color = playerCounter++;
 	}
 	
 	/**

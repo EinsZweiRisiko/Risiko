@@ -1,9 +1,9 @@
-package domain.missions;
+package server.missions;
 
 import java.util.ArrayList;
 
-import domain.Mission;
 
+import server.Mission;
 import valueobjects.Player;
 import valueobjects.Territory;
 

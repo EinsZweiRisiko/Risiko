@@ -1,9 +1,6 @@
 package ui;
 
-import java.util.ArrayList;
-
-import valueobjects.Player;
-import domain.Game;
+import server.GameMethodsImpl;
 
 /**
  * This class contains the user interface of the game
@@ -13,7 +10,7 @@ import domain.Game;
  */
 public class RiskApp {
 
-	private Game game;
+	private GameMethodsImpl game;
 	private IO io = new IO();
 
 	/**
@@ -27,22 +24,23 @@ public class RiskApp {
 			// Start a local game with multiple local players
 //			assert playerNumber >= 2 && playerNumber <= 6; // TODO anders machen
 			
-			game = new Game();
+			game = new GameMethodsImpl();
 			Boolean morePlayers = true;
 			// Ask each player for his name
 			while (morePlayers) {
 				String name = io.read("Wie heißt du?");
 				// Adding a player returns a player object
-				Player player = game.addPlayer(name);
+				game.addPlayer(name);
 				
 				// Start client
-				PlayerClient pc	= new PlayerClient(game, player);
-				Thread t = new Thread(pc);
-				t.start();				
+				//PlayerClient pc	= new PlayerClient(game, player);
+				//Thread t = new Thread(pc);
+				//t.start();				
 				
 				// Another player?
 				morePlayers = io.readYesNo("Soll noch ein weiterer Spieler hinzugefügt werden?"); 
 			}
+			game.start();
 		} else {
 			// Start a multiplayer game
 			// TODO to be implemented

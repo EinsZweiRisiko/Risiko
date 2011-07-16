@@ -1,10 +1,12 @@
-package domain;
+package server;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import server.exceptions.InvalidTerritoryStateException;
 import valueobjects.Continent;
 import valueobjects.Player;
 import valueobjects.Territory;
@@ -14,7 +16,6 @@ import valueobjects.continents.Australia;
 import valueobjects.continents.Europe;
 import valueobjects.continents.NorthAmerica;
 import valueobjects.continents.SouthAmerica;
-import domain.exceptions.InvalidTerritoryStateException;
 
 /**
  * This class does contains all territories and performs operations on them
@@ -22,7 +23,9 @@ import domain.exceptions.InvalidTerritoryStateException;
  * @author Jannes
  * 
  */
-public class TerritoryManager implements Iterable<Territory> {
+public class TerritoryManager implements Iterable<Territory>, Serializable {
+
+	private static final long serialVersionUID = -2158296973755060220L;
 
 	/**
 	 * List of all continents
