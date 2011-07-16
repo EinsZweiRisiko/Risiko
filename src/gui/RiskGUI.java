@@ -21,19 +21,17 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import valueobjects.Continent;
-import valueobjects.Player;
+import server.GameMethodsImpl;
+import server.TerritoryManager;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
-import domain.Game;
-import domain.TerritoryManager;
 
 /**
  * @author Hendrik
  */
 public class RiskGUI {
 	
-	private Game game;
+	private GameMethodsImpl game;
 	private Shell shell;
 	private Image map;
 	private Image[] units = new Image[6];
@@ -62,7 +60,7 @@ public class RiskGUI {
 		eventWindowAppendText("Eine neue Runde Risiko wird gestartet!");
 
 		// Create the game instance
-		game = new Game();
+		game = new GameMethodsImpl();
 		game.addPlayer("Hendrik");
 		game.addPlayer("Jannes");
 		game.addPlayer("Timur");
@@ -80,6 +78,8 @@ public class RiskGUI {
 		// Automatically place start units
 		game.placeStartUnitsRandomly();
 		
+		territoryManager = game.getTerritoryManager();
+		playerManager = game.getPlayers();
 		
 		//Create a new Shell with Title
 		shell = new Shell(display);

@@ -47,7 +47,7 @@ public class IO {
 	/**
 	 * Constructor
 	 */
-	IO() {
+	public IO() {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 	}
 

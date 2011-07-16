@@ -1,11 +1,11 @@
 package ui;
 
+import server.GameMethodsImpl;
 import valueobjects.Player;
-import domain.Game;
 
 public class PlayerClient implements Runnable {
 
-	private Game game;
+	private GameMethodsImpl game;
 	private Player player;
 	private IO io = new IO();
 	
@@ -14,7 +14,7 @@ public class PlayerClient implements Runnable {
 	// 	besitzer
 	//  anzahl der einheiten
 
-	public PlayerClient(Game game, Player player) {
+	public PlayerClient(GameMethodsImpl game, Player player) {
 		this.game = game;
 		this.player = player;
 	}

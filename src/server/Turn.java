@@ -1,7 +1,7 @@
-package domain;
+package server;
 
+import server.GameMethodsImpl.Action;
 import valueobjects.Player;
-import domain.Game.Action;
 
 // TODO think about how this class could help
 @SuppressWarnings("unused")

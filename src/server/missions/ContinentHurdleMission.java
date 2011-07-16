@@ -1,11 +1,11 @@
-package domain.missions;
+package server.missions;
 
 import java.util.ArrayList;
 
+import server.Mission;
+import server.TerritoryManager;
 import valueobjects.Continent;
 import valueobjects.Player;
-import domain.Mission;
-import domain.TerritoryManager;
 
 public class ContinentHurdleMission implements Mission {
 
