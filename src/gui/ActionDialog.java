@@ -16,10 +16,10 @@ import org.eclipse.swt.widgets.Shell;
 import valueobjects.Territory;
 
 public class ActionDialog extends Dialog {
-    Object result;
-    String phase;
-    Territory territory;
-    Image[] units = new Image[18];
+    public Object result;
+    private String phase;
+    private Territory territory;
+    private Image[] units = new Image[18];
             
     public ActionDialog (Shell parent, int style,String phase,Territory territory) {
             super (parent, style);

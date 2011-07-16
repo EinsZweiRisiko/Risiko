@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -14,9 +16,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
+import valueobjects.Continent;
+import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
 import domain.Game;
@@ -42,6 +48,9 @@ public class RiskGUI {
 	private PlayerCollection playerManager;
 	private Button[] button = new Button[42];
 	private Button[] playerButtons;
+	private Text eventWindow;
+	private String events = "";
+	private Player currentPlayer;
 	
 	/**
 	 * creates a new GUI and Game
@@ -49,7 +58,8 @@ public class RiskGUI {
 	 */
 	public RiskGUI(Display display) {
 		
-		//SETUP GAME
+		//{--- TEST SETUP START
+		eventWindowAppendText("Eine neue Runde Risiko wird gestartet!");
 
 		// Create the game instance
 		game = new Game();
@@ -59,13 +69,17 @@ public class RiskGUI {
 		game.addPlayer("Philipp");
 		game.addPlayer("Teschke");
 		game.addPlayer("Eirund");
+		
+		territoryManager = game.getTerritoryManager();
+		playerManager = game.getPlayerManager();
+		
+		//TEST SETUP ENDE ---}
+		
 		game.start();
 		
 		// Automatically place start units
 		game.placeStartUnitsRandomly();
 		
-		territoryManager = game.getTerritoryManager();
-		playerManager = game.getPlayerManager();
 		
 		//Create a new Shell with Title
 		shell = new Shell(display);
@@ -84,9 +98,11 @@ public class RiskGUI {
 		
 		//Composite set size to max size
 		mainWindow.setSize(maxSizeX, maxSizeY);
-
+		
 		Device dev = shell.getDisplay();
-
+		
+		
+		//load images for Button
 		try {
 			map = new Image(dev, "assets/riskClean.png");
 			
@@ -118,13 +134,19 @@ public class RiskGUI {
 		imgHeight = map.getBounds().height;
 
 		mainWindow.setBackgroundImage(map);
+		
 		createButtons();
+		
+		createEventWindow();
+		
+		//createCardWindow();
 
 		//resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
 			public void handleEvent(Event e) {
 				centerImage(mainWindow);
 				createButtons();
+				createEventWindow();
 			}
 		});
 
@@ -133,30 +155,35 @@ public class RiskGUI {
 			public void shellActivated(ShellEvent e) {
 				centerImage(mainWindow);
 				createButtons();
+				createEventWindow();
 			}
 
 			@Override
 			public void shellClosed(ShellEvent e) {
 				centerImage(mainWindow);
 				createButtons();
+				createEventWindow();
 			}
 
 			@Override
 			public void shellDeactivated(ShellEvent e) {
 				centerImage(mainWindow);
 				createButtons();
+				createEventWindow();
 			}
 
 			@Override
 			public void shellDeiconified(ShellEvent e) {
 				centerImage(mainWindow);
 				createButtons();
+				createEventWindow();
 			}
 
 			@Override
 			public void shellIconified(ShellEvent e) {
 				centerImage(mainWindow);
 				createButtons();
+				createEventWindow();
 			}
 		});
 
@@ -171,6 +198,19 @@ public class RiskGUI {
 		}
 	}
 	
+	private void eventWindowAppendText(String string) {
+		events = string + "\n" + events;
+		
+	}
+
+	private void createEventWindow() {
+		mainWindow.setBackgroundMode(SWT.INHERIT_DEFAULT);
+		eventWindow = new Text(mainWindow,SWT.NONE|SWT.MULTI|SWT.WRAP|SWT.RESIZE|SWT.V_SCROLL);
+		eventWindow.setBounds(0, 0, 250, 50);
+		eventWindow.setText(events);
+		eventWindow.setLocation(new Point(((imgWidth -shell.getClientArea().width)/ 2 +  shell.getClientArea().width - 250),((imgHeight - shell.getClientArea().height)/2 + shell.getClientArea().height -50)));
+	}
+
 	/**
 	 * creates a Button on every Territory and adds a Tooltip and lable to it
 	 */
@@ -602,19 +642,13 @@ public class RiskGUI {
 		//PLACE
 		
 		//MOVE
+		boolean dialogCancel = true;
+		
 		ActionDialog dialog = new ActionDialog(shell,SWT.NONE,phase,territory);
 		
 		dialog.open();
 		
-		boolean dialogCancel = false;
-
-		//TODO THIS STUPID SHIT DOENST WORK
-		if(dialog != null){
-			dialogCancel = true;
-			System.out.print("true");
-		}
-		
-		if(dialogCancel){
+		if(!dialogCancel){
 			territory.setUnits(Integer.parseInt(dialog.result.toString()));
 			
 			//currently this function disables all playowned buttons
@@ -624,8 +658,11 @@ public class RiskGUI {
 					button[i].setEnabled(false);
 				}
 			}
-			shell.update();
+			//TODO TEST AUSGABE ENTFERNEN
+			eventWindowAppendText("XY" + " möchte mit " + dialog.result.toString() + " Einheiten von " + territory.getName() + " angreifen!");
 		}
+		Display.getCurrent().update();
+		shell.update();
 	}
 	
 	/**
@@ -651,9 +688,6 @@ public class RiskGUI {
 		return cutted;
 	}
 
-	public void getButtonsTerritory(){
-		
-	}
 
 	/**
 	 * Centers a Shell in the middle of the Screen
@@ -691,7 +725,6 @@ public class RiskGUI {
 
 	@Override
 	public void finalize() {
-		System.out.println("disposing");
 		map.dispose();
 	}
 
