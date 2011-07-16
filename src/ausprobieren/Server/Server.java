@@ -9,13 +9,11 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 	
-	Server() throws RemoteException
-	{
+	public Server() throws RemoteException {
 		super();
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		try {
 			LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
 		}

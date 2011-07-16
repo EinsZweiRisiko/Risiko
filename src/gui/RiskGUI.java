@@ -65,7 +65,7 @@ public class RiskGUI {
 		game.placeStartUnitsRandomly();
 		
 		territoryManager = game.getTerritoryManager();
-		playerManager = game.getPlayerManager();
+		playerManager = game.getPlayers();
 		
 		//Create a new Shell with Title
 		shell = new Shell(display);

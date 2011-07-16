@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class BaseTerritory implements Serializable {
 
+	private static final long serialVersionUID = 9049248607652001341L;
+	
 	private String name;
 	private Player owner;
 	private int units = 0;

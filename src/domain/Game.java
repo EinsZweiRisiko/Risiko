@@ -15,7 +15,7 @@ import domain.exceptions.InvalidTerritoryStateException;
  * @author Jannes, Hendrik
  * 
  */
-public class Game {
+public class Game implements GameInterface {
 
 	private PlayerCollection players;
 	private TerritoryManager territoryManager;
@@ -88,10 +88,10 @@ public class Game {
 		}
 	}
 	
-	public PlayerCollection getPlayerManager() {
+	public PlayerCollection getPlayers() {
 		return players;
 	}
-
+	
 	public TerritoryManager getTerritoryManager() {
 		return territoryManager;
 	}
@@ -310,14 +310,6 @@ public class Game {
 		// Redeem the cards
 		currentPlayer.removeBonusCards(cards);
 		currentPlayer.addSupplies(bonusTracker.getNextBonus());
-	}
-	
-	/**
-	 * TODO doc
-	 */
-	@Deprecated
-	public List<Player> getPlayers() {
-		return players;
 	}
 	
 }
