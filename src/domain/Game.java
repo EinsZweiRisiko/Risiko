@@ -21,7 +21,7 @@ import domain.managers.TerritoryManager;
  */
 public class Game {
 
-	private PlayerManager playerManager;
+	private PlayerManager players;
 	private TerritoryManager territoryManager;
 	private BonusCardStack bonusCardManager;
 	private BonusTracker bonusTracker;
@@ -29,7 +29,12 @@ public class Game {
 	/**
 	 * The current player
 	 */
-	private Player activePlayer;
+	private Player currentPlayer;
+	
+	/**
+	 * The current phase of a player's turn
+	 */
+	private Action currentAction = Action.START;
 	
 	/**
 	 * Phases of a player's turn
@@ -37,34 +42,49 @@ public class Game {
 	public static enum Action {
 		START, TURNINCARDS, PLACEMENT, ATTACK, MOVEMENT
 	};
-	
-	/**
-	 * The current phase of a player's turn
-	 */
-	private Action currentAction = Action.START;
 
 	/**
 	 * Constructor for a new game of Risk
 	 */
-	public Game(ArrayList<String> playerNames) {
-		// Determine that the number of players is valid
-		int playerCount = playerNames.size();
-		assert playerCount >= 2 && playerCount <= 6; // TODO throw an ordinary exception
-		
+	public Game() {
 		// Create territory manager
 		territoryManager = new TerritoryManager();
 
 		// Create player manager
-		playerManager = new PlayerManager(playerNames);
-
+		players = new PlayerCollection();
+		
 		// Create bonus card manager
 		bonusCardManager = new BonusCardStack();
 
 		// Create bonus tracker
 		bonusTracker = new BonusTracker();
+
+		// Set the start units for each player
+		for (Player player : players) {
+			player.addSupplies(startUnits);
+		}
+		
+		// save the stand
+		Store store = new Store(players);
+		store.save();
+	}
+
+	public Player addPlayer(String name) {
+		// Determine that the number of players is valid
+//		int playerCount = playerNames.size();
+		Player player = new Player(name);
+		
+		players.add(player);
+		return player;
+	}
+	
+	public void start() {
+		int playerCount = players.size();
+		
+		// Start units for every player
+		int startUnits;
 		
 		// Get the total amount of start units per player
-		int startUnits;		
 		if (playerCount > 3) {
 			startUnits = 30;
 		} else if (playerCount == 3) {
@@ -75,17 +95,19 @@ public class Game {
 		}
 
 		// Set the start units for each player
-		for (Player player : playerManager) {
+		for (Player player : players) {
 			player.addSupplies(startUnits);
 		}
+
+		// Place start units
 		
 		// save the stand
-		Store store = new Store(playerManager);
+		Store store = new Store(players);
 		store.save();
 	}
-
+	
 	public PlayerManager getPlayerManager() {
-		return playerManager;
+		return players;
 	}
 
 	public TerritoryManager getTerritoryManager() {
@@ -98,7 +120,7 @@ public class Game {
 	 */
 	public boolean isOver() {
 		// TODO Distinguish between world domination/missions
-		return playerManager.getCount() == 1;
+		return players.getCount() == 1;
 	}
 
 	/**
@@ -110,7 +132,7 @@ public class Game {
 		// Return the last man standing
 		Player winner = null;
 		if (isOver()) {
-			winner = playerManager.getNextPlayer();
+			winner = players.getNextPlayer();
 		}
 		return winner;
 	}
@@ -121,7 +143,7 @@ public class Game {
 	 * @return Player
 	 */
 	public Player getActivePlayer() {
-		return activePlayer;
+		return currentPlayer;
 	}
 	
 	/**
@@ -157,7 +179,7 @@ public class Game {
 
 			case MOVEMENT:
 				// TODO Only if the player conquered at least one territory
-				activePlayer.addBonusCard(bonusCardManager.retrieveCard());
+				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
 			default:
 				// Start
@@ -175,7 +197,7 @@ public class Game {
 	 */
 	private void nextPlayer() {
 		// Advance to the next player
-		activePlayer = playerManager.getNextPlayer();
+		currentPlayer = players.getNextPlayer();
 		// A new turn has started so we have to compute the player's supply
 		calculateSupplies();
 	}
@@ -188,7 +210,7 @@ public class Game {
 	 */
 	private void calculateSupplies() {
 		// Base unit amount for occupied territories
-		int supplies = activePlayer.getTerritoryCount() / 3;
+		int supplies = currentPlayer.getTerritoryCount() / 3;
 		// At least 3
 		if (supplies < 3) {
 			supplies = 3;
@@ -200,7 +222,7 @@ public class Game {
 //		}
 		
 		// Add the supplies
-		activePlayer.addSupplies(supplies);
+		currentPlayer.addSupplies(supplies);
 	}
 	
 	/**
@@ -218,7 +240,7 @@ public class Game {
 	 */
 	private void prepareTurnInAction() {
 		// Can the player turn in cards?
-		if (playerCanTurnInCards(activePlayer)) {
+		if (currentPlayer.canTurnInCards()) {
 			currentAction = Action.TURNINCARDS;
 		} else {
 			// If the player can't turn in cards, skip to the next step
@@ -265,7 +287,7 @@ public class Game {
 		Player currentPlayer;
 		for (Territory territory : territoryManager.getRandomTerritoryList()) {
 			// Cycle through all players
-			currentPlayer = playerManager.getNextPlayer();
+			currentPlayer = players.getNextPlayer();
 
 			// Place one unit on the territory
 			try {
@@ -280,9 +302,9 @@ public class Game {
 		}
 
 		// Place the remaining units randomly
-		while (!playerManager.supplyAllocated()) {
+		while (!players.supplyAllocated()) {
 			// Cycle through all players
-			currentPlayer = playerManager.getNextPlayer();
+			currentPlayer = players.getNextPlayer();
 
 			// Add one unit to a random territory
 			currentPlayer.getRandomTerritory().addUnits(1);
@@ -291,7 +313,7 @@ public class Game {
 		}
 
 		// Reset the current player to player 1
-		playerManager.resetActivePlayer();
+		players.resetActivePlayer();
 	}
 
 	/**
@@ -299,13 +321,21 @@ public class Game {
 	 */
 	public void redeemBonusCards(List<BonusCard> cards) {
 		// TODO make this a real exception
-		assert activePlayer.getBonusCards().containsAll(cards);
+		assert currentPlayer.getBonusCards().containsAll(cards);
 		assert cards.size() == 3;
 		// TODO Check if the card triple is valid
 		
 		// Redeem the cards
-		activePlayer.removeBonusCards(cards);
-		activePlayer.addSupplies(bonusTracker.getNextBonus());
+		currentPlayer.removeBonusCards(cards);
+		currentPlayer.addSupplies(bonusTracker.getNextBonus());
+	}
+	
+	/**
+	 * TODO doc
+	 */
+	@Deprecated
+	public List<Player> getPlayers() {
+		return players;
 	}
 	
 }
