@@ -3,7 +3,7 @@ package valueobjects;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import domain.managers.TerritoryManager;
+import domain.TerritoryManager;
 
 /**
  * An abstract class that represents a continent. It holds all the territories

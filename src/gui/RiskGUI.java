@@ -1,4 +1,4 @@
-package ui.gui;
+package gui;
 
 import java.util.ArrayList;
 
@@ -20,10 +20,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
+import valueobjects.PlayerCollection;
 import valueobjects.Territory;
 import domain.Game;
-import domain.managers.PlayerManager;
-import domain.managers.TerritoryManager;
+import domain.TerritoryManager;
 
 /**
  * @author Hendrik
@@ -43,7 +43,7 @@ public class RiskGUI {
 	private final int maxSizeX = 1920;
 	private final int maxSizeY = 1080;
 	private TerritoryManager territoryManager;
-	private PlayerManager playerManager;
+	private PlayerCollection playerManager;
 	private Button[] button = new Button[42];
 	private Button[] playerButtons;
 	
@@ -201,24 +201,6 @@ public class RiskGUI {
 		button[0].setText(String.valueOf(territory.getUnits()));
 		button[0].setBounds(615-buttonSizeW/2, 332-buttonSizeH/2, buttonSizeW, buttonSizeH);
 		button[0].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
-		button[0].addMouseListener(new MouseListener() {
-				@Override
-				public void mouseDoubleClick(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void mouseDown(MouseEvent e) {
-					 openDialog(e);
-				}
-
-				@Override
-				public void mouseUp(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-		      });
 		
 		//Nordwest-Territorium
 		territory = territoryManager.getTerritoryByName("Nordwest-Territorium");
@@ -558,6 +540,27 @@ public class RiskGUI {
 		button[17].setBounds(1306-buttonSizeW/2, 712-buttonSizeH/2, buttonSizeW, buttonSizeH);
 		button[17].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
+		for(int i = 0; i < button.length; i++) {
+			button[i].addMouseListener(new MouseListener() {
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseDown(MouseEvent e) {
+					 openDialog(e);
+				}
+
+				@Override
+				public void mouseUp(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+		      });
+		}
+		
 		playerButtons = new Button[playerManager.getCount()];
 		int biggestButton = 0;
 		
@@ -604,21 +607,28 @@ public class RiskGUI {
 		//PLACE
 		
 		//MOVE
-		
 		MyDialog dialog = new MyDialog(shell,SWT.NONE,phase,territory);
 		
 		dialog.open();
 		
-		territory.setUnits(Integer.parseInt(dialog.result.toString()));
+		boolean dialogCancel = false;
 		
-		//currently this function disables all playowned buttons
-		for(int i = 0; i < button.length; i++){
-			Territory territory2 = territoryManager.getTerritoryByName(cutTooltip(button[i].getToolTipText()));
-			if(territory2.getOwner().equals(territory.getOwner())){
-				button[i].setEnabled(false);
-			}
+		if(dialog != null){
+			dialogCancel = true;
 		}
-		shell.update();
+		
+		if(!dialogCancel){
+			territory.setUnits(Integer.parseInt(dialog.result.toString()));
+			
+			//currently this function disables all playowned buttons
+			for(int i = 0; i < button.length; i++){
+				Territory territory2 = territoryManager.getTerritoryByName(cutTooltip(button[i].getToolTipText()));
+				if(territory2.getOwner().equals(territory.getOwner())){
+					button[i].setEnabled(false);
+				}
+			}
+			shell.update();
+		}
 	}
 	
 	/**

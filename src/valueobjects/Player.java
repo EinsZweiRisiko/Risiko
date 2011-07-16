@@ -29,8 +29,6 @@ public class Player {
 	 */
 	private int suppliesToAllocate;
 
-
-
 	/**
 	 * The territories that the player has conquered
 	 */
@@ -126,6 +124,16 @@ public class Player {
 		return territoryList.isEmpty();
 	}
 
+	/**
+	 * TODO doc
+	 * @param player
+	 * @return
+	 */
+	public boolean canTurnInCards() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	/**
 	 * Returns a random territory which is owned by the player
 	 * 
