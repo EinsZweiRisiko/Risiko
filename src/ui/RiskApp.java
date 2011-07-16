@@ -1,6 +1,6 @@
 package ui;
 
-import domain.Game;
+import server.GameMethodsImpl;
 
 /**
  * This class contains the user interface of the game
@@ -10,7 +10,7 @@ import domain.Game;
  */
 public class RiskApp {
 
-	private Game game;
+	private GameMethodsImpl game;
 	private IO io = new IO();
 
 	/**
@@ -24,7 +24,7 @@ public class RiskApp {
 			// Start a local game with multiple local players
 //			assert playerNumber >= 2 && playerNumber <= 6; // TODO anders machen
 			
-			game = new Game();
+			game = new GameMethodsImpl();
 			Boolean morePlayers = true;
 			// Ask each player for his name
 			while (morePlayers) {

@@ -17,17 +17,17 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
+import server.GameMethodsImpl;
+import server.TerritoryManager;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
-import domain.Game;
-import domain.TerritoryManager;
 
 /**
  * @author Hendrik
  */
 public class RiskGUI {
 	
-	private Game game;
+	private GameMethodsImpl game;
 	private Shell shell;
 	private Image map;
 	private Image[] units = new Image[6];
@@ -52,7 +52,7 @@ public class RiskGUI {
 		//SETUP GAME
 
 		// Create the game instance
-		game = new Game();
+		game = new GameMethodsImpl();
 		game.addPlayer("Hendrik");
 		game.addPlayer("Jannes");
 		game.addPlayer("Timur");

@@ -1,4 +1,4 @@
-package domain.exceptions;
+package server.exceptions;
 
 import valueobjects.Territory;
 

@@ -1,6 +1,6 @@
 package persistence;
 
-import domain.Game;
+import server.GameMethodsImpl;
 
 public interface PersistenceManager {
 
@@ -9,7 +9,7 @@ public interface PersistenceManager {
 	 * 
 	 * @return
 	 */
-	public Game loadGame(String filename);
+	public GameMethodsImpl loadGame(String filename);
 
 	/**
 	 * Saves the current Game
@@ -18,5 +18,5 @@ public interface PersistenceManager {
 	 *            which should be saved
 	 * @return true if game is saved to file, false if not
 	 */
-	public Boolean saveGame(Game game, String filename);
+	public Boolean saveGame(GameMethodsImpl game, String filename);
 }
