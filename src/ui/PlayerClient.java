@@ -1,98 +1,24 @@
 package ui;
 
-import java.util.ArrayList;
-
 import valueobjects.Player;
 import domain.Game;
 
-/**
- * This class contains the user interface of the game
- * 
- * @author Jannes
- * 
- */
-public class RiskUI {
+public class PlayerClient implements Runnable {
 
 	private Game game;
+	private Player player;
 	private IO io = new IO();
+	
+	// Abbild der Länder:
+	// laender
+	// 	besitzer
+	//  anzahl der einheiten
 
-	/**
-	 * Create a new game UI
-	 * @param defaultSetup This parameter is meant for easier testing
-	 */
-	public RiskUI(Boolean defaultSetup) {
-		if (defaultSetup) {
-			// Create a predefined game setup
-			ArrayList<String> playerNames = new ArrayList<String>();
-			playerNames.add("Hendrik");
-			playerNames.add("Jannes");
-			playerNames.add("Timur");
-			// Create the game instance
-			game = new Game(playerNames);
-			// Automatically place start units
-			game.placeStartUnitsRandomly();
-		} else {
-			// Determines how many players want to play and creates a Game instance
-			startNewGame();
-
-			// Places the start units on the board
-			placeStartUnits();
-		}
-		
-		// Run the game
-		while (!game.isOver()) {
-			run();
-		}
+	public PlayerClient(Game game, Player player) {
+		this.game = game;
+		this.player = player;
 	}
 	
-	/**
-	 * Creates a new Game instance. This method is only useful for non-networked
-	 * games.
-	 */
-	private void startNewGame() {
-		// How many players participate in the game?
-		int playerNumber = io.readNumberInRange(
-				"Wie viele Spieler wollen mitspielen?", 2, 6);
-
-		// Ask each player for his name
-		ArrayList<String> playerNames = new ArrayList<String>(playerNumber);
-		for (int i = 0; i < playerNumber; ++i) {
-			playerNames.add(io.read("Spieler " + (i + 1) + ", wie heißt du?"));
-		}
-
-		// Create the game instance
-		game = new Game(playerNames);
-	}
-
-	/**
-	 * Places the start units on the board.
-	 */
-	private void placeStartUnits() {
-		boolean placementMethod = io.readYesNo("Sollen die Einheiten zufällig gesetzt werden?");
-
-		if (placementMethod) {
-			// Randomly places the units on one territory each
-			game.placeStartUnitsRandomly();
-		} else {
-			// TODO Manually place the units
-			/*
-			 * Repeat until all territories are occupied
-			 *   1. Get current player
-			 *   2. Get list of empty territories
-			 *   3. Get target territory
-			 *   (Cache empty territories?)
-			 * Repeat until every player has 0 supply
-			 * 	 1. Get current player
-			 *   2. Get list of the player's territories
-			 *   3. Get target territory
-			 * 
-			 * Placing requires:
-			 *   tm.changeTerritoryOwner(currentPlayer, targetTerritory, units);
-			 *   currentPlayer.subtractSupply(units);
-			 */
-		}
-	}
-
 	/**
 	 * TODO doc
 	 */
@@ -257,16 +183,5 @@ public class RiskUI {
 				break;
 		}
 	}
-
-	/**
-	 * Main method
-	 * 
-	 * @param args
-	 *            Command line arguments
-	 */
-	public static void main(String[] args) {
-		// Testing setup
-		new RiskUI(true);
-	}
-
+	
 }
