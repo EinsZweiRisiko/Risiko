@@ -1,8 +1,8 @@
-package ausprobieren.Client;
+package ausprobieren.client;
 
 import java.rmi.Naming;
 
-import ausprobieren.Server.ServerInterface;
+import ausprobieren.server.ServerInterface;
 
 
 public class Client {
