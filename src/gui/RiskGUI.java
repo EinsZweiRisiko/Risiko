@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Text;
 
 import server.GameMethodsImpl;
 import server.TerritoryManager;
+import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
 
@@ -69,7 +70,7 @@ public class RiskGUI {
 		game.addPlayer("Eirund");
 		
 		territoryManager = game.getTerritoryManager();
-		playerManager = game.getPlayerManager();
+		playerManager = game.getPlayers();
 		
 		//TEST SETUP ENDE ---}
 		
