@@ -2,7 +2,6 @@ package domain;
 
 import java.util.List;
 
-import persistence.Store;
 import valueobjects.BonusCard;
 import valueobjects.BonusCardStack;
 import valueobjects.Player;
@@ -87,10 +86,6 @@ public class Game {
 		for (Player player : players) {
 			player.addSupplies(startUnits);
 		}
-
-		// Place start units
-		
-
 	}
 	
 	public PlayerCollection getPlayerManager() {

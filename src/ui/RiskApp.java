@@ -40,6 +40,7 @@ public class RiskApp {
 				// Another player?
 				morePlayers = io.readYesNo("Soll noch ein weiterer Spieler hinzugefügt werden?"); 
 			}
+			game.start();
 		} else {
 			// Start a multiplayer game
 			// TODO to be implemented

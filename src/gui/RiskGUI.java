@@ -1,7 +1,5 @@
 package gui;
 
-import java.util.ArrayList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -16,7 +14,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
@@ -62,6 +59,7 @@ public class RiskGUI {
 		game.addPlayer("Philipp");
 		game.addPlayer("Teschke");
 		game.addPlayer("Eirund");
+		game.start();
 		
 		// Automatically place start units
 		game.placeStartUnitsRandomly();
