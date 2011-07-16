@@ -1,4 +1,4 @@
-package valueobjects.missions;
+package domain.missions;
 
 import java.util.ArrayList;
 

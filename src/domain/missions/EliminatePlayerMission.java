@@ -1,4 +1,4 @@
-package valueobjects.missions;
+package domain.missions;
 
 import valueobjects.Mission;
 import valueobjects.Player;
