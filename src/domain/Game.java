@@ -57,8 +57,8 @@ public class Game {
 		bonusTracker = new BonusTracker();
 		
 		// save the stand
-		Store store = new Store(players);
-		store.save();
+//		Store store = new Store(players);
+//		store.save();
 	}
 
 	public void addPlayer(String name) {
