@@ -90,9 +90,7 @@ public class Game {
 
 		// Place start units
 		
-		// save the stand
-		Store store = new Store(players);
-		store.save();
+
 	}
 	
 	public PlayerCollection getPlayerManager() {
