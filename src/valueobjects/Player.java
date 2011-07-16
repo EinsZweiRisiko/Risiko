@@ -9,25 +9,8 @@ import java.util.List;
  * 
  * @author Jannes, Hendrik
  */
-public class Player {
-
-	/**
-	 * The player's name
-	 */
-	private String name;
-
-	/**
-	 * The player's color
-	 */
-	private int color;
-
-	/**
-	 * The number of units the player still has to place on the board. This
-	 * happens at the start of
-	 * every round. The player can only start attacking someone else if all
-	 * units are placed.
-	 */
-	private int suppliesToAllocate;
+public class Player extends BasePlayer {
+	private static final long serialVersionUID = 8766228170511017486L;
 
 	/**
 	 * The territories that the player has conquered
@@ -41,7 +24,6 @@ public class Player {
 	 */
 	private HashSet<BonusCard> territoryCards = new HashSet<BonusCard>();
 
-
 	/**
 	 * Constructor
 	 * 
@@ -49,27 +31,7 @@ public class Player {
 	 *            of the player.
 	 */
 	public Player(String name,int color) {
-		// TODO Add the player's color or assign at least a player number
-		this.name = name;
-		this.color = color;
-	}
-
-	/**
-	 * Gets the player's name
-	 * 
-	 * @return name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * Gets the player's name
-	 * 
-	 * @return name
-	 */
-	public String toString() {
-		return name;
+		super(name, color);
 	}
 
 	/**
@@ -147,38 +109,6 @@ public class Player {
 	}
 
 	/**
-	 * Adds the specified number to the amount of units that need to be
-	 * allocated.
-	 * 
-	 * @param change
-	 *            Value to be added
-	 */
-	public void addSupplies(int change) {
-		this.suppliesToAllocate += change;
-	}
-
-	/**
-	 * Substracts the specified number from the amount of units that need to be
-	 * allocated.
-	 * 
-	 * @param change
-	 *            Value to be substract
-	 */
-	public void subtractSupplies(int change) {
-		this.suppliesToAllocate -= change;
-	}
-
-	/**
-	 * Returns the total amount of supply units that the player needs to
-	 * allocate.
-	 * 
-	 * @return
-	 */
-	public int getSupplies() {
-		return suppliesToAllocate;
-	}
-
-	/**
 	 * Adds a card to the player's list of territory cards
 	 * 
 	 * @param card
@@ -235,10 +165,6 @@ public class Player {
 //		return continents;
 		return null;
 	}
-
-	public int getColor() {
-		return color;
-	}
 	
 	public int getAllUnits() {
 		int units = 0;
@@ -248,15 +174,5 @@ public class Player {
 		}
 		
 		return units;
-	}
-
-	public void setName(String name) {
-		// TODO Auto-generated method stub
-		this.name = name;
-	}
-
-	public void setColor(int color) {
-		// TODO Auto-generated method stub
-		this.color = color;
 	}
 }

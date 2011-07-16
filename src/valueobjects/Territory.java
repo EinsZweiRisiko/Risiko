@@ -8,16 +8,19 @@ import java.util.ArrayList;
  * @author Jannes
  * 
  */
-public class Territory {
+public class Territory extends BaseTerritory {
 
-	private Player owner;
-	private int units = 0;
-	private String name;
+	private static final long serialVersionUID = -3644006307202028619L;
+	
 	private Continent continent;
 	private ArrayList<Territory> neighborList = new ArrayList<Territory>();
 
+	/**
+	 * Creates a new Territory
+	 * @param name
+	 */
 	public Territory(String name) {
-		this.name = name;
+		super(name);
 	}
 
 	public void addNeighbor(Territory land) {
@@ -38,38 +41,10 @@ public class Territory {
 		return neighborList;
 	}
 
-	public String toString() {
-		return name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Player getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Player owner) {
-		this.owner = owner;
-	}
-
-	public int getUnits() {
-		return units;
-	}
-
-	public void setUnits(int units) {
-		this.units = units;
-	}
-
-	public void addUnits(int units) {
-		this.units += units;
-	}
-
 	public Continent getContinent() {
 		return continent;
 	}
-
+	
 	public void setKontinent(Continent continent) {
 		this.continent = continent;
 	}
