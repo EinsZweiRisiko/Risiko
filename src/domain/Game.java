@@ -55,24 +55,16 @@ public class Game {
 
 		// Create bonus tracker
 		bonusTracker = new BonusTracker();
-
-		// Set the start units for each player
-		for (Player player : players) {
-			player.addSupplies(startUnits);
-		}
 		
 		// save the stand
 		Store store = new Store(players);
 		store.save();
 	}
 
-	public Player addPlayer(String name) {
-		// Determine that the number of players is valid
-//		int playerCount = playerNames.size();
+	public void addPlayer(String name) {
+		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
-		
 		players.add(player);
-		return player;
 	}
 	
 	public void start() {
@@ -117,7 +109,7 @@ public class Game {
 	 */
 	public boolean isOver() {
 		// TODO Distinguish between world domination/missions
-		return players.getCount() == 1;
+		return players.size() == 1;
 	}
 
 	/**

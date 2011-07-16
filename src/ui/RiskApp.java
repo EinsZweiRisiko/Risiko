@@ -1,8 +1,5 @@
 package ui;
 
-import java.util.ArrayList;
-
-import valueobjects.Player;
 import domain.Game;
 
 /**
@@ -33,12 +30,12 @@ public class RiskApp {
 			while (morePlayers) {
 				String name = io.read("Wie heißt du?");
 				// Adding a player returns a player object
-				Player player = game.addPlayer(name);
+				game.addPlayer(name);
 				
 				// Start client
-				PlayerClient pc	= new PlayerClient(game, player);
-				Thread t = new Thread(pc);
-				t.start();				
+				//PlayerClient pc	= new PlayerClient(game, player);
+				//Thread t = new Thread(pc);
+				//t.start();				
 				
 				// Another player?
 				morePlayers = io.readYesNo("Soll noch ein weiterer Spieler hinzugefügt werden?"); 
