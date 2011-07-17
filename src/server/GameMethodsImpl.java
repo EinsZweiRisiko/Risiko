@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,10 +78,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 //		store.save();
 	}
 
-	public void addPlayer(String name) {
+	public void addPlayer(String name, ClientMethods client) {
 		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
 		players.add(player);
+		// Add the client
+		clients.add(client);
 	}
 
 	public void start() {
@@ -407,12 +408,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		target.setUnits(target.getUnits() + amount);
 	}
 
-	// Netzwerk
-	public void login(String name, ClientMethods client) {
-		clients.add(client);
-	}
-	
-	
 	public void print(String msg) {
 		System.out.println(msg);
 		
