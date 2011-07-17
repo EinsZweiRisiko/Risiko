@@ -430,7 +430,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			for(int j = 0; j <= neighbors.size() ;j++){
 				if(!neighbors.get(j).getOwner().equals(player)){
 					if(!attackingTerritories.contains(neighbors.get(j))) {
-						attackingTerritories.add(neighbors.get(j));
+						attackingTerritories.add(territories.get(i));
 					}
 				}
 			}
@@ -448,7 +448,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			for(int j = 0; j <= neighbors.size() ;j++){
 				if(neighbors.get(j).getOwner().equals(player)){
 					if(!moveTerritories.contains(neighbors.get(j))) {
-						moveTerritories.add(neighbors.get(j));
+						moveTerritories.add(territories.get(i));
 					}
 				}
 			}
