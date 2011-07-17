@@ -54,7 +54,9 @@ public class RiskGUI {
 	 * creates a new GUI and Game
 	 * @param display the Display on which the shell is shown
 	 */
-	public RiskGUI(Display display, GameMethods game) {
+	public RiskGUI(Display display, final GameMethods game) {
+		
+		this.game = game;
 		
 		//{--- TEST SETUP START
 		eventWindowAppendText("Eine neue Runde Risiko wird gestartet!");
@@ -613,39 +615,9 @@ public class RiskGUI {
 		Button clickedButton = (Button) e.widget;
 		
 		
-		Territory territory = territories.get(cutTooltip(clickedButton.getToolTipText()));
+		Territory territory = game.getTerritories().get(cutTooltip(clickedButton.getToolTipText()));
 		
-		String phase;
 		
-		//ATTACK
-		phase = "ATTACK";
-		
-		//DENFENSE
-		
-		//PLACE
-		
-		//MOVE
-		boolean dialogCancel = true;
-		
-		ActionDialog dialog = new ActionDialog(shell,SWT.NONE,phase,territory);
-		
-		dialog.open();
-		
-		if(dialogCancel){
-			territory.setUnits(Integer.parseInt(dialog.result.toString()));
-			
-			//currently this function disables all playowned buttons
-			for(int i = 0; i < button.length; i++){
-				Territory territory2 = territories.get(cutTooltip(button[i].getToolTipText()));
-				if(territory2.getOwner().equals(territory.getOwner())){
-					button[i].setEnabled(false);
-				}
-			}
-			//TODO TEST AUSGABE ENTFERNEN
-			eventWindowAppendText("XY" + " möchte mit " + dialog.result.toString() + " Einheiten von " + territory.getName() + " angreifen!");
-		}
-		Display.getCurrent().update();
-		shell.update();
 	}
 	
 	/**

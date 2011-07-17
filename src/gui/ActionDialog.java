@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
 
 import valueobjects.Territory;
 
@@ -55,7 +56,25 @@ public class ActionDialog extends Dialog {
 			units[17] = new Image(dev, "assets/unitsBLUE3.png");
     }
     
-    public Object open() {    	
+    public Object open() {
+    		
+    		if (phase.equals("MOVE")){
+    			Shell parent = getParent();
+                final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+            	shell.setSize(155,80);
+                shell.setText("Verschieben");
+                center(shell);
+                
+                GridLayout gridLayout = new GridLayout();
+                gridLayout.numColumns = 1;
+                gridLayout.horizontalSpacing = 4;
+                shell.setLayout(gridLayout);
+                
+                Spinner spinner = new Spinner(shell, SWT.NONE);
+                spinner.setMinimum(0);
+                spinner.setMaximum(territory.getUnits()-1);
+    		}
+    	
             if(phase.equals("ATTACK")){
             	Shell parent = getParent();
                 final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);

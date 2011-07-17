@@ -38,7 +38,7 @@ public class LoginGUI {
 	public LoginGUI(Display display, final AppClient app) {
 		this.app = app;
 		
-		shell = new Shell(display, SWT.MAX);
+		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
 		shell.setText("EinsZweiRisiko -- Login");
@@ -67,7 +67,6 @@ public class LoginGUI {
        	serverLabel.setText("Server: ");
        	
        	final Text serverText = new Text(login, SWT.SINGLE);
-       	serverText.setSize(80,50);
        	serverText.setText("localhost");
        	
        	Button createGame = new Button(login, SWT.PUSH);
@@ -143,11 +142,11 @@ public class LoginGUI {
 		about.setLayout(gridLayout);
 		
 		Label aboutlabel = new Label(about, SWT.NONE);
-		aboutlabel.setText("EinsZweiRisiko © 2011 \n"+"Hendrik Druse, Jannes Meyer, Timur Teker");
+		aboutlabel.setText("EinsZweiRisiko \n"+"Hochschule Bremen 2011 \n"+"Hendrik Druse, Jannes Meyer, Timur Teker");
 		aboutlabel.pack();
 		
-		login.setBounds(0, 0, 250, 310);
-		about.setBounds(0, 310, 250, 40);
+		login.setBounds(0, 0, 250, 250);
+		about.setBounds(0, 300, 250, 50);
 		
 		shell.pack();
 		
