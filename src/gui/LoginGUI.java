@@ -36,6 +36,7 @@ public class LoginGUI {
 	 * @param app the calling AppClient
 	 */
 	public LoginGUI(Display display, final AppClient app) {
+		
 		this.app = app;
 		
 		shell = new Shell(display, SWT.MIN);

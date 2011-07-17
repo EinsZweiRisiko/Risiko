@@ -31,17 +31,14 @@ public class AppClient {
 		new AppClient();
 	}
 	
-	/**
-	 * Constructor initiates a connection to the server
-	 */
 	public AppClient() {
 		Display display = new Display();
 		
 		// Show the connect window
-		LoginGUI logingui = new LoginGUI(display, this);
+		LoginGUI logingui = new LoginGUI(display,this);
 		logingui.finalize();
 		
-		lobbygui = new LobbyGUI(display,this,game,creator);
+		lobbygui = new LobbyGUI(display, this, game, creator);
 		lobbygui.finalize();
 		
 		// Show the main risk window
@@ -51,7 +48,6 @@ public class AppClient {
 		// Close the risk window after the game has finished
 		display.dispose();
 	}
-	
 	
 	/**
 	 * Create a connection to the server
