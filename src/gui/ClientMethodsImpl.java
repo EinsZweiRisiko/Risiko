@@ -16,12 +16,15 @@ import de.root1.simon.annotation.SimonRemote;
 
 @SimonRemote
 public class ClientMethodsImpl implements ClientMethods {
-
+	
 	@Override
 	public void update(GameMethods server, Action a) {
 		if (a instanceof PlayerJoinedAction) {
+			// A player joined
 			PlayerJoinedAction a2 = (PlayerJoinedAction) a;
-			IO.write("Player joined: " + a2.getPlayer().getName());
+			IO.write("player joined: " + a2.getPlayer().getName());
+			
+//			AppClient.updateLobby();
 		} else if (a instanceof GameStartedAction) {
 			IO.write("Game started");
 		}

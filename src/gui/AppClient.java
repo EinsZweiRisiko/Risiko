@@ -21,6 +21,8 @@ public class AppClient {
 	private static final int DEFAULT_PORT = 50001;
 	private boolean creator = false;
 	
+	private static LobbyGUI lobbygui;
+	
 	/**
 	 * Main method
 	 * @param args
@@ -39,7 +41,7 @@ public class AppClient {
 		LoginGUI logingui = new LoginGUI(display, this);
 		logingui.finalize();
 		
-		LobbyGUI lobbygui = new LobbyGUI(display,this,game,creator);
+		lobbygui = new LobbyGUI(display,this,game,creator);
 		lobbygui.finalize();
 		
 		// Show the main risk window
@@ -77,5 +79,14 @@ public class AppClient {
 	
 	public void startGame() throws NotEnoughPlayersException{
 		game.start();
+	}
+	
+	
+	/*
+	 * Updates 
+	 */
+	
+	public static void updateLobby() {
+		lobbygui.updateText();
 	}
 }
