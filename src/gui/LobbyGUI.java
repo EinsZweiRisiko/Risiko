@@ -14,9 +14,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import server.GameMethodsImpl;
 import server.exceptions.NotEnoughPlayersException;
 import ui.IO;
+import valueobjects.Player;
 import valueobjects.PlayerCollection;
 
 import commons.GameMethods;
@@ -30,6 +30,9 @@ public class LobbyGUI {
 	
 	private Shell shell;
 	private AppClient app;
+	private GameMethods game;
+	private Composite lobby;
+	private Text playerList;
 	
 	/**
 	 * creates a new instance of a Lobby Window
@@ -38,8 +41,9 @@ public class LobbyGUI {
 	 * @param game the instance of the game which should be started
 	 * @param creator true == this GUI belongs to a user who is creating the game false == this GUI belongs to a user who is joining a game
 	 */
-	public LobbyGUI(Display display,final AppClient app,GameMethods game,boolean creator){
+	public LobbyGUI(Display display, final AppClient app, GameMethods game, boolean creator){
 		this.app = app;
+		this.game = game;
 		
 		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
@@ -50,23 +54,18 @@ public class LobbyGUI {
 		
 		shell.setBackgroundImage(bg);
 		
-		
-		Composite lobby = new Composite(shell, SWT.INHERIT_DEFAULT);
+		lobby = new Composite(shell, SWT.INHERIT_DEFAULT);
 		
 		GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 1;
        	lobby.setLayout(gridLayout);
 		
-		Text playerList = new Text(lobby,SWT.MULTI | SWT.INHERIT_NONE);
+       	// Create text field
+       	playerList = new Text(lobby, SWT.MULTI | SWT.INHERIT_NONE);
 		playerList.setSize(250, 350);
-		playerList.setText("WARTE AUF SPIELER \n");
 		
-		PlayerCollection player = game.getPlayers();
-		
-		for(int i = 0; i < player.size(); i++){
-			playerList.append(player.get(i).getName() + "\n");
-		}
-		
+		// Update the text
+		updateText();
 		
 		if(creator){
 			Button startGame = new Button(lobby,SWT.PUSH);
@@ -122,6 +121,19 @@ public class LobbyGUI {
 		int nTop = (bds.height - p.y) / 2;
 
 		shell.setBounds(nLeft, nTop, p.x, p.y);
+	}
+	
+	/**
+	 * Updates the text field.
+	 */
+	public void updateText() {
+		PlayerCollection players = game.getPlayers();
+		
+		playerList.setText("");
+		for (Player player:players) {
+			playerList.append(player.getName() + "\n");
+		}
+		shell.update();
 	}
 	
 	@Override

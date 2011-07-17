@@ -9,8 +9,6 @@ import de.root1.simon.annotation.SimonRemote;
 @SimonRemote
 public interface ClientMethods {
 
-	public void print(String msg);
-	
-	public void update(GameMethods o, Object a);
+	public void update(GameMethods server, Action a);
 	
 }

@@ -17,8 +17,11 @@ import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
 
+import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
+import commons.actions.GameStartedAction;
+import commons.actions.PlayerJoinedAction;
 
 import de.root1.simon.Registry;
 import de.root1.simon.Simon;
@@ -54,12 +57,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * The current phase of a player's turn
 	 */
-	private Action currentAction = Action.START;
+	private Phase currentPhase = Phase.START;
 
 	/**
 	 * Phases of a player's turn
 	 */
-	public static enum Action {
+	public static enum Phase {
 		START, TURNINCARDS, PLACEMENT, ATTACK, MOVEMENT
 	};
 
@@ -90,36 +93,32 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		IO.write("Client connected.");
 		// TESTEN
-		setChanged();
-		notifyPlayers("TEST");
+		notifyPlayers(new PlayerJoinedAction(player));
 	}
 
+	// START OF observable
+	
 	public void deletePlayer(ClientMethods client) {
 		clients.remove(client);
 		
 	}
-	private void setChanged() {
-		changed = true;
-	}
+//	private void setChanged() {
+//		changed = true;
+//	}
+//	
+//	private void clearChanged() {
+//		changed = false;
+//	}
 	
-	private void clearChanged() {
-		changed = false;
-	}
-	
-	@SuppressWarnings("unused")
-	private void notifyPlayers() {
-		notifyPlayers(null);
-	}
-	
-	private void notifyPlayers(Object arg) {
-		if (!changed) {
-			return;
-		}
+	private void notifyPlayers(Action arg) {
+//		if (!changed) {
+//			return;
+//		}
 		// Notify all observers
 		for (ClientMethods client:clients) {
 			client.update(this, arg);
 		}
-		clearChanged();
+//		clearChanged();
 	}
 
 	// END OF observable
@@ -154,6 +153,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		// Set the game status to started
 		started = true;
+		notifyPlayers(new GameStartedAction());
 	}
 
 	public PlayerCollection getPlayers() {
@@ -213,9 +213,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * @return Action The next action/phase
 	 */
-	public Action getNextAction() {
+	public Phase getNextAction() {
 		// Which action comes afterwards the current one?
-		switch (currentAction) {
+		switch (currentPhase) {
 		// The first action is at the end of this switch block
 			case TURNINCARDS:
 				// Placing the supply units is next
@@ -241,7 +241,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		// Return the new action
-		return currentAction;
+		return currentPhase;
 	}
 
 	/**
@@ -284,11 +284,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private void prepareTurnInAction() {
 		// Can the player turn in cards?
 		if (currentPlayer.canTurnInCards()) {
-			currentAction = Action.TURNINCARDS;
+			currentPhase = Phase.TURNINCARDS;
 		} else {
 			// If the player can't turn in cards, skip to the next step
 			preparePlacementAction();
-			currentAction = Action.PLACEMENT;
+			currentPhase = Phase.PLACEMENT;
 		}
 	}
 
@@ -296,7 +296,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * TODO doc
 	 */
 	private void preparePlacementAction() {
-		currentAction = Action.PLACEMENT;
+		currentPhase = Phase.PLACEMENT;
 	}
 
 	/**
@@ -309,7 +309,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		 * Must be owned by the player
 		 * Must have at least 2 units
 		 */
-		currentAction = Action.ATTACK;
+		currentPhase = Phase.ATTACK;
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		 * The territory's units must not have participated in a battle
 		 * The territory needs at least 2 units
 		 */
-		currentAction = Action.MOVEMENT;
+		currentPhase = Phase.MOVEMENT;
 	}
 
 	/**

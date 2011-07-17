@@ -3,7 +3,7 @@ package commons;
 import java.util.HashMap;
 import java.util.List;
 
-import server.GameMethodsImpl.Action;
+import server.GameMethodsImpl.Phase;
 import server.Mission;
 import server.exceptions.NotEnoughPlayersException;
 import server.remoteexceptions.ServerFullException;
@@ -19,7 +19,7 @@ public interface GameMethods {
 	
 	// Setup/Observer
 	public void addPlayer(String name, ClientMethods client) throws ServerFullException;
-//	public void deletePlayer(ClientMethods clients);
+	public void deletePlayer(ClientMethods clients);
 	
 	// Load and saving
 	public void save();
@@ -31,7 +31,7 @@ public interface GameMethods {
 	public boolean isOver();
 	public Player getWinner();
 	public Player getActivePlayer();
-	public Action getNextAction();
+	public Phase getNextAction();
 	public void placeStartUnitsRandomly();
 	
 	public Mission getMyMission(Player player);
