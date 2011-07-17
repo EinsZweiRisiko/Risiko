@@ -20,6 +20,7 @@ public class AppClient {
 	private Lookup connection;
 	private GameMethods game;
 	private static final int DEFAULT_PORT = 50001;
+	private boolean creator = false;
 	
 	/**
 	 * Main method
@@ -38,17 +39,9 @@ public class AppClient {
 		// Show the connect window
 		LoginGUI logingui = new LoginGUI(display, this);
 		logingui.finalize();
-
-		game.addPlayer("Player 2", new ClientMethodsImpl());
-		game.addPlayer("Player 3", new ClientMethodsImpl());
 		
-		// TODO: Only the first player should be allowed to start the game
-		try {
-			game.start();
-		} catch (NotEnoughPlayersException e) {
-			IO.writeError(e.getMessage());
-			System.exit(1);
-		}
+		LobbyGUI lobbygui = new LobbyGUI(display,this,game,creator);
+		lobbygui.finalize();
 		
 		// Show the main risk window
 		RiskGUI rFenster = new RiskGUI(display, game);
@@ -71,5 +64,13 @@ public class AppClient {
 		
 		// Create player
 		game.addPlayer(name, new ClientMethodsImpl());
+	}
+
+	public void setCreator(boolean creator) {
+		this.creator = creator;
+	}
+	
+	public void startGame() throws NotEnoughPlayersException{
+		game.start();
 	}
 }

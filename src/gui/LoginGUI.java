@@ -20,6 +20,11 @@ import ui.IO;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.exceptions.LookupFailedException;
 
+/**
+ * shows a login screen
+ * @author Hendrik
+ *
+ */
 public class LoginGUI {
 	
 	Shell shell;
@@ -72,8 +77,21 @@ public class LoginGUI {
 
 			@Override
 			public void mouseUp(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				try {
+					String ip = serverText.getText();
+					String name = nameText.getText();
+					
+					app.setCreator(true);
+					app.connect(ip, name);
+				} catch (UnknownHostException e1) {
+					IO.writeError("Unknown host: " + e1.getMessage());
+				} catch (LookupFailedException e1) {
+					IO.writeError("Lookup failed: " + e1.getMessage());
+				} catch (EstablishConnectionFailed e1) {
+					IO.writeError("Establish connection failed: " + e1.getMessage());
+				}
+				// Close the window after a successful connect
+				shell.dispose();				
 			}
 	      });
        	
@@ -110,6 +128,7 @@ public class LoginGUI {
 				shell.dispose();
 			}
 	      });
+		
 		login.pack();
 		shell.pack();
 		shell.open();
