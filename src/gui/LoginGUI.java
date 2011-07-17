@@ -1,5 +1,7 @@
 package gui;
 
+import java.net.UnknownHostException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -14,11 +16,18 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import ui.IO;
+import de.root1.simon.exceptions.EstablishConnectionFailed;
+import de.root1.simon.exceptions.LookupFailedException;
+
 public class LoginGUI {
 	
 	Shell shell;
+	AppClient app;
 	
-	public LoginGUI(Display display){
+	public LoginGUI(Display display, final AppClient app) {
+		this.app = app;
+		
 		shell = new Shell(display);
 		shell.setText("EinsZweiRisiko -- Login");
 		
@@ -40,12 +49,12 @@ public class LoginGUI {
        	Label nameLabel = new Label(login, SWT.INHERIT_NONE);
        	nameLabel.setText("Name: ");
        	
-       	Text nameText = new Text(login, SWT.SINGLE);
+       	final Text nameText = new Text(login, SWT.SINGLE);
        	
        	Label serverLabel = new Label (login, SWT.INHERIT_NONE);
        	serverLabel.setText("Server: ");
        	
-       	Text serverText = new Text(login, SWT.SINGLE);
+       	final Text serverText = new Text(login, SWT.SINGLE);
        	
        	Button createGame = new Button(login, SWT.PUSH);
 		createGame.setText("Spiel erstellen");
@@ -70,6 +79,7 @@ public class LoginGUI {
        	
         Button joinGame = new Button(login, SWT.PUSH);
 		joinGame.setText("Spiel beitreten");
+		
 		joinGame.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseDown(MouseEvent e) {
@@ -84,8 +94,20 @@ public class LoginGUI {
 
 			@Override
 			public void mouseUp(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				try {
+					String ip = serverText.getText();
+					String name = nameText.getText();
+					
+					app.connect(ip, name);
+				} catch (UnknownHostException e1) {
+					IO.writeError("Unknown host: " + e1.getMessage());
+				} catch (LookupFailedException e1) {
+					IO.writeError("Lookup failed: " + e1.getMessage());
+				} catch (EstablishConnectionFailed e1) {
+					IO.writeError("Establish connection failed: " + e1.getMessage());
+				}
+				// Close the window after a successful connect
+				shell.dispose();
 			}
 	      });
 		login.pack();
@@ -114,13 +136,6 @@ public class LoginGUI {
 	@Override
 	public void finalize() {
 		shell.dispose();
-	}
-	
-	public static void main(String[] args) {
-		Display display = new Display();
-		LoginGUI logingui = new LoginGUI(display);		
-		logingui.finalize();
-		display.dispose();
 	}
 	
 }

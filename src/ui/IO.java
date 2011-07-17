@@ -186,7 +186,7 @@ public class IO {
 	 * @param message
 	 *            String which is going to be printed
 	 */
-	public void write(String message) {
+	public static void write(String message) {
 		System.out.println(message);
 	}
 
@@ -196,7 +196,7 @@ public class IO {
 	 * @param message
 	 *            String which is going to be printed
 	 */
-	public void writeError(String message) {
+	public static void writeError(String message) {
 		System.err.println(message);
 	}
 	
@@ -212,7 +212,7 @@ public class IO {
 	 * 
 	 * @param list
 	 */
-	public void writeList(List<?> list) {
+	public static void writeList(List<?> list) {
 		// for (int i = 0, length = list.size(); i < length; ++i) {
 		Iterator<?> iter = list.iterator();
 		for (int i = 1; iter.hasNext(); ++i) {

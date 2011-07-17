@@ -2,6 +2,7 @@ package server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -251,14 +252,13 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	public ArrayList<Continent> getContinents() {
 		return continents;
 	}
-
-	public ArrayList<Territory> getTerritoryList() {
-		ArrayList<Territory> territoryList = new ArrayList<Territory>(
-				territories.values());
-		return territoryList;
+	
+	public HashMap<String,Territory> getTerritoryMap() {
+		return territories;
 	}
 	
-	public Territory getTerritoryByName(String name) {
-		return territories.get(name);
+	public Collection<Territory> getTerritoryList() {
+		return territories.values();
 	}
+
 }

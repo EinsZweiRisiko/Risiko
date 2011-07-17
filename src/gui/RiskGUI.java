@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.HashMap;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -18,18 +20,18 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import server.GameMethodsImpl;
-import server.TerritoryManager;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
+
+import commons.GameMethods;
 
 /**
  * @author Hendrik
  */
 public class RiskGUI {
 	
-	private GameMethodsImpl game;
+	private GameMethods game;
 	private Shell shell;
 	private Image map;
 	private Image[] units = new Image[6];
@@ -40,8 +42,8 @@ public class RiskGUI {
 	private final int defaultSizeY = 600;
 	private final int maxSizeX = 1920;
 	private final int maxSizeY = 1080;
-	private TerritoryManager territoryManager;
-	private PlayerCollection playerManager;
+	private HashMap<String,Territory> territories;
+	private PlayerCollection players;
 	private Button[] button = new Button[42];
 	private Button[] playerButtons;
 	private Text eventWindow;
@@ -52,32 +54,15 @@ public class RiskGUI {
 	 * creates a new GUI and Game
 	 * @param display the Display on which the shell is shown
 	 */
-	public RiskGUI(Display display) {
+	public RiskGUI(Display display, GameMethods game) {
 		
 		//{--- TEST SETUP START
 		eventWindowAppendText("Eine neue Runde Risiko wird gestartet!");
-
-		// Create the game instance
-		game = new GameMethodsImpl();
-		game.addPlayer("Hendrik");
-		game.addPlayer("Jannes");
-		game.addPlayer("Timur");
-		game.addPlayer("Philipp");
-		game.addPlayer("Teschke");
-		game.addPlayer("Eirund");
 		
-		territoryManager = game.getTerritoryManager();
-		playerManager = game.getPlayers();
+		territories = game.getTerritories();
+		players = game.getPlayers();
 		
 		//TEST SETUP ENDE ---}
-		
-		game.start();
-		
-		// Automatically place start units
-		game.placeStartUnitsRandomly();
-		
-		territoryManager = game.getTerritoryManager();
-		playerManager = game.getPlayers();
 		
 		//Create a new Shell with Title
 		shell = new Shell(display);
@@ -228,7 +213,7 @@ public class RiskGUI {
 		//NORD-AMERIKA
 		
 		//Alaska
-		territory = territoryManager.getTerritoryByName("Alaska");
+		territory = territories.get("Alaska");
 		button[0] = new Button(mainWindow, SWT.PUSH);
 		button[0].setImage(units[territory.getOwner().getColor()]);
 		button[0].setText(String.valueOf(territory.getUnits()));
@@ -236,7 +221,7 @@ public class RiskGUI {
 		button[0].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Nordwest-Territorium
-		territory = territoryManager.getTerritoryByName("Nordwest-Territorium");
+		territory = territories.get("Nordwest-Territorium");
 		button[1] = new Button(mainWindow, SWT.PUSH);
 		button[1].setImage(units[territory.getOwner().getColor()]);
 		button[1].setText(String.valueOf(territory.getUnits()));
@@ -244,7 +229,7 @@ public class RiskGUI {
 		button[1].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Alberta
-		territory = territoryManager.getTerritoryByName("Alberta");
+		territory = territories.get("Alberta");
 		button[2] = new Button(mainWindow, SWT.PUSH);
 		button[2].setImage(units[territory.getOwner().getColor()]);
 		button[2].setText(String.valueOf(territory.getUnits()));
@@ -252,7 +237,7 @@ public class RiskGUI {
 		button[2].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Ontario
-		territory = territoryManager.getTerritoryByName("Ontario");
+		territory = territories.get("Ontario");
 		button[3] = new Button(mainWindow, SWT.PUSH);
 		button[3].setImage(units[territory.getOwner().getColor()]);
 		button[3].setText(String.valueOf(territory.getUnits()));
@@ -260,7 +245,7 @@ public class RiskGUI {
 		button[3].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Quebec
-		territory = territoryManager.getTerritoryByName("Quebec");
+		territory = territories.get("Quebec");
 		button[4] = new Button(mainWindow, SWT.PUSH);
 		button[4].setImage(units[territory.getOwner().getColor()]);
 		button[4].setText(String.valueOf(territory.getUnits()));
@@ -268,7 +253,7 @@ public class RiskGUI {
 		button[4].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Weststaaten
-		territory = territoryManager.getTerritoryByName("Weststaaten");
+		territory = territories.get("Weststaaten");
 		button[5] = new Button(mainWindow, SWT.PUSH);
 		button[5].setImage(units[territory.getOwner().getColor()]);
 		button[5].setText(String.valueOf(territory.getUnits()));
@@ -276,7 +261,7 @@ public class RiskGUI {
 		button[5].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Oststaaten
-		territory = territoryManager.getTerritoryByName("Oststaaten");
+		territory = territories.get("Oststaaten");
 		button[6] = new Button(mainWindow, SWT.PUSH);
 		button[6].setImage(units[territory.getOwner().getColor()]);
 		button[6].setText(String.valueOf(territory.getUnits()));
@@ -284,7 +269,7 @@ public class RiskGUI {
 		button[6].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Mittel-Amerika
-		territory = territoryManager.getTerritoryByName("Mittelamerika");
+		territory = territories.get("Mittelamerika");
 		button[7] = new Button(mainWindow, SWT.PUSH);
 		button[7].setImage(units[territory.getOwner().getColor()]);
 		button[7].setText(String.valueOf(territory.getUnits()));
@@ -292,7 +277,7 @@ public class RiskGUI {
 		button[7].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Grönland
-		territory = territoryManager.getTerritoryByName("Grönland");
+		territory = territories.get("Grönland");
 		button[8] = new Button(mainWindow, SWT.PUSH);
 		button[8].setImage(units[territory.getOwner().getColor()]);
 		button[8].setText(String.valueOf(territory.getUnits()));
@@ -302,7 +287,7 @@ public class RiskGUI {
 		//SÜDAMERIKA
 		
 		//Venezuela
-		territory = territoryManager.getTerritoryByName("Venezuela");
+		territory = territories.get("Venezuela");
 		button[9] = new Button(mainWindow, SWT.PUSH);
 		button[9].setImage(units[territory.getOwner().getColor()]);
 		button[9].setText(String.valueOf(territory.getUnits()));
@@ -310,7 +295,7 @@ public class RiskGUI {
 		button[9].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Peru
-		territory = territoryManager.getTerritoryByName("Peru");
+		territory = territories.get("Peru");
 		button[10] = new Button(mainWindow, SWT.PUSH);
 		button[10].setImage(units[territory.getOwner().getColor()]);
 		button[10].setText(String.valueOf(territory.getUnits()));
@@ -318,7 +303,7 @@ public class RiskGUI {
 		button[10].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Brasilien
-		territory = territoryManager.getTerritoryByName("Brasilien");
+		territory = territories.get("Brasilien");
 		button[11] = new Button(mainWindow, SWT.PUSH);
 		button[11].setImage(units[territory.getOwner().getColor()]);
 		button[11].setText(String.valueOf(territory.getUnits()));
@@ -326,7 +311,7 @@ public class RiskGUI {
 		button[11].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Argentinien
-		territory = territoryManager.getTerritoryByName("Argentinien");
+		territory = territories.get("Argentinien");
 		button[12] = new Button(mainWindow, SWT.PUSH);
 		button[12].setImage(units[territory.getOwner().getColor()]);
 		button[12].setText(String.valueOf(territory.getUnits()));
@@ -336,7 +321,7 @@ public class RiskGUI {
 		//EUROPA
 		
 		//Island
-		territory = territoryManager.getTerritoryByName("Island");
+		territory = territories.get("Island");
 		button[13] = new Button(mainWindow, SWT.PUSH);
 		button[13].setImage(units[territory.getOwner().getColor()]);
 		button[13].setText(String.valueOf(territory.getUnits()));
@@ -344,7 +329,7 @@ public class RiskGUI {
 		button[13].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Skandinavien
-		territory = territoryManager.getTerritoryByName("Skandinavien");
+		territory = territories.get("Skandinavien");
 		button[14] = new Button(mainWindow, SWT.PUSH);
 		button[14].setImage(units[territory.getOwner().getColor()]);
 		button[14].setText(String.valueOf(territory.getUnits()));
@@ -352,7 +337,7 @@ public class RiskGUI {
 		button[14].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Großbritannien
-		territory = territoryManager.getTerritoryByName("Großbritannien");
+		territory = territories.get("Großbritannien");
 		button[15] = new Button(mainWindow, SWT.PUSH);
 		button[15].setImage(units[territory.getOwner().getColor()]);
 		button[15].setText(String.valueOf(territory.getUnits()));
@@ -360,7 +345,7 @@ public class RiskGUI {
 		button[15].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//MittelEuropa
-		territory = territoryManager.getTerritoryByName("Mitteleuropa");
+		territory = territories.get("Mitteleuropa");
 		button[16] = new Button(mainWindow, SWT.PUSH);
 		button[16].setImage(units[territory.getOwner().getColor()]);
 		button[16].setText(String.valueOf(territory.getUnits()));
@@ -368,7 +353,7 @@ public class RiskGUI {
 		button[16].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//SüdEuropa
-		territory = territoryManager.getTerritoryByName("Südeuropa");
+		territory = territories.get("Südeuropa");
 		button[17] = new Button(mainWindow, SWT.PUSH);
 		button[17].setImage(units[territory.getOwner().getColor()]);
 		button[17].setText(String.valueOf(territory.getUnits()));
@@ -376,7 +361,7 @@ public class RiskGUI {
 		button[17].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//WestEuropa
-		territory = territoryManager.getTerritoryByName("Westeuropa");
+		territory = territories.get("Westeuropa");
 		button[18] = new Button(mainWindow, SWT.PUSH);
 		button[18].setImage(units[territory.getOwner().getColor()]);
 		button[18].setText(String.valueOf(territory.getUnits()));
@@ -384,7 +369,7 @@ public class RiskGUI {
 		button[18].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Ukraine
-		territory = territoryManager.getTerritoryByName("Ukraine");
+		territory = territories.get("Ukraine");
 		button[19] = new Button(mainWindow, SWT.PUSH);
 		button[19].setImage(units[territory.getOwner().getColor()]);
 		button[19].setText(String.valueOf(territory.getUnits()));
@@ -394,7 +379,7 @@ public class RiskGUI {
 		//AFRIKA
 		
 		//Nordwestafrika
-		territory = territoryManager.getTerritoryByName("Nordwestafrika");
+		territory = territories.get("Nordwestafrika");
 		button[20] = new Button(mainWindow, SWT.PUSH);
 		button[20].setImage(units[territory.getOwner().getColor()]);
 		button[20].setText(String.valueOf(territory.getUnits()));
@@ -402,7 +387,7 @@ public class RiskGUI {
 		button[20].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Ägypten
-		territory = territoryManager.getTerritoryByName("Ägypten");
+		territory = territories.get("Ägypten");
 		button[21] = new Button(mainWindow, SWT.PUSH);
 		button[21].setImage(units[territory.getOwner().getColor()]);
 		button[21].setText(String.valueOf(territory.getUnits()));
@@ -410,7 +395,7 @@ public class RiskGUI {
 		button[21].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Ostafrika
-		territory = territoryManager.getTerritoryByName("Ostafrika");
+		territory = territories.get("Ostafrika");
 		button[22] = new Button(mainWindow, SWT.PUSH);
 		button[22].setImage(units[territory.getOwner().getColor()]);
 		button[22].setText(String.valueOf(territory.getUnits()));
@@ -418,7 +403,7 @@ public class RiskGUI {
 		button[22].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Kongo
-		territory = territoryManager.getTerritoryByName("Kongo");
+		territory = territories.get("Kongo");
 		button[23] = new Button(mainWindow, SWT.PUSH);
 		button[23].setImage(units[territory.getOwner().getColor()]);
 		button[23].setText(String.valueOf(territory.getUnits()));
@@ -426,7 +411,7 @@ public class RiskGUI {
 		button[23].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Südafrika
-		territory = territoryManager.getTerritoryByName("Südafrika");
+		territory = territories.get("Südafrika");
 		button[24] = new Button(mainWindow, SWT.PUSH);
 		button[24].setImage(units[territory.getOwner().getColor()]);
 		button[24].setText(String.valueOf(territory.getUnits()));
@@ -434,7 +419,7 @@ public class RiskGUI {
 		button[24].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Madagaskar
-		territory = territoryManager.getTerritoryByName("Madagaskar");
+		territory = territories.get("Madagaskar");
 		button[25] = new Button(mainWindow, SWT.PUSH);
 		button[25].setImage(units[territory.getOwner().getColor()]);
 		button[25].setText(String.valueOf(territory.getUnits()));
@@ -444,7 +429,7 @@ public class RiskGUI {
 		//ASIEN
 		
 		//Ural
-		territory = territoryManager.getTerritoryByName("Ural");
+		territory = territories.get("Ural");
 		button[26] = new Button(mainWindow, SWT.PUSH);
 		button[26].setImage(units[territory.getOwner().getColor()]);
 		button[26].setText(String.valueOf(territory.getUnits()));
@@ -452,7 +437,7 @@ public class RiskGUI {
 		button[26].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Sibirien
-		territory = territoryManager.getTerritoryByName("Sibirien");
+		territory = territories.get("Sibirien");
 		button[27] = new Button(mainWindow, SWT.PUSH);
 		button[27].setImage(units[territory.getOwner().getColor()]);
 		button[27].setText(String.valueOf(territory.getUnits()));
@@ -460,7 +445,7 @@ public class RiskGUI {
 		button[27].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Jakutien
-		territory = territoryManager.getTerritoryByName("Jakutien");
+		territory = territories.get("Jakutien");
 		button[28]= new Button(mainWindow, SWT.PUSH);
 		button[28].setImage(units[territory.getOwner().getColor()]);
 		button[28].setText(String.valueOf(territory.getUnits()));
@@ -468,7 +453,7 @@ public class RiskGUI {
 		button[28].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Kamtschatka
-		territory = territoryManager.getTerritoryByName("Kamtschatka");
+		territory = territories.get("Kamtschatka");
 		button[29]= new Button(mainWindow, SWT.PUSH);
 		button[29].setImage(units[territory.getOwner().getColor()]);
 		button[29].setText(String.valueOf(territory.getUnits()));
@@ -476,7 +461,7 @@ public class RiskGUI {
 		button[29].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Irkutsk
-		territory = territoryManager.getTerritoryByName("Irkutsk");
+		territory = territories.get("Irkutsk");
 		button[30]= new Button(mainWindow, SWT.PUSH);
 		button[30].setImage(units[territory.getOwner().getColor()]);
 		button[30].setText(String.valueOf(territory.getUnits()));
@@ -484,7 +469,7 @@ public class RiskGUI {
 		button[30].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Mongolei
-		territory = territoryManager.getTerritoryByName("Mongolei");
+		territory = territories.get("Mongolei");
 		button[31]= new Button(mainWindow, SWT.PUSH);
 		button[31].setImage(units[territory.getOwner().getColor()]);
 		button[31].setText(String.valueOf(territory.getUnits()));
@@ -492,7 +477,7 @@ public class RiskGUI {
 		button[31].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//China
-		territory = territoryManager.getTerritoryByName("China");
+		territory = territories.get("China");
 		button[32]= new Button(mainWindow, SWT.PUSH);
 		button[32].setImage(units[territory.getOwner().getColor()]);
 		button[32].setText(String.valueOf(territory.getUnits()));
@@ -500,7 +485,7 @@ public class RiskGUI {
 		button[32].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Japan
-		territory = territoryManager.getTerritoryByName("Japan");
+		territory = territories.get("Japan");
 		button[33]= new Button(mainWindow, SWT.PUSH);
 		button[33].setImage(units[territory.getOwner().getColor()]);
 		button[33].setText(String.valueOf(territory.getUnits()));
@@ -508,7 +493,7 @@ public class RiskGUI {
 		button[33].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Afghanistan
-		territory = territoryManager.getTerritoryByName("Afghanistan");
+		territory = territories.get("Afghanistan");
 		button[34]= new Button(mainWindow, SWT.PUSH);
 		button[34].setImage(units[territory.getOwner().getColor()]);
 		button[34].setText(String.valueOf(territory.getUnits()));
@@ -516,7 +501,7 @@ public class RiskGUI {
 		button[34].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Mittlerer Osten
-		territory = territoryManager.getTerritoryByName("Mittlerer Osten");
+		territory = territories.get("Mittlerer Osten");
 		button[35]= new Button(mainWindow, SWT.PUSH);
 		button[35].setImage(units[territory.getOwner().getColor()]);
 		button[35].setText(String.valueOf(territory.getUnits()));
@@ -524,7 +509,7 @@ public class RiskGUI {
 		button[35].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Indien
-		territory = territoryManager.getTerritoryByName("Indien");
+		territory = territories.get("Indien");
 		button[36]= new Button(mainWindow, SWT.PUSH);
 		button[36].setImage(units[territory.getOwner().getColor()]);
 		button[36].setText(String.valueOf(territory.getUnits()));
@@ -532,7 +517,7 @@ public class RiskGUI {
 		button[36].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Siam
-		territory = territoryManager.getTerritoryByName("Siam");
+		territory = territories.get("Siam");
 		button[37]= new Button(mainWindow, SWT.PUSH);
 		button[37].setImage(units[territory.getOwner().getColor()]);
 		button[37].setText(String.valueOf(territory.getUnits()));
@@ -542,7 +527,7 @@ public class RiskGUI {
 		//AUSTRALIEN
 		
 		//Indonesien
-		territory = territoryManager.getTerritoryByName("Indonesien");
+		territory = territories.get("Indonesien");
 		button[38]= new Button(mainWindow, SWT.PUSH);
 		button[38].setImage(units[territory.getOwner().getColor()]);
 		button[38].setText(String.valueOf(territory.getUnits()));
@@ -550,7 +535,7 @@ public class RiskGUI {
 		button[38].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Neu-Guinea
-		territory = territoryManager.getTerritoryByName("Neu-Guinea");
+		territory = territories.get("Neu-Guinea");
 		button[39]= new Button(mainWindow, SWT.PUSH);
 		button[39].setImage(units[territory.getOwner().getColor()]);
 		button[39].setText(String.valueOf(territory.getUnits()));
@@ -558,7 +543,7 @@ public class RiskGUI {
 		button[39].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Westaustralien
-		territory = territoryManager.getTerritoryByName("West-Australien");
+		territory = territories.get("West-Australien");
 		button[40]= new Button(mainWindow, SWT.PUSH);
 		button[40].setImage(units[territory.getOwner().getColor()]);
 		button[40].setText(String.valueOf(territory.getUnits()));
@@ -566,7 +551,7 @@ public class RiskGUI {
 		button[40].setToolTipText(territory.getName() + " gehört " + territory.getOwner().getName());
 		
 		//Ostaustralien
-		territory = territoryManager.getTerritoryByName("Ost-Australien");
+		territory = territories.get("Ost-Australien");
 		button[41]= new Button(mainWindow, SWT.PUSH);
 		button[41].setImage(units[territory.getOwner().getColor()]);
 		button[41].setText(String.valueOf(territory.getUnits()));
@@ -594,22 +579,22 @@ public class RiskGUI {
 		      });
 		}
 		
-		playerButtons = new Button[playerManager.size()];
+		playerButtons = new Button[players.size()];
 		int biggestButton = 0;
 		
 		//Create some Buttons and Display the Player names Colors and current Unitammount
 		//TODO rausfinden warum das der ALIGN nicht klappt
-		for(int i = 0; i < playerManager.size();i++){
+		for(int i = 0; i < players.size();i++){
 			playerButtons[i] = new Button(mainWindow, SWT.TOGGLE | SWT.LEFT);
-			playerButtons[i].setImage(units[playerManager.get(i).getColor()]);
-			playerButtons[i].setText(playerManager.get(i).getName() + "(" + playerManager.get(i).getAllUnits() + ")");
+			playerButtons[i].setImage(units[players.get(i).getColor()]);
+			playerButtons[i].setText(players.get(i).getName() + "(" + players.get(i).getAllUnits() + ")");
 			playerButtons[i].setAlignment(SWT.LEFT);
 			playerButtons[i].pack();
 			if(playerButtons[i].getBounds().width > biggestButton){
 				biggestButton = playerButtons[i].getBounds().width;
 				playerButtons[i].setSize(biggestButton, 20);
 			}
-			playerButtons[i].setLocation(new Point(((imgWidth -shell.getClientArea().width)/ 2 + 10),((imgHeight - shell.getClientArea().height)/2 + shell.getClientArea().height -10 - playerManager.size()*20 + (i*20))));
+			playerButtons[i].setLocation(new Point(((imgWidth -shell.getClientArea().width)/ 2 + 10),((imgHeight - shell.getClientArea().height)/2 + shell.getClientArea().height -10 - players.size()*20 + (i*20))));
 		}
 		
 		//make all Buttons same size
@@ -628,7 +613,7 @@ public class RiskGUI {
 		Button clickedButton = (Button) e.widget;
 		
 		
-		Territory territory = territoryManager.getTerritoryByName(cutTooltip(clickedButton.getToolTipText()));
+		Territory territory = territories.get(cutTooltip(clickedButton.getToolTipText()));
 		
 		String phase;
 		
@@ -651,7 +636,7 @@ public class RiskGUI {
 			
 			//currently this function disables all playowned buttons
 			for(int i = 0; i < button.length; i++){
-				Territory territory2 = territoryManager.getTerritoryByName(cutTooltip(button[i].getToolTipText()));
+				Territory territory2 = territories.get(cutTooltip(button[i].getToolTipText()));
 				if(territory2.getOwner().equals(territory.getOwner())){
 					button[i].setEnabled(false);
 				}
@@ -723,13 +708,7 @@ public class RiskGUI {
 
 	@Override
 	public void finalize() {
-		map.dispose();
+		shell.dispose();
 	}
 
-	public static void main(String[] args) {
-		Display display = new Display();
-		RiskGUI rFenster = new RiskGUI(display);		
-		rFenster.finalize();
-		display.dispose();
-	}
 }

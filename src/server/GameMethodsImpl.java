@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import server.exceptions.InvalidTerritoryStateException;
+import server.exceptions.NotEnoughPlayersException;
+import ui.IO;
 import valueobjects.BonusCard;
 import valueobjects.BonusCardStack;
 import valueobjects.Player;
@@ -84,10 +86,17 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		players.add(player);
 		// Add the client
 		clients.add(client);
+		
+		IO.write("Client connected.");
 	}
 
-	public void start() {
+	public void start() throws NotEnoughPlayersException {
 		int playerCount = players.size();
+		
+		if (playerCount < 3) {
+			// TODO: implement logic for 2 players
+			throw new NotEnoughPlayersException(playerCount);
+		}
 
 		// Start units for every player
 		int startUnits;
@@ -106,6 +115,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (Player player : players) {
 			player.addSupplies(startUnits);
 		}
+	
+		placeStartUnitsRandomly();
 	}
 
 	public PlayerCollection getPlayers() {
@@ -353,8 +364,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public HashMap<String, Territory> getTerritories() {
-		// TODO Auto-generated method stub
-		return null;
+		return territoryManager.getTerritoryMap();
 	}
 
 	@Override
