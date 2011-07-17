@@ -417,5 +417,4 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		source.setUnits(source.getUnits() - amount);
 		target.setUnits(target.getUnits() + amount);
 	}
-
 }
