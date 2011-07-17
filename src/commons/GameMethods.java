@@ -6,6 +6,7 @@ import java.util.List;
 import server.GameMethodsImpl.Action;
 import server.Mission;
 import server.exceptions.NotEnoughPlayersException;
+import server.remoteexceptions.ServerFullException;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
@@ -16,11 +17,8 @@ import de.root1.simon.exceptions.SimonRemoteException;
 @SimonRemote
 public interface GameMethods {
 	
-	// Netzwerk
-	public void print(String msg);
-	
 	// Setup
-	public void addPlayer(String name, ClientMethods client) throws SimonRemoteException;
+	public void addPlayer(String name, ClientMethods client) throws ServerFullException;
 	
 	public void save();
 	public void load();
