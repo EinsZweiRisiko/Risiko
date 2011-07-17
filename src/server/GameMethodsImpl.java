@@ -26,6 +26,8 @@ import de.root1.simon.exceptions.SimonRemoteException;
 /**
  * The game class manages a complete game of Risk
  * 
+ *
+ * 
  * @author Jannes, Hendrik
  * 
  */
@@ -39,6 +41,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private BonusCardStack bonusCardManager = new BonusCardStack();
 	private BonusTracker bonusTracker = new BonusTracker();
 	private List<ClientMethods> clients = new ArrayList<ClientMethods>();
+	
+	//Test Objekt
+	private Test test = new Test();
 
 	/**
 	 * The current player
@@ -355,7 +360,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public List<Territory> getMyTerritories(Player player) {
 		// TODO Auto-generated method stub
-		return null;
+		return player.getTerritories();
 	}
 
 	@Override
@@ -384,8 +389,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void placeUnits(Territory territory, int amount) {
-		// TODO Auto-generated method stub
-
+		// TODO Change the value of the territory
+		territory.setUnits(amount);
 	}
 
 	@Override
@@ -399,7 +404,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void move(Territory source, Territory target, int amount)
 			throws SimonRemoteException {
 		// TODO Auto-generated method stub
-
+		source.setUnits(source.getUnits() - amount);
+		target.setUnits(target.getUnits() + amount);
 	}
 
 	public void print(String msg) {
@@ -408,6 +414,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (ClientMethods client : clients) {
 			client.print("Hello World Zurück");
 		}
+	
+	}
+	
+	public Test getObj() {
+		return test;
 	}
 	
 }
