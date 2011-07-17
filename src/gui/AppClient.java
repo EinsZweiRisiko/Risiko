@@ -28,18 +28,22 @@ public class AppClient {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		new AppClient();
+	}
+	
+	public AppClient() {
 		Display display = new Display();
 		
 		// Show the connect window
-		LoginGUI logingui = new LoginGUI(display);
+		LoginGUI logingui = new LoginGUI(display,this);
 		logingui.finalize();
 		
-//		lobbygui = new LobbyGUI(display, this, game, creator);
-//		lobbygui.finalize();
-//		
-//		// Show the main risk window
-//		RiskGUI rFenster = new RiskGUI(display, game);
-//		rFenster.finalize();
+		lobbygui = new LobbyGUI(display, this, game, creator);
+		lobbygui.finalize();
+		
+		// Show the main risk window
+		RiskGUI rFenster = new RiskGUI(display, game);
+		rFenster.finalize();
 		
 		// Close the risk window after the game has finished
 		display.dispose();
