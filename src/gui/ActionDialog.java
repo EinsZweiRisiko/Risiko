@@ -87,7 +87,7 @@ public class ActionDialog extends Dialog {
     		}
     		
     		if (phase.equals("PlayCards")){
-    			shell parent = getParent();
+    			Shell parent = getParent();
     			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
     			shell.setSize(155, 80);
     			shell.setText("Karteneintauschen");
@@ -142,7 +142,7 @@ public class ActionDialog extends Dialog {
 						// TODO Auto-generated method stub
 						
 					}
-				})
+				});
     		}
     	
             if(phase.equals("ATTACK")){
