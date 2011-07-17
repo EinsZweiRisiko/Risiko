@@ -171,49 +171,6 @@ public class RiskGUI {
 		}
 	}
 
-	private void createCardWindow() {
-		cardWindow = new Composite(mainWindow,SWT.INHERIT_DEFAULT);
-		RowLayout rowLayout = new RowLayout();
-		cardWindow.setLayout(rowLayout);
-		
-		// load images for Bonus cards
-		try {
-
-			// load bonus pictures
-			
-			// Infantary
-			bonusImage[0] = new Image(dev, "assets/bonusINF.png");
-			
-			// Calvary
-			bonusImage[0] = new Image(dev, "assets/bonusCAL.png");
-			
-			// Artillery
-			bonusImage[0] = new Image(dev, "assets/bonusART.png");
-			
-			// Joker alias Wildcard
-			bonusImage[0] = new Image(dev, "assets/bonusJOK.png");
-		} catch (Exception e) {
-			System.out.println("Cannot load image");
-			System.out.println(e.getMessage());
-			System.exit(1);
-		}
-		
-		// TODO get player which owns GUI
-		Player player = new Player("TEST");
-		
-		HashSet<BonusCard> bonuscards = player.getBonusCards();
-		
-		bonusLabelStack = new Label[bonuscards.size()];
-		
-		for(BonusCard bonusCard:bonuscards){
-			Label label = new Label(cardWindow, SWT.NONE);
-			
-			
-			
-			label.setBackgroundImage(bonusImage[type]);
-		}
-	}
-
 	/**
 	 * add a new String to the Event Window
 	 * 
@@ -806,6 +763,96 @@ public class RiskGUI {
 		Territory territory = game.getTerritories().get(
 				cutTooltip(clickedButton.getToolTipText()));
 
+	}
+
+	private void createCardWindow() {
+		cardWindow = new Composite(mainWindow,SWT.INHERIT_DEFAULT);
+		RowLayout rowLayout = new RowLayout();
+		cardWindow.setLayout(rowLayout);
+		
+		// load images for Bonus cards
+		try {
+	
+			// load bonus pictures
+			
+			// Infantary
+			bonusImage[0] = new Image(dev, "assets/bonusINF.png");
+			
+			// Calvary
+			bonusImage[1] = new Image(dev, "assets/bonusCAL.png");
+			
+			// Artillery
+			bonusImage[2] = new Image(dev, "assets/bonusART.png");
+			
+			// Joker alias Wildcard
+			bonusImage[3] = new Image(dev, "assets/bonusJOK.png");
+		} catch (Exception e) {
+			System.out.println("Cannot load image");
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		
+		// TODO get player which owns GUI
+		Player player = new Player("TEST");
+		
+		HashSet<BonusCard> bonuscards = player.getBonusCards();
+		
+		bonusLabelStack = new Label[bonuscards.size()];
+		
+		for(BonusCard bonusCard:bonuscards){
+			Label label = new Label(cardWindow, SWT.NONE);
+			
+			int type = 0;
+			
+			if(bonusCard.getType().equals("Infantry")){
+				type = 0;
+			}
+			if(bonusCard.getType().equals("Cavalry")){
+				type = 1;
+			}
+			if(bonusCard.getType().equals("Artillery")){
+				type = 2;
+			}
+			if(bonusCard.getType().equals("WildCard")){
+				type = 3;
+			}
+			
+			label.setBackgroundImage(bonusImage[type]);
+		}
+	}
+
+	private void updateBonusCard() {
+		cardWindow = new Composite(mainWindow,SWT.INHERIT_DEFAULT);
+		RowLayout rowLayout = new RowLayout();
+		cardWindow.setLayout(rowLayout);
+		
+		// TODO get player which owns GUI
+		Player player = new Player("TEST");
+		
+		HashSet<BonusCard> bonuscards = player.getBonusCards();
+		
+		bonusLabelStack = new Label[bonuscards.size()];
+		
+		for(BonusCard bonusCard:bonuscards){
+			Label label = new Label(cardWindow, SWT.NONE);
+			
+			int type = 0;
+			
+			if(bonusCard.getType().equals("Infantry")){
+				type = 0;
+			}
+			if(bonusCard.getType().equals("Cavalry")){
+				type = 1;
+			}
+			if(bonusCard.getType().equals("Artillery")){
+				type = 2;
+			}
+			if(bonusCard.getType().equals("WildCard")){
+				type = 3;
+			}
+			
+			label.setBackgroundImage(bonusImage[type]);
+		}
 	}
 
 	/**
