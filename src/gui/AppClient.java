@@ -5,9 +5,9 @@ import java.net.UnknownHostException;
 import org.eclipse.swt.widgets.Display;
 
 import server.exceptions.NotEnoughPlayersException;
-import ui.ClientMethodsImpl;
 import ui.IO;
 
+import commons.ClientMethods;
 import commons.GameMethods;
 
 import de.root1.simon.Lookup;
@@ -63,7 +63,10 @@ public class AppClient {
 		game = (GameMethods) connection.lookup("risk");
 		
 		// Create player
-		game.addPlayer(name, new ClientMethodsImpl());
+		ClientMethods client = new ClientMethodsImpl();
+		game.addPlayer(name, client);
+		
+		game.addObserver(client);
 	}
 
 	public void setCreator(boolean creator) {
