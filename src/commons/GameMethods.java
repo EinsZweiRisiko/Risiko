@@ -6,7 +6,6 @@ import java.util.List;
 import server.GameMethodsImpl.Action;
 import server.Mission;
 import server.exceptions.NotEnoughPlayersException;
-import server.net.RemoteObservableIf;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.BonusCard;
 import valueobjects.Player;
@@ -16,11 +15,13 @@ import de.root1.simon.annotation.SimonRemote;
 import de.root1.simon.exceptions.SimonRemoteException;
 
 @SimonRemote
-public interface GameMethods extends RemoteObservableIf {
+public interface GameMethods {
 	
-	// Setup
+	// Setup/Observer
 	public void addPlayer(String name, ClientMethods client) throws ServerFullException;
+	public void deletePlayer(ClientMethods clients);
 	
+	// Load and saving
 	public void save();
 	public void load();
 	

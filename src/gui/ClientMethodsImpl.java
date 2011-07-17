@@ -1,10 +1,9 @@
 package gui;
 
-import server.net.RemoteObservable;
-import server.net.RemoteObserver;
 import ui.IO;
 
 import commons.ClientMethods;
+import commons.GameMethods;
 
 import de.root1.simon.annotation.SimonRemote;
 
@@ -13,7 +12,7 @@ import de.root1.simon.annotation.SimonRemote;
  */
 
 @SimonRemote
-public class ClientMethodsImpl implements ClientMethods, RemoteObserver {
+public class ClientMethodsImpl implements ClientMethods {
 
 	/**
 	 * Print
@@ -23,7 +22,7 @@ public class ClientMethodsImpl implements ClientMethods, RemoteObserver {
 	}
 
 	@Override
-	public void update(RemoteObservable o, Object a) {
+	public void update(GameMethods o, Object a) {
 		IO.write("update: " + a);
 	}
 

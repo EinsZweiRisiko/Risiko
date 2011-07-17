@@ -64,8 +64,6 @@ public class AppClient {
 		// Create player
 		ClientMethods client = new ClientMethodsImpl();
 		game.addPlayer(name, client);
-		
-		game.addObserver(client);
 	}
 
 	public void setCreator(boolean creator) {
