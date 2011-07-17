@@ -33,22 +33,23 @@ public class LoginGUI {
 	public LoginGUI(Display display, final AppClient app) {
 		this.app = app;
 		
-		shell = new Shell(display);
+		shell = new Shell(display, SWT.MAX);
+		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		shell.setText("EinsZweiRisiko -- Login");
 		
-		Composite login = new Composite(shell, SWT.INHERIT_NONE);
-		login.setSize(200,100);
+		Composite login = new Composite(shell, SWT.INHERIT_DEFAULT);
 		
 		Image bg = new Image(display, "assets/loginbg.png");
 		
-		login.setBackgroundImage(bg);
+		shell.setBackgroundImage(bg);
 		
 		center(shell);
 		
 		GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = 2;
+        gridLayout.numColumns =2;
         gridLayout.horizontalSpacing = 10;
         gridLayout.verticalSpacing = 10;
+        
        	login.setLayout(gridLayout);
        	
        	Label nameLabel = new Label(login, SWT.INHERIT_NONE);
@@ -129,8 +130,22 @@ public class LoginGUI {
 			}
 	      });
 		
-		login.pack();
+		Composite about = new Composite(shell, SWT.INHERIT_NONE);
+		
+		about.setLayout(gridLayout);
+		
+		Label aboutlabel = new Label(about, SWT.NONE);
+		aboutlabel.setText("EinsZweiRisiko © 2011 \n"+"Hendrik Druse, Jannes Meyer, Timur Teker");
+		aboutlabel.pack();
+		
+		login.setBounds(0, 0, 250, 310);
+		about.setBounds(0, 310, 250, 100);
+		about.pack();
 		shell.pack();
+		
+		Point shellsize = shell.getSize();
+		
+		shell.setMinimumSize(shellsize);
 		shell.open();
 
 		while (!login.isDisposed()) {
