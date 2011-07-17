@@ -11,6 +11,11 @@ import valueobjects.Territory;
  */
 public class Europe extends Continent {
 
+	/**
+	 * Constructor automatically creates and adds Island, Skandinavien, Ukraine,
+	 * Großbritannien, Mitteleuropa and Südeuropa. Also it defines the amount of
+	 * supply (5) which is granted for succesful conquesting.
+	 */
 	public Europe() {
 		name = "Europa";
 		supplies = 5;

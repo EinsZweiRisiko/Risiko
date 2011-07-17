@@ -11,6 +11,11 @@ import valueobjects.Territory;
  */
 public class SouthAmerica extends Continent {
 
+	/**
+	 * Constructor automatically creates and adds Venezuela, Peru, Brasilien and
+	 * Argentinien. Also it defines the amount of supply (2) which is granted
+	 * for succesful conquesting.
+	 */
 	public SouthAmerica() {
 		name = "Südamerika";
 		supplies = 2;

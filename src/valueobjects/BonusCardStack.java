@@ -40,7 +40,6 @@ public class BonusCardStack extends ArrayList<BonusCard> {
 	}
 
 	public BonusCard retrieveCard() {
-		// TODO Auto-generated method stub
 		remove(1);
 		return get(1);
 	}

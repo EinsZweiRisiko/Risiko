@@ -30,11 +30,18 @@ public class BonusCard implements Serializable {
 		
 	}
 	
-	
+	/**
+	 * Sets the type of a BonusCard
+	 * @param type the type which should be used for the BonusCard
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 	
+	/**
+	 * 
+	 * @return the type of the BonusCard
+	 */
 	public String getType() {
 		return type;
 	}

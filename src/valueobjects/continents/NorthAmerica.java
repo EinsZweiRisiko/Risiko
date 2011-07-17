@@ -5,11 +5,18 @@ import valueobjects.Territory;
 
 /**
  * North America
+ * 
  * @author Jannes
- *
+ * 
  */
 public class NorthAmerica extends Continent {
 
+	/**
+	 * Constructor automatically creates and adds Alaska, Nordwest-Territorium,
+	 * Grönland, Alberta, Ontario, Quebec, Weststaaten, Oststaaten and
+	 * Mittelamerika. Also it defines the amount of supply (5) which is granted
+	 * for succesful conquesting.
+	 */
 	public NorthAmerica() {
 		name = "Nordamerika";
 		supplies = 5;

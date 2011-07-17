@@ -11,6 +11,12 @@ import valueobjects.Territory;
  */
 public class Asia extends Continent {
 
+	/**
+	 * Constructor automatically creates and adds Ural, Sibirien, Jakutien,
+	 * Irkutsk, Kamtschakta, Mongolei, Japan, Afghanistan, China, Mittlerer
+	 * Osten, Indien and Siam. Also it defines the amount of supply (7) which is
+	 * granted for succesful conquesting.
+	 */
 	public Asia() {
 		name = "Asien";
 		supplies = 7;
