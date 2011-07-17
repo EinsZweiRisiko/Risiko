@@ -93,7 +93,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		IO.write("Client connected.");
 		// TESTEN
-		setChanged();
 		notifyPlayers(new PlayerJoinedAction(player));
 	}
 
@@ -103,23 +102,23 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		clients.remove(client);
 		
 	}
-	private void setChanged() {
-		changed = true;
-	}
-	
-	private void clearChanged() {
-		changed = false;
-	}
+//	private void setChanged() {
+//		changed = true;
+//	}
+//	
+//	private void clearChanged() {
+//		changed = false;
+//	}
 	
 	private void notifyPlayers(Action arg) {
-		if (!changed) {
-			return;
-		}
+//		if (!changed) {
+//			return;
+//		}
 		// Notify all observers
 		for (ClientMethods client:clients) {
 			client.update(this, arg);
 		}
-		clearChanged();
+//		clearChanged();
 	}
 
 	// END OF observable
@@ -154,7 +153,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		// Set the game status to started
 		started = true;
-		setChanged();
 		notifyPlayers(new GameStartedAction());
 	}
 

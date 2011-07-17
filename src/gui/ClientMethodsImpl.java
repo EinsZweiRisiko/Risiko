@@ -23,9 +23,12 @@ public class ClientMethodsImpl implements ClientMethods {
 			PlayerJoinedAction a2 = (PlayerJoinedAction) a;
 			IO.write("Player joined: " + a2.getPlayer().getName());
 		} else if (a instanceof GameStartedAction) {
-			//GameStartedAction a2 = (GameStartedAction) a;
 			IO.write("Game started");
 		}
+	}
+	
+	public void gameStarted() {
+		
 	}
 
 }

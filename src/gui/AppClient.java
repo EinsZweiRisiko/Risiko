@@ -58,7 +58,6 @@ public class AppClient {
 	 * @throws UnknownHostException
 	 */
 	public void connect(String ip, String name) throws LookupFailedException, EstablishConnectionFailed, UnknownHostException {
-		
 		try {
 			connection = Simon.createNameLookup(ip, DEFAULT_PORT);
 			game = (GameMethods) connection.lookup("risk");
