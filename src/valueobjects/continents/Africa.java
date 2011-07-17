@@ -11,6 +11,11 @@ import valueobjects.Territory;
  */
 public class Africa extends Continent {
 
+	/**
+	 * Constructor automatically creates and adds Nordwestafrika, Ägypten,
+	 * Ostafrika, Kongo, Südafrika and Madagaskar. Also it defines the amount of
+	 * supply (3) which is granted for succesful conquesting.
+	 */
 	public Africa() {
 		name = "Afrika";
 		supplies = 3;
