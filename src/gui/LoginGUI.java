@@ -30,11 +30,17 @@ public class LoginGUI {
 	Shell shell;
 	AppClient app;
 	
+	/**
+	 * create a new instance of a Login Window
+	 * @param display the display which should be used for showing the shell
+	 * @param app the calling AppClient
+	 */
 	public LoginGUI(Display display, final AppClient app) {
 		this.app = app;
 		
 		shell = new Shell(display, SWT.MAX);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
+		
 		shell.setText("EinsZweiRisiko -- Login");
 		
 		Composite login = new Composite(shell, SWT.INHERIT_DEFAULT);
@@ -61,6 +67,7 @@ public class LoginGUI {
        	serverLabel.setText("Server: ");
        	
        	final Text serverText = new Text(login, SWT.SINGLE);
+       	serverText.setText("localhost");
        	
        	Button createGame = new Button(login, SWT.PUSH);
 		createGame.setText("Spiel erstellen");
@@ -139,13 +146,16 @@ public class LoginGUI {
 		aboutlabel.pack();
 		
 		login.setBounds(0, 0, 250, 310);
-		about.setBounds(0, 310, 250, 100);
-		about.pack();
+		about.setBounds(0, 310, 250, 40);
+		
 		shell.pack();
 		
 		Point shellsize = shell.getSize();
 		
 		shell.setMinimumSize(shellsize);
+		
+		center(shell);
+		
 		shell.open();
 
 		while (!login.isDisposed()) {
