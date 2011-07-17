@@ -22,7 +22,7 @@ public class Player extends BasePlayer {
 	 * exchanged for bonus units
 	 * at the start of every round.
 	 */
-	private HashSet<BonusCard> territoryCards = new HashSet<BonusCard>();
+	private HashSet<BonusCard> bonusCards = new HashSet<BonusCard>();
 
 	/**
 	 * Constructor
@@ -115,7 +115,7 @@ public class Player extends BasePlayer {
 	 *            The territory card to be added
 	 */
 	public void addBonusCard(BonusCard card) {
-		territoryCards.add(card);
+		bonusCards.add(card);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class Player extends BasePlayer {
 	 * @return List of territory cards
 	 */
 	public HashSet<BonusCard> getBonusCards() {
-		return territoryCards;
+		return bonusCards;
 	}
 	/**
 	 * Returns the count of supply that the player must set
@@ -143,7 +143,7 @@ public class Player extends BasePlayer {
 	 *            Cards to remove
 	 */
 	public void removeBonusCards(List<BonusCard> cards) {
-		territoryCards.removeAll(cards);
+		bonusCards.removeAll(cards);
 	}
 
 	// TODO this method is in the wrong class
