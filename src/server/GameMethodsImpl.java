@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -443,10 +444,23 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void attack(Territory attackingTerritory,
 			Territory attackedTerritory, int amount) {
-		// TODO Auto-generated method stub
-
+		
+		
 	}
-
+	
+	public ArrayList<Integer> getDice(int amount) {
+		ArrayList<Integer> dice = new ArrayList<Integer>();
+		
+		for(int i = 0; i <= amount; i++) {
+			dice.add(i, (int) ((Math.random()) * 6 + 1));
+		}
+		
+		//sortieren der würfel TODO Absteigend oder Aufsteigend ? Inhalt muss man noch auslesen
+		Collections.sort(dice);
+		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
+		return dice;
+	}
+	
 	@Override
 	public void move(Territory source, Territory target, int amount)
 			throws SimonRemoteException {

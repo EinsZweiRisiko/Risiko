@@ -15,7 +15,7 @@ import de.root1.simon.annotation.SimonRemote;
  */
 
 @SimonRemote
-public class ClientMethodsImpl implements ClientMethods {
+public class ClientMethodsImpl implements ClientMethods{
 	
 	@Override
 	public void update(GameMethods server, Action a) {
