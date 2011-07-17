@@ -373,10 +373,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		assert currentPlayer.getBonusCards().containsAll(cards);
 		assert cards.size() == 3;
 		// TODO Check if the card triple is valid
-
-		// Redeem the cards
-		currentPlayer.removeBonusCards(cards);
-		currentPlayer.addSupplies(bonusTracker.getNextBonus());
+		// falls Bonuskarten drei stück verfügbar
+		// wenn genau drei karten verfügbar und alle drei gleich
+		if(currentPlayer.getBonusCards().size() == 3 && 
+				currentPlayer.getBonusCards().containsAll(cards)) {
+			// Redeem the cards
+			currentPlayer.removeBonusCards(cards);
+			currentPlayer.addSupplies(bonusTracker.getNextBonus());
+		}else if(currentPlayer.getBonusCards().size() >= 3) {
+			
+		}
 	}
 
 	@Override
@@ -416,26 +422,62 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public List<Territory> getMyTerritoriesForAttacking(Player player) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Territory> territories = player.getTerritories();
+		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
+		
+		for(int i = 0; i <= territories.size(); i++) {
+			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
+			for(int j = 0; j <= neighbors.size() ;j++){
+				if(!neighbors.get(j).getOwner().equals(player)){
+					if(!attackingTerritories.contains(neighbors.get(j))) {
+						attackingTerritories.add(neighbors.get(j));
+					}
+				}
+			}
+		}
+		return attackingTerritories;
 	}
 
 	@Override
 	public List<Territory> getMyTerritoriesForMoving(Player player) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Territory> territories = player.getTerritories();
+		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
+		
+		for(int i = 0; i <= territories.size(); i++) {
+			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
+			for(int j = 0; j <= neighbors.size() ;j++){
+				if(neighbors.get(j).getOwner().equals(player)){
+					if(!moveTerritories.contains(neighbors.get(j))) {
+						moveTerritories.add(neighbors.get(j));
+					}
+				}
+			}
+		}
+		return moveTerritories;
 	}
 
 	@Override
 	public List<Territory> getOpposingNeighborsOf(Territory territory) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Territory> opposingNeighbors = territory.getNeighbors();
+		
+		for(Territory territory2 : opposingNeighbors) {
+			if(territory2.getOwner().equals(territory.getOwner())){
+				opposingNeighbors.remove(territory2);
+			}
+		}
+		return opposingNeighbors;
 	}
 
 	@Override
 	public List<Territory> getSimilarNeighborsOf(Territory territory) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Territory> similarNeighbors = territory.getNeighbors();
+		
+		for(Territory territory2 : similarNeighbors) {
+			if(!territory2.getOwner().equals(territory.getOwner())){
+				similarNeighbors.remove(territory2);
+			}
+		}
+		return similarNeighbors;
 	}
 
 	@Override
@@ -467,9 +509,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void move(Territory source, Territory target, int amount)
 			throws SimonRemoteException {
-		// TODO Auto-generated method stub
 		source.setUnits(source.getUnits() - amount);
 		target.setUnits(target.getUnits() + amount);
+		// Es müssen noch die Clients Notified werden
 	}
 
 }
