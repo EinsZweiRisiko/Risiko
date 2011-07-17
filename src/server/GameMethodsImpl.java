@@ -156,6 +156,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new GameStartedAction());
 	}
 
+	/**
+	 * @return all Players
+	 */
 	public PlayerCollection getPlayers() {
 		return players;
 	}
