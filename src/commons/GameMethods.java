@@ -19,7 +19,7 @@ public interface GameMethods {
 	
 	// Setup/Observer
 	public void addPlayer(String name, ClientMethods client) throws ServerFullException;
-	public void deletePlayer(ClientMethods clients);
+//	public void deletePlayer(ClientMethods clients);
 	
 	// Load and saving
 	public void save();
