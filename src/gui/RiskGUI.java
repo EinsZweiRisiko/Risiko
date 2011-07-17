@@ -93,9 +93,6 @@ public class RiskGUI {
 
 		dev = shell.getDisplay();
 
-		imgWidth = map.getBounds().width;
-		imgHeight = map.getBounds().height;
-		
 		try{
 			map = new Image(dev, "assets/riskClean.png");
 		} catch (Exception e) {
@@ -103,7 +100,10 @@ public class RiskGUI {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-
+		
+		imgWidth = map.getBounds().width;
+		imgHeight = map.getBounds().height;
+		
 		mainWindow.setBackgroundImage(map);
 
 		createButtons();
