@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
@@ -29,13 +30,11 @@ import de.root1.simon.exceptions.SimonRemoteException;
 /**
  * The game class manages a complete game of Risk
  * 
- *
- * 
  * @author Jannes, Hendrik
  * 
  */
 @SimonRemote
-public class GameMethodsImpl implements GameMethods, Serializable {
+public class GameMethodsImpl extends Observable implements GameMethods, Serializable {
 
 	private static final long serialVersionUID = -3491803188267650698L;
 
