@@ -163,6 +163,10 @@ public class LoginGUI {
 		}
 	}
 	
+	/**
+	 * centers a shell in the middle of the display
+	 * @param shell
+	 */
 	private void center(Shell shell) {
 
 		Rectangle bds = shell.getDisplay().getBounds();

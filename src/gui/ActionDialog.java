@@ -21,7 +21,14 @@ public class ActionDialog extends Dialog {
     private String phase;
     private Territory territory;
     private Image[] units = new Image[18];
-            
+
+    /**
+     * create a new Dialog  and load all images needed for visualization
+     * @param parent
+     * @param style
+     * @param phase
+     * @param territory
+     */
     public ActionDialog (Shell parent, int style,String phase,Territory territory) {
             super (parent, style);
             this.phase = phase;
@@ -56,6 +63,10 @@ public class ActionDialog extends Dialog {
 			units[17] = new Image(dev, "assets/unitsBLUE3.png");
     }
     
+    /**
+     * opens the dialog
+     * @return
+     */
     public Object open() {
     		
     		if (phase.equals("MOVE")){
@@ -73,6 +84,65 @@ public class ActionDialog extends Dialog {
                 Spinner spinner = new Spinner(shell, SWT.NONE);
                 spinner.setMinimum(0);
                 spinner.setMaximum(territory.getUnits()-1);
+    		}
+    		
+    		if (phase.equals("PlayCards")){
+    			Shell parent = getParent();
+    			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+    			shell.setSize(155, 80);
+    			shell.setText("Karteneintauschen");
+    			center(shell);
+    			
+    			GridLayout gridLayout = new GridLayout();
+    			gridLayout.numColumns = 2;
+    			gridLayout.horizontalSpacing = 4;
+    			shell.setLayout(gridLayout);
+    			
+    			Button ok = new Button(shell, SWT.PUSH);
+    			ok.setText("Karten eintauschen");
+    			ok.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseUp(MouseEvent e) {
+						// playselectedCARDS
+						
+					}
+					
+					@Override
+					public void mouseDown(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseDoubleClick(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+    			
+    			Button cancel = new Button(shell, SWT.PUSH);
+    			cancel.setText("Abbrechen");
+    			cancel.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseUp(MouseEvent e) {
+						shell.dispose();
+						
+					}
+					
+					@Override
+					public void mouseDown(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseDoubleClick(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
     		}
     	
             if(phase.equals("ATTACK")){
@@ -183,6 +253,10 @@ public class ActionDialog extends Dialog {
             
     }
     
+    /**
+     * center the dialog shell in the middle of the Screen
+     * @param shell
+     */
     private void center(Shell shell) {
 
 		Rectangle bds = shell.getDisplay().getBounds();
