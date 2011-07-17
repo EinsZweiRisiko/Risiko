@@ -62,6 +62,7 @@ public class LobbyGUI {
 		
        	// Create text field
        	playerList = new Text(lobby, SWT.MULTI | SWT.INHERIT_NONE);
+       	playerList.setEnabled(false);
 		playerList.setSize(250, 350);
 		
 		// Update the text

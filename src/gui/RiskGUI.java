@@ -853,6 +853,12 @@ public class RiskGUI {
 			
 			label.setBackgroundImage(bonusImage[type]);
 		}
+		
+		cardWindow.pack();
+		cardWindow.setLocation(new Point(
+				((imgWidth - shell.getClientArea().width) / 2
+						+ shell.getClientArea().width - cardWindow.getBounds().width),
+				0));
 	}
 
 	/**
