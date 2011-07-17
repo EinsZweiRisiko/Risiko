@@ -6,6 +6,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -40,7 +41,7 @@ public class LobbyGUI {
 	public LobbyGUI(Display display,final AppClient app,GameMethods game,boolean creator){
 		this.app = app;
 		
-		shell = new Shell(display, SWT.MAX);
+		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
 		shell.setText("EinsZweiRisiko -- Lobby");
@@ -54,8 +55,6 @@ public class LobbyGUI {
 		
 		GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 1;
-        gridLayout.horizontalSpacing = 10;
-        gridLayout.verticalSpacing = 10;
        	lobby.setLayout(gridLayout);
 		
 		Text playerList = new Text(lobby,SWT.MULTI | SWT.INHERIT_NONE);
