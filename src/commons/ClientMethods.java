@@ -1,8 +1,7 @@
 package commons;
 
-import java.util.Observable;
-import java.util.Observer;
-
+import server.net.XRemoteObservable;
+import server.net.XRemoteObserver;
 import de.root1.simon.annotation.SimonRemote;
 
 /**
@@ -10,11 +9,11 @@ import de.root1.simon.annotation.SimonRemote;
  *
  */
 @SimonRemote
-public interface ClientMethods extends Observer {
+public interface ClientMethods extends XRemoteObserver {
 
 	public void print(String msg);
 	
 	@Override
-	public void update(Observable o, Object a);
+	public void update(XRemoteObservable o, Object a);
 	
 }

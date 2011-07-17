@@ -2,6 +2,8 @@ package gui;
 
 import java.util.Observable;
 
+import server.net.XRemoteObservable;
+import server.net.XRemoteObserver;
 import ui.IO;
 
 import commons.ClientMethods;
@@ -13,7 +15,7 @@ import de.root1.simon.annotation.SimonRemote;
  */
 
 @SimonRemote
-public class ClientMethodsImpl implements ClientMethods {
+public class ClientMethodsImpl implements ClientMethods, XRemoteObserver {
 
 	/**
 	 * Print
@@ -23,8 +25,9 @@ public class ClientMethodsImpl implements ClientMethods {
 	}
 
 	@Override
-	public void update(Observable o, Object a) {
+	public void update(XRemoteObservable o, Object a) {
 		IO.write("update: " + a);
+		
 	}
 
 }
