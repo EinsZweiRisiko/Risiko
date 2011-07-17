@@ -45,7 +45,7 @@ public class LobbyGUI {
 		
 		shell.setText("EinsZweiRisiko -- Lobby");
 		
-		Image bg = new Image(display, "assets/lobbybg.png");
+		Image bg = new Image(display, "assets/loginbg.png");
 		
 		shell.setBackgroundImage(bg);
 		
@@ -56,11 +56,10 @@ public class LobbyGUI {
         gridLayout.numColumns = 1;
         gridLayout.horizontalSpacing = 10;
         gridLayout.verticalSpacing = 10;
-        gridLayout.makeColumnsEqualWidth = false;
        	lobby.setLayout(gridLayout);
 		
 		Text playerList = new Text(lobby,SWT.MULTI | SWT.INHERIT_NONE);
-		playerList.setSize(200, 300);
+		playerList.setSize(250, 350);
 		playerList.setText("WARTE AUF SPIELER \n");
 		
 		PlayerCollection player = game.getPlayers();
@@ -99,7 +98,7 @@ public class LobbyGUI {
 		      });
 		}
 		
-		lobby.setBounds(0, 0, 400, 300);
+		lobby.setBounds(0, 0, 250, 350);
 		
 		shell.pack();
 		

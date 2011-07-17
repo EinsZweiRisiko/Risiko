@@ -67,6 +67,7 @@ public class LoginGUI {
        	serverLabel.setText("Server: ");
        	
        	final Text serverText = new Text(login, SWT.SINGLE);
+       	serverText.setSize(80,50);
        	serverText.setText("localhost");
        	
        	Button createGame = new Button(login, SWT.PUSH);
@@ -158,7 +159,7 @@ public class LoginGUI {
 		
 		shell.open();
 
-		while (!login.isDisposed()) {
+		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
