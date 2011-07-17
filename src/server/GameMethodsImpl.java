@@ -107,6 +107,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		changed = false;
 	}
 	
+	@SuppressWarnings("unused")
 	private void notifyPlayers() {
 		notifyPlayers(null);
 	}
