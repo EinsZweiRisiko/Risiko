@@ -67,6 +67,7 @@ public class LobbyGUI {
 		// Update the text
 		updateText();
 		
+		// if joining Player is a Creator, show him a start Button.
 		if(creator){
 			Button startGame = new Button(lobby,SWT.PUSH);
 			startGame.setText("Spiel starten");

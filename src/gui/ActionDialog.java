@@ -21,7 +21,14 @@ public class ActionDialog extends Dialog {
     private String phase;
     private Territory territory;
     private Image[] units = new Image[18];
-            
+
+    /**
+     * create a new Dialog  and load all images needed for visualization
+     * @param parent
+     * @param style
+     * @param phase
+     * @param territory
+     */
     public ActionDialog (Shell parent, int style,String phase,Territory territory) {
             super (parent, style);
             this.phase = phase;
@@ -56,6 +63,10 @@ public class ActionDialog extends Dialog {
 			units[17] = new Image(dev, "assets/unitsBLUE3.png");
     }
     
+    /**
+     * opens the dialog
+     * @return
+     */
     public Object open() {
     		
     		if (phase.equals("MOVE")){
@@ -183,6 +194,10 @@ public class ActionDialog extends Dialog {
             
     }
     
+    /**
+     * center the dialog shell in the middle of the Screen
+     * @param shell
+     */
     private void center(Shell shell) {
 
 		Rectangle bds = shell.getDisplay().getBounds();
