@@ -134,6 +134,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	public boolean isOver() {
 		// TODO Distinguish between world domination/missions
+		
+		// Domination
+		
+		
+		// Mission
 		return players.size() == 1;
 	}
 
@@ -407,13 +412,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void attack(Territory attackingTerritory,
 			Territory attackedTerritory, int amount) {
 		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void move(Territory source, Territory target, int amount)
 			throws SimonRemoteException {
-		// TODO Auto-generated method stub
 		source.setUnits(source.getUnits() - amount);
 		target.setUnits(target.getUnits() + amount);
 	}
@@ -425,10 +430,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			client.print("Hello World Zurück");
 		}
 	
-	}
-	
-	public Test getObj() {
-		return test;
 	}
 	
 }
