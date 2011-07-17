@@ -17,9 +17,11 @@ import de.root1.simon.exceptions.SimonRemoteException;
 @SimonRemote
 public interface GameMethods {
 	
-	// Setup
+	// Setup/Observer
 	public void addPlayer(String name, ClientMethods client) throws ServerFullException;
+	public void deletePlayer(ClientMethods clients);
 	
+	// Load and saving
 	public void save();
 	public void load();
 	

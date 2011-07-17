@@ -5,7 +5,6 @@ import java.net.UnknownHostException;
 import org.eclipse.swt.widgets.Display;
 
 import server.exceptions.NotEnoughPlayersException;
-import ui.IO;
 
 import commons.ClientMethods;
 import commons.GameMethods;
@@ -65,8 +64,6 @@ public class AppClient {
 		// Create player
 		ClientMethods client = new ClientMethodsImpl();
 		game.addPlayer(name, client);
-		
-		//game.addObserver(client);
 	}
 
 	public void setCreator(boolean creator) {

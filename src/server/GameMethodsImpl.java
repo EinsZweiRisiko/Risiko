@@ -3,10 +3,9 @@ package server;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Observable;
+import java.util.Vector;
 
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
@@ -34,16 +33,18 @@ import de.root1.simon.exceptions.SimonRemoteException;
  * 
  */
 @SimonRemote
-public class GameMethodsImpl extends Observable implements GameMethods, Serializable {
+public class GameMethodsImpl implements GameMethods, Serializable {
 
 	private static final long serialVersionUID = -3491803188267650698L;
 
 	private boolean started = false; 
 	private PlayerCollection players = new PlayerCollection();
+	private boolean changed = false;
+	private List<ClientMethods> clients = new Vector<ClientMethods>();
+	
 	private TerritoryManager territoryManager = new TerritoryManager();
 	private BonusCardStack bonusCardManager = new BonusCardStack();
 	private BonusTracker bonusTracker = new BonusTracker();
-	private List<ClientMethods> clients = new ArrayList<ClientMethods>();
 	
 	/**
 	 * The current player
@@ -76,16 +77,53 @@ public class GameMethodsImpl extends Observable implements GameMethods, Serializ
 			// Too many players
 			throw new ServerFullException();
 		}
+
+		// Add the client
+		if (client == null) {
+            throw new NullPointerException();
+		}
+		if (!clients.contains(client)) {
+			clients.add(client);
+		}
 		
 		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
 		players.add(player);
-		// Add the client
-		clients.add(client);
 		
 		IO.write("Client connected.");
+//		setChanged();
+//		notifyPlayers("TEST");
 	}
 
+	public void deletePlayer(ClientMethods client) {
+		clients.remove(client);
+		
+	}
+	private void setChanged() {
+		changed = true;
+	}
+	
+	private void clearChanged() {
+		changed = false;
+	}
+	
+	private void notifyPlayers() {
+		notifyPlayers(null);
+	}
+	
+	private void notifyPlayers(Object arg) {
+		if (!changed) {
+			return;
+		}
+		// Notify all observers
+		for (ClientMethods client:clients) {
+			client.update(this, arg);
+		}
+		clearChanged();
+	}
+
+	// END OF observable
+	
 	public void start() throws NotEnoughPlayersException {
 		int playerCount = players.size();
 		
@@ -416,4 +454,5 @@ public class GameMethodsImpl extends Observable implements GameMethods, Serializ
 		source.setUnits(source.getUnits() - amount);
 		target.setUnits(target.getUnits() + amount);
 	}
+
 }
