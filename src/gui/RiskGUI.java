@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -55,6 +56,7 @@ public class RiskGUI {
 	private String events = "";
 	private Player currentPlayer;
 	private Device dev;
+	private Label[] bonusLabelStack;
 
 	/**
 	 * creates a new GUI and Game
@@ -201,8 +203,14 @@ public class RiskGUI {
 		
 		HashSet<BonusCard> bonuscards = player.getBonusCards();
 		
+		bonusLabelStack = new Label[bonuscards.size()];
+		
 		for(BonusCard bonusCard:bonuscards){
+			Label label = new Label(cardWindow, SWT.NONE);
 			
+			
+			
+			label.setBackgroundImage(bonusImage[type]);
 		}
 	}
 
