@@ -9,7 +9,7 @@ import java.util.List;
 
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
-import server.net.XRemoteObservable;
+import server.net.RemoteObservable;
 import server.remoteexceptions.ServerFullException;
 import ui.IO;
 import valueobjects.BonusCard;
@@ -34,7 +34,7 @@ import de.root1.simon.exceptions.SimonRemoteException;
  * 
  */
 @SimonRemote
-public class GameMethodsImpl extends XRemoteObservable implements GameMethods, Serializable {
+public class GameMethodsImpl extends RemoteObservable implements GameMethods, Serializable {
 
 	private static final long serialVersionUID = -3491803188267650698L;
 
@@ -69,7 +69,8 @@ public class GameMethodsImpl extends XRemoteObservable implements GameMethods, S
 	}
 
 	public void addPlayer(String name, ClientMethods client) throws ServerFullException {
-//		setChanged();
+		setChanged();
+		notifyObservers("TEST");
 		
 		if (started) {
 			// Game is already in progress

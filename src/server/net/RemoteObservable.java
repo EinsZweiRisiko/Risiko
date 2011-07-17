@@ -3,12 +3,12 @@ package server.net;
 import java.util.List;
 import java.util.Vector;
 
-public class XRemoteObservable implements XRemoteObservableInterface {
+public class RemoteObservable implements RemoteObservableIf {
 
 	private boolean changed = false;
-	private List<XRemoteObserver> observers = new Vector<XRemoteObserver>();
+	private List<RemoteObserver> observers = new Vector<RemoteObserver>();
 
-	public void addObserver(XRemoteObserver observer) {
+	public void addObserver(RemoteObserver observer) {
 		if (observer == null) {
             throw new NullPointerException();
 		}
@@ -17,7 +17,7 @@ public class XRemoteObservable implements XRemoteObservableInterface {
 		}
 	}
 
-	public void deleteObserver(XRemoteObserver observer) {
+	public void deleteObserver(RemoteObserver observer) {
 		observers.remove(observer);
 	}
 	
@@ -30,7 +30,7 @@ public class XRemoteObservable implements XRemoteObservableInterface {
 			return;
 		}
 		// Notify all observers
-		for (XRemoteObserver observer:observers) {
+		for (RemoteObserver observer:observers) {
 			observer.update(this, arg);
 		}
 		clearChanged();
