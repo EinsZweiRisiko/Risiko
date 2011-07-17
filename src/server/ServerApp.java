@@ -6,7 +6,10 @@ import java.net.UnknownHostException;
 import ui.IO;
 
 import de.root1.simon.exceptions.NameBindingException;
-
+/*
+ * 
+ * Startet den Server und hört auf Verbindung
+ */
 public class ServerApp {
 
 	private static IO io = new IO();

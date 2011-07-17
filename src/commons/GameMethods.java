@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import server.Mission;
+import server.Test;
 import server.GameMethodsImpl.Action;
 import valueobjects.BonusCard;
 import valueobjects.Player;
@@ -12,11 +13,18 @@ import valueobjects.Territory;
 import de.root1.simon.annotation.SimonRemote;
 import de.root1.simon.exceptions.SimonRemoteException;
 
+/*
+ * Definiert die Mehtoden die den Client bereit gestellt wird
+ * 
+ * Also die Funktionen die vom Server angeboten werden
+ */
+
 @SimonRemote
 public interface GameMethods {
 	
 	// Netzwerk
 	public void print(String msg);
+	public Test getObj();
 	public void login(String name, ClientMethods client);
 	
 	public void addPlayer(String name);
