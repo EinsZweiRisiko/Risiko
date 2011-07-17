@@ -35,9 +35,7 @@ public class LoginGUI {
 	 * @param display the display which should be used for showing the shell
 	 * @param app the calling AppClient
 	 */
-	public LoginGUI(Display display, final AppClient app) {
-		this.app = app;
-		
+	public LoginGUI(Display display) {
 		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
