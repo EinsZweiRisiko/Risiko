@@ -3,9 +3,9 @@ package server;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
@@ -40,7 +40,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private boolean started = false; 
 	private PlayerCollection players = new PlayerCollection();
 	private boolean changed = false;
-	private List<ClientMethods> clients = new Vector<ClientMethods>();
+	private List<ClientMethods> clients = new ArrayList<ClientMethods>();
 	
 	private TerritoryManager territoryManager = new TerritoryManager();
 	private BonusCardStack bonusCardManager = new BonusCardStack();
@@ -82,17 +82,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		if (client == null) {
             throw new NullPointerException();
 		}
-		if (!clients.contains(client)) {
-			clients.add(client);
-		}
+		clients.add(client);
 		
 		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
 		players.add(player);
 		
 		IO.write("Client connected.");
-//		setChanged();
-//		notifyPlayers("TEST");
+		// TESTEN
+		setChanged();
+		notifyPlayers("TEST");
 	}
 
 	public void deletePlayer(ClientMethods client) {
@@ -107,6 +106,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		changed = false;
 	}
 	
+	@SuppressWarnings("unused")
 	private void notifyPlayers() {
 		notifyPlayers(null);
 	}
