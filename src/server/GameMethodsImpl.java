@@ -9,6 +9,7 @@ import java.util.List;
 
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
+import server.remoteexceptions.ServerFullException;
 import ui.IO;
 import valueobjects.BonusCard;
 import valueobjects.BonusCardStack;
@@ -38,15 +39,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	private static final long serialVersionUID = -3491803188267650698L;
 
+	private boolean started = false; 
 	private PlayerCollection players = new PlayerCollection();
 	private TerritoryManager territoryManager = new TerritoryManager();
 	private BonusCardStack bonusCardManager = new BonusCardStack();
 	private BonusTracker bonusTracker = new BonusTracker();
 	private List<ClientMethods> clients = new ArrayList<ClientMethods>();
 	
-	//Test Objekt
-	private Test test = new Test();
-
 	/**
 	 * The current player
 	 */
@@ -70,17 +69,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		registry.bind(name, this);
 	}
 
-	/**
-	 * Constructor for a new game of Risk
-	 */
-	public GameMethodsImpl() {
-
-		// save the stand
-//		Store store = new Store(players);
-//		store.save();
-	}
-
-	public void addPlayer(String name, ClientMethods client) {
+	public void addPlayer(String name, ClientMethods client) throws ServerFullException {
+		if (started) {
+			// Game is already in progress
+			throw new ServerFullException();
+		} else if (players.size() >= 6) {
+			// Too many players
+			throw new ServerFullException();
+		}
+		
 		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
 		players.add(player);
@@ -93,6 +90,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void start() throws NotEnoughPlayersException {
 		int playerCount = players.size();
 		
+		// Check if there are enough players
 		if (playerCount < 3) {
 			// TODO: implement logic for 2 players
 			throw new NotEnoughPlayersException(playerCount);
@@ -100,7 +98,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Start units for every player
 		int startUnits;
-
 		// Get the total amount of start units per player
 		if (playerCount > 3) {
 			startUnits = 30;
@@ -117,6 +114,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 	
 		placeStartUnitsRandomly();
+		
+		// Set the game status to started
+		started = true;
 	}
 
 	public PlayerCollection getPlayers() {
@@ -418,17 +418,4 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		target.setUnits(target.getUnits() + amount);
 	}
 
-	public void print(String msg) {
-		System.out.println(msg);
-		
-		for (ClientMethods client : clients) {
-			client.print("Hello World Zurück");
-		}
-	
-	}
-	
-	public Test getObj() {
-		return test;
-	}
-	
 }
