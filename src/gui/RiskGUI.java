@@ -47,6 +47,7 @@ public class RiskGUI {
 	private Button[] buttons = new Button[42];
 	private Button[] playerButtons;
 	private Text eventWindow;
+	private Composite cardWindow;
 	private String events = "";
 	private Player currentPlayer;
 
@@ -123,7 +124,7 @@ public class RiskGUI {
 
 		createEventWindow();
 
-		// createCardWindow();
+		createCardWindow();
 
 		// resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
@@ -182,6 +183,10 @@ public class RiskGUI {
 				display.sleep();
 			}
 		}
+	}
+
+	private void createCardWindow() {
+		
 	}
 
 	/**

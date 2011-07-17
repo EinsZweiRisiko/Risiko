@@ -85,6 +85,65 @@ public class ActionDialog extends Dialog {
                 spinner.setMinimum(0);
                 spinner.setMaximum(territory.getUnits()-1);
     		}
+    		
+    		if (phase.equals("PlayCards")){
+    			shell parent = getParent();
+    			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+    			shell.setSize(155, 80);
+    			shell.setText("Karteneintauschen");
+    			center(shell);
+    			
+    			GridLayout gridLayout = new GridLayout();
+    			gridLayout.numColumns = 2;
+    			gridLayout.horizontalSpacing = 4;
+    			shell.setLayout(gridLayout);
+    			
+    			Button ok = new Button(shell, SWT.PUSH);
+    			ok.setText("Karten eintauschen");
+    			ok.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseUp(MouseEvent e) {
+						// playselectedCARDS
+						
+					}
+					
+					@Override
+					public void mouseDown(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseDoubleClick(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+    			
+    			Button cancel = new Button(shell, SWT.PUSH);
+    			cancel.setText("Abbrechen");
+    			cancel.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseUp(MouseEvent e) {
+						shell.dispose();
+						
+					}
+					
+					@Override
+					public void mouseDown(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseDoubleClick(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				})
+    		}
     	
             if(phase.equals("ATTACK")){
             	Shell parent = getParent();
