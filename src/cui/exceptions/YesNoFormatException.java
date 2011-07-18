@@ -1,4 +1,4 @@
-package ui.exceptions;
+package cui.exceptions;
 
 public class YesNoFormatException extends Exception {
 
