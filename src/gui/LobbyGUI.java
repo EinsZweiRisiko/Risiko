@@ -29,6 +29,7 @@ public class LobbyGUI {
 	
 	private Display display;
 	private Shell shell;
+	@SuppressWarnings("unused")
 	private AppClient app;
 	private GameMethods game;
 	private Composite lobby;

@@ -4,6 +4,8 @@ import java.net.UnknownHostException;
 
 import org.eclipse.swt.widgets.Display;
 
+import server.remoteexceptions.NoNameException;
+import server.remoteexceptions.ServerFullException;
 import ui.IO;
 import valueobjects.Player;
 
@@ -22,42 +24,42 @@ import de.root1.simon.exceptions.LookupFailedException;
 
 @SimonRemote
 public class AppClient implements ClientMethods {
-	
+
 	private static final int DEFAULT_PORT = 50001;
-	
+
 	private Lookup connection;
 	private GameMethods game;
-	
+
 	private Display display;
 	private static LoginGUI logingui;
 	private static LobbyGUI lobbygui;
 	private RiskGUI rFenster;
 	private Player me;
-	
+
 	public AppClient() {
 		display = new Display();
-		
+
 		// Show the connect window
 		logingui = new LoginGUI(display, this);
 		logingui.finalize();
-		
+
 		// TODO: check if the window was closed
-		
+
 		lobbygui = new LobbyGUI(display, this, game);
 		lobbygui.start();
-		
+
 		// Show the main risk window
 		rFenster = new RiskGUI(display, this, game);
 		rFenster.start();
 	}
-	
+
 	@Override
 	public void update(final GameMethods server, Action a) {
 		if (a instanceof PlayerJoinedAction) {
 			// A player joined
 			PlayerJoinedAction pja = (PlayerJoinedAction) a;
 			IO.write("Player joined: " + pja.getPlayer().getName());
-			
+
 			// Queue the update function to run in the fucking UI thread
 			display.asyncExec(new Runnable() {
 				public void run() {
@@ -67,13 +69,13 @@ public class AppClient implements ClientMethods {
 		} else if (a instanceof GameStartedAction) {
 			// Game started
 			IO.write("Game started.");
-			
+
 			display.asyncExec(new Runnable() {
 				public void run() {
 					lobbygui.close();
 				}
 			});
-		} else if(a instanceof NextPlayerAction) {
+		} else if (a instanceof NextPlayerAction) {
 			display.asyncExec(new Runnable() {
 				public void run() {
 					rFenster.updateCurrentPlayer();
@@ -83,36 +85,40 @@ public class AppClient implements ClientMethods {
 			IO.write("Unidentified action.");
 		}
 	}
-	
+
 	/**
 	 * Create a connection to the server
+	 * 
 	 * @throws LookupFailedException
 	 * @throws EstablishConnectionFailed
 	 * @throws UnknownHostException
 	 */
-	public void connect(String ip, String name) throws LookupFailedException, EstablishConnectionFailed, UnknownHostException {
-		try {
-			connection = Simon.createNameLookup(ip, DEFAULT_PORT);
-			game = (GameMethods) connection.lookup("risk");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println(e);
+	public void connect(String ip, String name) throws LookupFailedException,
+			EstablishConnectionFailed, UnknownHostException,
+			ServerFullException, NoNameException {
+		if (name.trim().isEmpty()) {
+			throw new NoNameException();
 		}
 		
+		connection = Simon.createNameLookup(ip, DEFAULT_PORT);
+		game = (GameMethods) connection.lookup("risk");
+
 		// Create player
 		me = game.addPlayer(name, this);
 	}
-	
+
 	/**
 	 * Returns the instance of the player that uses this GUI.
+	 * 
 	 * @return
 	 */
 	public Player getClient() {
 		return me;
 	}
-	
+
 	/**
 	 * Main method
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {

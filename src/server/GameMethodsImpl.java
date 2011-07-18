@@ -55,7 +55,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	
 	private boolean started = false; 
 	private PlayerCollection players = new PlayerCollection();
-	private boolean changed = false;
 	private List<ClientMethods> clients = new ArrayList<ClientMethods>();
 	
 	private TerritoryManager territoryManager = new TerritoryManager();
@@ -128,7 +127,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 		clients.add(client);
 		
-		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
 		
 		players.add(player);
@@ -240,7 +238,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		currentPlayer = players.getNextPlayer();
 		// A new turn has started so we have to compute the player's supply
 		calculateSupplies();
-		IO.write("New current player: "+ currentPlayer.getName());
+		IO.write("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
 	
