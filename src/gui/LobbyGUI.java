@@ -6,8 +6,8 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -58,16 +58,19 @@ public class LobbyGUI {
 		
 		lobby = new Composite(shell, SWT.INHERIT_DEFAULT);
 		
-		GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = 1;
-       	lobby.setLayout(gridLayout);
+		RowLayout rowLayout = new RowLayout();
+		rowLayout.type = SWT.VERTICAL;
+		rowLayout.pack = true;
+		rowLayout.justify = false;
+		lobby.setLayout(rowLayout);
 		
        	// Create text field
-       	playerList = new Text(lobby, SWT.MULTI | SWT.INHERIT_NONE);
+       	playerList = new Text(lobby, SWT.MULTI);
        	playerList.setEnabled(false);
 		
 		// Update the text
 		updateText();
+//		playerList.setSize(200, 75);
 		
 		// if joining Player is a Creator, show him a start Button.
 		if(creator) {
@@ -99,7 +102,8 @@ public class LobbyGUI {
 		      });
 		}
 		
-		lobby.setBounds(0, 0, 250, 350);
+		lobby.setBounds(0, 0, 250, 300);
+//		lobby.setSize(400, 500);
 		shell.pack();
 		center(shell);
 		shell.open();
@@ -137,7 +141,6 @@ public class LobbyGUI {
 		}
 		
 		playerList.setText(text);
-		playerList.setSize(200, 150);
 		shell.update();
 	}
 	
