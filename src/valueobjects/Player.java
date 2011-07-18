@@ -23,6 +23,10 @@ public class Player extends BasePlayer {
 	 */
 	private ArrayList<BonusCard> bonusCards = new ArrayList<BonusCard>();
 
+	ArrayList<Continent> continents = new ArrayList<Continent>();
+	
+	Continent continent;
+	
 	/**
 	 * Constructor
 	 * 
@@ -152,17 +156,13 @@ public class Player extends BasePlayer {
 	 * @return
 	 */
 	public ArrayList<Continent> getContinents() {
-//		// Will hold the list of continents this player owns
-//		ArrayList<Continent> continents = new ArrayList<Continent>();
-//		
-//		for (Continent continent : territoryManager.getContinents()) {
-//			if (territoryList.containsAll(continent.getTerritories())) {
-//				continents.add(continent);
-//			}
-//		}
-//		
-//		return continents;
-		return null;
+		// Will hold the list of continents this player owns	
+		for (int i = 1; i <= territoryList.size(); i++) {
+			if (territoryList.containsAll(continent.getTerritories())) {
+				continents.add(continent);
+			}
+		}
+		return continents;
 	}
 	
 	public int getAllUnits() {

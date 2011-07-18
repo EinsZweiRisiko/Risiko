@@ -14,6 +14,7 @@ import server.remoteexceptions.ServerFullException;
 import ui.IO;
 import valueobjects.BonusCard;
 import valueobjects.BonusCardStack;
+import valueobjects.Continent;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
@@ -25,7 +26,9 @@ import commons.actions.AttackAction;
 import commons.actions.DefendAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
+import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
+import commons.actions.SupplyAction;
 import commons.actions.ValueChangeAction;
 
 import de.root1.simon.Registry;
@@ -52,6 +55,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	// das angreifende land und angegeriffende Land muss temporär gespeichert werden
 	Territory attackingTerritory;
 	Territory defendTerritory;
+	
+	Continent continent;
 	
 	private boolean started = false; 
 	private PlayerCollection players = new PlayerCollection();
@@ -238,8 +243,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private void nextPlayer() {
 		// Advance to the next player
 		currentPlayer = players.getNextPlayer();
-		// A new turn has started so we have to compute the player's supply
-		calculateSupplies();
 		IO.write("New current player: "+ currentPlayer.getName());
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
@@ -272,10 +275,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		switch (currentPhase) {
 		// The first action is at the end of this switch block
 			case TURNINCARDS:
+
 				// Placing the supply units is next
 				preparePlacementAction();
 
 			case PLACEMENT:
+
 				// Attacking other players is next
 				prepareAttackAction();
 
@@ -309,14 +314,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		if (supplies < 3) {
 			supplies = 3;
 		}
-
-		// TODO Extra supplies for conquered continents
-//		for (Continent continent : activePlayer.getContinents()) {
-//			supplies += continent.getBonusSupplies();
-//		}
-
+		// Sollte eigentlich in Supply in Anlehnung zu der Supplies in den valueobjects.continents die dazugehörigen supplies wieder geben
+		supplies += continent.getBonusSupplies();
 		// Add the supplies
+		
+		// Supllies für die BONUSKARTEN
+		// TODO Der Client muss noch angeben ob er die Bonuskarten eintauschen will oder kann?!
+		supplies += bonusTracker.getNextBonus();
 		currentPlayer.addSupplies(supplies);
+		//Notify der Supllies an die Clients
+		notifyPlayers(new SupplyAction(currentPlayer, supplies));
 	}
 
 	/**
@@ -338,6 +345,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	private void preparePlacementAction() {
 		currentPhase = Phase.PLACEMENT;
+		calculateSupplies();
+		notifyPlayers(new PhaseAction(currentPlayer, getPhase()));
 	}
 
 	/**
@@ -461,13 +470,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public List<Territory> getMyTerritoriesForAttacking(Player player) {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
-		
+
 		for(int i = 0; i <= territories.size(); i++) {
 			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 0; j <= neighbors.size() ;j++){
-				if(!neighbors.get(j).getOwner().equals(player)){
-					if(!attackingTerritories.contains(neighbors.get(j))) {
-						attackingTerritories.add(territories.get(i));
+			// nur wenn das ausgewählte Land mehr als eine Einheit hat darf es Angreifen
+			if(territories.get(i).getUnits() > 1) {
+				for(int j = 0; j <= neighbors.size() ;j++){
+					if(!neighbors.get(j).getOwner().equals(player)){
+						if(!attackingTerritories.contains(neighbors.get(j))) {
+							attackingTerritories.add(territories.get(i));
+						}
 					}
 				}
 			}
@@ -479,13 +491,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public List<Territory> getMyTerritoriesForMoving(Player player) {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
-		
+
 		for(int i = 0; i <= territories.size(); i++) {
 			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 0; j <= neighbors.size() ;j++){
-				if(neighbors.get(j).getOwner().equals(player)){
-					if(!moveTerritories.contains(neighbors.get(j))) {
-						moveTerritories.add(territories.get(i));
+			// Darf nur verschieben, wenn mehr als eine Einheite auf dem Land ist
+			if(territories.get(i).getUnits() > 1) {
+				for(int j = 0; j <= neighbors.size() ;j++){
+					if(neighbors.get(j).getOwner().equals(player)){
+						if(!moveTerritories.contains(neighbors.get(j))) {
+							moveTerritories.add(territories.get(i));
+						}
 					}
 				}
 			}
@@ -541,6 +556,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		calculateDice(attackDice, defendDice);
 	}
 	
+	// eine Game interne Methode braucht das Interface nicht
 	public ArrayList<Integer> getDice(int amount) {
 		ArrayList<Integer> dice = new ArrayList<Integer>();
 		

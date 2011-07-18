@@ -53,7 +53,7 @@ public interface GameMethods {
 
 	public void attack(Territory attackingTerritory, Territory attackedTerritory, int amount);
 	public void move(Territory source, Territory target, int amount) throws SimonRemoteException;
-	
+	public void defend(Territory defendTerritory, int amount);
 	
 	/* Notifications:
 	 * 
