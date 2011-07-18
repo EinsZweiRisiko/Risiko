@@ -8,6 +8,7 @@ import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
 import ui.IO;
 import valueobjects.Player;
+import valueobjects.Territory;
 
 import commons.Action;
 import commons.ClientMethods;
@@ -16,6 +17,7 @@ import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
+import commons.actions.TerritoryUnitsChangedAction;
 
 import de.root1.simon.Lookup;
 import de.root1.simon.Simon;
@@ -85,8 +87,14 @@ public class AppClient implements ClientMethods {
 		} else if (a instanceof PhaseAction) {
 			display.asyncExec(new Runnable() {
 				public void run() {
-					System.out.println("HALLO ICH MACH JETZT EIN PHASE UPDATE!!!");
 					rFenster.updatePhase();
+				}
+			});
+		} else if (a instanceof TerritoryUnitsChangedAction) {
+			final Territory t = ((TerritoryUnitsChangedAction) a).getTerritory();
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.updateTerritory(t);
 				}
 			});
 		} else {

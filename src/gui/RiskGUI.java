@@ -63,6 +63,7 @@ public class RiskGUI {
 	private Device dev;
 	private Label[] bonusLabelStack;
 	private Phase phase;
+	private Button nextPhaseButton;
 
 	/**
 	 * creates a new GUI and Game
@@ -736,20 +737,23 @@ public class RiskGUI {
 	/**
 	 * updates all Buttons and their Values
 	 */
-	private void updateButtons() {
+	public void updateTerritory(Territory territory) {
 		for(Button button: buttons){
-			
-			//get the territory from the Server
-			Territory territory = game.getTerritories().get(
-					cutTooltip(button.getToolTipText()));
-			
-			//set the values and the owner, units and color
-			button.setImage(unitImage[territory.getOwner().getColor()]);
-			button.setText(String.valueOf(territory.getUnits()));
-			button.setToolTipText(territory.getName() + " gehört "
-					+ territory.getOwner().getName());
+			if (cutTooltip(button.getToolTipText()).equals(territory.getName())) {
+				System.out.println(cutTooltip(button.getToolTipText()));
+				button.setText(String.valueOf(territory.getUnits()));
+			}
+//			//get the territory from the Server
+//			Territory territory = game.getTerritories().get(
+//					cutTooltip(button.getToolTipText()));
+//			
+//			//set the values and the owner, units and color
+//			button.setImage(unitImage[territory.getOwner().getColor()]);
+//			button.setText(String.valueOf(territory.getUnits()));
+//			button.setToolTipText(territory.getName() + " gehört "
+//					+ territory.getOwner().getName());
 		}
-		
+		eventWindowAppendText(currentPlayer.getName() + " hat eine Einheit auf " + territory.getName() + " gesetzt.");
 		shell.update();
 	}
 	
@@ -768,8 +772,6 @@ public class RiskGUI {
 		
 		if(phase == Phase.PLACEMENT){
 			game.placeUnits(territory.getName(), 1);
-			// NUR EIN TEST
-			updateButtons();
 		} else if(phase == Phase.ATTACK){
 			//SOURCE TERRITORY
 			//TARGET TERRITORY
@@ -998,6 +1000,33 @@ public class RiskGUI {
 		}
 		
 		if(phase.equals(Phase.ATTACK)){
+			
+			nextPhaseButton = new Button(mainWindow, SWT.PUSH);
+			nextPhaseButton.setText("nächste Phase");
+			nextPhaseButton.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2 + 10),
+					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+			
+			nextPhaseButton.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseUp(MouseEvent e) {
+					game.nextPhase();
+				}
+				
+				@Override
+				public void mouseDown(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
 			if(currentPlayer.equals(myPlayer)){
 				for(Button button:buttons){
 					button.setEnabled(false);
@@ -1019,6 +1048,33 @@ public class RiskGUI {
 			}
 		}
 		if(phase.equals(Phase.MOVEMENT)){
+			
+			nextPhaseButton = new Button(mainWindow, SWT.PUSH);
+			nextPhaseButton.setText("Runde beenden.");
+			nextPhaseButton.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2 + 10),
+					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+			
+			nextPhaseButton.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseUp(MouseEvent e) {
+					game.nextPhase();
+				}
+				
+				@Override
+				public void mouseDown(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
 			if(currentPlayer.equals(myPlayer)){
 				for(Button button:buttons){
 					button.setEnabled(false);
