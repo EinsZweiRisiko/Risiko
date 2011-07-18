@@ -70,39 +70,6 @@ public class LoginGUI {
        	final Text serverText = new Text(login, SWT.SINGLE);
        	serverText.setText("localhost");
        	
-       	Button createGame = new Button(login, SWT.PUSH);
-		createGame.setText("Spiel erstellen");
-		createGame.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseUp(MouseEvent e) {
-				try {
-					String ip = serverText.getText();
-					String name = nameText.getText();
-					
-					app.setCreator(true);
-					app.connect(ip, name);
-				} catch (UnknownHostException e1) {
-					IO.writeError("Unknown host: " + e1.getMessage());
-				} catch (LookupFailedException e1) {
-					IO.writeError("Lookup failed: " + e1.getMessage());
-				} catch (EstablishConnectionFailed e1) {
-					IO.writeError("Establish connection failed: " + e1.getMessage());
-				}
-				// Close the window after a successful connect
-				shell.dispose();				
-			}
-	      });
        	
         Button joinGame = new Button(login, SWT.PUSH);
 		joinGame.setText("Spiel beitreten");

@@ -41,7 +41,7 @@ public class LobbyGUI {
 	 * @param game the instance of the game which should be started
 	 * @param creator true == this GUI belongs to a user who is creating the game false == this GUI belongs to a user who is joining a game
 	 */
-	public LobbyGUI(Display display, final AppClient app, final GameMethods game, boolean creator){
+	public LobbyGUI(Display display, final AppClient app, final GameMethods game){
 		this.display = display;
 		this.app = app;
 		this.game = game;
@@ -71,7 +71,7 @@ public class LobbyGUI {
 		updateText();
 		
 		// if joining Player is a Creator, show him a start Button.
-		if(creator) {
+		if(game.getPlayers().size() == 1) {
 			Button startGame = new Button(lobby,SWT.PUSH);
 			startGame.setText("Spiel starten");		
 			

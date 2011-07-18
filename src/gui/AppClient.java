@@ -33,8 +33,6 @@ public class AppClient implements ClientMethods {
 	private static LobbyGUI lobbygui;
 	private RiskGUI rFenster;
 	
-	private boolean creator = false;
-	
 	public AppClient() {
 		display = new Display();
 		
@@ -44,7 +42,7 @@ public class AppClient implements ClientMethods {
 		
 		// TODO: check if the window was closed
 		
-		lobbygui = new LobbyGUI(display, this, game, creator);
+		lobbygui = new LobbyGUI(display, this, game);
 		lobbygui.start();
 		
 		// Show the main risk window
@@ -101,10 +99,6 @@ public class AppClient implements ClientMethods {
 		
 		// Create player
 		game.addPlayer(name, this);
-	}
-
-	public void setCreator(boolean creator) {
-		this.creator = creator;
 	}
 	
 	/**
