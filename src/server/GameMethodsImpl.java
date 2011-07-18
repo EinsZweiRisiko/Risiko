@@ -117,6 +117,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
+		
+		BonusCardStack bcs = new BonusCardStack();
+		
+		//TODO THIS IS TEST STUFF
+		player.addBonusCard(bcs.retrieveCard());
+		//TODO THIS WAS TEST STUFF
+		
 		players.add(player);
 		
 		// Output a success message

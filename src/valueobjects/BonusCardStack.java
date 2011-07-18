@@ -22,16 +22,17 @@ public class BonusCardStack extends ArrayList<BonusCard> {
 		// 2: Kavlerier
 		// 3: Kanone
 		
+			
 		//Random generate a Stack of Bonus cards
-		for(int i = 0; i <= AMOUNT_OF_BONUSCARDS; i++) {
+		for(int i = 0; i <= AMOUNT_OF_BONUSCARDS-1; i++) {
 			if(i <= 13) {
-				get(i).setType("Infantry");
+				this.add(new BonusCard("Infantry"));
 			}else if(i <= 27) {
-				get(i).setType("Cavalry");
+				this.add(new BonusCard("Cavalry"));
 			}else if(i <= 41) {
-				get(i).setType("Artillery");
+				this.add(new BonusCard("Artillery"));
 			}else if(i <= 43) {
-				get(i).setType("WildCard");
+				this.add(new BonusCard("WildCard"));
 			}
 		}
 		//Mix it
@@ -40,8 +41,9 @@ public class BonusCardStack extends ArrayList<BonusCard> {
 	}
 
 	public BonusCard retrieveCard() {
-		remove(1);
-		return get(1);
+		Collections.shuffle(this);
+		remove(0);
+		return get(0);
 		//TODO es wird nur eine Karte gelöscht und vom Kartendeck weg genommen
 		// und nicht wieder zurück gelegt
 	}

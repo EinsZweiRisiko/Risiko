@@ -793,7 +793,7 @@ public class RiskGUI {
 		}
 		
 		// TODO get player which owns GUI
-		Player player = new Player("TEST");
+		Player player = game.getPlayers().get(0);
 		
 		HashSet<BonusCard> bonuscards = player.getBonusCards();
 		
@@ -801,7 +801,6 @@ public class RiskGUI {
 		
 		for(BonusCard bonusCard:bonuscards){
 			Label label = new Label(cardWindow, SWT.NONE);
-			
 			int type = 0;
 			
 			if(bonusCard.getType().equals("Infantry")){
