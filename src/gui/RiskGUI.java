@@ -701,7 +701,9 @@ public class RiskGUI {
 
 				@Override
 				public void mouseDown(MouseEvent e) {
-					openDialog(e);
+					if(game.getActivePlayer().equals(myPlayer)){
+						openDialog(e);
+					}
 				}
 
 				@Override
@@ -774,9 +776,11 @@ public class RiskGUI {
 	private void openDialog(MouseEvent e) {
 
 		Button clickedButton = (Button) e.widget;
-
+		
 		Territory territory = game.getTerritories().get(
 				cutTooltip(clickedButton.getToolTipText()));
+		
+		ActionDialog ad = new ActionDialog(shell, SWT.NONE, game.getCurrentPhase(), territory);
 
 	}
 

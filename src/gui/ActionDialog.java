@@ -14,11 +14,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 
+import server.GameMethodsImpl.Phase;
 import valueobjects.Territory;
 
 public class ActionDialog extends Dialog {
     public Object result;
-    private String phase;
+    private Phase phase;
     private Territory territory;
     private Image[] units = new Image[18];
 
@@ -26,12 +27,12 @@ public class ActionDialog extends Dialog {
      * create a new Dialog  and load all images needed for visualization
      * @param parent
      * @param style
-     * @param phase
+     * @param phase2
      * @param territory
      */
-    public ActionDialog (Shell parent, int style,String phase,Territory territory) {
+    public ActionDialog (Shell parent, int style,Phase phase2,Territory territory) {
             super (parent, style);
-            this.phase = phase;
+            this.phase = phase2;
             this.territory = territory;
             
             //load unit pictures
@@ -69,7 +70,7 @@ public class ActionDialog extends Dialog {
      */
     public Object open() {
     		
-    		if (phase.equals("MOVE")){
+    		if (phase.equals(Phase.MOVEMENT)){
     			Shell parent = getParent();
                 final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
             	shell.setSize(155,80);
@@ -86,7 +87,7 @@ public class ActionDialog extends Dialog {
                 spinner.setMaximum(territory.getUnits()-1);
     		}
     		
-    		if (phase.equals("PlayCards")){
+    		if (phase.equals(Phase.TURNINCARDS)){
     			Shell parent = getParent();
     			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
     			shell.setSize(155, 80);
@@ -145,7 +146,7 @@ public class ActionDialog extends Dialog {
 				});
     		}
     	
-            if(phase.equals("ATTACK")){
+            if(phase.equals(Phase.ATTACK)){
             	Shell parent = getParent();
                 final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
             	shell.setSize(155,80);
