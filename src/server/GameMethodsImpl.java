@@ -21,6 +21,8 @@ import valueobjects.Territory;
 import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
+import commons.actions.AttackAction;
+import commons.actions.DefendAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PlayerJoinedAction;
