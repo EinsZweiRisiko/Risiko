@@ -73,6 +73,33 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		registry.bind(name, this);
 	}
 
+	// START OF observable
+	
+	
+//	private void setChanged() {
+//		changed = true;
+//	}
+//	
+//	private void clearChanged() {
+//		changed = false;
+//	}
+	
+	private void notifyPlayers(Action arg) {
+//		if (!changed) {
+//			return;
+//		}
+		// Notify all observers
+		for (ClientMethods client:clients) {
+			client.update(this, arg);
+		}
+//		clearChanged();
+	}
+
+	// END OF observable
+	
+	/**
+	 * Adds a player to the game and consequently to the list of observers
+	 */
 	public void addPlayer(String name, ClientMethods client) throws ServerFullException {
 		if (started) {
 			// Game is already in progress
@@ -99,38 +126,22 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		players.add(player);
 		
+		// Output a success message
 		IO.write("Client connected.");
-		// TESTEN
+		
 		notifyPlayers(new PlayerJoinedAction(player));
 	}
-
-	// START OF observable
 	
+	/**
+	 * Deletes a player from the list of observers
+	 */
 	public void deletePlayer(ClientMethods client) {
 		clients.remove(client);
-		
 	}
-//	private void setChanged() {
-//		changed = true;
-//	}
-//	
-//	private void clearChanged() {
-//		changed = false;
-//	}
 	
-	private void notifyPlayers(Action arg) {
-//		if (!changed) {
-//			return;
-//		}
-		// Notify all observers
-		for (ClientMethods client:clients) {
-			client.update(this, arg);
-		}
-//		clearChanged();
-	}
-
-	// END OF observable
-	
+	/**
+	 * Starts this instance of Risk
+	 */
 	public void start() throws NotEnoughPlayersException {
 		int playerCount = players.size();
 		

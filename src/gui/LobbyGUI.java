@@ -28,6 +28,7 @@ import commons.GameMethods;
  */
 public class LobbyGUI {
 	
+	private Display display;
 	private Shell shell;
 	private AppClient app;
 	private GameMethods game;
@@ -42,6 +43,7 @@ public class LobbyGUI {
 	 * @param creator true == this GUI belongs to a user who is creating the game false == this GUI belongs to a user who is joining a game
 	 */
 	public LobbyGUI(Display display, final AppClient app, GameMethods game, boolean creator){
+		this.display = display;
 		this.app = app;
 		this.game = game;
 		
@@ -63,13 +65,12 @@ public class LobbyGUI {
        	// Create text field
        	playerList = new Text(lobby, SWT.MULTI | SWT.INHERIT_NONE);
        	playerList.setEnabled(false);
-		playerList.setSize(250, 350);
 		
 		// Update the text
 		updateText();
 		
 		// if joining Player is a Creator, show him a start Button.
-		if(creator){
+		if(creator) {
 			Button startGame = new Button(lobby,SWT.PUSH);
 			startGame.setText("Spiel starten");
 			startGame.addMouseListener(new MouseListener() {
@@ -99,13 +100,12 @@ public class LobbyGUI {
 		}
 		
 		lobby.setBounds(0, 0, 250, 350);
-		
 		shell.pack();
-		
 		center(shell);
-		
 		shell.open();
-		
+	}
+	
+	public void start() {
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
@@ -131,10 +131,13 @@ public class LobbyGUI {
 	public void updateText() {
 		PlayerCollection players = game.getPlayers();
 		
-		playerList.setText("");
+		String text = "";
 		for (Player player:players) {
-			playerList.append(player.getName() + "\n");
+			text += player.getName() + "\n";
 		}
+		
+		playerList.setText(text);
+		playerList.setSize(200, 150);
 		shell.update();
 	}
 	

@@ -5,48 +5,74 @@ import java.net.UnknownHostException;
 import org.eclipse.swt.widgets.Display;
 
 import server.exceptions.NotEnoughPlayersException;
+import ui.IO;
+import valueobjects.Player;
 
+import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
+import commons.actions.GameStartedAction;
+import commons.actions.PlayerJoinedAction;
 
 import de.root1.simon.Lookup;
 import de.root1.simon.Simon;
+import de.root1.simon.annotation.SimonRemote;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.exceptions.LookupFailedException;
 
-public class AppClient {
+@SimonRemote
+public class AppClient implements ClientMethods {
+	
+	private static final int DEFAULT_PORT = 50001;
 	
 	private Lookup connection;
 	private GameMethods game;
-	private static final int DEFAULT_PORT = 50001;
+	
+	private Display display;
+	private static LoginGUI logingui;
+	private static LobbyGUI lobbygui;
+	private RiskGUI rFenster;
+	
 	private boolean creator = false;
 	
-	private static LobbyGUI lobbygui;
-	
-	/**
-	 * Main method
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		new AppClient();
-	}
-	
 	public AppClient() {
-		Display display = new Display();
+		display = new Display();
 		
 		// Show the connect window
-		LoginGUI logingui = new LoginGUI(display,this);
+		logingui = new LoginGUI(display, this);
 		logingui.finalize();
 		
+		// TODO: check if the window was closed
+		
 		lobbygui = new LobbyGUI(display, this, game, creator);
+		lobbygui.start();
 		lobbygui.finalize();
 		
 		// Show the main risk window
-		RiskGUI rFenster = new RiskGUI(display, game);
+		rFenster = new RiskGUI(display, game);
 		rFenster.finalize();
-		
-		// Close the risk window after the game has finished
-		display.dispose();
+	}
+	
+	@Override
+	public void update(final GameMethods server, Action a) {
+		if (a instanceof PlayerJoinedAction) {
+			// A player joined
+			PlayerJoinedAction pja = (PlayerJoinedAction) a;
+			IO.write("player joined: " + pja.getPlayer().getName());
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					if (lobbygui != null) {
+						lobbygui.updateText();
+					}
+				}
+			});
+		} else if (a instanceof GameStartedAction) {
+			// Game started
+			IO.write("Game started");
+		} else {
+			IO.write("Unidentified action.");
+		}
 	}
 	
 	/**
@@ -65,8 +91,7 @@ public class AppClient {
 		}
 		
 		// Create player
-		ClientMethods client = new ClientMethodsImpl();
-		game.addPlayer(name, client);
+		game.addPlayer(name, this);
 	}
 
 	public void setCreator(boolean creator) {
@@ -77,12 +102,11 @@ public class AppClient {
 		game.start();
 	}
 	
-	
-	/*
-	 * Updates 
+	/**
+	 * Main method
+	 * @param args
 	 */
-	
-	public static void updateLobby() {
-		lobbygui.updateText();
+	public static void main(String[] args) {
+		new AppClient();
 	}
 }
