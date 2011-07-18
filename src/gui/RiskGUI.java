@@ -988,7 +988,7 @@ public class RiskGUI {
 
 		currentPlayer = game.getActivePlayer();
 
-		if (phase.equals(Phase.PLACEMENT)) {
+		if (phase == Phase.PLACEMENT) {
 			for (Button button : buttons) {
 
 				if (currentPlayer.equals(myPlayer)) {
@@ -1006,9 +1006,7 @@ public class RiskGUI {
 					}
 				}
 			}
-		}
-
-		if (phase.equals(Phase.ATTACK)) {
+		} else if (phase == Phase.ATTACK) {
 
 			if (currentPlayer.equals(myPlayer)) {
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
@@ -1041,7 +1039,7 @@ public class RiskGUI {
 					}
 				});
 			}
-
+			// Next-Button nicht auf jeder GUI anzeigen
 			if (currentPlayer.equals(myPlayer)) {
 				for (Button button : buttons) {
 					button.setEnabled(false);
