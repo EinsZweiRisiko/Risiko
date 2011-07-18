@@ -1,4 +1,8 @@
-We are creating a fucking Java version of the Risk board game.
+Dependencies:
+	SWT
+	SIMON
+
+We are creating a Java version of the Risk board game.
 
 Authors:
 	Hendrik Druse
