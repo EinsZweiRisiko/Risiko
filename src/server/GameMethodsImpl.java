@@ -73,36 +73,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		registry.bind(name, this);
 	}
 
-	public void addPlayer(String name, ClientMethods client) throws ServerFullException {
-		if (started) {
-			// Game is already in progress
-			throw new ServerFullException();
-		} else if (players.size() >= 6) {
-			// Too many players
-			throw new ServerFullException();
-		}
-
-		// Add the client
-		if (client == null) {
-            throw new NullPointerException();
-		}
-		clients.add(client);
-		
-		// TODO: Determine that the number of players is valid
-		Player player = new Player(name);
-		players.add(player);
-		
-		IO.write("Client connected.");
-		// TESTEN
-		notifyPlayers(new PlayerJoinedAction(player));
-	}
-
 	// START OF observable
 	
-	public void deletePlayer(ClientMethods client) {
-		clients.remove(client);
-		
-	}
+	
 //	private void setChanged() {
 //		changed = true;
 //	}
@@ -124,6 +97,44 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	// END OF observable
 	
+	/**
+	 * Adds a player to the game and consequently to the list of observers
+	 */
+	public void addPlayer(String name, ClientMethods client) throws ServerFullException {
+		if (started) {
+			// Game is already in progress
+			throw new ServerFullException();
+		} else if (players.size() >= 6) {
+			// Too many players
+			throw new ServerFullException();
+		}
+
+		// Add the client
+		if (client == null) {
+            throw new NullPointerException();
+		}
+		clients.add(client);
+		
+		// TODO: Determine that the number of players is valid
+		Player player = new Player(name);
+		players.add(player);
+		
+		// Output a success message
+		IO.write("Client connected.");
+		
+		notifyPlayers(new PlayerJoinedAction(player));
+	}
+	
+	/**
+	 * Deletes a player from the list of observers
+	 */
+	public void deletePlayer(ClientMethods client) {
+		clients.remove(client);
+	}
+	
+	/**
+	 * Starts this instance of Risk
+	 */
 	public void start() throws NotEnoughPlayersException {
 		int playerCount = players.size();
 		
