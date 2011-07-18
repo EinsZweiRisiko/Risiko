@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -795,7 +796,7 @@ public class RiskGUI {
 		// TODO get player which owns GUI
 		Player player = game.getPlayers().get(0);
 		
-		HashSet<BonusCard> bonuscards = player.getBonusCards();
+		ArrayList<BonusCard> bonuscards = player.getBonusCards();
 		
 		bonusLabelStack = new Label[bonuscards.size()];
 		
@@ -828,7 +829,7 @@ public class RiskGUI {
 		// TODO get player which owns GUI
 		Player player = new Player("TEST");
 		
-		HashSet<BonusCard> bonuscards = player.getBonusCards();
+		ArrayList<BonusCard> bonuscards = player.getBonusCards();
 		
 		bonusLabelStack = new Label[bonuscards.size()];
 		
