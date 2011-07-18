@@ -290,11 +290,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
-				break;
 			default:
 				// Start
 				nextPlayer();
-				System.out.println("Default reingesprungen");
 				// Turning in cards is next
 				prepareTurnInAction();
 				break;
