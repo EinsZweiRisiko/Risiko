@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Label;
 
 import server.exceptions.NotEnoughPlayersException;
 import ui.IO;
@@ -32,7 +32,7 @@ public class LobbyGUI {
 	private AppClient app;
 	private GameMethods game;
 	private Composite lobby;
-	private Text playerList;
+	private Label playerList;
 	
 	/**
 	 * creates a new instance of a Lobby Window
@@ -64,8 +64,8 @@ public class LobbyGUI {
 		lobby.setLayout(rowLayout);
 		
        	// Create text field
-       	playerList = new Text(lobby, SWT.MULTI | SWT.INHERIT_NONE);
-       	playerList.setEnabled(false);
+       	playerList = new Label(lobby, SWT.INHERIT_NONE);
+       	playerList.pack();
 		
 		// Update the text
 		updateText();
@@ -98,7 +98,7 @@ public class LobbyGUI {
 		      });
 		}
 		
-		lobby.setBounds(0, 0, 250, 300);
+		lobby.setBounds(0, 0, 250, 350);
 		shell.pack();
 		center(shell);
 		shell.open();
