@@ -1,10 +1,12 @@
 package commons.actions;
 
-import valueobjects.Player;
 import valueobjects.Territory;
+
 import commons.Action;
 
-public class AttackAction implements Action {
+public class AttackAction extends Action {
+	
+	private static final long serialVersionUID = -3602731354375567470L;
 	
 	Territory attackingTerritory;
 	Territory attackedTerritory;
