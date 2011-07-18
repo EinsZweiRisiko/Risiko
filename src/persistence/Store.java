@@ -74,30 +74,32 @@ public class Store {
 			//Spieler input Build
 			input.add("# Name");
 			input.add(players.get(a).getName());	// Name
-/*
+
 			input.add("# Farbe");
 			input.add(String.valueOf(players.get(a).getColor()));	// Farbe
 
+			
+			//Anzahl der Bonuskarten
+			ArrayList<BonusCard> territoryCards = players.get(a).getBonusCards();
+			input.add("# AnzahlBonusKarten");
+			input.add(String.valueOf(territoryCards.size())); 	//Anzahl von Karten
+			
 			// Bonus Karten
 			input.add("# Bonuskarten");
-			HashSet<BonusCard> territoryCards = players.get(a).getBonusCards();
-			input.add("# AnzahlBonusKarten");
-			input.add(String.valueOf(territoryCards.size())); 		//Anzahl von Karten
-*/
-			// TODO Typen der Bonuskarten einlesen und jeden Typ Zeilenweise schreiben/speichern
-			input.add("# Bonuskarten");
-
+			for(int i = 0; i <= territoryCards.size(); i++) {
+				input.add(territoryCards.get(i).getType());
+			}
+			
 			//Länder im Besitz
 			input.add("# AnzahlLänder");
 			input.add(String.valueOf(players.get(a).getTerritoryCount())); // Anzahl der Länder
-			/*
-			input.add("# BesitzendeLänder");
+			
+			input.add("# BesitzendeLänder:AnzahlEinheitendrauf");
 			territories = players.get(a).getTerritories();				// Name der Länder
 			for(int i = 0; i <= territories.size(); i++) {
-				input.add(territories.get(i).getName());
+				input.add(territories.get(i).getName()+":"+ String.valueOf(territories.get(i).getUnits()));
 			}
 			
-
 			//anzahl der gesamten Einheiten
 			input.add("# AnzahlGesamtEinheiten");
 			input.add(String.valueOf(players.get(a).getAllUnits()));
@@ -107,7 +109,7 @@ public class Store {
 			input.add(String.valueOf(players.get(a).getSuppliesToAllocate()));
 
 			// TODO Mission abspeichern
-*/
+
 		}
 		return input;
 	}

@@ -22,7 +22,7 @@ public class Player extends BasePlayer {
 	 * exchanged for bonus units
 	 * at the start of every round.
 	 */
-	private HashSet<BonusCard> bonusCards = new HashSet<BonusCard>();
+	private ArrayList<BonusCard> bonusCards = new ArrayList<BonusCard>();
 
 	/**
 	 * Constructor
@@ -124,7 +124,7 @@ public class Player extends BasePlayer {
 	 * 
 	 * @return List of territory cards
 	 */
-	public HashSet<BonusCard> getBonusCards() {
+	public ArrayList<BonusCard> getBonusCards() {
 		return bonusCards;
 	}
 	/**
