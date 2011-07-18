@@ -42,7 +42,7 @@ public class LoginGUI {
 		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
-		shell.setText("EinsZweiRisiko -- Login");
+		shell.setText("EinsZweiRisiko |Login");
 		
 		Composite login = new Composite(shell, SWT.INHERIT_DEFAULT);
 		

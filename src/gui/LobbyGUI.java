@@ -50,7 +50,7 @@ public class LobbyGUI {
 		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
-		shell.setText("EinsZweiRisiko -- Lobby");
+		shell.setText("EinsZweiRisiko |Lobby");
 		
 		Image bg = new Image(display, "assets/loginbg.png");
 		
@@ -65,12 +65,11 @@ public class LobbyGUI {
 		lobby.setLayout(rowLayout);
 		
        	// Create text field
-       	playerList = new Text(lobby, SWT.MULTI);
+       	playerList = new Text(lobby, SWT.MULTI | SWT.INHERIT_NONE);
        	playerList.setEnabled(false);
 		
 		// Update the text
 		updateText();
-//		playerList.setSize(200, 75);
 		
 		// if joining Player is a Creator, show him a start Button.
 		if(creator) {
@@ -104,7 +103,6 @@ public class LobbyGUI {
 		}
 		
 		lobby.setBounds(0, 0, 250, 300);
-//		lobby.setSize(400, 500);
 		shell.pack();
 		center(shell);
 		shell.open();
