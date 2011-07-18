@@ -27,7 +27,7 @@ import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
-import commons.actions.ValueChangeAction;
+import commons.actions.TerritoryUnitsChangedAction;
 
 import de.root1.simon.Registry;
 import de.root1.simon.Simon;
@@ -533,6 +533,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		if(owner.getSupplies() > 0){
 			t.addUnits(amount);
 			owner.subtractSupplies(amount);
+			
+			// Send a notification to all clients
+			notifyPlayers(new TerritoryUnitsChangedAction(t, t.getUnits()));
 		}
 		System.out.println("Units auf dem Land: " + t.getUnits());
 		System.out.println("Dein supply: " + owner.getSupplies());
@@ -595,8 +598,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		// TODO ein notifiy rauswerfen mit den geänderten values
 		// TODO koennte so aussehen: notifyPlayers(territory, dasjeweiligeterritory.getUnits()
-		notifyPlayers(new ValueChangeAction(attackingTerritory, attackingTerritory.getUnits()));
-		notifyPlayers(new ValueChangeAction(defendTerritory, defendTerritory.getUnits()));
+		notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
+		notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
 	}
 	
 	@Override
@@ -605,7 +608,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		source.setUnits(source.getUnits() - amount);
 		target.setUnits(target.getUnits() + amount);
 		// Es müssen noch die Clients Notified werden
-		notifyPlayers(new ValueChangeAction(source, source.getUnits()));
-		notifyPlayers(new ValueChangeAction(target, target.getUnits()));
+		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
+		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
 	}
 }

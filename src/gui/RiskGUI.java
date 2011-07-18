@@ -736,20 +736,23 @@ public class RiskGUI {
 	/**
 	 * updates all Buttons and their Values
 	 */
-	private void updateButtons() {
+	public void updateTerritory(Territory territory) {
 		for(Button button: buttons){
-			
-			//get the territory from the Server
-			Territory territory = game.getTerritories().get(
-					cutTooltip(button.getToolTipText()));
-			
-			//set the values and the owner, units and color
-			button.setImage(unitImage[territory.getOwner().getColor()]);
-			button.setText(String.valueOf(territory.getUnits()));
-			button.setToolTipText(territory.getName() + " gehört "
-					+ territory.getOwner().getName());
+			if (cutTooltip(button.getToolTipText()).equals(territory.getName())) {
+				System.out.println(cutTooltip(button.getToolTipText()));
+				button.setText(String.valueOf(territory.getUnits()));
+			}
+//			//get the territory from the Server
+//			Territory territory = game.getTerritories().get(
+//					cutTooltip(button.getToolTipText()));
+//			
+//			//set the values and the owner, units and color
+//			button.setImage(unitImage[territory.getOwner().getColor()]);
+//			button.setText(String.valueOf(territory.getUnits()));
+//			button.setToolTipText(territory.getName() + " gehört "
+//					+ territory.getOwner().getName());
 		}
-		
+		eventWindowAppendText(currentPlayer.getName() + " hat eine Einheit auf " + territory.getName() + " gesetzt.");
 		shell.update();
 	}
 	
@@ -768,8 +771,6 @@ public class RiskGUI {
 		
 		if(phase == Phase.PLACEMENT){
 			game.placeUnits(territory.getName(), 1);
-			// NUR EIN TEST
-			updateButtons();
 		} else if(phase == Phase.ATTACK){
 			//SOURCE TERRITORY
 			//TARGET TERRITORY
