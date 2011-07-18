@@ -2,6 +2,7 @@ package commons;
 
 import java.io.Serializable;
 
+import server.GameMethodsImpl.Phase;
 import valueobjects.Player;
 
 public abstract class Action implements Serializable {
@@ -11,6 +12,7 @@ public abstract class Action implements Serializable {
 	 * Stores the player that initiated this action. Can be null.
 	 */
 	private Player player;
+	private Phase phase;
 	
 	/**
 	 * Sometimes there is no player who initiated an action.
@@ -25,6 +27,11 @@ public abstract class Action implements Serializable {
 	 */
 	public Action(Player player) {
 		this.player = player;
+	}
+	
+	public Action(Player player, Phase phase) {
+		this.player = player;
+		this.phase = phase;
 	}
 	
 	/**
