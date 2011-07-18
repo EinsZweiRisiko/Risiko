@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -23,6 +24,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import server.GameMethodsImpl.Phase;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
@@ -60,6 +62,7 @@ public class RiskGUI {
 	private Player currentPlayer;
 	private Device dev;
 	private Label[] bonusLabelStack;
+	private Phase phase;
 
 	/**
 	 * creates a new GUI and Game
@@ -701,7 +704,9 @@ public class RiskGUI {
 
 				@Override
 				public void mouseDown(MouseEvent e) {
-					openDialog(e);
+					if(game.getActivePlayer().equals(myPlayer)){
+						performAction(e);
+					}
 				}
 
 				@Override
@@ -771,13 +776,32 @@ public class RiskGUI {
 	 * opens a Dialog after MouseClick according to the Phase
 	 * @param e calling Object
 	 */
-	private void openDialog(MouseEvent e) {
-
+	private void performAction(MouseEvent e) {
+		
 		Button clickedButton = (Button) e.widget;
-
+		
 		Territory territory = game.getTerritories().get(
 				cutTooltip(clickedButton.getToolTipText()));
+		
+		if(phase.equals(Phase.PLACEMENT)){
+			game.placeUnits(territory, 1);
+		}
 
+		if(phase.equals(Phase.ATTACK)){
+			//SOURCE TERRITORY
+			//TARGET TERRITORY
+			//AMOUNT
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, territory);
+			ad.open();
+		}
+		
+		if(phase.equals(Phase.MOVEMENT)){
+			//SOURCE TERRITORY
+			//TARGET TERRITORY
+			//AMOUNT
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, territory);
+			ad.open();
+		}
 	}
 
 	private void createCardWindow() {
@@ -962,6 +986,73 @@ public class RiskGUI {
 			eventWindowAppendText("Du bist dran");
 		} else {
 			eventWindowAppendText(player.getName() + " ist dran.");
+		}
+	}
+	
+	public void updatePhase() {
+		phase = game.getCurrentPhase();
+		
+		if(phase.equals(Phase.PLACEMENT)){
+			for(Button button:buttons){
+				
+				if(currentPlayer.equals(myPlayer)){
+					Territory territory = game.getTerritories().get(
+							cutTooltip(button.getToolTipText()));
+					
+					if(territory.getOwner().equals(myPlayer)){
+						button.setEnabled(true);
+					} else {
+						button.setEnabled(false);
+					}
+				} else {
+					for(Button button2:buttons){
+						button2.setEnabled(false);
+					}
+				}
+			}
+		}
+		
+		if(phase.equals(Phase.ATTACK)){
+			if(currentPlayer.equals(myPlayer)){
+				for(Button button:buttons){
+					button.setEnabled(false);
+				}
+				
+				List<Territory> sources = game.getMyTerritoriesForAttacking(myPlayer);
+				
+				for(Button button:buttons){
+					Territory territory = game.getTerritories().get(
+							cutTooltip(button.getToolTipText()));
+					if(sources.contains(territory)){
+						button.setEnabled(true);
+					}
+				}
+			}else{
+				for(Button button:buttons){
+					button.setEnabled(false);
+				}
+			}
+		}
+		if(phase.equals(Phase.MOVEMENT)){
+			if(currentPlayer.equals(myPlayer)){
+				for(Button button:buttons){
+					button.setEnabled(false);
+				}
+				
+				List<Territory> sources = game.getMyTerritoriesForMoving(myPlayer);
+				
+				for(Button button:buttons){
+					Territory territory = game.getTerritories().get(
+							cutTooltip(button.getToolTipText()));
+					if(sources.contains(territory)){
+						button.setEnabled(true);
+					}
+				}
+			}else{
+				for(Button button:buttons){
+					button.setEnabled(false);
+				}
+			}
 		}
 	}
 

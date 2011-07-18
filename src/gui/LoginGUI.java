@@ -12,11 +12,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import ui.IO;
+import server.ErrorBox;
+import server.remoteexceptions.NoNameException;
+import server.remoteexceptions.ServerFullException;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.exceptions.LookupFailedException;
 
@@ -51,6 +55,14 @@ public class LoginGUI {
 		shell.setBackgroundImage(bg);
 		
 		center(shell);
+		
+		// Quit the program on window close
+		shell.addListener(SWT.Close, new Listener() {
+		      public void handleEvent(Event event) {
+		    	  shell.dispose();
+		    	  System.exit(0);
+		      }
+		});
 		
 		GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns =2;
@@ -92,16 +104,22 @@ public class LoginGUI {
 					String ip = serverText.getText();
 					String name = nameText.getText();
 					
+					// Connect to the server
 					app.connect(ip, name);
+					// Close the window after a successful connect
+					shell.dispose();
 				} catch (UnknownHostException e1) {
-					IO.writeError("Unknown host: " + e1.getMessage());
+					new ErrorBox(shell, "Unknown host: " + e1.getMessage());
 				} catch (LookupFailedException e1) {
-					IO.writeError("Lookup failed: " + e1.getMessage());
+					new ErrorBox(shell, e1.getMessage());
 				} catch (EstablishConnectionFailed e1) {
-					IO.writeError("Establish connection failed: " + e1.getMessage());
+					new ErrorBox(shell, e1.getMessage());
+				} catch (ServerFullException e1) {
+					new ErrorBox(shell, e1.getMessage());
+				} catch (NoNameException e1) {
+					new ErrorBox(shell, e1.getMessage());
 				}
-				// Close the window after a successful connect
-				shell.dispose();
+				
 			}
 	      });
 		

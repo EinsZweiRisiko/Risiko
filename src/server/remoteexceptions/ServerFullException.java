@@ -14,6 +14,6 @@ public class ServerFullException extends SimonRemoteException {
 	private static final long serialVersionUID = 4894874648505078537L;
 
 	public ServerFullException() {
-		super("You can't connect to this server.");
+		super("The game is already in progress or it is full.");
 	}
 }
