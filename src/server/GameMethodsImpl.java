@@ -469,10 +469,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
 		
-		for(int i = 0; i <= territories.size(); i++) {
+		for(int i = 1; i <= territories.size(); i++) {
 			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 0; j <= neighbors.size() ;j++){
-				if(!neighbors.get(j).getOwner().equals(player)){
+			for(int j = 1; j <= neighbors.size() ;j++){
+				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
 					if(!attackingTerritories.contains(neighbors.get(j))) {
 						attackingTerritories.add(territories.get(i));
 					}
@@ -487,10 +487,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
 		
-		for(int i = 0; i <= territories.size(); i++) {
+		for(int i = 1; i <= territories.size(); i++) {
 			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 0; j <= neighbors.size() ;j++){
-				if(neighbors.get(j).getOwner().equals(player)){
+			for(int j = 1; j <= neighbors.size() ;j++){
+				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
 					if(!moveTerritories.contains(neighbors.get(j))) {
 						moveTerritories.add(territories.get(i));
 					}
