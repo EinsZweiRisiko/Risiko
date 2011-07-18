@@ -26,8 +26,8 @@ public class BonusCard implements Serializable {
 	 */
 	private String type;
 	
-	public BonusCard() {
-		
+	public BonusCard(String type) {
+		setType(type);
 	}
 	
 	/**
