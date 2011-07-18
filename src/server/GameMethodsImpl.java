@@ -25,6 +25,7 @@ import commons.actions.AttackAction;
 import commons.actions.DefendAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
+import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.ValueChangeAction;
 
@@ -236,8 +237,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private void nextPlayer() {
 		// Advance to the next player
 		currentPlayer = players.getNextPlayer();
-		// A new turn has started so we have to compute the player's supply
-		calculateSupplies();
 		IO.write("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
@@ -270,18 +269,24 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		switch (currentPhase) {
 		// The first action is at the end of this switch block
 			case TURNINCARDS:
+				notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 				// Placing the supply units is next
 				preparePlacementAction();
 
 			case PLACEMENT:
+				// berechnet die supllies für den aktuellen spieler
+				calculateSupplies();
+				notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 				// Attacking other players is next
 				prepareAttackAction();
 
 			case ATTACK:
+				notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 				// Moving units is next
 				prepareMovementAction();
 
 			case MOVEMENT:
+				notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
