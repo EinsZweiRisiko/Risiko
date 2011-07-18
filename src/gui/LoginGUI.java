@@ -105,6 +105,29 @@ public class LoginGUI {
 			}
 	      });
 		
+		Button loadGame = new Button(login, SWT.PUSH);
+		loadGame.setText("Spiel laden");
+		loadGame.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		Composite about = new Composite(shell, SWT.INHERIT_NONE);
 		
 		about.setLayout(gridLayout);

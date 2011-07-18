@@ -119,6 +119,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 		});
 
@@ -130,6 +131,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 
 			@Override
@@ -137,6 +139,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 
 			@Override
@@ -144,6 +147,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 
 			@Override
@@ -151,6 +155,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 
 			@Override
@@ -158,6 +163,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 		});
 
@@ -767,7 +773,7 @@ public class RiskGUI {
 	}
 
 	private void createCardWindow() {
-		cardWindow = new Composite(mainWindow,SWT.INHERIT_DEFAULT);
+		cardWindow = new Composite(mainWindow,SWT.NONE);
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);
 		
@@ -816,13 +822,23 @@ public class RiskGUI {
 			if(bonusCard.getType().equals("WildCard")){
 				type = 3;
 			}
-			
-			label.setBackgroundImage(bonusImage[type]);
+			label.setSize(22, 32);
+			label.setImage(bonusImage[type]);
+			label.pack();
+			cardWindow.pack();
 		}
+		
+		cardWindow.setLocation(new Point(
+				((imgWidth - shell.getClientArea().width) / 2
+						+ shell.getClientArea().width - cardWindow.getBounds().width),
+				((imgHeight - shell.getClientArea().height) / 2
+						+ 5)));
+		
+		shell.update();
 	}
 
 	private void updateBonusCard() {
-		cardWindow = new Composite(mainWindow,SWT.INHERIT_DEFAULT);
+		cardWindow = new Composite(mainWindow,SWT.NONE);
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);
 		
@@ -851,14 +867,20 @@ public class RiskGUI {
 				type = 3;
 			}
 			
-			label.setBackgroundImage(bonusImage[type]);
+			label.setSize(22, 32);
+			label.setImage(bonusImage[type]);
+			label.pack();
+			cardWindow.pack();
 		}
 		
-		cardWindow.pack();
 		cardWindow.setLocation(new Point(
 				((imgWidth - shell.getClientArea().width) / 2
 						+ shell.getClientArea().width - cardWindow.getBounds().width),
-				0));
+				((imgHeight - shell.getClientArea().height) / 2
+						+  5)));
+		
+		shell.update();
+		
 	}
 
 	/**
