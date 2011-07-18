@@ -73,7 +73,8 @@ public class Store {
 		
 		//die Aktuelle Phase
 		input.add("# Aktuelle Phase");
-		input.add(Enum.toString(game.getCurrentPhase()));
+		// TODO Pahse zum String konventieren altaaaa!!!1
+//		input.add(Enum.toString(game.getCurrentPhase()));
 		
 		/* TODO muss mit allen Spielern geschehen
 		 *  eine while schleife durchladen aller spieler

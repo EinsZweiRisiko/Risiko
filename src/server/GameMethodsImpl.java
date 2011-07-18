@@ -21,8 +21,11 @@ import valueobjects.Territory;
 import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
+import commons.actions.AttackAction;
+import commons.actions.DefendAction;
 import commons.actions.GameStartedAction;
 import commons.actions.PlayerJoinedAction;
+import commons.actions.ValueChangeAction;
 
 import de.root1.simon.Registry;
 import de.root1.simon.Simon;
@@ -41,6 +44,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	private static final long serialVersionUID = -3491803188267650698L;
 
+	// die gewürfelten Ergebnisse müssen auf dem Server lokal gespeichert werden
+	ArrayList<Integer> attackDice;
+	ArrayList<Integer> defendDice;
+	
+	// das angreifende land und angegeriffende Land muss temporär gespeichert werden
+	Territory attackingTerritory;
+	Territory defendTerritory;
+	
 	private boolean started = false; 
 	private PlayerCollection players = new PlayerCollection();
 	private boolean changed = false;
@@ -274,6 +285,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		currentPlayer = players.getNextPlayer();
 		// A new turn has started so we have to compute the player's supply
 		calculateSupplies();
+		
 	}
 
 	/**
@@ -507,8 +519,19 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void attack(Territory attackingTerritory,
 			Territory attackedTerritory, int amount) {
-		
-		
+		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
+		attackDice = getDice(amount);
+		attackingTerritory = attackingTerritory;
+		defendTerritory = defendTerritory;
+		notifyPlayers(new AttackAction(attackingTerritory, attackedTerritory, amount));
+	}
+	
+	public void defend(Territory defendTerritory, int amount) {
+		// Verteidiger(amount) darf nicht mehr als 2 und nicht weniger als 1 sein
+		defendDice = getDice(amount);
+		notifyPlayers(new DefendAction(defendTerritory, amount));
+		// nun wird der Kampf bzw. die zwei würfel verglichen "Kampf" findet statt
+		calculateDice(attackDice, defendDice);
 	}
 	
 	public ArrayList<Integer> getDice(int amount) {
@@ -522,6 +545,32 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		Collections.sort(dice);
 		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
 		return dice;
+	}
+	
+	public void calculateDice(ArrayList<Integer> attackDice, ArrayList<Integer> defendDice) {
+		// TODO vergleichen und auswerten der Würfel
+		// TODO irgendein lustiger algorithmus zum Vergleich der da unten steht ;-)
+		int defendLoseUnits = 0;
+		int attackLoseUnits = 0;
+		
+		for(int i = 1; i <= defendDice.size(); i++) {
+			if(defendDice.get(i) > attackDice.get(i)) {
+				attackLoseUnits++;
+			}else if(defendDice.get(i) == attackDice.get(i)) {
+				attackLoseUnits++;
+			}else if(defendDice.get(i) < attackDice.get(i)) {
+				defendLoseUnits--;
+			}
+		}
+		// TODO und danach setzen der Values auf den jeweiligen Territories
+		attackingTerritory.setUnits(attackingTerritory.getUnits() - attackLoseUnits);
+		defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
+		// TODO Es muss noch überprüft werden ob das Land übernommen wurde oder nicht
+		
+		// TODO ein notifiy rauswerfen mit den geänderten values
+		// TODO koennte so aussehen: notifyPlayers(territory, dasjeweiligeterritory.getUnits()
+		notifyPlayers(new ValueChangeAction(attackingTerritory, attackingTerritory.getUnits()));
+		notifyPlayers(new ValueChangeAction(defendTerritory, defendTerritory.getUnits()));
 	}
 	
 	@Override
