@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.List;
 
-import ui.exceptions.NoInputException;
-import ui.exceptions.YesNoFormatException;
+import cui.exceptions.NoInputException;
+import cui.exceptions.YesNoFormatException;
 
 /**
  * Helper class for command line input/output<br>

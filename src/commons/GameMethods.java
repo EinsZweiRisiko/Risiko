@@ -3,8 +3,8 @@ package commons;
 import java.util.HashMap;
 import java.util.List;
 
-import server.Mission;
 import server.GameMethodsImpl.Phase;
+import server.Mission;
 import server.exceptions.NotEnoughPlayersException;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.BonusCard;
