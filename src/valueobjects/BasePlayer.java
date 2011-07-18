@@ -57,6 +57,21 @@ public class BasePlayer implements Serializable {
 		this.color = color;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Player)) {
+			return false;
+		}
+		
+		Player p = (Player) o;
+		
+		if (p.getColor() == getColor()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Adds the specified number to the amount of units that need to be
 	 * allocated.

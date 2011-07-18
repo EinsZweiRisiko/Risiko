@@ -1,7 +1,5 @@
 package ui;
 
-import gui.ClientMethodsImpl;
-
 import java.net.UnknownHostException;
 
 import commons.GameMethods;

@@ -2,7 +2,6 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -24,6 +23,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import ui.IO;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
@@ -37,6 +37,8 @@ import commons.GameMethods;
 public class RiskGUI {
 
 	private GameMethods game;
+	private Display display;
+	private AppClient app;
 	private Shell shell;
 	private Image map;
 	private Image[] unitImage = new Image[6];
@@ -65,11 +67,11 @@ public class RiskGUI {
 	 * @param display
 	 *            the Display on which the shell is shown
 	 */
-	public RiskGUI(Display display, final GameMethods game) {
-
+	public RiskGUI(Display display, AppClient app, final GameMethods game) {
 		this.game = game;
+		this.app = app;
+		this.display = display;
 
-		eventWindowAppendText("Eine neue Runde Risiko wird gestartet!");
 
 		territories = game.getTerritories();
 		players = game.getPlayers();
@@ -112,6 +114,7 @@ public class RiskGUI {
 		createEventWindow();
 
 		createCardWindow();
+
 
 		// resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
@@ -162,16 +165,20 @@ public class RiskGUI {
 		});
 
 		center(shell);
-
 		shell.open();
+	}
 
+	/**
+	 * Starts the game loop
+	 */
+	public void start() {
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
 	}
-
+	
 	/**
 	 * add a new String to the Event Window
 	 * 
@@ -180,7 +187,7 @@ public class RiskGUI {
 	 */
 	private void eventWindowAppendText(String string) {
 		events = string + "\n" + events;
-
+		eventWindow.setText(events);
 	}
 
 	/**
@@ -925,6 +932,20 @@ public class RiskGUI {
 	@Override
 	public void finalize() {
 		shell.dispose();
+	}
+
+	/**
+	 * Updates the current player after a NextPlayerAction was received.
+	 */
+	public void updateCurrentPlayer() {
+		Player player = game.getActivePlayer();
+		
+		// Check whether the player equals my player
+		if (player.equals(app.getClient())) {
+			eventWindowAppendText("Du bist dran");
+		} else {
+			eventWindowAppendText(player.getName() + " ist dran.");
+		}
 	}
 
 }

@@ -2,7 +2,6 @@ package server.missions;
 
 import java.util.ArrayList;
 
-
 import server.Mission;
 import valueobjects.Player;
 import valueobjects.Territory;
