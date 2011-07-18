@@ -990,7 +990,11 @@ public class RiskGUI {
 	}
 	
 	public void updatePhase() {
+		
+		System.out.println("Aktuelle Phase: "+game.getCurrentPhase());
+		
 		phase = game.getCurrentPhase();
+		currentPlayer = game.getActivePlayer();
 		
 		if(phase.equals(Phase.PLACEMENT)){
 			for(Button button:buttons){

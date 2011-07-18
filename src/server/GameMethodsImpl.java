@@ -522,8 +522,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void placeUnits(Territory territory, int amount) {
-		// TODO Change the value of the territory
-		territory.setUnits(amount);
+		Player owner = territory.getOwner();
+		if(owner.getSuppliesToAllocate() > 0){
+			territory.setUnits(amount);
+			owner.subtractSupplies(amount);
+		}
+		if(owner.getSuppliesToAllocate() == 0){
+			nextPhase();
+		}
 	}
 
 	@Override
