@@ -780,7 +780,7 @@ public class RiskGUI {
 		Territory territory = game.getTerritories().get(
 				cutTooltip(clickedButton.getToolTipText()));
 		
-		ActionDialog ad = new ActionDialog(shell, SWT.NONE, game.getCurrentPhase(), territory);
+		new ActionDialog(shell, SWT.NONE, game.getCurrentPhase(), territory);
 
 	}
 

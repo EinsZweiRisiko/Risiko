@@ -59,6 +59,7 @@ public class LoginGUI {
 		// Quit the program on window close
 		shell.addListener(SWT.Close, new Listener() {
 		      public void handleEvent(Event event) {
+		    	  shell.dispose();
 		    	  System.exit(0);
 		      }
 		});
