@@ -182,6 +182,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		started = true;
 		notifyPlayers(new GameStartedAction());
 		
+		// switch the pahse to turning
+//		currentPhase = Phase.TURNINCARDS;
+		notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 		// Set the first phase
 		nextPhase();
 	}

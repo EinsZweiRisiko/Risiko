@@ -85,6 +85,7 @@ public class AppClient implements ClientMethods {
 		} else if (a instanceof PhaseAction) {
 			display.asyncExec(new Runnable() {
 				public void run() {
+					System.out.println("HALLO ICH MACH JETZT EIN PHASE UPDATE!!!");
 					rFenster.updatePhase();
 				}
 			});
