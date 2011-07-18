@@ -17,8 +17,8 @@ import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.TerritoryUnitsChangedAction;
-import cui.IO;
 
+import cui.IO;
 import de.root1.simon.Lookup;
 import de.root1.simon.Simon;
 import de.root1.simon.annotation.SimonRemote;

@@ -1,9 +1,9 @@
 package commons.actions;
 
-import commons.Action;
-
 import server.GameMethodsImpl.Phase;
 import valueobjects.Player;
+
+import commons.Action;
 
 public class PhaseAction extends Action {
 
