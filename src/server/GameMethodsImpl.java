@@ -531,5 +531,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		target.setUnits(target.getUnits() + amount);
 		// Es müssen noch die Clients Notified werden
 	}
-
+	
+	public Phase getCurrentPhase() {
+		return currentPhase;
+	}
 }

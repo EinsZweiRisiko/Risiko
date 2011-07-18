@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
+import server.GameMethodsImpl;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
@@ -47,11 +48,13 @@ public class Store {
 	 * 
 	 */
 	ArrayList<Player> players;
+	GameMethodsImpl game;
 	PlayerCollection playerManager;
 	private final String SAVE_PATH = "C:\\riskSave2.txt";
 
-	public Store(PlayerCollection playerManager) {
+	public Store(PlayerCollection playerManager, GameMethodsImpl game) {
 		this.playerManager = playerManager;
+		this.game = game;
 	}
 
 	public ArrayList<String> buildInput() {
@@ -64,7 +67,14 @@ public class Store {
 		ArrayList<Territory> territories;
 
 		// Allgemeines Input Build
-
+		// der aktuelle Spieler der dran war
+		input.add("# Aktueller Spieler");
+		input.add(game.getActivePlayer().getName());
+		
+		//die Aktuelle Phase
+		input.add("# Aktuelle Phase");
+		input.add(Enum.toString(game.getCurrentPhase()));
+		
 		/* TODO muss mit allen Spielern geschehen
 		 *  eine while schleife durchladen aller spieler
 		 *  alle spieler bekommen wir von PlayerManager mit getPlayers();
@@ -108,7 +118,7 @@ public class Store {
 			input.add("# AnzahlZuSetzendeEinheiten");
 			input.add(String.valueOf(players.get(a).getSuppliesToAllocate()));
 
-			// TODO Mission abspeichern
+			// TODO Mission abspeichern muss noch geschrieben werden
 
 		}
 		return input;
