@@ -75,7 +75,8 @@ public class LobbyGUI {
 		// if joining Player is a Creator, show him a start Button.
 		if(creator) {
 			Button startGame = new Button(lobby,SWT.PUSH);
-			startGame.setText("Spiel starten");
+			startGame.setText("Spiel starten");		
+			
 			startGame.addMouseListener(new MouseListener() {
 				@Override
 				public void mouseDown(MouseEvent e) {
