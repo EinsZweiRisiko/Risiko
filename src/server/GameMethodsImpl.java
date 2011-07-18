@@ -21,6 +21,8 @@ import valueobjects.Territory;
 import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
+import commons.actions.AttackAction;
+import commons.actions.DefendAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PlayerJoinedAction;
@@ -526,8 +528,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			Territory attackedTerritory, int amount) {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
 		attackDice = getDice(amount);
-		attackingTerritory = attackingTerritory;
-		defendTerritory = defendTerritory;
+		this.attackingTerritory = attackingTerritory;
+		this.defendTerritory = defendTerritory;
 		notifyPlayers(new AttackAction(attackingTerritory, attackedTerritory, amount));
 	}
 	
