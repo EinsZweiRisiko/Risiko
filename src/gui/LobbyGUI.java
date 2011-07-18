@@ -137,7 +137,7 @@ public class LobbyGUI {
 		}
 		
 		playerList.setText(text);
-		playerList.setSize(200, 150);
+		playerList.setSize(200, 50);
 		shell.update();
 	}
 	
