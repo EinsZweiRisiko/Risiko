@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import server.GameMethodsImpl.Phase;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
@@ -702,7 +703,7 @@ public class RiskGUI {
 				@Override
 				public void mouseDown(MouseEvent e) {
 					if(game.getActivePlayer().equals(myPlayer)){
-						openDialog(e);
+						performAction(e);
 					}
 				}
 
@@ -773,15 +774,37 @@ public class RiskGUI {
 	 * opens a Dialog after MouseClick according to the Phase
 	 * @param e calling Object
 	 */
-	private void openDialog(MouseEvent e) {
-
+	private void performAction(MouseEvent e) {
+		
+		Phase phase = game.getCurrentPhase();
+		
 		Button clickedButton = (Button) e.widget;
 		
 		Territory territory = game.getTerritories().get(
 				cutTooltip(clickedButton.getToolTipText()));
 		
-		ActionDialog ad = new ActionDialog(shell, SWT.NONE, game.getCurrentPhase(), territory);
+		if(phase.equals(Phase.PLACEMENT)){
+			while(myPlayer.getSuppliesToAllocate() != 0){
+				game.placeUnits(territory, 1);
+				myPlayer.subtractSupplies(1);
+			}
+		}
 
+		if(phase.equals(Phase.ATTACK)){
+			//SOURCE TERRITORY
+			//TARGET TERRITORY
+			//AMOUNT
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, territory);
+			ad.open();
+		}
+		
+		if(phase.equals(Phase.MOVEMENT)){
+			//SOURCE TERRITORY
+			//TARGET TERRITORY
+			//AMOUNT
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, territory);
+			ad.open();
+		}
 	}
 
 	private void createCardWindow() {
