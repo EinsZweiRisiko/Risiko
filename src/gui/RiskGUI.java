@@ -63,6 +63,7 @@ public class RiskGUI {
 	private Device dev;
 	private Label[] bonusLabelStack;
 	private Phase phase;
+	private Button nextPhaseButton;
 
 	/**
 	 * creates a new GUI and Game
@@ -998,6 +999,33 @@ public class RiskGUI {
 		}
 		
 		if(phase.equals(Phase.ATTACK)){
+			
+			nextPhaseButton = new Button(mainWindow, SWT.PUSH);
+			nextPhaseButton.setText("nächste Phase");
+			nextPhaseButton.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2 + 10),
+					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+			
+			nextPhaseButton.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseUp(MouseEvent e) {
+					game.nextPhase();
+				}
+				
+				@Override
+				public void mouseDown(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
 			if(currentPlayer.equals(myPlayer)){
 				for(Button button:buttons){
 					button.setEnabled(false);
@@ -1019,6 +1047,33 @@ public class RiskGUI {
 			}
 		}
 		if(phase.equals(Phase.MOVEMENT)){
+			
+			nextPhaseButton = new Button(mainWindow, SWT.PUSH);
+			nextPhaseButton.setText("Runde beenden.");
+			nextPhaseButton.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2 + 10),
+					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+			
+			nextPhaseButton.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseUp(MouseEvent e) {
+					game.nextPhase();
+				}
+				
+				@Override
+				public void mouseDown(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
 			if(currentPlayer.equals(myPlayer)){
 				for(Button button:buttons){
 					button.setEnabled(false);
