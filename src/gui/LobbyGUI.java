@@ -6,7 +6,6 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -42,7 +41,7 @@ public class LobbyGUI {
 	 * @param game the instance of the game which should be started
 	 * @param creator true == this GUI belongs to a user who is creating the game false == this GUI belongs to a user who is joining a game
 	 */
-	public LobbyGUI(Display display, final AppClient app, GameMethods game, boolean creator){
+	public LobbyGUI(Display display, final AppClient app, final GameMethods game, boolean creator){
 		this.display = display;
 		this.app = app;
 		this.game = game;
@@ -70,7 +69,6 @@ public class LobbyGUI {
 		
 		// Update the text
 		updateText();
-//		playerList.setSize(200, 75);
 		
 		// if joining Player is a Creator, show him a start Button.
 		if(creator) {
@@ -92,19 +90,15 @@ public class LobbyGUI {
 				@Override
 				public void mouseUp(MouseEvent e) {
 					try {
-						app.startGame();
+						game.start();
 					} catch (NotEnoughPlayersException e1) {
 						IO.writeError(e1.getMessage());
-						System.exit(1);
 					}
-					// Close the window
-					shell.dispose();
 				}
 		      });
 		}
 		
 		lobby.setBounds(0, 0, 250, 300);
-//		lobby.setSize(400, 500);
 		shell.pack();
 		center(shell);
 		shell.open();
@@ -145,8 +139,7 @@ public class LobbyGUI {
 		shell.update();
 	}
 	
-	@Override
-	public void finalize() {
+	public void close() {
 		shell.dispose();
 	}
 

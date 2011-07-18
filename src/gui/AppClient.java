@@ -46,7 +46,6 @@ public class AppClient implements ClientMethods {
 		
 		lobbygui = new LobbyGUI(display, this, game, creator);
 		lobbygui.start();
-		lobbygui.finalize();
 		
 		// Show the main risk window
 		rFenster = new RiskGUI(display, game);
@@ -70,7 +69,16 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (a instanceof GameStartedAction) {
 			// Game started
-			IO.write("Game started");
+			IO.write("Game started.");
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					if (lobbygui != null) {
+						lobbygui.close();
+					}
+				}
+			});
+			
 		} else {
 			IO.write("Unidentified action.");
 		}
@@ -97,10 +105,6 @@ public class AppClient implements ClientMethods {
 
 	public void setCreator(boolean creator) {
 		this.creator = creator;
-	}
-	
-	public void startGame() throws NotEnoughPlayersException{
-		game.start();
 	}
 	
 	/**
