@@ -1,13 +1,14 @@
 package commons.actions;
 
-import commons.Action;
-
 import valueobjects.Territory;
 
-public class ValueChangeAction implements Action {
+import commons.Action;
 
+public class ValueChangeAction extends Action {
 	
-	public ValueChangeAction(Territory attackingTerritory, int units) {
+	private static final long serialVersionUID = 3911218703070306425L;
+
+	public ValueChangeAction(Territory territory, int units) {
 		// TODO Auto-generated constructor stub
 	}
 
