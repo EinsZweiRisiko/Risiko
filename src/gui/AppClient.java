@@ -6,7 +6,6 @@ import org.eclipse.swt.widgets.Display;
 
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
-import ui.IO;
 import valueobjects.Player;
 import valueobjects.Territory;
 
@@ -18,6 +17,7 @@ import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.TerritoryUnitsChangedAction;
+import cui.IO;
 
 import de.root1.simon.Lookup;
 import de.root1.simon.Simon;

@@ -11,7 +11,6 @@ import java.util.List;
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
 import server.remoteexceptions.ServerFullException;
-import ui.IO;
 import valueobjects.BonusCard;
 import valueobjects.BonusCardStack;
 import valueobjects.Player;
@@ -28,6 +27,7 @@ import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.TerritoryUnitsChangedAction;
+import cui.IO;
 
 import de.root1.simon.Registry;
 import de.root1.simon.Simon;

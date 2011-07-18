@@ -1,4 +1,4 @@
-package ui;
+package cui;
 
 import server.GameMethodsImpl;
 import valueobjects.Player;

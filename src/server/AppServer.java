@@ -3,7 +3,8 @@ package server;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import ui.IO;
+import cui.IO;
+
 import de.root1.simon.exceptions.NameBindingException;
 
 public class AppServer {

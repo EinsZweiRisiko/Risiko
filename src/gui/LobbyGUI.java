@@ -14,11 +14,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import server.exceptions.NotEnoughPlayersException;
-import ui.IO;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
 
 import commons.GameMethods;
+import cui.IO;
 
 /**
  * LobbyGUI provides a GUI in which Players can wait for other plays till they start the game
