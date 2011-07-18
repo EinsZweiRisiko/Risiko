@@ -136,6 +136,8 @@ public class LobbyGUI {
 		}
 		
 		playerList.setText(text);
+		playerList.pack();
+		lobby.pack();
 		shell.update();
 	}
 	
