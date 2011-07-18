@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -61,6 +62,7 @@ public class RiskGUI {
 	private Player currentPlayer;
 	private Device dev;
 	private Label[] bonusLabelStack;
+	private Phase phase;
 
 	/**
 	 * creates a new GUI and Game
@@ -776,18 +778,13 @@ public class RiskGUI {
 	 */
 	private void performAction(MouseEvent e) {
 		
-		Phase phase = game.getCurrentPhase();
-		
 		Button clickedButton = (Button) e.widget;
 		
 		Territory territory = game.getTerritories().get(
 				cutTooltip(clickedButton.getToolTipText()));
 		
 		if(phase.equals(Phase.PLACEMENT)){
-			while(myPlayer.getSuppliesToAllocate() != 0){
-				game.placeUnits(territory, 1);
-				myPlayer.subtractSupplies(1);
-			}
+			game.placeUnits(territory, 1);
 		}
 
 		if(phase.equals(Phase.ATTACK)){
@@ -989,6 +986,73 @@ public class RiskGUI {
 			eventWindowAppendText("Du bist dran");
 		} else {
 			eventWindowAppendText(player.getName() + " ist dran.");
+		}
+	}
+	
+	public void updatePhase() {
+		phase = game.getCurrentPhase();
+		
+		if(phase.equals(Phase.PLACEMENT)){
+			for(Button button:buttons){
+				
+				if(currentPlayer.equals(myPlayer)){
+					Territory territory = game.getTerritories().get(
+							cutTooltip(button.getToolTipText()));
+					
+					if(territory.getOwner().equals(myPlayer)){
+						button.setEnabled(true);
+					} else {
+						button.setEnabled(false);
+					}
+				} else {
+					for(Button button2:buttons){
+						button2.setEnabled(false);
+					}
+				}
+			}
+		}
+		
+		if(phase.equals(Phase.ATTACK)){
+			if(currentPlayer.equals(myPlayer)){
+				for(Button button:buttons){
+					button.setEnabled(false);
+				}
+				
+				List<Territory> sources = game.getMyTerritoriesForAttacking(myPlayer);
+				
+				for(Button button:buttons){
+					Territory territory = game.getTerritories().get(
+							cutTooltip(button.getToolTipText()));
+					if(sources.contains(territory)){
+						button.setEnabled(true);
+					}
+				}
+			}else{
+				for(Button button:buttons){
+					button.setEnabled(false);
+				}
+			}
+		}
+		if(phase.equals(Phase.MOVEMENT)){
+			if(currentPlayer.equals(myPlayer)){
+				for(Button button:buttons){
+					button.setEnabled(false);
+				}
+				
+				List<Territory> sources = game.getMyTerritoriesForMoving(myPlayer);
+				
+				for(Button button:buttons){
+					Territory territory = game.getTerritories().get(
+							cutTooltip(button.getToolTipText()));
+					if(sources.contains(territory)){
+						button.setEnabled(true);
+					}
+				}
+			}else{
+				for(Button button:buttons){
+					button.setEnabled(false);
+				}
+			}
 		}
 	}
 
