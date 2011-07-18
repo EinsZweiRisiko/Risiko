@@ -82,7 +82,7 @@ public class RiskGUI {
 
 		// Create a new Shell with Title
 		shell = new Shell(display);
-		shell.setText("EinsZweiRisiko");
+		shell.setText("EinsZweiRisiko |" +myPlayer.getName());
 
 		// Set size to default
 		shell.setSize(defaultSizeX, defaultSizeY);
@@ -124,9 +124,6 @@ public class RiskGUI {
 		shell.addListener(SWT.Resize, new Listener() {
 			public void handleEvent(Event e) {
 				centerImage(mainWindow);
-				createButtons();
-				createEventWindow();
-				createCardWindow();
 			}
 		});
 
@@ -136,41 +133,26 @@ public class RiskGUI {
 			@Override
 			public void shellActivated(ShellEvent e) {
 				centerImage(mainWindow);
-				createButtons();
-				createEventWindow();
-				createCardWindow();
 			}
 
 			@Override
 			public void shellClosed(ShellEvent e) {
-				centerImage(mainWindow);
-				createButtons();
-				createEventWindow();
-				createCardWindow();
+
 			}
 
 			@Override
 			public void shellDeactivated(ShellEvent e) {
-				centerImage(mainWindow);
-				createButtons();
-				createEventWindow();
-				createCardWindow();
+				centerImage(mainWindow);;
 			}
 
 			@Override
 			public void shellDeiconified(ShellEvent e) {
 				centerImage(mainWindow);
-				createButtons();
-				createEventWindow();
-				createCardWindow();
 			}
 
 			@Override
 			public void shellIconified(ShellEvent e) {
 				centerImage(mainWindow);
-				createButtons();
-				createEventWindow();
-				createCardWindow();
 			}
 		});
 
@@ -704,15 +686,12 @@ public class RiskGUI {
 
 				@Override
 				public void mouseDown(MouseEvent e) {
-					if(game.getActivePlayer().equals(myPlayer)){
-						performAction(e);
-					}
+					
 				}
 
 				@Override
 				public void mouseUp(MouseEvent e) {
-					// TODO Auto-generated method stub
-
+					performAction(e);
 				}
 			});
 		}
@@ -770,6 +749,8 @@ public class RiskGUI {
 			button.setToolTipText(territory.getName() + " gehört "
 					+ territory.getOwner().getName());
 		}
+		
+		shell.update();
 	}
 	
 	/**
@@ -783,19 +764,19 @@ public class RiskGUI {
 		Territory territory = game.getTerritories().get(
 				cutTooltip(clickedButton.getToolTipText()));
 		
-		if(phase.equals(Phase.PLACEMENT)){
-			game.placeUnits(territory, 1);
-		}
-
-		if(phase.equals(Phase.ATTACK)){
+		System.out.println("Es wurde das land angeklickt: "+ territory.getName());
+		
+		if(phase == Phase.PLACEMENT){
+			game.placeUnits(territory.getName(), 1);
+			// NUR EIN TEST
+			updateButtons();
+		} else if(phase == Phase.ATTACK){
 			//SOURCE TERRITORY
 			//TARGET TERRITORY
 			//AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, territory);
 			ad.open();
-		}
-		
-		if(phase.equals(Phase.MOVEMENT)){
+		} else if(phase == Phase.MOVEMENT){
 			//SOURCE TERRITORY
 			//TARGET TERRITORY
 			//AMOUNT
@@ -991,9 +972,9 @@ public class RiskGUI {
 	
 	public void updatePhase() {
 		
-		System.out.println("Aktuelle Phase: "+game.getCurrentPhase());
+		phase = game.getPhase();
+		System.out.println("Aktuelle Phase: "+ phase);
 		
-		phase = game.getCurrentPhase();
 		currentPlayer = game.getActivePlayer();
 		
 		if(phase.equals(Phase.PLACEMENT)){

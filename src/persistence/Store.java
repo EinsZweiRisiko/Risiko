@@ -113,7 +113,7 @@ public class Store {
 
 			//anzahl der noch zu setzenden Einheiten
 			input.add("# AnzahlZuSetzendeEinheiten");
-			input.add(String.valueOf(players.get(a).getSuppliesToAllocate()));
+			input.add(String.valueOf(players.get(a).getSupplies()));
 
 			// TODO Mission abspeichern muss noch geschrieben werden
 

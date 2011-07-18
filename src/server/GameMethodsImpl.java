@@ -184,7 +184,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		// switch the pahse to turning
 //		currentPhase = Phase.TURNINCARDS;
-		notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
+		
 		// Set the first phase
 		nextPhase();
 	}
@@ -268,36 +268,36 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * @return Action The next action/phase
 	 */
 	public void nextPhase() {
+		Phase cp = getPhase();
+		notifyPlayers(new PhaseAction(currentPlayer, cp));
 		// Which action comes afterwards the current one?
 		switch (currentPhase) {
 		// The first action is at the end of this switch block
 			case TURNINCARDS:
-				notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 				// Placing the supply units is next
 				preparePlacementAction();
+				break;
 
 			case PLACEMENT:
-				// berechnet die supllies für den aktuellen spieler
-				calculateSupplies();
-				notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 				// Attacking other players is next
 				prepareAttackAction();
-
+				break;
 			case ATTACK:
-				notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 				// Moving units is next
 				prepareMovementAction();
-
+				 break;
 			case MOVEMENT:
-				notifyPlayers(new PhaseAction(currentPlayer, getCurrentPhase()));
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
+				break;
 			default:
 				// Start
 				nextPlayer();
+				System.out.println("Default reingesprungen");
 				// Turning in cards is next
 				prepareTurnInAction();
+				break;
 		}
 	}
 
@@ -343,6 +343,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * TODO doc
 	 */
 	private void preparePlacementAction() {
+		calculateSupplies();
 		currentPhase = Phase.PLACEMENT;
 	}
 
@@ -524,13 +525,19 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	@Override
-	public void placeUnits(Territory territory, int amount) {
-		Player owner = territory.getOwner();
-		if(owner.getSuppliesToAllocate() > 0){
-			territory.setUnits(amount);
+	public void placeUnits(String territory, int amount) {
+		Territory t = territoryManager.getTerritoryMap().get(territory);
+		
+		Player owner = t.getOwner();
+		
+		if(owner.getSupplies() > 0){
+			t.addUnits(amount);
 			owner.subtractSupplies(amount);
 		}
-		if(owner.getSuppliesToAllocate() == 0){
+		System.out.println("Units auf dem Land: " + t.getUnits());
+		System.out.println("Dein supply: " + owner.getSupplies());
+		
+		if(owner.getSupplies() == 0){
 			nextPhase();
 		}
 	}
@@ -600,9 +607,5 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Es müssen noch die Clients Notified werden
 		notifyPlayers(new ValueChangeAction(source, source.getUnits()));
 		notifyPlayers(new ValueChangeAction(target, target.getUnits()));
-	}
-	
-	public Phase getCurrentPhase() {
-		return currentPhase;
 	}
 }

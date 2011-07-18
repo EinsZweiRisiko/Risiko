@@ -1,5 +1,6 @@
 package valueobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,19 +9,23 @@ import java.util.ArrayList;
  * @author Jannes, Hendrik
  * 
  */
-public class Territory extends BaseTerritory {
+public class Territory implements Serializable {
 
 	private static final long serialVersionUID = -3644006307202028619L;
 	
 	private Continent continent;
 	private ArrayList<Territory> neighborList = new ArrayList<Territory>();
+	
+	private String name;
+	private Player owner;
+	private int units = 0;
 
 	/**
 	 * Creates a new Territory
 	 * @param name of the territory
 	 */
 	public Territory(String name) {
-		super(name);
+		this.name = name;
 	}
 	
 	/**
@@ -70,4 +75,40 @@ public class Territory extends BaseTerritory {
 		this.continent = continent;
 	}
 
+	/**
+	 * 
+	 * @return name of the Territory
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * 
+	 * @return the owner of the Territory
+	 */
+	public Player getOwner() {
+		return owner;
+	}
+
+	/**
+	 * 
+	 * @return the units placed on the Territory
+	 */
+	public int getUnits() {
+		return units;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
+	public void setUnits(int units) {
+		this.units = units;
+	}
+
+	public void addUnits(int units) {
+		this.units += units;
+	}
+	
 }

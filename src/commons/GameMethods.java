@@ -45,15 +45,14 @@ public interface GameMethods {
 	public List<Territory> getOpposingNeighborsOf(Territory territory);
 	public List<Territory> getSimilarNeighborsOf(Territory territory);
 	
-	public Phase getCurrentPhase();
-	
 	// Spielphasen
 	public void redeemBonusCards(List<BonusCard> cards);
-	public void placeUnits(Territory territory, int amount);
+	public void placeUnits(String territory, int amount);
 
 	public void attack(Territory attackingTerritory, Territory attackedTerritory, int amount);
 	public void move(Territory source, Territory target, int amount) throws SimonRemoteException;
 	public void defend(Territory defendTerritory, int amount);
+	public Phase getPhase();
 	
 	/* Notifications:
 	 * 
