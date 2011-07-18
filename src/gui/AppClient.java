@@ -58,8 +58,9 @@ public class AppClient implements ClientMethods {
 		if (a instanceof PlayerJoinedAction) {
 			// A player joined
 			PlayerJoinedAction pja = (PlayerJoinedAction) a;
-			IO.write("player joined: " + pja.getPlayer().getName());
+			IO.write("Player joined: " + pja.getPlayer().getName());
 			
+			// Queue the update function to run in the fucking UI thread
 			display.asyncExec(new Runnable() {
 				public void run() {
 					if (lobbygui != null) {
