@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import server.Mission;
+import server.GameMethodsImpl.Phase;
 import server.exceptions.NotEnoughPlayersException;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.BonusCard;
@@ -43,6 +44,8 @@ public interface GameMethods {
 	
 	public List<Territory> getOpposingNeighborsOf(Territory territory);
 	public List<Territory> getSimilarNeighborsOf(Territory territory);
+	
+	public Phase getCurrentPhase();
 	
 	// Spielphasen
 	public void redeemBonusCards(List<BonusCard> cards);
