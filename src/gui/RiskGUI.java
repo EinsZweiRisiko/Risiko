@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import ui.IO;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
@@ -39,6 +38,7 @@ public class RiskGUI {
 	private GameMethods game;
 	private Display display;
 	private AppClient app;
+	private Player myPlayer;
 	private Shell shell;
 	private Image map;
 	private Image[] unitImage = new Image[6];
@@ -72,6 +72,7 @@ public class RiskGUI {
 		this.app = app;
 		this.display = display;
 
+		this.myPlayer = app.getClient();
 
 		territories = game.getTerritories();
 		players = game.getPlayers();
@@ -806,10 +807,7 @@ public class RiskGUI {
 			System.exit(1);
 		}
 		
-		// TODO get player which owns GUI
-		Player player = game.getPlayers().get(0);
-		
-		ArrayList<BonusCard> bonuscards = player.getBonusCards();
+		ArrayList<BonusCard> bonuscards = myPlayer.getBonusCards();
 		
 		bonusLabelStack = new Label[bonuscards.size()];
 		
@@ -849,10 +847,7 @@ public class RiskGUI {
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);
 		
-		// TODO get player which owns GUI
-		Player player = new Player("TEST");
-		
-		ArrayList<BonusCard> bonuscards = player.getBonusCards();
+		ArrayList<BonusCard> bonuscards = myPlayer.getBonusCards();
 		
 		bonusLabelStack = new Label[bonuscards.size()];
 		
@@ -963,7 +958,7 @@ public class RiskGUI {
 		Player player = game.getActivePlayer();
 		
 		// Check whether the player equals my player
-		if (player.equals(app.getClient())) {
+		if (player.equals(myPlayer)) {
 			eventWindowAppendText("Du bist dran");
 		} else {
 			eventWindowAppendText(player.getName() + " ist dran.");
