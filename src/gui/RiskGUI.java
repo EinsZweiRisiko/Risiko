@@ -83,7 +83,7 @@ public class RiskGUI {
 
 		// Create a new Shell with Title
 		shell = new Shell(display);
-		shell.setText("EinsZweiRisiko |" +myPlayer.getName());
+		shell.setText("EinsZweiRisiko |" + myPlayer.getName());
 
 		// Set size to default
 		shell.setSize(defaultSizeX, defaultSizeY);
@@ -101,17 +101,17 @@ public class RiskGUI {
 
 		dev = shell.getDisplay();
 
-		try{
+		try {
 			map = new Image(dev, "assets/riskClean.png");
 		} catch (Exception e) {
 			System.out.println("Cannot load image");
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		
+
 		imgWidth = map.getBounds().width;
 		imgHeight = map.getBounds().height;
-		
+
 		mainWindow.setBackgroundImage(map);
 
 		createButtons();
@@ -119,7 +119,6 @@ public class RiskGUI {
 		createEventWindow();
 
 		createCardWindow();
-
 
 		// resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
@@ -143,7 +142,8 @@ public class RiskGUI {
 
 			@Override
 			public void shellDeactivated(ShellEvent e) {
-				centerImage(mainWindow);;
+				centerImage(mainWindow);
+				;
 			}
 
 			@Override
@@ -171,7 +171,7 @@ public class RiskGUI {
 			}
 		}
 	}
-	
+
 	/**
 	 * add a new String to the Event Window
 	 * 
@@ -204,7 +204,7 @@ public class RiskGUI {
 	 * creates a Button on every Territory and adds a Tooltip and lable to it
 	 */
 	private void createButtons() {
-		
+
 		// load images for Button
 		try {
 			// load unit pictures
@@ -223,15 +223,15 @@ public class RiskGUI {
 
 			// rescale unit icons for Buttons to 16x16px
 			for (int i = 0; i < unitImage.length; i++) {
-				unitImage[i] = new Image(dev, unitImage[i].getImageData().scaledTo(16,
-						16));
+				unitImage[i] = new Image(dev, unitImage[i].getImageData()
+						.scaledTo(16,
+								16));
 			}
 		} catch (Exception e) {
 			System.out.println("Cannot load image");
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-
 
 		// clear composite
 		for (Control kid : mainWindow.getChildren()) {
@@ -676,7 +676,7 @@ public class RiskGUI {
 		buttons[41].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
 
-		//add to all buttons a Mouselistener
+		// add to all buttons a Mouselistener
 		for (int i = 0; i < buttons.length; i++) {
 			buttons[i].addMouseListener(new MouseListener() {
 				@Override
@@ -687,7 +687,7 @@ public class RiskGUI {
 
 				@Override
 				public void mouseDown(MouseEvent e) {
-					
+
 				}
 
 				@Override
@@ -697,13 +697,12 @@ public class RiskGUI {
 			});
 		}
 
-		
 		// Create some Buttons and Display the Player names Colors and current
 		// Unitammount
-		
+
 		playerButtons = new Button[players.size()];
 		int biggestButton = 0;
-		
+
 		for (int i = 0; i < players.size(); i++) {
 			playerButtons[i] = new Button(mainWindow, SWT.PUSH | SWT.LEFT);
 			playerButtons[i].setImage(unitImage[players.get(i).getColor()]);
@@ -738,7 +737,7 @@ public class RiskGUI {
 	 * updates all Buttons and their Values
 	 */
 	public void updateTerritory(Territory territory) {
-		for(Button button: buttons){
+		for (Button button : buttons) {
 			if (cutTooltip(button.getToolTipText()).equals(territory.getName())) {
 				System.out.println(cutTooltip(button.getToolTipText()));
 				button.setText(String.valueOf(territory.getUnits()));
@@ -753,59 +752,65 @@ public class RiskGUI {
 //			button.setToolTipText(territory.getName() + " gehört "
 //					+ territory.getOwner().getName());
 		}
-		eventWindowAppendText(currentPlayer.getName() + " hat eine Einheit auf " + territory.getName() + " gesetzt.");
+		eventWindowAppendText(currentPlayer.getName()
+				+ " hat eine Einheit auf " + territory.getName() + " gesetzt.");
 		shell.update();
 	}
-	
+
 	/**
 	 * opens a Dialog after MouseClick according to the Phase
-	 * @param e calling Object
+	 * 
+	 * @param e
+	 *            calling Object
 	 */
 	private void performAction(MouseEvent e) {
-		
+
 		Button clickedButton = (Button) e.widget;
-		
+
 		Territory territory = game.getTerritories().get(
 				cutTooltip(clickedButton.getToolTipText()));
-		
-		System.out.println("Es wurde das land angeklickt: "+ territory.getName());
-		
-		if(phase == Phase.PLACEMENT){
+
+		System.out.println("Es wurde das land angeklickt: "
+				+ territory.getName());
+
+		if (phase == Phase.PLACEMENT) {
 			game.placeUnits(territory.getName(), 1);
-		} else if(phase == Phase.ATTACK){
-			//SOURCE TERRITORY
-			//TARGET TERRITORY
-			//AMOUNT
-			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, territory);
+		} else if (phase == Phase.ATTACK) {
+			// SOURCE TERRITORY
+			// TARGET TERRITORY
+			// AMOUNT
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
+					territory);
 			ad.open();
-		} else if(phase == Phase.MOVEMENT){
-			//SOURCE TERRITORY
-			//TARGET TERRITORY
-			//AMOUNT
-			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, territory);
+		} else if (phase == Phase.MOVEMENT) {
+			// SOURCE TERRITORY
+			// TARGET TERRITORY
+			// AMOUNT
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
+					territory);
 			ad.open();
 		}
 	}
 
 	private void createCardWindow() {
-		cardWindow = new Composite(mainWindow,SWT.NONE);
+		cardWindow = new Composite(mainWindow, SWT.NONE);
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);
-		
+
 		// load images for Bonus cards
 		try {
-	
+
 			// load bonus pictures
-			
+
 			// Infantary
 			bonusImage[0] = new Image(dev, "assets/bonusINF.png");
-			
+
 			// Calvary
 			bonusImage[1] = new Image(dev, "assets/bonusCAL.png");
-			
+
 			// Artillery
 			bonusImage[2] = new Image(dev, "assets/bonusART.png");
-			
+
 			// Joker alias Wildcard
 			bonusImage[3] = new Image(dev, "assets/bonusJOK.png");
 		} catch (Exception e) {
@@ -813,25 +818,25 @@ public class RiskGUI {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		
+
 		ArrayList<BonusCard> bonuscards = myPlayer.getBonusCards();
-		
+
 		bonusLabelStack = new Label[bonuscards.size()];
-		
-		for(BonusCard bonusCard:bonuscards){
+
+		for (BonusCard bonusCard : bonuscards) {
 			Label label = new Label(cardWindow, SWT.NONE);
 			int type = 0;
-			
-			if(bonusCard.getType().equals("Infantry")){
+
+			if (bonusCard.getType().equals("Infantry")) {
 				type = 0;
 			}
-			if(bonusCard.getType().equals("Cavalry")){
+			if (bonusCard.getType().equals("Cavalry")) {
 				type = 1;
 			}
-			if(bonusCard.getType().equals("Artillery")){
+			if (bonusCard.getType().equals("Artillery")) {
 				type = 2;
 			}
-			if(bonusCard.getType().equals("WildCard")){
+			if (bonusCard.getType().equals("WildCard")) {
 				type = 3;
 			}
 			label.setSize(22, 32);
@@ -839,57 +844,61 @@ public class RiskGUI {
 			label.pack();
 			cardWindow.pack();
 		}
-		
-		cardWindow.setLocation(new Point(
-				((imgWidth - shell.getClientArea().width) / 2
-						+ shell.getClientArea().width - cardWindow.getBounds().width),
-				((imgHeight - shell.getClientArea().height) / 2
+
+		cardWindow
+				.setLocation(new Point(
+						((imgWidth - shell.getClientArea().width) / 2
+								+ shell.getClientArea().width - cardWindow
+								.getBounds().width),
+						((imgHeight - shell.getClientArea().height) / 2
 						+ 5)));
-		
+
 		shell.update();
 	}
 
 	private void updateBonusCard() {
-		cardWindow = new Composite(mainWindow,SWT.NONE);
+		cardWindow = new Composite(mainWindow, SWT.NONE);
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);
-		
+
 		ArrayList<BonusCard> bonuscards = myPlayer.getBonusCards();
-		
+
 		bonusLabelStack = new Label[bonuscards.size()];
-		
-		for(BonusCard bonusCard:bonuscards){
+
+		for (BonusCard bonusCard : bonuscards) {
 			Label label = new Label(cardWindow, SWT.NONE);
-			
+
 			int type = 0;
-			
-			if(bonusCard.getType().equals("Infantry")){
+
+			if (bonusCard.getType().equals("Infantry")) {
 				type = 0;
 			}
-			if(bonusCard.getType().equals("Cavalry")){
+			if (bonusCard.getType().equals("Cavalry")) {
 				type = 1;
 			}
-			if(bonusCard.getType().equals("Artillery")){
+			if (bonusCard.getType().equals("Artillery")) {
 				type = 2;
 			}
-			if(bonusCard.getType().equals("WildCard")){
+			if (bonusCard.getType().equals("WildCard")) {
 				type = 3;
 			}
-			
+
 			label.setSize(22, 32);
 			label.setImage(bonusImage[type]);
 			label.pack();
 			cardWindow.pack();
 		}
-		
-		cardWindow.setLocation(new Point(
-				((imgWidth - shell.getClientArea().width) / 2
-						+ shell.getClientArea().width - cardWindow.getBounds().width),
-				((imgHeight - shell.getClientArea().height) / 2
-						+  5)));
-		
+
+		cardWindow
+				.setLocation(new Point(
+						((imgWidth - shell.getClientArea().width) / 2
+								+ shell.getClientArea().width - cardWindow
+								.getBounds().width),
+						((imgHeight - shell.getClientArea().height) / 2
+						+ 5)));
+
 		shell.update();
-		
+
 	}
 
 	/**
@@ -963,7 +972,7 @@ public class RiskGUI {
 	 */
 	public void updateCurrentPlayer() {
 		Player player = game.getActivePlayer();
-		
+
 		// Check whether the player equals my player
 		if (player.equals(myPlayer)) {
 			eventWindowAppendText("Du bist dran");
@@ -971,126 +980,139 @@ public class RiskGUI {
 			eventWindowAppendText(player.getName() + " ist dran.");
 		}
 	}
-	
+
 	public void updatePhase() {
-		
+
 		phase = game.getPhase();
-		System.out.println("Aktuelle Phase: "+ phase);
-		
+		System.out.println("Aktuelle Phase: " + phase);
+
 		currentPlayer = game.getActivePlayer();
-		
-		if(phase.equals(Phase.PLACEMENT)){
-			for(Button button:buttons){
-				
-				if(currentPlayer.equals(myPlayer)){
+
+		if (phase.equals(Phase.PLACEMENT)) {
+			for (Button button : buttons) {
+
+				if (currentPlayer.equals(myPlayer)) {
 					Territory territory = game.getTerritories().get(
 							cutTooltip(button.getToolTipText()));
-					
-					if(territory.getOwner().equals(myPlayer)){
+
+					if (territory.getOwner().equals(myPlayer)) {
 						button.setEnabled(true);
 					} else {
 						button.setEnabled(false);
 					}
 				} else {
-					for(Button button2:buttons){
+					for (Button button2 : buttons) {
 						button2.setEnabled(false);
 					}
 				}
 			}
 		}
-		
-		if(phase.equals(Phase.ATTACK)){
-			
-			nextPhaseButton = new Button(mainWindow, SWT.PUSH);
-			nextPhaseButton.setText("nächste Phase");
-			nextPhaseButton.setLocation(new Point(
-					((imgWidth - shell.getClientArea().width) / 2 + 10),
-					((imgHeight - shell.getClientArea().height) / 2 + 10)));
-			
-			nextPhaseButton.addMouseListener(new MouseListener() {
-				
-				@Override
-				public void mouseUp(MouseEvent e) {
-					game.nextPhase();
-				}
-				
-				@Override
-				public void mouseDown(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseDoubleClick(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
-			if(currentPlayer.equals(myPlayer)){
-				for(Button button:buttons){
+
+		if (phase.equals(Phase.ATTACK)) {
+
+			if (currentPlayer.equals(myPlayer)) {
+				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
+				nextPhaseButton.setText("nächste Phase");
+				nextPhaseButton.setLocation(new Point(
+						((imgWidth - shell.getClientArea().width) / 2 + 10),
+						((imgHeight - shell.getClientArea().height) / 2 + 10)));
+
+				nextPhaseButton.pack();
+				shell.update();
+
+				nextPhaseButton.addMouseListener(new MouseListener() {
+
+					@Override
+					public void mouseUp(MouseEvent e) {
+						game.nextPhase();
+						nextPhaseButton.dispose();
+					}
+
+					@Override
+					public void mouseDown(MouseEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void mouseDoubleClick(MouseEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+			}
+
+			if (currentPlayer.equals(myPlayer)) {
+				for (Button button : buttons) {
 					button.setEnabled(false);
 				}
-				
-				List<Territory> sources = game.getMyTerritoriesForAttacking(myPlayer);
-				
-				for(Button button:buttons){
+
+				List<Territory> sources = game
+						.getMyTerritoriesForAttacking(myPlayer);
+
+				for (Button button : buttons) {
 					Territory territory = game.getTerritories().get(
 							cutTooltip(button.getToolTipText()));
-					if(sources.contains(territory)){
+					if (sources.contains(territory)) {
 						button.setEnabled(true);
 					}
 				}
-			}else{
-				for(Button button:buttons){
+			} else {
+				for (Button button : buttons) {
 					button.setEnabled(false);
 				}
 			}
 		}
-		if(phase.equals(Phase.MOVEMENT)){
-			
-			nextPhaseButton = new Button(mainWindow, SWT.PUSH);
-			nextPhaseButton.setText("Runde beenden.");
-			nextPhaseButton.setLocation(new Point(
-					((imgWidth - shell.getClientArea().width) / 2 + 10),
-					((imgHeight - shell.getClientArea().height) / 2 + 10)));
-			
-			nextPhaseButton.addMouseListener(new MouseListener() {
-				
-				@Override
-				public void mouseUp(MouseEvent e) {
-					game.nextPhase();
-				}
-				
-				@Override
-				public void mouseDown(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseDoubleClick(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
-			if(currentPlayer.equals(myPlayer)){
-				for(Button button:buttons){
+		if (phase.equals(Phase.MOVEMENT)) {
+			if (currentPlayer.equals(myPlayer)) {
+				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
+				nextPhaseButton.setText("Runde beenden.");
+				nextPhaseButton.setLocation(new Point(
+						((imgWidth - shell.getClientArea().width) / 2 + 10),
+						((imgHeight - shell.getClientArea().height) / 2 + 10)));
+
+				nextPhaseButton.pack();
+				shell.update();
+
+				nextPhaseButton.addMouseListener(new MouseListener() {
+
+					@Override
+					public void mouseUp(MouseEvent e) {
+						game.nextPhase();
+						nextPhaseButton.dispose();
+					}
+
+					@Override
+					public void mouseDown(MouseEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void mouseDoubleClick(MouseEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+			}
+
+			if (currentPlayer.equals(myPlayer)) {
+				for (Button button : buttons) {
 					button.setEnabled(false);
 				}
-				
-				List<Territory> sources = game.getMyTerritoriesForMoving(myPlayer);
-				
-				for(Button button:buttons){
+
+				List<Territory> sources = game
+						.getMyTerritoriesForMoving(myPlayer);
+
+				for (Button button : buttons) {
 					Territory territory = game.getTerritories().get(
 							cutTooltip(button.getToolTipText()));
-					if(sources.contains(territory)){
+					if (sources.contains(territory)) {
 						button.setEnabled(true);
 					}
 				}
-			}else{
-				for(Button button:buttons){
+			} else {
+				for (Button button : buttons) {
 					button.setEnabled(false);
 				}
 			}
