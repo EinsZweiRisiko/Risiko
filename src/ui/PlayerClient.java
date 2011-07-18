@@ -27,7 +27,7 @@ public class PlayerClient implements Runnable {
 		// Will hold the current player
 		Player player;
 		
-		switch (game.getNextAction()) {
+		switch (game.nextPhase()) {
 			case TURNINCARDS:
 				player = game.getActivePlayer();
 				/*

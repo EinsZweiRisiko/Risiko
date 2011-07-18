@@ -4,7 +4,6 @@ import java.net.UnknownHostException;
 
 import org.eclipse.swt.widgets.Display;
 
-import server.exceptions.NotEnoughPlayersException;
 import ui.IO;
 import valueobjects.Player;
 
@@ -12,6 +11,7 @@ import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
 import commons.actions.GameStartedAction;
+import commons.actions.NextPlayerAction;
 import commons.actions.PlayerJoinedAction;
 
 import de.root1.simon.Lookup;
@@ -32,8 +32,7 @@ public class AppClient implements ClientMethods {
 	private static LoginGUI logingui;
 	private static LobbyGUI lobbygui;
 	private RiskGUI rFenster;
-	
-	private boolean creator = false;
+	private Player me;
 	
 	public AppClient() {
 		display = new Display();
@@ -44,12 +43,12 @@ public class AppClient implements ClientMethods {
 		
 		// TODO: check if the window was closed
 		
-		lobbygui = new LobbyGUI(display, this, game, creator);
+		lobbygui = new LobbyGUI(display, this, game);
 		lobbygui.start();
 		
 		// Show the main risk window
-		rFenster = new RiskGUI(display, game);
-		rFenster.finalize();
+		rFenster = new RiskGUI(display, this, game);
+		rFenster.start();
 	}
 	
 	@Override
@@ -62,9 +61,7 @@ public class AppClient implements ClientMethods {
 			// Queue the update function to run in the fucking UI thread
 			display.asyncExec(new Runnable() {
 				public void run() {
-					if (lobbygui != null) {
-						lobbygui.updateText();
-					}
+					lobbygui.updateText();
 				}
 			});
 		} else if (a instanceof GameStartedAction) {
@@ -73,12 +70,15 @@ public class AppClient implements ClientMethods {
 			
 			display.asyncExec(new Runnable() {
 				public void run() {
-					if (lobbygui != null) {
-						lobbygui.close();
-					}
+					lobbygui.close();
 				}
 			});
-			
+		} else if(a instanceof NextPlayerAction) {
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.updateCurrentPlayer();
+				}
+			});
 		} else {
 			IO.write("Unidentified action.");
 		}
@@ -100,11 +100,15 @@ public class AppClient implements ClientMethods {
 		}
 		
 		// Create player
-		game.addPlayer(name, this);
+		me = game.addPlayer(name, this);
 	}
-
-	public void setCreator(boolean creator) {
-		this.creator = creator;
+	
+	/**
+	 * Returns the instance of the player that uses this GUI.
+	 * @return
+	 */
+	public Player getClient() {
+		return me;
 	}
 	
 	/**
@@ -114,4 +118,5 @@ public class AppClient implements ClientMethods {
 	public static void main(String[] args) {
 		new AppClient();
 	}
+
 }

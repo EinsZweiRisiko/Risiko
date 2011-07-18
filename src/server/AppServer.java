@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import ui.IO;
-
 import de.root1.simon.exceptions.NameBindingException;
 
 public class AppServer {

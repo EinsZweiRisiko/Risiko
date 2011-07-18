@@ -2,7 +2,6 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -37,6 +36,9 @@ import commons.GameMethods;
 public class RiskGUI {
 
 	private GameMethods game;
+	private Display display;
+	private AppClient app;
+	private Player myPlayer;
 	private Shell shell;
 	private Image map;
 	private Image[] unitImage = new Image[6];
@@ -65,11 +67,12 @@ public class RiskGUI {
 	 * @param display
 	 *            the Display on which the shell is shown
 	 */
-	public RiskGUI(Display display, final GameMethods game) {
-
+	public RiskGUI(Display display, AppClient app, final GameMethods game) {
 		this.game = game;
+		this.app = app;
+		this.display = display;
 
-		eventWindowAppendText("Eine neue Runde Risiko wird gestartet!");
+		this.myPlayer = app.getClient();
 
 		territories = game.getTerritories();
 		players = game.getPlayers();
@@ -113,12 +116,14 @@ public class RiskGUI {
 
 		createCardWindow();
 
+
 		// resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
 			public void handleEvent(Event e) {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 		});
 
@@ -130,6 +135,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 
 			@Override
@@ -137,6 +143,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 
 			@Override
@@ -144,6 +151,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 
 			@Override
@@ -151,6 +159,7 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 
 			@Override
@@ -158,20 +167,25 @@ public class RiskGUI {
 				centerImage(mainWindow);
 				createButtons();
 				createEventWindow();
+				createCardWindow();
 			}
 		});
 
 		center(shell);
-
 		shell.open();
+	}
 
+	/**
+	 * Starts the game loop
+	 */
+	public void start() {
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
 	}
-
+	
 	/**
 	 * add a new String to the Event Window
 	 * 
@@ -180,7 +194,7 @@ public class RiskGUI {
 	 */
 	private void eventWindowAppendText(String string) {
 		events = string + "\n" + events;
-
+		eventWindow.setText(events);
 	}
 
 	/**
@@ -767,7 +781,7 @@ public class RiskGUI {
 	}
 
 	private void createCardWindow() {
-		cardWindow = new Composite(mainWindow,SWT.INHERIT_DEFAULT);
+		cardWindow = new Composite(mainWindow,SWT.NONE);
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);
 		
@@ -793,10 +807,7 @@ public class RiskGUI {
 			System.exit(1);
 		}
 		
-		// TODO get player which owns GUI
-		Player player = game.getPlayers().get(0);
-		
-		ArrayList<BonusCard> bonuscards = player.getBonusCards();
+		ArrayList<BonusCard> bonuscards = myPlayer.getBonusCards();
 		
 		bonusLabelStack = new Label[bonuscards.size()];
 		
@@ -816,49 +827,62 @@ public class RiskGUI {
 			if(bonusCard.getType().equals("WildCard")){
 				type = 3;
 			}
-			
-			label.setBackgroundImage(bonusImage[type]);
-		}
-	}
-
-	private void updateBonusCard() {
-		cardWindow = new Composite(mainWindow,SWT.INHERIT_DEFAULT);
-		RowLayout rowLayout = new RowLayout();
-		cardWindow.setLayout(rowLayout);
-		
-		// TODO get player which owns GUI
-		Player player = new Player("TEST");
-		
-		ArrayList<BonusCard> bonuscards = player.getBonusCards();
-		
-		bonusLabelStack = new Label[bonuscards.size()];
-		
-		for(BonusCard bonusCard:bonuscards){
-			Label label = new Label(cardWindow, SWT.NONE);
-			
-			int type = 0;
-			
-			if(bonusCard.getType().equals("Infantry")){
-				type = 0;
-			}
-			if(bonusCard.getType().equals("Cavalry")){
-				type = 1;
-			}
-			if(bonusCard.getType().equals("Artillery")){
-				type = 2;
-			}
-			if(bonusCard.getType().equals("WildCard")){
-				type = 3;
-			}
-			
-			label.setBackgroundImage(bonusImage[type]);
+			label.setSize(22, 32);
+			label.setImage(bonusImage[type]);
+			label.pack();
+			cardWindow.pack();
 		}
 		
-		cardWindow.pack();
 		cardWindow.setLocation(new Point(
 				((imgWidth - shell.getClientArea().width) / 2
 						+ shell.getClientArea().width - cardWindow.getBounds().width),
-				0));
+				((imgHeight - shell.getClientArea().height) / 2
+						+ 5)));
+		
+		shell.update();
+	}
+
+	private void updateBonusCard() {
+		cardWindow = new Composite(mainWindow,SWT.NONE);
+		RowLayout rowLayout = new RowLayout();
+		cardWindow.setLayout(rowLayout);
+		
+		ArrayList<BonusCard> bonuscards = myPlayer.getBonusCards();
+		
+		bonusLabelStack = new Label[bonuscards.size()];
+		
+		for(BonusCard bonusCard:bonuscards){
+			Label label = new Label(cardWindow, SWT.NONE);
+			
+			int type = 0;
+			
+			if(bonusCard.getType().equals("Infantry")){
+				type = 0;
+			}
+			if(bonusCard.getType().equals("Cavalry")){
+				type = 1;
+			}
+			if(bonusCard.getType().equals("Artillery")){
+				type = 2;
+			}
+			if(bonusCard.getType().equals("WildCard")){
+				type = 3;
+			}
+			
+			label.setSize(22, 32);
+			label.setImage(bonusImage[type]);
+			label.pack();
+			cardWindow.pack();
+		}
+		
+		cardWindow.setLocation(new Point(
+				((imgWidth - shell.getClientArea().width) / 2
+						+ shell.getClientArea().width - cardWindow.getBounds().width),
+				((imgHeight - shell.getClientArea().height) / 2
+						+  5)));
+		
+		shell.update();
+		
 	}
 
 	/**
@@ -925,6 +949,20 @@ public class RiskGUI {
 	@Override
 	public void finalize() {
 		shell.dispose();
+	}
+
+	/**
+	 * Updates the current player after a NextPlayerAction was received.
+	 */
+	public void updateCurrentPlayer() {
+		Player player = game.getActivePlayer();
+		
+		// Check whether the player equals my player
+		if (player.equals(myPlayer)) {
+			eventWindowAppendText("Du bist dran");
+		} else {
+			eventWindowAppendText(player.getName() + " ist dran.");
+		}
 	}
 
 }

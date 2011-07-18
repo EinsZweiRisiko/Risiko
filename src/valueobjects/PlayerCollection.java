@@ -26,6 +26,8 @@ public class PlayerCollection extends ArrayList<Player> {
 			throw new NoPlayersException();
 		}
 
+		Player nextPlayer = get(activePlayer);
+		
 		// Switch to the next player
 		++activePlayer;
 
@@ -34,7 +36,7 @@ public class PlayerCollection extends ArrayList<Player> {
 			activePlayer = 0;
 		}
 
-		return get(activePlayer);
+		return nextPlayer;
 	}
 
 	/**

@@ -21,9 +21,8 @@ import valueobjects.Territory;
 import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
-import commons.actions.AttackAction;
-import commons.actions.DefendAction;
 import commons.actions.GameStartedAction;
+import commons.actions.NextPlayerAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.ValueChangeAction;
 
@@ -110,8 +109,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	
 	/**
 	 * Adds a player to the game and consequently to the list of observers
+	 * @return 
 	 */
-	public void addPlayer(String name, ClientMethods client) throws ServerFullException {
+	public Player addPlayer(String name, ClientMethods client) throws ServerFullException {
 		if (started) {
 			// Game is already in progress
 			throw new ServerFullException();
@@ -129,18 +129,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// TODO: Determine that the number of players is valid
 		Player player = new Player(name);
 		
-		BonusCardStack bcs = new BonusCardStack();
-		
-		//TODO THIS IS TEST STUFF
-		player.addBonusCard(bcs.retrieveCard());
-		//TODO THIS WAS TEST STUFF
-		
 		players.add(player);
 		
 		// Output a success message
 		IO.write("Client connected.");
 		
 		notifyPlayers(new PlayerJoinedAction(player));
+		
+		return player;
 	}
 	
 	/**
@@ -184,6 +180,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Set the game status to started
 		started = true;
 		notifyPlayers(new GameStartedAction());
+		
+		// Set the first phase
+		nextPhase();
 	}
 
 	/**
@@ -232,6 +231,26 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	/**
+	 * TODO doc
+	 */
+	private void nextPlayer() {
+		// Advance to the next player
+		currentPlayer = players.getNextPlayer();
+		// A new turn has started so we have to compute the player's supply
+		calculateSupplies();
+		IO.write("New current player: "+ currentPlayer.getName());
+		notifyPlayers(new NextPlayerAction(currentPlayer));
+	}
+	
+	/**
+	 * Returns the current phase.
+	 * @return
+	 */
+	public Phase getPhase() {
+		return currentPhase;
+	}
+	
+	/**
 	 * Prepares and returns the next action in the sequence. This method can
 	 * change the active player, so always use this method before getting the
 	 * active player.<br>
@@ -246,7 +265,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * @return Action The next action/phase
 	 */
-	public Phase getNextAction() {
+	public void nextPhase() {
 		// Which action comes afterwards the current one?
 		switch (currentPhase) {
 		// The first action is at the end of this switch block
@@ -272,20 +291,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				// Turning in cards is next
 				prepareTurnInAction();
 		}
-
-		// Return the new action
-		return currentPhase;
-	}
-
-	/**
-	 * TODO doc
-	 */
-	private void nextPlayer() {
-		// Advance to the next player
-		currentPlayer = players.getNextPlayer();
-		// A new turn has started so we have to compute the player's supply
-		calculateSupplies();
-		
 	}
 
 	/**

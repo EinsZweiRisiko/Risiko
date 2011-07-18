@@ -3,7 +3,6 @@ package commons;
 import java.util.HashMap;
 import java.util.List;
 
-import server.GameMethodsImpl.Phase;
 import server.Mission;
 import server.exceptions.NotEnoughPlayersException;
 import server.remoteexceptions.ServerFullException;
@@ -18,7 +17,7 @@ import de.root1.simon.exceptions.SimonRemoteException;
 public interface GameMethods {
 	
 	// Setup/Observer
-	public void addPlayer(String name, ClientMethods client) throws ServerFullException;
+	public Player addPlayer(String name, ClientMethods client) throws ServerFullException;
 	public void deletePlayer(ClientMethods clients);
 	
 	// Load and saving
@@ -31,7 +30,7 @@ public interface GameMethods {
 	public boolean isOver();
 	public Player getWinner();
 	public Player getActivePlayer();
-	public Phase getNextAction();
+	public void nextPhase();
 	public void placeStartUnitsRandomly();
 	
 	public Mission getMyMission(Player player);
@@ -50,15 +49,14 @@ public interface GameMethods {
 	public void placeUnits(Territory territory, int amount);
 
 	public void attack(Territory attackingTerritory, Territory attackedTerritory, int amount);
-	// Clients müssen Observer sein, die gucken, ob
-	//  sie angegriffen werde
-	//  oder dran sind
 	public void move(Territory source, Territory target, int amount) throws SimonRemoteException;
 	
 	
 	/* Notifications:
 	 * 
-	 * Nächster Spieler ist dran
+	 * xSpieler hinzugefügt
+	 * xSpiel fängt an
+	 * xNächster Spieler ist dran
 	 * Einheiten platziert
 	 * Einheiten verschoben
 	 * Einheiten besiegt
