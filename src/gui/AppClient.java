@@ -14,6 +14,7 @@ import commons.ClientMethods;
 import commons.GameMethods;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
+import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 
 import de.root1.simon.Lookup;
@@ -79,6 +80,12 @@ public class AppClient implements ClientMethods {
 			display.asyncExec(new Runnable() {
 				public void run() {
 					rFenster.updateCurrentPlayer();
+				}
+			});
+		} else if (a instanceof PhaseAction) {
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.updatePhase();
 				}
 			});
 		} else {
