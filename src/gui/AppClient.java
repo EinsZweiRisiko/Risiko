@@ -57,8 +57,8 @@ public class AppClient implements ClientMethods {
 	public void update(final GameMethods server, Action a) {
 		if (a instanceof PlayerJoinedAction) {
 			// A player joined
-			PlayerJoinedAction a2 = (PlayerJoinedAction) a;
-			IO.write("player joined: " + a2.getPlayer().getName());
+			PlayerJoinedAction pja = (PlayerJoinedAction) a;
+			IO.write("player joined: " + pja.getPlayer().getName());
 			
 			display.asyncExec(new Runnable() {
 				public void run() {
