@@ -1061,6 +1061,7 @@ public class RiskGUI {
 				}
 			}
 		}
+		
 		if (phase.equals(Phase.MOVEMENT)) {
 			if (currentPlayer.equals(myPlayer)) {
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);

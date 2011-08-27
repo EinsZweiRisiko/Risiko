@@ -574,6 +574,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		return dice;
 	}
 	
+	
+	// diese Methode ist Pseudo mäßig programmiert
 	public void calculateDice(ArrayList<Integer> attackDice, ArrayList<Integer> defendDice) {
 		// TODO vergleichen und auswerten der Würfel
 		// TODO irgendein lustiger algorithmus zum Vergleich der da unten steht ;-)
@@ -586,7 +588,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			}else if(defendDice.get(i) == attackDice.get(i)) {
 				attackLoseUnits++;
 			}else if(defendDice.get(i) < attackDice.get(i)) {
-				defendLoseUnits--;
+				defendLoseUnits++;
 			}
 		}
 		// TODO und danach setzen der Values auf den jeweiligen Territories
