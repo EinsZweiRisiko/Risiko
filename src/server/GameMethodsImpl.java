@@ -275,6 +275,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// The first action is at the end of this switch block
 			case TURNINCARDS:
 				// Placing the supply units is next
+				//überprüfen der karten und supply hnzufügen
+				// currentphase = PLACEMENT
 				preparePlacementAction();
 				break;
 
@@ -467,9 +469,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
 		
-		for(int i = 1; i <= territories.size(); i++) {
+		for(int i = 1; i < territories.size(); i++) {
 			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 1; j <= neighbors.size() ;j++){
+			for(int j = 1; j < neighbors.size() ;j++){
 				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
 					if(!attackingTerritories.contains(neighbors.get(j))) {
 						attackingTerritories.add(territories.get(i));
@@ -549,7 +551,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
 		attackDice = getDice(amount);
 		this.attackingTerritory = attackingTerritory;
-		this.defendTerritory = defendTerritory;
+		this.defendTerritory = attackedTerritory;
 		notifyPlayers(new AttackAction(attackingTerritory, attackedTerritory, amount));
 	}
 	
