@@ -54,7 +54,8 @@ public class RiskGUI {
 	private final int maxSizeY = 1080;
 	private HashMap<String, Territory> territories;
 	private PlayerCollection players;
-	private Button[] buttons = new Button[42];
+	private HashMap<String, Button> buttons = new HashMap<String,Button>();
+	private Button[] buttonArray = new Button[42];
 	private Button[] playerButtons;
 	private Text eventWindow;
 	private Composite cardWindow;
@@ -248,437 +249,521 @@ public class RiskGUI {
 
 		// Alaska
 		territory = territories.get("Alaska");
-		buttons[0] = new Button(mainWindow, SWT.PUSH);
-		buttons[0].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[0].setText(String.valueOf(territory.getUnits()));
-		buttons[0].setBounds(615 - buttonSizeW / 2, 332 - buttonSizeH / 2,
+		buttonArray[0] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[0].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[0].setText(String.valueOf(territory.getUnits()));
+		buttonArray[0].setBounds(615 - buttonSizeW / 2, 332 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[0].setToolTipText(territory.getName() + " gehört "
+		buttonArray[0].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
-
+		
+		buttons.put("Alaska", buttonArray[0]);
+		
 		// Nordwest-Territorium
 		territory = territories.get("Nordwest-Territorium");
-		buttons[1] = new Button(mainWindow, SWT.PUSH);
-		buttons[1].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[1].setText(String.valueOf(territory.getUnits()));
-		buttons[1].setBounds(690 - buttonSizeW / 2, 342 - buttonSizeH / 2,
+		buttonArray[1] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[1].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[1].setText(String.valueOf(territory.getUnits()));
+		buttonArray[1].setBounds(690 - buttonSizeW / 2, 342 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[1].setToolTipText(territory.getName() + " gehört "
+		buttonArray[1].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Nordwest-Territorium", buttonArray[1]);
 
 		// Alberta
 		territory = territories.get("Alberta");
-		buttons[2] = new Button(mainWindow, SWT.PUSH);
-		buttons[2].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[2].setText(String.valueOf(territory.getUnits()));
-		buttons[2].setBounds(682 - buttonSizeW / 2, 382 - buttonSizeH / 2,
+		buttonArray[2] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[2].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[2].setText(String.valueOf(territory.getUnits()));
+		buttonArray[2].setBounds(682 - buttonSizeW / 2, 382 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[2].setToolTipText(territory.getName() + " gehört "
+		buttonArray[2].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Alberta", buttonArray[2]);
 
 		// Ontario
 		territory = territories.get("Ontario");
-		buttons[3] = new Button(mainWindow, SWT.PUSH);
-		buttons[3].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[3].setText(String.valueOf(territory.getUnits()));
-		buttons[3].setBounds(736 - buttonSizeW / 2, 400 - buttonSizeH / 2,
+		buttonArray[3] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[3].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[3].setText(String.valueOf(territory.getUnits()));
+		buttonArray[3].setBounds(736 - buttonSizeW / 2, 400 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[3].setToolTipText(territory.getName() + " gehört "
+		buttonArray[3].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Ontario", buttonArray[3]);
 
 		// Quebec
 		territory = territories.get("Quebec");
-		buttons[4] = new Button(mainWindow, SWT.PUSH);
-		buttons[4].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[4].setText(String.valueOf(territory.getUnits()));
-		buttons[4].setBounds(790 - buttonSizeW / 2, 404 - buttonSizeH / 2,
+		buttonArray[4] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[4].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[4].setText(String.valueOf(territory.getUnits()));
+		buttonArray[4].setBounds(790 - buttonSizeW / 2, 404 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[4].setToolTipText(territory.getName() + " gehört "
+		buttonArray[4].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Quebec", buttonArray[4]);
 
 		// Weststaaten
 		territory = territories.get("Weststaaten");
-		buttons[5] = new Button(mainWindow, SWT.PUSH);
-		buttons[5].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[5].setText(String.valueOf(territory.getUnits()));
-		buttons[5].setBounds(687 - buttonSizeW / 2, 445 - buttonSizeH / 2,
+		buttonArray[5] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[5].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[5].setText(String.valueOf(territory.getUnits()));
+		buttonArray[5].setBounds(687 - buttonSizeW / 2, 445 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[5].setToolTipText(territory.getName() + " gehört "
+		buttonArray[5].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
 
+		buttons.put("Weststaaten", buttonArray[5]);
+		
 		// Oststaaten
 		territory = territories.get("Oststaaten");
-		buttons[6] = new Button(mainWindow, SWT.PUSH);
-		buttons[6].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[6].setText(String.valueOf(territory.getUnits()));
-		buttons[6].setBounds(750 - buttonSizeW / 2, 465 - buttonSizeH / 2,
+		buttonArray[6] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[6].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[6].setText(String.valueOf(territory.getUnits()));
+		buttonArray[6].setBounds(750 - buttonSizeW / 2, 465 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[6].setToolTipText(territory.getName() + " gehört "
+		buttonArray[6].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Oststaaten", buttonArray[6]);
 
 		// Mittel-Amerika
 		territory = territories.get("Mittelamerika");
-		buttons[7] = new Button(mainWindow, SWT.PUSH);
-		buttons[7].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[7].setText(String.valueOf(territory.getUnits()));
-		buttons[7].setBounds(690 - buttonSizeW / 2, 512 - buttonSizeH / 2,
+		buttonArray[7] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[7].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[7].setText(String.valueOf(territory.getUnits()));
+		buttonArray[7].setBounds(690 - buttonSizeW / 2, 512 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[7].setToolTipText(territory.getName() + " gehört "
+		buttonArray[7].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Mittelamerika", buttonArray[7]);
 
 		// Grönland
 		territory = territories.get("Grönland");
-		buttons[8] = new Button(mainWindow, SWT.PUSH);
-		buttons[8].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[8].setText(String.valueOf(territory.getUnits()));
-		buttons[8].setBounds(843 - buttonSizeW / 2, 320 - buttonSizeH / 2,
+		buttonArray[8] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[8].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[8].setText(String.valueOf(territory.getUnits()));
+		buttonArray[8].setBounds(843 - buttonSizeW / 2, 320 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[8].setToolTipText(territory.getName() + " gehört "
+		buttonArray[8].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Grönland", buttonArray[8]);
 
 		// SÜDAMERIKA
 
 		// Venezuela
 		territory = territories.get("Venezuela");
-		buttons[9] = new Button(mainWindow, SWT.PUSH);
-		buttons[9].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[9].setText(String.valueOf(territory.getUnits()));
-		buttons[9].setBounds(748 - buttonSizeW / 2, 571 - buttonSizeH / 2,
+		buttonArray[9] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[9].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[9].setText(String.valueOf(territory.getUnits()));
+		buttonArray[9].setBounds(748 - buttonSizeW / 2, 571 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[9].setToolTipText(territory.getName() + " gehört "
+		buttonArray[9].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Venezuela", buttonArray[9]);
 
 		// Peru
 		territory = territories.get("Peru");
-		buttons[10] = new Button(mainWindow, SWT.PUSH);
-		buttons[10].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[10].setText(String.valueOf(territory.getUnits()));
-		buttons[10].setBounds(757 - buttonSizeW / 2, 641 - buttonSizeH / 2,
+		buttonArray[10] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[10].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[10].setText(String.valueOf(territory.getUnits()));
+		buttonArray[10].setBounds(757 - buttonSizeW / 2, 641 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[10].setToolTipText(territory.getName() + " gehört "
+		buttonArray[10].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Peru", buttonArray[10]);
 
 		// Brasilien
 		territory = territories.get("Brasilien");
-		buttons[11] = new Button(mainWindow, SWT.PUSH);
-		buttons[11].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[11].setText(String.valueOf(territory.getUnits()));
-		buttons[11].setBounds(810 - buttonSizeW / 2, 623 - buttonSizeH / 2,
+		buttonArray[11] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[11].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[11].setText(String.valueOf(territory.getUnits()));
+		buttonArray[11].setBounds(810 - buttonSizeW / 2, 623 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[11].setToolTipText(territory.getName() + " gehört "
+		buttonArray[11].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Brasilien", buttonArray[11]);
 
 		// Argentinien
 		territory = territories.get("Argentinien");
-		buttons[12] = new Button(mainWindow, SWT.PUSH);
-		buttons[12].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[12].setText(String.valueOf(territory.getUnits()));
-		buttons[12].setBounds(765 - buttonSizeW / 2, 710 - buttonSizeH / 2,
+		buttonArray[12] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[12].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[12].setText(String.valueOf(territory.getUnits()));
+		buttonArray[12].setBounds(765 - buttonSizeW / 2, 710 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[12].setToolTipText(territory.getName() + " gehört "
+		buttonArray[12].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
 
+		buttons.put("Argentinien", buttonArray[12]);
+		
 		// EUROPA
 
 		// Island
 		territory = territories.get("Island");
-		buttons[13] = new Button(mainWindow, SWT.PUSH);
-		buttons[13].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[13].setText(String.valueOf(territory.getUnits()));
-		buttons[13].setBounds(910 - buttonSizeW / 2, 378 - buttonSizeH / 2,
+		buttonArray[13] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[13].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[13].setText(String.valueOf(territory.getUnits()));
+		buttonArray[13].setBounds(910 - buttonSizeW / 2, 378 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[13].setToolTipText(territory.getName() + " gehört "
+		buttonArray[13].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Island", buttonArray[13]);
 
 		// Skandinavien
 		territory = territories.get("Skandinavien");
-		buttons[14] = new Button(mainWindow, SWT.PUSH);
-		buttons[14].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[14].setText(String.valueOf(territory.getUnits()));
-		buttons[14].setBounds(968 - buttonSizeW / 2, 383 - buttonSizeH / 2,
+		buttonArray[14] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[14].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[14].setText(String.valueOf(territory.getUnits()));
+		buttonArray[14].setBounds(968 - buttonSizeW / 2, 383 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[14].setToolTipText(territory.getName() + " gehört "
+		buttonArray[14].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Skandinavien", buttonArray[14]);
 
 		// Großbritannien
 		territory = territories.get("Großbritannien");
-		buttons[15] = new Button(mainWindow, SWT.PUSH);
-		buttons[15].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[15].setText(String.valueOf(territory.getUnits()));
-		buttons[15].setBounds(892 - buttonSizeW / 2, 444 - buttonSizeH / 2,
+		buttonArray[15] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[15].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[15].setText(String.valueOf(territory.getUnits()));
+		buttonArray[15].setBounds(892 - buttonSizeW / 2, 444 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[15].setToolTipText(territory.getName() + " gehört "
+		buttonArray[15].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Großbritannien", buttonArray[15]);
 
 		// MittelEuropa
 		territory = territories.get("Mitteleuropa");
-		buttons[16] = new Button(mainWindow, SWT.PUSH);
-		buttons[16].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[16].setText(String.valueOf(territory.getUnits()));
-		buttons[16].setBounds(967 - buttonSizeW / 2, 454 - buttonSizeH / 2,
+		buttonArray[16] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[16].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[16].setText(String.valueOf(territory.getUnits()));
+		buttonArray[16].setBounds(967 - buttonSizeW / 2, 454 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[16].setToolTipText(territory.getName() + " gehört "
+		buttonArray[16].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Mitteleuropa", buttonArray[16]);
 
 		// SüdEuropa
 		territory = territories.get("Südeuropa");
-		buttons[17] = new Button(mainWindow, SWT.PUSH);
-		buttons[17].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[17].setText(String.valueOf(territory.getUnits()));
-		buttons[17].setBounds(976 - buttonSizeW / 2, 503 - buttonSizeH / 2,
+		buttonArray[17] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[17].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[17].setText(String.valueOf(territory.getUnits()));
+		buttonArray[17].setBounds(976 - buttonSizeW / 2, 503 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[17].setToolTipText(territory.getName() + " gehört "
+		buttonArray[17].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Südeuropa", buttonArray[17]);
 
 		// WestEuropa
 		territory = territories.get("Westeuropa");
-		buttons[18] = new Button(mainWindow, SWT.PUSH);
-		buttons[18].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[18].setText(String.valueOf(territory.getUnits()));
-		buttons[18].setBounds(915 - buttonSizeW / 2, 508 - buttonSizeH / 2,
+		buttonArray[18] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[18].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[18].setText(String.valueOf(territory.getUnits()));
+		buttonArray[18].setBounds(915 - buttonSizeW / 2, 508 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[18].setToolTipText(territory.getName() + " gehört "
+		buttonArray[18].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Westeuropa", buttonArray[18]);
 
 		// Ukraine
 		territory = territories.get("Ukraine");
-		buttons[19] = new Button(mainWindow, SWT.PUSH);
-		buttons[19].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[19].setText(String.valueOf(territory.getUnits()));
-		buttons[19].setBounds(1042 - buttonSizeW / 2, 415 - buttonSizeH / 2,
+		buttonArray[19] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[19].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[19].setText(String.valueOf(territory.getUnits()));
+		buttonArray[19].setBounds(1042 - buttonSizeW / 2, 415 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[19].setToolTipText(territory.getName() + " gehört "
+		buttonArray[19].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
 
+		buttons.put("Ukraine", buttonArray[19]);
+		
 		// AFRIKA
 
 		// Nordwestafrika
 		territory = territories.get("Nordwestafrika");
-		buttons[20] = new Button(mainWindow, SWT.PUSH);
-		buttons[20].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[20].setText(String.valueOf(territory.getUnits()));
-		buttons[20].setBounds(938 - buttonSizeW / 2, 606 - buttonSizeH / 2,
+		buttonArray[20] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[20].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[20].setText(String.valueOf(territory.getUnits()));
+		buttonArray[20].setBounds(938 - buttonSizeW / 2, 606 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[20].setToolTipText(territory.getName() + " gehört "
+		buttonArray[20].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Nordwestafrika", buttonArray[20]);
 
 		// Ägypten
 		territory = territories.get("Ägypten");
-		buttons[21] = new Button(mainWindow, SWT.PUSH);
-		buttons[21].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[21].setText(String.valueOf(territory.getUnits()));
-		buttons[21].setBounds(998 - buttonSizeW / 2, 577 - buttonSizeH / 2,
+		buttonArray[21] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[21].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[21].setText(String.valueOf(territory.getUnits()));
+		buttonArray[21].setBounds(998 - buttonSizeW / 2, 577 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[21].setToolTipText(territory.getName() + " gehört "
+		buttonArray[21].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Ägypten", buttonArray[21]);
 
 		// Ostafrika
 		territory = territories.get("Ostafrika");
-		buttons[22] = new Button(mainWindow, SWT.PUSH);
-		buttons[22].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[22].setText(String.valueOf(territory.getUnits()));
-		buttons[22].setBounds(1037 - buttonSizeW / 2, 649 - buttonSizeH / 2,
+		buttonArray[22] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[22].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[22].setText(String.valueOf(territory.getUnits()));
+		buttonArray[22].setBounds(1037 - buttonSizeW / 2, 649 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[22].setToolTipText(territory.getName() + " gehört "
+		buttonArray[22].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Ostafrika", buttonArray[22]);
 
 		// Kongo
 		territory = territories.get("Kongo");
-		buttons[23] = new Button(mainWindow, SWT.PUSH);
-		buttons[23].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[23].setText(String.valueOf(territory.getUnits()));
-		buttons[23].setBounds(998 - buttonSizeW / 2, 678 - buttonSizeH / 2,
+		buttonArray[23] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[23].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[23].setText(String.valueOf(territory.getUnits()));
+		buttonArray[23].setBounds(998 - buttonSizeW / 2, 678 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[23].setToolTipText(territory.getName() + " gehört "
+		buttonArray[23].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Kongo", buttonArray[23]);
 
 		// Südafrika
 		territory = territories.get("Südafrika");
-		buttons[24] = new Button(mainWindow, SWT.PUSH);
-		buttons[24].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[24].setText(String.valueOf(territory.getUnits()));
-		buttons[24].setBounds(999 - buttonSizeW / 2, 743 - buttonSizeH / 2,
+		buttonArray[24] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[24].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[24].setText(String.valueOf(territory.getUnits()));
+		buttonArray[24].setBounds(999 - buttonSizeW / 2, 743 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[24].setToolTipText(territory.getName() + " gehört "
+		buttonArray[24].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+
+		buttons.put("Südafrika", buttonArray[24]);
 
 		// Madagaskar
 		territory = territories.get("Madagaskar");
-		buttons[25] = new Button(mainWindow, SWT.PUSH);
-		buttons[25].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[25].setText(String.valueOf(territory.getUnits()));
-		buttons[25].setBounds(1075 - buttonSizeW / 2, 745 - buttonSizeH / 2,
+		buttonArray[25] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[25].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[25].setText(String.valueOf(territory.getUnits()));
+		buttonArray[25].setBounds(1075 - buttonSizeW / 2, 745 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[25].setToolTipText(territory.getName() + " gehört "
+		buttonArray[25].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Madagaskar", buttonArray[25]);
 
 		// ASIEN
 
 		// Ural
 		territory = territories.get("Ural");
-		buttons[26] = new Button(mainWindow, SWT.PUSH);
-		buttons[26].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[26].setText(String.valueOf(territory.getUnits()));
-		buttons[26].setBounds(1121 - buttonSizeW / 2, 404 - buttonSizeH / 2,
+		buttonArray[26] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[26].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[26].setText(String.valueOf(territory.getUnits()));
+		buttonArray[26].setBounds(1121 - buttonSizeW / 2, 404 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[26].setToolTipText(territory.getName() + " gehört "
+		buttonArray[26].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Ural", buttonArray[26]);
 
 		// Sibirien
 		territory = territories.get("Sibirien");
-		buttons[27] = new Button(mainWindow, SWT.PUSH);
-		buttons[27].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[27].setText(String.valueOf(territory.getUnits()));
-		buttons[27].setBounds(1165 - buttonSizeW / 2, 365 - buttonSizeH / 2,
+		buttonArray[27] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[27].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[27].setText(String.valueOf(territory.getUnits()));
+		buttonArray[27].setBounds(1165 - buttonSizeW / 2, 365 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[27].setToolTipText(territory.getName() + " gehört "
+		buttonArray[27].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Sibirien", buttonArray[27]);
 
 		// Jakutien
 		territory = territories.get("Jakutien");
-		buttons[28] = new Button(mainWindow, SWT.PUSH);
-		buttons[28].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[28].setText(String.valueOf(territory.getUnits()));
-		buttons[28].setBounds(1219 - buttonSizeW / 2, 344 - buttonSizeH / 2,
+		buttonArray[28] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[28].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[28].setText(String.valueOf(territory.getUnits()));
+		buttonArray[28].setBounds(1219 - buttonSizeW / 2, 344 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[28].setToolTipText(territory.getName() + " gehört "
+		buttonArray[28].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Jakutien", buttonArray[28]);
 
 		// Kamtschatka
 		territory = territories.get("Kamtschatka");
-		buttons[29] = new Button(mainWindow, SWT.PUSH);
-		buttons[29].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[29].setText(String.valueOf(territory.getUnits()));
-		buttons[29].setBounds(1285 - buttonSizeW / 2, 346 - buttonSizeH / 2,
+		buttonArray[29] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[29].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[29].setText(String.valueOf(territory.getUnits()));
+		buttonArray[29].setBounds(1285 - buttonSizeW / 2, 346 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[29].setToolTipText(territory.getName() + " gehört "
+		buttonArray[29].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Kamtschatka", buttonArray[29]);
 
 		// Irkutsk
 		territory = territories.get("Irkutsk");
-		buttons[30] = new Button(mainWindow, SWT.PUSH);
-		buttons[30].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[30].setText(String.valueOf(territory.getUnits()));
-		buttons[30].setBounds(1200 - buttonSizeW / 2, 416 - buttonSizeH / 2,
+		buttonArray[30] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[30].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[30].setText(String.valueOf(territory.getUnits()));
+		buttonArray[30].setBounds(1200 - buttonSizeW / 2, 416 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[30].setToolTipText(territory.getName() + " gehört "
+		buttonArray[30].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Irkutsk", buttonArray[30]);
 
 		// Mongolei
 		territory = territories.get("Mongolei");
-		buttons[31] = new Button(mainWindow, SWT.PUSH);
-		buttons[31].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[31].setText(String.valueOf(territory.getUnits()));
-		buttons[31].setBounds(1218 - buttonSizeW / 2, 460 - buttonSizeH / 2,
+		buttonArray[31] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[31].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[31].setText(String.valueOf(territory.getUnits()));
+		buttonArray[31].setBounds(1218 - buttonSizeW / 2, 460 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[31].setToolTipText(territory.getName() + " gehört "
+		buttonArray[31].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Mongolei", buttonArray[31]);
 
 		// China
 		territory = territories.get("China");
-		buttons[32] = new Button(mainWindow, SWT.PUSH);
-		buttons[32].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[32].setText(String.valueOf(territory.getUnits()));
-		buttons[32].setBounds(1195 - buttonSizeW / 2, 509 - buttonSizeH / 2,
+		buttonArray[32] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[32].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[32].setText(String.valueOf(territory.getUnits()));
+		buttonArray[32].setBounds(1195 - buttonSizeW / 2, 509 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[32].setToolTipText(territory.getName() + " gehört "
+		buttonArray[32].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("China", buttonArray[32]);
 
 		// Japan
 		territory = territories.get("Japan");
-		buttons[33] = new Button(mainWindow, SWT.PUSH);
-		buttons[33].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[33].setText(String.valueOf(territory.getUnits()));
-		buttons[33].setBounds(1299 - buttonSizeW / 2, 464 - buttonSizeH / 2,
+		buttonArray[33] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[33].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[33].setText(String.valueOf(territory.getUnits()));
+		buttonArray[33].setBounds(1299 - buttonSizeW / 2, 464 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[33].setToolTipText(territory.getName() + " gehört "
+		buttonArray[33].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Japan", buttonArray[33]);
 
 		// Afghanistan
 		territory = territories.get("Afghanistan");
-		buttons[34] = new Button(mainWindow, SWT.PUSH);
-		buttons[34].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[34].setText(String.valueOf(territory.getUnits()));
-		buttons[34].setBounds(1105 - buttonSizeW / 2, 472 - buttonSizeH / 2,
+		buttonArray[34] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[34].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[34].setText(String.valueOf(territory.getUnits()));
+		buttonArray[34].setBounds(1105 - buttonSizeW / 2, 472 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[34].setToolTipText(territory.getName() + " gehört "
+		buttonArray[34].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Afghanistan", buttonArray[34]);
 
 		// Mittlerer Osten
 		territory = territories.get("Mittlerer Osten");
-		buttons[35] = new Button(mainWindow, SWT.PUSH);
-		buttons[35].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[35].setText(String.valueOf(territory.getUnits()));
-		buttons[35].setBounds(1054 - buttonSizeW / 2, 558 - buttonSizeH / 2,
+		buttonArray[35] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[35].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[35].setText(String.valueOf(territory.getUnits()));
+		buttonArray[35].setBounds(1054 - buttonSizeW / 2, 558 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[35].setToolTipText(territory.getName() + " gehört "
+		buttonArray[35].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Mittlerer Osten", buttonArray[35]);
 
 		// Indien
 		territory = territories.get("Indien");
-		buttons[36] = new Button(mainWindow, SWT.PUSH);
-		buttons[36].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[36].setText(String.valueOf(territory.getUnits()));
-		buttons[36].setBounds(1153 - buttonSizeW / 2, 550 - buttonSizeH / 2,
+		buttonArray[36] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[36].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[36].setText(String.valueOf(territory.getUnits()));
+		buttonArray[36].setBounds(1153 - buttonSizeW / 2, 550 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[36].setToolTipText(territory.getName() + " gehört "
+		buttonArray[36].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Indien", buttonArray[36]);
 
 		// Siam
 		territory = territories.get("Siam");
-		buttons[37] = new Button(mainWindow, SWT.PUSH);
-		buttons[37].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[37].setText(String.valueOf(territory.getUnits()));
-		buttons[37].setBounds(1214 - buttonSizeW / 2, 576 - buttonSizeH / 2,
+		buttonArray[37] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[37].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[37].setText(String.valueOf(territory.getUnits()));
+		buttonArray[37].setBounds(1214 - buttonSizeW / 2, 576 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[37].setToolTipText(territory.getName() + " gehört "
+		buttonArray[37].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Siam", buttonArray[37]);
 
 		// AUSTRALIEN
 
 		// Indonesien
 		territory = territories.get("Indonesien");
-		buttons[38] = new Button(mainWindow, SWT.PUSH);
-		buttons[38].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[38].setText(String.valueOf(territory.getUnits()));
-		buttons[38].setBounds(1226 - buttonSizeW / 2, 664 - buttonSizeH / 2,
+		buttonArray[38] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[38].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[38].setText(String.valueOf(territory.getUnits()));
+		buttonArray[38].setBounds(1226 - buttonSizeW / 2, 664 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[38].setToolTipText(territory.getName() + " gehört "
+		buttonArray[38].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Indonesien", buttonArray[38]);
 
 		// Neu-Guinea
 		territory = territories.get("Neu-Guinea");
-		buttons[39] = new Button(mainWindow, SWT.PUSH);
-		buttons[39].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[39].setText(String.valueOf(territory.getUnits()));
-		buttons[39].setBounds(1292 - buttonSizeW / 2, 638 - buttonSizeH / 2,
+		buttonArray[39] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[39].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[39].setText(String.valueOf(territory.getUnits()));
+		buttonArray[39].setBounds(1292 - buttonSizeW / 2, 638 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[39].setToolTipText(territory.getName() + " gehört "
+		buttonArray[39].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Neu-Guinea", buttonArray[39]);
 
 		// Westaustralien
 		territory = territories.get("West-Australien");
-		buttons[40] = new Button(mainWindow, SWT.PUSH);
-		buttons[40].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[40].setText(String.valueOf(territory.getUnits()));
-		buttons[40].setBounds(1258 - buttonSizeW / 2, 740 - buttonSizeH / 2,
+		buttonArray[40] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[40].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[40].setText(String.valueOf(territory.getUnits()));
+		buttonArray[40].setBounds(1258 - buttonSizeW / 2, 740 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[40].setToolTipText(territory.getName() + " gehört "
+		buttonArray[40].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("West-Australien", buttonArray[40]);
 
 		// Ostaustralien
 		territory = territories.get("Ost-Australien");
-		buttons[41] = new Button(mainWindow, SWT.PUSH);
-		buttons[41].setImage(unitImage[territory.getOwner().getColor()]);
-		buttons[41].setText(String.valueOf(territory.getUnits()));
-		buttons[41].setBounds(1306 - buttonSizeW / 2, 712 - buttonSizeH / 2,
+		buttonArray[41] = new Button(mainWindow, SWT.PUSH);
+		buttonArray[41].setImage(unitImage[territory.getOwner().getColor()]);
+		buttonArray[41].setText(String.valueOf(territory.getUnits()));
+		buttonArray[41].setBounds(1306 - buttonSizeW / 2, 712 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
-		buttons[41].setToolTipText(territory.getName() + " gehört "
+		buttonArray[41].setToolTipText(territory.getName() + " gehört "
 				+ territory.getOwner().getName());
+		
+		buttons.put("Ost-Australien", buttonArray[41]);
 
 		// add to all buttons a Mouselistener
-		for (int i = 0; i < buttons.length; i++) {
-			buttons[i].addMouseListener(new MouseListener() {
+		for (int i = 0; i < buttonArray.length; i++) {
+			buttonArray[i].addMouseListener(new MouseListener() {
 				@Override
 				public void mouseDoubleClick(MouseEvent e) {
 					// TODO Auto-generated method stub
@@ -737,7 +822,7 @@ public class RiskGUI {
 	 * updates all Buttons and their Values
 	 */
 	public void updateTerritory(Territory territory) {
-		for (Button button : buttons) {
+		for (Button button : buttonArray) {
 			if (cutTooltip(button.getToolTipText()).equals(territory.getName())) {
 				System.out.println(cutTooltip(button.getToolTipText()));
 				button.setText(String.valueOf(territory.getUnits()));
@@ -984,12 +1069,12 @@ public class RiskGUI {
 	public void updatePhase() {
 
 		phase = game.getPhase();
-		System.out.println("Aktuelle Phase: " + phase);
+		System.out.println("Aktuelle Phase: " + phase + " " + game.getActivePlayer().getName() + " " + myPlayer.getName());
 
 		currentPlayer = game.getActivePlayer();
 
 		if (phase == Phase.PLACEMENT) {
-			for (Button button : buttons) {
+			for (Button button : buttonArray) {
 
 				if (currentPlayer.equals(myPlayer)) {
 					Territory territory = game.getTerritories().get(
@@ -1001,14 +1086,46 @@ public class RiskGUI {
 						button.setEnabled(false);
 					}
 				} else {
-					for (Button button2 : buttons) {
+					for (Button button2 : buttonArray) {
 						button2.setEnabled(false);
 					}
 				}
 			}
 		} else if (phase == Phase.ATTACK) {
-
+			
 			if (currentPlayer.equals(myPlayer)) {
+				
+				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
+				
+				
+				List<Territory> attackingTerritories = game.getMyTerritoriesForAttacking(currentPlayer);
+				
+				for (Button button : buttonArray) {
+
+					if (currentPlayer.equals(myPlayer)) {
+						
+						Territory territory = game.getTerritories().get(
+								cutTooltip(button.getToolTipText()));
+						
+						System.out.println(attackingTerritories.size());
+						
+						for(int i = 0 ; i  < attackingTerritories.size(); i++){
+							System.out.println(attackingTerritories.get(i).getName());
+							System.out.println(territory.getName());
+						}
+						
+						if(attackingTerritories.contains(territory)){
+							System.out.print("button enabled");
+							button.setEnabled(true);
+						} else {
+							button.setEnabled(false);
+						}
+					}
+				}
+				
+				//Länder anzeigen lassen die ich angreifen kann
+				//wieviele Einheiten
+				
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
 				nextPhaseButton.setText("nächste Phase");
 				nextPhaseButton.setLocation(new Point(
@@ -1041,14 +1158,14 @@ public class RiskGUI {
 			}
 			// Next-Button nicht auf jeder GUI anzeigen
 			if (currentPlayer.equals(myPlayer)) {
-				for (Button button : buttons) {
+				for (Button button : buttonArray) {
 					button.setEnabled(false);
 				}
 
 				List<Territory> sources = game
 						.getMyTerritoriesForAttacking(myPlayer);
 
-				for (Button button : buttons) {
+				for (Button button : buttonArray) {
 					Territory territory = game.getTerritories().get(
 							cutTooltip(button.getToolTipText()));
 					if (sources.contains(territory)) {
@@ -1056,7 +1173,7 @@ public class RiskGUI {
 					}
 				}
 			} else {
-				for (Button button : buttons) {
+				for (Button button : buttonArray) {
 					button.setEnabled(false);
 				}
 			}
@@ -1096,14 +1213,14 @@ public class RiskGUI {
 			}
 
 			if (currentPlayer.equals(myPlayer)) {
-				for (Button button : buttons) {
+				for (Button button : buttonArray) {
 					button.setEnabled(false);
 				}
 
 				List<Territory> sources = game
 						.getMyTerritoriesForMoving(myPlayer);
 
-				for (Button button : buttons) {
+				for (Button button : buttonArray) {
 					Territory territory = game.getTerritories().get(
 							cutTooltip(button.getToolTipText()));
 					if (sources.contains(territory)) {
@@ -1111,7 +1228,7 @@ public class RiskGUI {
 					}
 				}
 			} else {
-				for (Button button : buttons) {
+				for (Button button : buttonArray) {
 					button.setEnabled(false);
 				}
 			}
