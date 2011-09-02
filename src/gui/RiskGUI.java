@@ -1191,6 +1191,8 @@ public class RiskGUI {
 
 					for(int i = 0 ; i  < attackableTerritories.size(); i++){
 						if(territory.getName().equals(attackableTerritories.get(i).getName())){
+							System.out.println("Zu angreifende Länder NAMEN: " + attackableTerritories.get(i).getName());
+							System.out.println("Zu angreifende Länder ANZAHL: " + attackableTerritories.size());
 							button.setEnabled(true);
 						}
 					}
