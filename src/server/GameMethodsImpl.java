@@ -536,6 +536,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public List<Territory> getOpposingNeighborsOf(Territory territory) {
 		ArrayList<Territory> opposingNeighbors = territory.getNeighbors();
 		
+		System.out.println("OPPOSING NEIGHBORS <3 :" + opposingNeighbors);
+		
 		for(Territory territory2 : opposingNeighbors) {
 			if(territory2.getOwner().equals(territory.getOwner())){
 				opposingNeighbors.remove(territory2);

@@ -871,7 +871,7 @@ public class RiskGUI {
 			// TARGET TERRITORY
 			attackedTerritory = territory;
 			game.nextPhase();
-			
+
 			// AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					territory);
@@ -1120,18 +1120,12 @@ public class RiskGUI {
 
 				for (Button button : buttonArray) {
 
-					if (currentPlayer.equals(myPlayer)) {
+					Territory territory = game.getTerritories().get(
+							cutTooltip(button.getToolTipText()));
 
-						Territory territory = game.getTerritories().get(
-								cutTooltip(button.getToolTipText()));
-
-						for(int i = 0 ; i  < attackingTerritories.size(); i++){
-							if(territory.getName().equals(attackingTerritories.get(i).getName())){
-								button.setEnabled(true);
-							} else {
-								//TODO !?
-								//button.setEnabled(false);
-							}
+					for(int i = 0 ; i  < attackingTerritories.size(); i++){
+						if(territory.getName().equals(attackingTerritories.get(i).getName())){
+							button.setEnabled(true);
 						}
 					}
 				}
@@ -1175,26 +1169,23 @@ public class RiskGUI {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(attackingTerritory);
 
+				System.out.println(attackableTerritories);
+				
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
 				}
 
 				for (Button button : buttonArray) {
 
-					if (currentPlayer.equals(myPlayer)) {
+					Territory territory = game.getTerritories().get(
+							cutTooltip(button.getToolTipText()));
 
-						Territory territory = game.getTerritories().get(
-								cutTooltip(button.getToolTipText()));
-
-						for(int i = 0 ; i  < attackableTerritories.size(); i++){
-							if(territory.getName().equals(attackableTerritories.get(i).getName())){
-								button.setEnabled(true);
-							} else {
-								//TODO !?
-								//button.setEnabled(false);
-							}
+					for(int i = 0 ; i  < attackableTerritories.size(); i++){
+						if(territory.getName().equals(attackableTerritories.get(i).getName())){
+							button.setEnabled(true);
 						}
 					}
+
 				}
 			}
 		}
