@@ -872,14 +872,16 @@ public class RiskGUI {
 			attackedTerritory = territory;
 			game.nextPhase();
 
+		} else if (phase == Phase.ATTACK3) {
+
 			// AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					territory);
 			ad.open();
-
-		} else if (phase == Phase.ATTACK3) {
-
-			game.resetAttack();
+			
+			System.out.println("ANGREIFENDES: " + attackingTerritory.getName() + "| ANGEGRIFFENES: " + attackingTerritory.getName());
+			
+//			game.resetAttack();
 
 		} else if (phase == Phase.MOVEMENT) {
 			// SOURCE TERRITORY
@@ -1169,7 +1171,14 @@ public class RiskGUI {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(attackingTerritory);
 
-				System.out.println(attackableTerritories);
+//				System.out.println(attackableTerritories);
+				
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
