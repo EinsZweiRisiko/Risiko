@@ -876,10 +876,10 @@ public class RiskGUI {
 
 			// AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
-					territory);
-			ad.open();
+					attackingTerritory);
+			int units = (Integer) ad.open();
 			
-			System.out.println("ANGREIFENDES: " + attackingTerritory.getName() + "| ANGEGRIFFENES: " + attackedTerritory.getName());
+			System.out.println("ANGREIFENDES: " + attackingTerritory.getName() + "| ANGEGRIFFENES: " + attackedTerritory.getName() + "  | mit " + units + " Einheiten.");
 			
 //			game.resetAttack();
 
