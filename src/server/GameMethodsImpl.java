@@ -76,7 +76,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * Phases of a player's turn
 	 */
 	public static enum Phase {
-		START, TURNINCARDS, PLACEMENT, ATTACK, MOVEMENT
+		START, TURNINCARDS, PLACEMENT, ATTACK1, ATTACK2, ATTACK3, MOVEMENT
 	};
 
 	public GameMethodsImpl(String name, int port) throws UnknownHostException,
@@ -282,9 +282,17 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 			case PLACEMENT:
 				// Attacking other players is next
-				prepareAttackAction();
+				prepareAttack1Action();
 				break;
-			case ATTACK:
+			case ATTACK1:
+				// Moving units is next
+				prepareAttack2Action();
+				 break;
+			case ATTACK2:
+				// Moving units is next
+				prepareAttack3Action();
+				 break;
+			case ATTACK3:
 				// Moving units is next
 				prepareMovementAction();
 				 break;
@@ -350,14 +358,38 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * TODO doc
 	 */
-	private void prepareAttackAction() {
+	private void prepareAttack1Action() {
 		/*
 		 * Figure out which territories of the current player could be used for
 		 * an attack
 		 * Must be owned by the player
 		 * Must have at least 2 units
 		 */
-		currentPhase = Phase.ATTACK;
+		currentPhase = Phase.ATTACK2;
+	}
+	/**
+	 * TODO doc
+	 */
+	private void prepareAttack2Action() {
+		/*
+		 * Figure out which territories of the current player could be used for
+		 * an attack
+		 * Must be owned by the player
+		 * Must have at least 2 units
+		 */
+		currentPhase = Phase.ATTACK3;
+	}
+	/**
+	 * TODO doc
+	 */
+	private void prepareAttack3Action() {
+		/*
+		 * Figure out which territories of the current player could be used for
+		 * an attack
+		 * Must be owned by the player
+		 * Must have at least 2 units
+		 */
+		currentPhase = Phase.MOVEMENT;
 	}
 
 	/**
