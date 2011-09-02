@@ -879,7 +879,7 @@ public class RiskGUI {
 					territory);
 			ad.open();
 			
-			System.out.println("ANGREIFENDES: " + attackingTerritory.getName() + "| ANGEGRIFFENES: " + attackingTerritory.getName());
+			System.out.println("ANGREIFENDES: " + attackingTerritory.getName() + "| ANGEGRIFFENES: " + attackedTerritory.getName());
 			
 //			game.resetAttack();
 
