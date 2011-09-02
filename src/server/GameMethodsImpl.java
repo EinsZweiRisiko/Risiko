@@ -275,7 +275,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// The first action is at the end of this switch block
 			case TURNINCARDS:
 				// Placing the supply units is next
-				//überprüfen der karten und supply hnzufügen
+				// überprüfen der karten und supply hnzufügen
 				// currentphase = PLACEMENT
 				preparePlacementAction();
 				break;
@@ -285,15 +285,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				prepareAttack1Action();
 				break;
 			case ATTACK1:
-				// Moving units is next
+				// here: choose the Teritory(Button)
 				prepareAttack2Action();
 				 break;
 			case ATTACK2:
-				// Moving units is next
+				// here: choose territory to attaxk (button)
 				prepareAttack3Action();
 				 break;
 			case ATTACK3:
-				// Moving units is next
+				// here: the Amount of attacking units and calculate the fight
 				prepareMovementAction();
 				 break;
 			case MOVEMENT:
@@ -365,7 +365,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		 * Must be owned by the player
 		 * Must have at least 2 units
 		 */
-		currentPhase = Phase.ATTACK2;
+		currentPhase = Phase.ATTACK1;
 	}
 	/**
 	 * TODO doc
@@ -377,7 +377,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		 * Must be owned by the player
 		 * Must have at least 2 units
 		 */
-		currentPhase = Phase.ATTACK3;
+		currentPhase = Phase.ATTACK2;
 	}
 	/**
 	 * TODO doc
@@ -389,7 +389,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		 * Must be owned by the player
 		 * Must have at least 2 units
 		 */
-		currentPhase = Phase.MOVEMENT;
+		currentPhase = Phase.ATTACK3;
 	}
 
 	/**
@@ -644,5 +644,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Es müssen noch die Clients Notified werden
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
+	}
+	
+	// setzt die Pahse zurück auf Attack wegen wieder angriff für die GUI
+	public void resetAttack() {
+		currentPhase = Phase.ATTACK1;
 	}
 }
