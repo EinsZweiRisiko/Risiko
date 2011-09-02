@@ -65,6 +65,8 @@ public class RiskGUI {
 	private Label[] bonusLabelStack;
 	private Phase phase;
 	private Button nextPhaseButton;
+	private Territory attackingTerritory;
+	private Territory attackedTerritory;
 
 	/**
 	 * creates a new GUI and Game
@@ -860,17 +862,25 @@ public class RiskGUI {
 
 		if (phase == Phase.PLACEMENT) {
 			game.placeUnits(territory.getName(), 1);
-		} else if (phase == Phase.ATTACK) {
+		} else if (phase == Phase.ATTACK1) {
 			// SOURCE TERRITORY
-			Territory attackingTerritory = territory;
-			
+			attackingTerritory = territory;
+			game.nextPhase();
+
+		} else if (phase == Phase.ATTACK2) {
 			// TARGET TERRITORY
-			
+			attackedTerritory = territory;
+			game.nextPhase();
 			
 			// AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					territory);
 			ad.open();
+
+		} else if (phase == Phase.ATTACK3) {
+
+			game.resetAttack();
+
 		} else if (phase == Phase.MOVEMENT) {
 			// SOURCE TERRITORY
 			// TARGET TERRITORY
@@ -1095,7 +1105,7 @@ public class RiskGUI {
 					}
 				}
 			}
-		} else if (phase == Phase.ATTACK) {
+		} else if (phase == Phase.ATTACK1) {
 
 			if (currentPlayer.equals(myPlayer)) {
 
@@ -1107,7 +1117,7 @@ public class RiskGUI {
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
 				}
-				
+
 				for (Button button : buttonArray) {
 
 					if (currentPlayer.equals(myPlayer)) {
@@ -1117,7 +1127,6 @@ public class RiskGUI {
 
 						for(int i = 0 ; i  < attackingTerritories.size(); i++){
 							if(territory.getName().equals(attackingTerritories.get(i).getName())){
-								System.out.print("button enabled");
 								button.setEnabled(true);
 							} else {
 								//TODO !?
@@ -1159,6 +1168,34 @@ public class RiskGUI {
 
 					}
 				});
+			}
+		} else if (phase == Phase.ATTACK2) {
+
+			if (currentPlayer.equals(myPlayer)) {
+				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
+				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(attackingTerritory);
+
+				for (Button button : buttonArray) {
+					button.setEnabled(false);
+				}
+
+				for (Button button : buttonArray) {
+
+					if (currentPlayer.equals(myPlayer)) {
+
+						Territory territory = game.getTerritories().get(
+								cutTooltip(button.getToolTipText()));
+
+						for(int i = 0 ; i  < attackableTerritories.size(); i++){
+							if(territory.getName().equals(attackableTerritories.get(i).getName())){
+								button.setEnabled(true);
+							} else {
+								//TODO !?
+								//button.setEnabled(false);
+							}
+						}
+					}
+				}
 			}
 		}
 
