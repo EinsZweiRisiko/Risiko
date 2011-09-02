@@ -867,8 +867,7 @@ public class RiskGUI {
 	 */
 	public void updateTerritory(Territory territory) {
 		for (Button button : buttonArray) {
-			if (cutTooltip(button.getToolTipText()).equals(territory.getName())) {
-				System.out.println(cutTooltip(button.getToolTipText()));
+			if (button.getData("name").equals(territory.getName())) {
 				button.setText(String.valueOf(territory.getUnits()));
 			}
 			//			//get the territory from the Server
@@ -898,8 +897,7 @@ public class RiskGUI {
 		
 		System.out.println("Der Inhalt des Buttons: "+ e.widget);
 		
-		Territory territory = game.getTerritories().get(
-				cutTooltip(clickedButton.getToolTipText()));
+		Territory territory = game.getTerritories().get(clickedButton.getData("name"));
 
 		System.out.println("Es wurde das land angeklickt: "
 				+ territory.getName());
@@ -1052,7 +1050,9 @@ public class RiskGUI {
 	 * @param toolTipText
 	 *            of the calling Button
 	 * @return the name of the Territory of the calling Button
+	
 	 */
+	/*
 	private String cutTooltip(String toolTipText) {
 		String cutted = "";
 
@@ -1070,6 +1070,7 @@ public class RiskGUI {
 
 		return cutted;
 	}
+	*/
 
 	/**
 	 * Centers a Shell in the middle of the Screen
@@ -1137,8 +1138,7 @@ public class RiskGUI {
 			for (Button button : buttonArray) {
 
 				if (currentPlayer.equals(myPlayer)) {
-					Territory territory = game.getTerritories().get(
-							cutTooltip(button.getToolTipText()));
+					Territory territory = game.getTerritories().get(button.getData("name"));
 
 					if (territory.getOwner().equals(myPlayer)) {
 						button.setEnabled(true);
@@ -1166,8 +1166,7 @@ public class RiskGUI {
 
 				for (Button button : buttonArray) {
 
-					Territory territory = game.getTerritories().get(
-							cutTooltip(button.getToolTipText()));
+					Territory territory = game.getTerritories().get(button.getData("name"));
 
 					for(int i = 0 ; i  < attackingTerritories.size(); i++){
 						if(territory.getName().equals(attackingTerritories.get(i).getName())){
@@ -1225,8 +1224,7 @@ public class RiskGUI {
 
 				for (Button button : buttonArray) {
 
-					Territory territory = game.getTerritories().get(
-							cutTooltip(button.getToolTipText()));
+					Territory territory = game.getTerritories().get(button.getData("name"));
 				
 					for(int i = 0 ; i  < attackableTerritories.size(); i++){
 						if(territory.getName().equals(attackableTerritories.get(i).getName())){
@@ -1282,8 +1280,7 @@ public class RiskGUI {
 				.getMyTerritoriesForMoving(myPlayer);
 
 				for (Button button : buttonArray) {
-					Territory territory = game.getTerritories().get(
-							cutTooltip(button.getToolTipText()));
+					Territory territory = game.getTerritories().get(button.getData("name"));
 					if (sources.contains(territory)) {
 						button.setEnabled(true);
 					}
