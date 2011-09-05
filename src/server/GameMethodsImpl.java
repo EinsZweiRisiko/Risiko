@@ -290,13 +290,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				prepareAttack2Action();
 				break;
 			case ATTACK2:
-				// here: choose territory to attaxk (button)
+				// here: choose territory to attack (button)
 				prepareAttack3Action();
 				break;
 			case ATTACK3:
-				// here: the Amount of attacking units and calculate the fight
-				//TODO REMOVE THIS
-				//				prepareMovementAction();
+				//defend and reset the attack!
+				prepareAttack1Action();
 				break;
 			case MOVEMENT:
 				// TODO Only if the player conquered at least one territory
@@ -503,15 +502,20 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
 
-		for(int i = 1; i < territories.size(); i++) {
+		for(int i = 0; i < territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 1; j < neighbors.size() ;j++){
+			for(int j = 0; j < neighbors.size() ;j++){
 				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
-					if(!attackingTerritories.contains(neighbors.get(j))) {
+					if(!attackingTerritories.contains(territories.get(i))) {
 						attackingTerritories.add(territories.get(i));
 					}
 				}
 			}
+		}
+		
+		System.out.println("TERRITORIES FOR ATTACKING: ");
+		for (int i = 0 ; i < attackingTerritories.size(); i++){
+			System.out.println(attackingTerritories.get(i).getName());
 		}
 		return attackingTerritories;
 	}
@@ -521,9 +525,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
 
-		for(int i = 1; i <= territories.size(); i++) {
+		for(int i = 0; i <= territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 1; j <= neighbors.size() ;j++){
+			for(int j = 0; j <= neighbors.size() ;j++){
 				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
 					if(!moveTerritories.contains(neighbors.get(j))) {
 						moveTerritories.add(territories.get(i));
@@ -601,53 +605,67 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// TODO irgendein lustiger algorithmus zum Vergleich der da unten steht ;-)
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
+		Boolean conquered = false;
 
 		System.out.println("--- Neue Kampfrunde ---");
 		System.out.println("Verteidigerwürfelanzahl: "+defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
 		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
 		System.out.println("Anzahl des Defendterritory: "+defendTerritory.getUnits());
-
-		for(int i = 0; i < defendDice.size(); i++) {
+		
+		//if there are more defending than attacking dices!
+		int lowestDiceNumber = defendDice.size();
+		if (lowestDiceNumber > attackDice.size()){
+			lowestDiceNumber = attackDice.size();
+		}
+		
+		for(int i = 0; i < lowestDiceNumber; i++) {
 			System.out.println("Kampfdurchlauf nr:" +i);
 
 			if(defendDice.get(i) > attackDice.get(i) && defendTerritory.getUnits() != 0) {
-		for(int i = 0; i < defendDice.size(); i++) {
-			if(defendDice.get(i) > attackDice.get(i)) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i));
 				attackLoseUnits++;
 			}else if(defendDice.get(i) == attackDice.get(i) && defendTerritory.getUnits() != 0) {
-				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +" GLEICHHEIT");
+				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +" Gleiche Augenzahl!");
 				attackLoseUnits++;
 			}else if(defendDice.get(i) < attackDice.get(i) && defendTerritory.getUnits() != 0) {
 				System.out.println("Offensive: "+ attackDice.get(i) +" schlägt Defensive: "+ defendDice.get(i));
 				defendLoseUnits++;
 			}
 
+
 			if(defendTerritory.getUnits() - defendLoseUnits == 0){
-				System.out.println("ÜBERNOMMEN!");
+				System.out.println(defendTerritory.getName() + " ÜBERNOMMEN!");
+				conquered = true;
+
+				defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
+
 				try {
 					territoryManager.changeTerritoryOwner(attackingTerritory.getOwner(), defendTerritory, attackDice.size() - attackLoseUnits);
+					
+					System.out.println(defendTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
+					
+					List<Territory> attackersTerritories = getMyTerritories(attackingTerritory.getOwner());
+					for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
+						System.out.println(attackersTerritories.get(i2).getName());
+					}
+					
 					notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, attackDice.size() - attackLoseUnits));
 				} catch (InvalidTerritoryStateException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				attackingTerritory.setUnits(attackingTerritory.getUnits() - attackDice.size());
 				notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits() - attackDice.size()));
 			}
 		}
 
+		if(!conquered){
+			attackingTerritory.setUnits(attackingTerritory.getUnits() - attackLoseUnits);
+			defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
 
-		// TODO und danach setzen der Values auf den jeweiligen Territories
-		attackingTerritory.setUnits(attackingTerritory.getUnits() - attackLoseUnits);
-		defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
-		// TODO Es muss noch überprüft werden ob das Land übernommen wurde oder nicht
-
-		// TODO ein notifiy rauswerfen mit den geänderten values
-		// TODO koennte so aussehen: notifyPlayers(territory, dasjeweiligeterritory.getUnits()
-		notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
-		notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
+			notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
+			notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
+		}
 	}
 
 	public ArrayList<Integer> getDice(int amount) {
@@ -666,17 +684,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void move(Territory source, Territory target, int amount)
-	throws SimonRemoteException {
+			throws SimonRemoteException {
 		source.setUnits(source.getUnits() - amount);
 		target.setUnits(target.getUnits() + amount);
 		// Es müssen noch die Clients Notified werden
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
-	}
-
-	// setzt die Pahse zurück auf Attack wegen wieder angriff für die GUI
-	public void resetAttack() {
-		currentPhase = Phase.ATTACK1;
-		notifyPlayers(new PhaseAction(getActivePlayer(),Phase.ATTACK1));
 	}
 }

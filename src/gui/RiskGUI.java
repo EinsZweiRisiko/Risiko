@@ -876,11 +876,6 @@ public class RiskGUI {
 				button.setToolTipText(territory.getName() + " gehört "
 						+ territory.getOwner().getName());
 			}
-			//			//get the territory from the Server
-			//			Territory territory = game.getTerritories().get(
-			//					cutTooltip(button.getToolTipText()));
-			//			
-			//set the values and the owner, units and color
 
 		}
 		eventWindowAppendText(currentPlayer.getName()
@@ -1137,7 +1132,6 @@ public class RiskGUI {
 	public void updatePhase() {
 
 		phase = game.getPhase();
-		System.out.println("Aktuelle Phase: " + phase + " " + game.getActivePlayer().getName() + " " + myPlayer.getName());
 
 		currentPlayer = game.getActivePlayer();
 
@@ -1162,9 +1156,6 @@ public class RiskGUI {
 
 			if (currentPlayer.equals(myPlayer)) {
 
-				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
-
-
 				List<Territory> attackingTerritories = game.getMyTerritoriesForAttacking(currentPlayer);
 
 				for (Button button : buttonArray) {
@@ -1172,18 +1163,14 @@ public class RiskGUI {
 				}
 
 				for (Button button : buttonArray) {
-
 					Territory territory = game.getTerritories().get(button.getData("name"));
 
-					for(int i = 0 ; i  < attackingTerritories.size(); i++){
+					for(int i = 0 ; i  < attackingTerritories.size(); i++){						
 						if(territory.getName().equals(attackingTerritories.get(i).getName())){
 							button.setEnabled(true);
 						}
 					}
 				}
-
-				//Länder anzeigen lassen die ich angreifen kann
-				//wieviele Einheiten
 
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
 				nextPhaseButton.setText("nächste Phase");
@@ -1241,14 +1228,16 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK3) {
 
-			if (attackedPlayer.equals(myPlayer)){				
+			if (attackedPlayer.equals(myPlayer)){	
+				
+				game.nextPhase();
+				
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
 						attackedTerritory);
 
 				int units = (Integer) ad2.open();
 
 				game.defend(attackedTerritory, units);
-				game.resetAttack();
 			}
 		}
 
