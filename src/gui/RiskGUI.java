@@ -61,6 +61,7 @@ public class RiskGUI {
 	private Composite cardWindow;
 	private String events = "";
 	private Player currentPlayer;
+	private Player attackedPlayer;
 	private Device dev;
 	private Label[] bonusLabelStack;
 	private Phase phase;
@@ -895,12 +896,7 @@ public class RiskGUI {
 
 		Button clickedButton = (Button) e.widget;
 
-		System.out.println("Der Inhalt des Buttons: "+ e.widget);
-
 		Territory territory = game.getTerritories().get(clickedButton.getData("name"));
-
-		System.out.println("Es wurde das land angeklickt: "
-				+ territory.getName());
 
 		if (phase == Phase.PLACEMENT) {
 			game.placeUnits(territory.getName(), 1);
@@ -917,14 +913,11 @@ public class RiskGUI {
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					attackingTerritory);
 			int units = (Integer) ad.open();
-
+			
 			game.attack(attackingTerritory, attackedTerritory, units);
-
-			game.nextPhase();
-
+			
 		} else if (phase == Phase.ATTACK3) {
-
-			game.resetAttack();
+			//game.resetAttack();
 
 		} else if (phase == Phase.MOVEMENT) {
 			// SOURCE TERRITORY
@@ -1129,17 +1122,10 @@ public class RiskGUI {
 	}
 	
 	
-	public void defend(Territory attackedTerritory) {
-		
-		Player attackedPlayer = attackedTerritory.getOwner();
-		
-		if (myPlayer.equals(attackedPlayer)){
-			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
-					attackedTerritory);
-			int units = (Integer) ad.open();
-			
-			game.defend(attackedTerritory, units);
-		}
+	public void defend(Territory attackedTerritory2) {	
+		this.attackedTerritory = attackedTerritory2;
+		attackedPlayer = attackedTerritory2.getOwner();
+		game.nextPhase();
 	}
 	
 	public void updatePhase() {
@@ -1148,11 +1134,6 @@ public class RiskGUI {
 		System.out.println("Aktuelle Phase: " + phase + " " + game.getActivePlayer().getName() + " " + myPlayer.getName());
 
 		currentPlayer = game.getActivePlayer();
-
-		java.awt.Button buttonspass = new java.awt.Button("AWT BUTTON");
-		buttonspass.setName("Alaska");
-		buttonspass.setBounds(500, 400, 200, 100);
-		buttonspass.repaint();
 
 		if (phase == Phase.PLACEMENT) {
 			for (Button button : buttonArray) {
@@ -1251,6 +1232,16 @@ public class RiskGUI {
 					}
 
 				}
+			}
+		} else if (phase == Phase.ATTACK3) {
+		
+			if (myPlayer.equals(attackedPlayer)){				
+				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
+						attackedTerritory);
+				
+				int units = (Integer) ad2.open();
+				
+				game.defend(attackedTerritory, units);
 			}
 		}
 

@@ -295,7 +295,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				break;
 			case ATTACK3:
 				// here: the Amount of attacking units and calculate the fight
-				prepareMovementAction();
+				//TODO REMOVE THIS
+//				prepareMovementAction();
 				break;
 			case MOVEMENT:
 				// TODO Only if the player conquered at least one territory
@@ -569,8 +570,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			// Send a notification to all clients
 			notifyPlayers(new TerritoryUnitsChangedAction(t, t.getUnits()));
 		}
-		System.out.println("Units auf dem Land: " + t.getUnits());
-		System.out.println("Dein supply: " + owner.getSupplies());
 
 		if(owner.getSupplies() == 0){
 			nextPhase();
@@ -603,12 +602,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 
-		for(int i = 1; i <= defendDice.size(); i++) {
+		for(int i = 0; i <= defendDice.size()-1; i++) {
 			if(defendDice.get(i) > attackDice.get(i)) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i));
 				attackLoseUnits++;
 			}else if(defendDice.get(i) == attackDice.get(i)) {
-				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +"GELEICHEIT");
+				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +"GLEICHEIT");
 				attackLoseUnits++;
 			}else if(defendDice.get(i) < attackDice.get(i)) {
 				System.out.println("Offensive: "+ attackDice.get(i) +" schlägt Defensive: "+ defendDice.get(i));
