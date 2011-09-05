@@ -651,5 +651,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	// setzt die Pahse zurück auf Attack wegen wieder angriff für die GUI
 	public void resetAttack() {
 		currentPhase = Phase.ATTACK1;
+		notifyPlayers(new PhaseAction(getActivePlayer(),Phase.ATTACK1));
 	}
 }

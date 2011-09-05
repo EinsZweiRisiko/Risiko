@@ -1125,7 +1125,11 @@ public class RiskGUI {
 	public void defend(Territory attackedTerritory2) {	
 		this.attackedTerritory = attackedTerritory2;
 		attackedPlayer = attackedTerritory2.getOwner();
-		game.nextPhase();
+		
+		//This sould only becalled ONCE!
+		if(myPlayer.equals(attackedPlayer)){
+			game.nextPhase();
+		}
 	}
 	
 	public void updatePhase() {
@@ -1235,13 +1239,14 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK3) {
 		
-			if (myPlayer.equals(attackedPlayer)){				
+			if (attackedPlayer.equals(myPlayer)){				
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
 						attackedTerritory);
 				
 				int units = (Integer) ad2.open();
 				
 				game.defend(attackedTerritory, units);
+				game.resetAttack();
 			}
 		}
 
