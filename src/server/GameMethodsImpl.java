@@ -296,7 +296,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			case ATTACK3:
 				// here: the Amount of attacking units and calculate the fight
 				//TODO REMOVE THIS
-//				prepareMovementAction();
+				//				prepareMovementAction();
 				break;
 			case MOVEMENT:
 				// TODO Only if the player conquered at least one territory
@@ -580,7 +580,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void attack(Territory attackingTerritory,
 			Territory attackedTerritory, int amount) {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
-		
+
 		attackDice = getDice(amount);
 		this.attackingTerritory = attackingTerritory;
 		this.defendTerritory = attackedTerritory;
@@ -594,7 +594,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// nun wird der Kampf bzw. die zwei würfel verglichen "Kampf" findet statt
 		calculateDice(attackDice, defendDice);
 	}
-	
+
 	// diese Methode ist Pseudo mäßig programmiert
 	public void calculateDice(ArrayList<Integer> attackDice, ArrayList<Integer> defendDice) {
 		// TODO vergleichen und auswerten der Würfel
@@ -602,18 +602,41 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 
-		for(int i = 0; i <= defendDice.size()-1; i++) {
-			if(defendDice.get(i) > attackDice.get(i)) {
+		System.out.println("--- Neue Kampfrunde ---");
+		System.out.println("Verteidigerwürfelanzahl: "+defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
+		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
+		System.out.println("Anzahl des Defendterritory: "+defendTerritory.getUnits());
+
+		for(int i = 0; i < defendDice.size(); i++) {
+			System.out.println("Kampfdurchlauf nr:" +i);
+
+			if(defendDice.get(i) > attackDice.get(i) && defendTerritory.getUnits() != 0) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i));
 				attackLoseUnits++;
-			}else if(defendDice.get(i) == attackDice.get(i)) {
-				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +"GLEICHEIT");
+			}else if(defendDice.get(i) == attackDice.get(i) && defendTerritory.getUnits() != 0) {
+				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +" GLEICHHEIT");
 				attackLoseUnits++;
-			}else if(defendDice.get(i) < attackDice.get(i)) {
+			}else if(defendDice.get(i) < attackDice.get(i) && defendTerritory.getUnits() != 0) {
 				System.out.println("Offensive: "+ attackDice.get(i) +" schlägt Defensive: "+ defendDice.get(i));
 				defendLoseUnits++;
 			}
+
+			if(defendTerritory.getUnits() - defendLoseUnits == 0){
+				System.out.println("ÜBERNOMMEN!");
+				try {
+					territoryManager.changeTerritoryOwner(attackingTerritory.getOwner(), defendTerritory, attackDice.size() - attackLoseUnits);
+					notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, attackDice.size() - attackLoseUnits));
+				} catch (InvalidTerritoryStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				attackingTerritory.setUnits(attackingTerritory.getUnits() - attackDice.size());
+				notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits() - attackDice.size()));
+			}
 		}
+
+
 		// TODO und danach setzen der Values auf den jeweiligen Territories
 		attackingTerritory.setUnits(attackingTerritory.getUnits() - attackLoseUnits);
 		defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
@@ -628,12 +651,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public ArrayList<Integer> getDice(int amount) {
 		ArrayList<Integer> dice = new ArrayList<Integer>();
 
-		for(int i = 0; i <= amount; i++) {
+		for(int i = 0; i < amount; i++) {
 			dice.add(i, (int) ((Math.random()) * 6 + 1));
 		}
 
 		//sortieren der würfel TODO Absteigend oder Aufsteigend ? Inhalt muss man noch auslesen
 		Collections.sort(dice);
+		Collections.reverse(dice);
 		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
 		return dice;
 	}
