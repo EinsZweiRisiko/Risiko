@@ -602,7 +602,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 
-		for(int i = 0; i <= defendDice.size()-1; i++) {
+		for(int i = 0; i < defendDice.size(); i++) {
 			if(defendDice.get(i) > attackDice.get(i)) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i));
 				attackLoseUnits++;
