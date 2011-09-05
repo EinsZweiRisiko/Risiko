@@ -261,7 +261,7 @@ public class RiskGUI {
 				+ territory.getOwner().getName());
 
 		buttons.put("Alaska", buttonArray[0]);
-	
+
 		// Nordwest-Territorium
 		territory = territories.get("Nordwest-Territorium");
 		buttonArray[1] = new Button(mainWindow, SWT.PUSH);
@@ -894,9 +894,9 @@ public class RiskGUI {
 	private void performAction(MouseEvent e) {
 
 		Button clickedButton = (Button) e.widget;
-		
+
 		System.out.println("Der Inhalt des Buttons: "+ e.widget);
-		
+
 		Territory territory = game.getTerritories().get(clickedButton.getData("name"));
 
 		System.out.println("Es wurde das land angeklickt: "
@@ -912,21 +912,19 @@ public class RiskGUI {
 		} else if (phase == Phase.ATTACK2) {
 			// TARGET TERRITORY
 			attackedTerritory = territory;
-			game.nextPhase();
-
-		} else if (phase == Phase.ATTACK3) {
-
+			
 			// AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					attackingTerritory);
 			int units = (Integer) ad.open();
-			
-			System.out.println("ANGREIFENDES: " + attackingTerritory.getName() + "| ANGEGRIFFENES: " + attackedTerritory.getName() + "  | mit " + units + " Einheiten.");
-			
-			
+
 			game.attack(attackingTerritory, attackedTerritory, units);
-			
-//			game.resetAttack();
+
+			game.nextPhase();
+
+		} else if (phase == Phase.ATTACK3) {
+
+			game.resetAttack();
 
 		} else if (phase == Phase.MOVEMENT) {
 			// SOURCE TERRITORY
@@ -1053,7 +1051,7 @@ public class RiskGUI {
 	 * @param toolTipText
 	 *            of the calling Button
 	 * @return the name of the Territory of the calling Button
-	
+
 	 */
 	/*
 	private String cutTooltip(String toolTipText) {
@@ -1073,7 +1071,7 @@ public class RiskGUI {
 
 		return cutted;
 	}
-	*/
+	 */
 
 	/**
 	 * Centers a Shell in the middle of the Screen
@@ -1129,14 +1127,28 @@ public class RiskGUI {
 			eventWindowAppendText(player.getName() + " ist dran.");
 		}
 	}
-
+	
+	
+	public void defend(Territory attackedTerritory) {
+		
+		Player attackedPlayer = attackedTerritory.getOwner();
+		
+		if (myPlayer.equals(attackedPlayer)){
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
+					attackedTerritory);
+			int units = (Integer) ad.open();
+			
+			game.defend(attackedTerritory, units);
+		}
+	}
+	
 	public void updatePhase() {
 
 		phase = game.getPhase();
 		System.out.println("Aktuelle Phase: " + phase + " " + game.getActivePlayer().getName() + " " + myPlayer.getName());
 
 		currentPlayer = game.getActivePlayer();
-		
+
 		java.awt.Button buttonspass = new java.awt.Button("AWT BUTTON");
 		buttonspass.setName("Alaska");
 		buttonspass.setBounds(500, 400, 200, 100);
@@ -1222,6 +1234,7 @@ public class RiskGUI {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 				
 				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(attackingTerritory);
+
 				
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
@@ -1230,11 +1243,9 @@ public class RiskGUI {
 				for (Button button : buttonArray) {
 
 					Territory territory = game.getTerritories().get(button.getData("name"));
-				
+
 					for(int i = 0 ; i  < attackableTerritories.size(); i++){
 						if(territory.getName().equals(attackableTerritories.get(i).getName())){
-							System.out.println("Zu angreifende Länder NAMEN: " + attackableTerritories.get(i).getName());
-							System.out.println("Zu angreifende Länder ANZAHL: " + attackableTerritories.size());
 							button.setEnabled(true);
 						}
 					}
@@ -1282,7 +1293,7 @@ public class RiskGUI {
 				}
 
 				List<Territory> sources = game
-				.getMyTerritoriesForMoving(myPlayer);
+						.getMyTerritoriesForMoving(myPlayer);
 
 				for (Button button : buttonArray) {
 					Territory territory = game.getTerritories().get(button.getData("name"));
