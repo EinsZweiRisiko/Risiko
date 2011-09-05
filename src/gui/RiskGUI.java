@@ -1214,9 +1214,7 @@ public class RiskGUI {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(attackingTerritory);
 
-//				System.out.println(attackableTerritories);
-				
-
+				System.out.println("Die anzugreifenden Länder sind: "+ attackableTerritories);
 				
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
