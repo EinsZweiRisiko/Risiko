@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
@@ -502,7 +503,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
 		
 		for(int i = 1; i < territories.size(); i++) {
-			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
+			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 1; j < neighbors.size() ;j++){
 				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
 					if(!attackingTerritories.contains(neighbors.get(j))) {
@@ -520,7 +521,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
 		
 		for(int i = 1; i <= territories.size(); i++) {
-			ArrayList<Territory> neighbors = territories.get(i).getNeighbors();
+			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 1; j <= neighbors.size() ;j++){
 				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
 					if(!moveTerritories.contains(neighbors.get(j))) {
@@ -533,9 +534,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	@Override
-	public List<Territory> getOpposingNeighborsOf(Territory territory) {
-		ArrayList<Territory> opposingNeighbors = territory.getNeighbors();
-		
+	public CopyOnWriteArrayList<Territory> getOpposingNeighborsOf(Territory territory) {
+		CopyOnWriteArrayList<Territory> opposingNeighbors = territory.getNeighbors();
 		for(Territory territory2 : opposingNeighbors) {
 			if(territory2.getOwner().equals(territory.getOwner())){
 				opposingNeighbors.remove(territory2);
@@ -545,8 +545,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	@Override
-	public List<Territory> getSimilarNeighborsOf(Territory territory) {
-		ArrayList<Territory> similarNeighbors = territory.getNeighbors();
+	public CopyOnWriteArrayList<Territory> getSimilarNeighborsOf(Territory territory) {
+		CopyOnWriteArrayList<Territory> similarNeighbors = territory.getNeighbors();
 		
 		for(Territory territory2 : similarNeighbors) {
 			if(!territory2.getOwner().equals(territory.getOwner())){
