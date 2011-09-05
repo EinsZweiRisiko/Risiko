@@ -923,6 +923,9 @@ public class RiskGUI {
 			
 			System.out.println("ANGREIFENDES: " + attackingTerritory.getName() + "| ANGEGRIFFENES: " + attackedTerritory.getName() + "  | mit " + units + " Einheiten.");
 			
+			
+			game.attack(attackingTerritory, attackedTerritory, units);
+			
 //			game.resetAttack();
 
 		} else if (phase == Phase.MOVEMENT) {
@@ -1133,6 +1136,11 @@ public class RiskGUI {
 		System.out.println("Aktuelle Phase: " + phase + " " + game.getActivePlayer().getName() + " " + myPlayer.getName());
 
 		currentPlayer = game.getActivePlayer();
+		
+		java.awt.Button buttonspass = new java.awt.Button("AWT BUTTON");
+		buttonspass.setName("Alaska");
+		buttonspass.setBounds(500, 400, 200, 100);
+		buttonspass.repaint();
 
 		if (phase == Phase.PLACEMENT) {
 			for (Button button : buttonArray) {
@@ -1213,8 +1221,13 @@ public class RiskGUI {
 			if (currentPlayer.equals(myPlayer)) {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(attackingTerritory);
+<<<<<<< HEAD
 
 				System.out.println("Die anzugreifenden Länder sind: "+ attackableTerritories);
+=======
+				
+
+>>>>>>> d412ff34476b683272d9e5ab94ea89d57114637c
 				
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
