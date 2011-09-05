@@ -12,6 +12,7 @@ import valueobjects.Territory;
 import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
+import commons.actions.AttackAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
@@ -97,7 +98,14 @@ public class AppClient implements ClientMethods {
 					rFenster.updateTerritory(t);
 				}
 			});
-		} else {
+		} else if (a instanceof AttackAction ) {
+			final Territory t = ((AttackAction) a).getAttackedTerritory();	
+			display.asyncExec(new Runnable() {
+					public void run() {
+						rFenster.defend(t);
+					}
+				});
+		}else {
 			IO.write("Unidentified action.");
 		}
 	}

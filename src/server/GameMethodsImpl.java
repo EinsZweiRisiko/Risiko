@@ -50,19 +50,19 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	// die gewürfelten Ergebnisse müssen auf dem Server lokal gespeichert werden
 	ArrayList<Integer> attackDice;
 	ArrayList<Integer> defendDice;
-	
+
 	// das angreifende land und angegeriffende Land muss temporär gespeichert werden
 	Territory attackingTerritory;
 	Territory defendTerritory;
-	
+
 	private boolean started = false; 
 	private PlayerCollection players = new PlayerCollection();
 	private List<ClientMethods> clients = new ArrayList<ClientMethods>();
-	
+
 	private TerritoryManager territoryManager = new TerritoryManager();
 	private BonusCardStack bonusCardManager = new BonusCardStack();
 	private BonusTracker bonusTracker = new BonusTracker();
-	
+
 	/**
 	 * The current player
 	 */
@@ -81,35 +81,35 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	};
 
 	public GameMethodsImpl(String name, int port) throws UnknownHostException,
-			IOException, NameBindingException {
+	IOException, NameBindingException {
 		Registry registry = Simon.createRegistry(port);
 		registry.bind(name, this);
 	}
 
 	// START OF observable
-	
-	
-//	private void setChanged() {
-//		changed = true;
-//	}
-//	
-//	private void clearChanged() {
-//		changed = false;
-//	}
-	
+
+
+	//	private void setChanged() {
+	//		changed = true;
+	//	}
+	//	
+	//	private void clearChanged() {
+	//		changed = false;
+	//	}
+
 	private void notifyPlayers(Action arg) {
-//		if (!changed) {
-//			return;
-//		}
+		//		if (!changed) {
+		//			return;
+		//		}
 		// Notify all observers
 		for (ClientMethods client:clients) {
 			client.update(this, arg);
 		}
-//		clearChanged();
+		//		clearChanged();
 	}
 
 	// END OF observable
-	
+
 	/**
 	 * Adds a player to the game and consequently to the list of observers
 	 * @return 
@@ -125,35 +125,35 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Add the client
 		if (client == null) {
-            throw new NullPointerException();
+			throw new NullPointerException();
 		}
 		clients.add(client);
-		
+
 		Player player = new Player(name);
-		
+
 		players.add(player);
-		
+
 		// Output a success message
 		IO.write("Client connected.");
-		
+
 		notifyPlayers(new PlayerJoinedAction(player));
-		
+
 		return player;
 	}
-	
+
 	/**
 	 * Deletes a player from the list of observers
 	 */
 	public void deletePlayer(ClientMethods client) {
 		clients.remove(client);
 	}
-	
+
 	/**
 	 * Starts this instance of Risk
 	 */
 	public void start() throws NotEnoughPlayersException {
 		int playerCount = players.size();
-		
+
 		// Check if there are enough players
 		if (playerCount < 3) {
 			// TODO: implement logic for 2 players
@@ -176,16 +176,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (Player player : players) {
 			player.addSupplies(startUnits);
 		}
-	
+
 		placeStartUnitsRandomly();
-		
+
 		// Set the game status to started
 		started = true;
 		notifyPlayers(new GameStartedAction());
-		
+
 		// switch the pahse to turning
-//		currentPhase = Phase.TURNINCARDS;
-		
+		//		currentPhase = Phase.TURNINCARDS;
+
 		// Set the first phase
 		nextPhase();
 	}
@@ -244,7 +244,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		IO.write("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
-	
+
 	/**
 	 * Returns the current phase.
 	 * @return
@@ -252,7 +252,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public Phase getPhase() {
 		return currentPhase;
 	}
-	
+
 	/**
 	 * Prepares and returns the next action in the sequence. This method can
 	 * change the active player, so always use this method before getting the
@@ -273,7 +273,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new PhaseAction(currentPlayer, cp));
 		// Which action comes afterwards the current one?
 		switch (currentPhase) {
-		// The first action is at the end of this switch block
+			// The first action is at the end of this switch block
 			case TURNINCARDS:
 				// Placing the supply units is next
 				// überprüfen der karten und supply hnzufügen
@@ -288,15 +288,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			case ATTACK1:
 				// here: choose the Teritory(Button)
 				prepareAttack2Action();
-				 break;
+				break;
 			case ATTACK2:
 				// here: choose territory to attaxk (button)
 				prepareAttack3Action();
-				 break;
+				break;
 			case ATTACK3:
 				// here: the Amount of attacking units and calculate the fight
 				prepareMovementAction();
-				 break;
+				break;
 			case MOVEMENT:
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
@@ -326,9 +326,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		// TODO Extra supplies for conquered continents
-//		for (Continent continent : activePlayer.getContinents()) {
-//			supplies += continent.getBonusSupplies();
-//		}
+		//		for (Continent continent : activePlayer.getContinents()) {
+		//			supplies += continent.getBonusSupplies();
+		//		}
 
 		// Add the supplies
 		currentPlayer.addSupplies(supplies);
@@ -458,7 +458,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			currentPlayer.removeBonusCards(cards);
 			currentPlayer.addSupplies(bonusTracker.getNextBonus());
 		}else if(currentPlayer.getBonusCards().size() >= 3) {
-			
+
 		}
 	}
 
@@ -501,7 +501,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public List<Territory> getMyTerritoriesForAttacking(Player player) {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
-		
+
 		for(int i = 1; i < territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 1; j < neighbors.size() ;j++){
@@ -519,7 +519,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public List<Territory> getMyTerritoriesForMoving(Player player) {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
-		
+
 		for(int i = 1; i <= territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 1; j <= neighbors.size() ;j++){
@@ -547,7 +547,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public CopyOnWriteArrayList<Territory> getSimilarNeighborsOf(Territory territory) {
 		CopyOnWriteArrayList<Territory> similarNeighbors = territory.getNeighbors();
-		
+
 		for(Territory territory2 : similarNeighbors) {
 			if(!territory2.getOwner().equals(territory.getOwner())){
 				similarNeighbors.remove(territory2);
@@ -559,19 +559,19 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void placeUnits(String territory, int amount) {
 		Territory t = territoryManager.getTerritoryMap().get(territory);
-		
+
 		Player owner = t.getOwner();
-		
+
 		if(owner.getSupplies() > 0){
 			t.addUnits(amount);
 			owner.subtractSupplies(amount);
-			
+
 			// Send a notification to all clients
 			notifyPlayers(new TerritoryUnitsChangedAction(t, t.getUnits()));
 		}
 		System.out.println("Units auf dem Land: " + t.getUnits());
 		System.out.println("Dein supply: " + owner.getSupplies());
-		
+
 		if(owner.getSupplies() == 0){
 			nextPhase();
 		}
@@ -581,33 +581,20 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void attack(Territory attackingTerritory,
 			Territory attackedTerritory, int amount) {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
+		
 		attackDice = getDice(amount);
 		this.attackingTerritory = attackingTerritory;
 		this.defendTerritory = attackedTerritory;
 		notifyPlayers(new AttackAction(attackingTerritory, attackedTerritory, amount));
 	}
-	
+
 	public void defend(Territory defendTerritory, int amount) {
 		// Verteidiger(amount) darf nicht mehr als 2 und nicht weniger als 1 sein
 		defendDice = getDice(amount);
-		notifyPlayers(new DefendAction(defendTerritory, amount));
+		//notifyPlayers(new DefendAction(defendTerritory, amount));
 		// nun wird der Kampf bzw. die zwei würfel verglichen "Kampf" findet statt
 		calculateDice(attackDice, defendDice);
 	}
-	
-	public ArrayList<Integer> getDice(int amount) {
-		ArrayList<Integer> dice = new ArrayList<Integer>();
-		
-		for(int i = 0; i <= amount; i++) {
-			dice.add(i, (int) ((Math.random()) * 6 + 1));
-		}
-		
-		//sortieren der würfel TODO Absteigend oder Aufsteigend ? Inhalt muss man noch auslesen
-		Collections.sort(dice);
-		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
-		return dice;
-	}
-	
 	
 	// diese Methode ist Pseudo mäßig programmiert
 	public void calculateDice(ArrayList<Integer> attackDice, ArrayList<Integer> defendDice) {
@@ -615,13 +602,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// TODO irgendein lustiger algorithmus zum Vergleich der da unten steht ;-)
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
-		
+
 		for(int i = 1; i <= defendDice.size(); i++) {
 			if(defendDice.get(i) > attackDice.get(i)) {
+				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i));
 				attackLoseUnits++;
 			}else if(defendDice.get(i) == attackDice.get(i)) {
+				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +"GELEICHEIT");
 				attackLoseUnits++;
 			}else if(defendDice.get(i) < attackDice.get(i)) {
+				System.out.println("Offensive: "+ attackDice.get(i) +" schlägt Defensive: "+ defendDice.get(i));
 				defendLoseUnits++;
 			}
 		}
@@ -629,23 +619,36 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		attackingTerritory.setUnits(attackingTerritory.getUnits() - attackLoseUnits);
 		defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
 		// TODO Es muss noch überprüft werden ob das Land übernommen wurde oder nicht
-		
+
 		// TODO ein notifiy rauswerfen mit den geänderten values
 		// TODO koennte so aussehen: notifyPlayers(territory, dasjeweiligeterritory.getUnits()
 		notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
 	}
-	
+
+	public ArrayList<Integer> getDice(int amount) {
+		ArrayList<Integer> dice = new ArrayList<Integer>();
+
+		for(int i = 0; i <= amount; i++) {
+			dice.add(i, (int) ((Math.random()) * 6 + 1));
+		}
+
+		//sortieren der würfel TODO Absteigend oder Aufsteigend ? Inhalt muss man noch auslesen
+		Collections.sort(dice);
+		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
+		return dice;
+	}
+
 	@Override
 	public void move(Territory source, Territory target, int amount)
-			throws SimonRemoteException {
+	throws SimonRemoteException {
 		source.setUnits(source.getUnits() - amount);
 		target.setUnits(target.getUnits() + amount);
 		// Es müssen noch die Clients Notified werden
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
 	}
-	
+
 	// setzt die Pahse zurück auf Attack wegen wieder angriff für die GUI
 	public void resetAttack() {
 		currentPhase = Phase.ATTACK1;
