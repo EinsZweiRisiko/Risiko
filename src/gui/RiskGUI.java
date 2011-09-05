@@ -1137,6 +1137,8 @@ public class RiskGUI {
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					attackedTerritory);
 			int units = (Integer) ad.open();
+			
+			game.defend(attackedTerritory, units);
 		}
 	}
 	
