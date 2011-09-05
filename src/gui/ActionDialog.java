@@ -144,6 +144,8 @@ public class ActionDialog extends Dialog {
                 
                 int playercolor = territory.getOwner().getColor();
                 
+                int maxUnits = territory.getUnits()-1;
+                
                 if(playercolor == 1){
                 	playercolor = 3;
                 }
@@ -205,7 +207,7 @@ public class ActionDialog extends Dialog {
     		      });
         		
         		Button button3 = new Button(shell, SWT.PUSH);
-        		button3.setImage(units[playercolor+2]);
+        		button3.setImage(units[playercolor+2]);        		
         		button3.addMouseListener(new MouseListener() {
     				@Override
     				public void mouseDown(MouseEvent e) {
@@ -226,6 +228,15 @@ public class ActionDialog extends Dialog {
     				}
     		      });
                 
+        		if(maxUnits == 1) {
+        			button2.setEnabled(false);
+        			button3.setEnabled(false);
+        		}
+        		
+        		if(maxUnits == 2) {
+        			button3.setEnabled(false);
+        		}
+        		
                 shell.open();
                 Display display = parent.getDisplay();
                 while (!shell.isDisposed()) {
