@@ -1127,7 +1127,19 @@ public class RiskGUI {
 			eventWindowAppendText(player.getName() + " ist dran.");
 		}
 	}
-
+	
+	
+	public void defend(Territory attackedTerritory) {
+		
+		Player attackedPlayer = attackedTerritory.getOwner();
+		
+		if (myPlayer.equals(attackedPlayer)){
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
+					attackedTerritory);
+			int units = (Integer) ad.open();
+		}
+	}
+	
 	public void updatePhase() {
 
 		phase = game.getPhase();
