@@ -63,7 +63,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private BonusCardStack bonusCardManager = new BonusCardStack();
 	private BonusTracker bonusTracker = new BonusTracker();
 
+	/**
+	 * The number of Fight Rounds
+	 */
 	private int attackingRound = 0;
+	
 	/**
 	 * The current player
 	 */
@@ -672,6 +676,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
 			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
 		}
+		
 		/*
 		for (int i2 = 0 ; i2 < getActivePlayer().getTerritories().size(); i2++){
 			System.out.println("activePlayer Spieler: "+ getActivePlayer().getName()+" = "+ getActivePlayer().getTerritories().get(i2).getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());

@@ -1279,7 +1279,7 @@ public class RiskGUI {
 		} else if (phase == Phase.ATTACK3) {
 			
 			//remove next PhaseButton
-			nextPhaseButton.setVisible(false);
+			//nextPhaseButton.setVisible(false);
 
 			if (attackedPlayer.equals(myPlayer)){	
 				
