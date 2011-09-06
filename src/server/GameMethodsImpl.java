@@ -63,6 +63,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private BonusCardStack bonusCardManager = new BonusCardStack();
 	private BonusTracker bonusTracker = new BonusTracker();
 
+	private int attackingRound = 0;
 	/**
 	 * The current player
 	 */
@@ -606,8 +607,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 		Boolean conquered = false;
+		attackingRound++;
 
-		System.out.println("--- Neue Kampfrunde ---");
+		System.out.println("--- Kampfrunde nr: "+ attackingRound +" ---");
 		System.out.println("Verteidigerwürfelanzahl: "+defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
 		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
 		System.out.println("Anzahl des Defendterritory: "+defendTerritory.getUnits());
@@ -632,7 +634,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				defendLoseUnits++;
 			}
 
-
+			// Wenn Land erobert
 			if(defendTerritory.getUnits() - defendLoseUnits == 0){
 				System.out.println(defendTerritory.getName() + " ÜBERNOMMEN!");
 				conquered = true;
@@ -643,12 +645,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 					territoryManager.changeTerritoryOwner(attackingTerritory.getOwner(), defendTerritory, attackDice.size() - attackLoseUnits);
 					
 					System.out.println(defendTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
-					
-					List<Territory> attackersTerritories = getMyTerritories(attackingTerritory.getOwner());
-					for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
-						System.out.println(attackersTerritories.get(i2).getName());
-					}
-					
+									
 					notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, attackDice.size() - attackLoseUnits));
 				} catch (InvalidTerritoryStateException e) {
 					e.printStackTrace();
@@ -665,6 +662,17 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 			notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
 			notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
+		}
+		
+		List<Territory> attackersTerritories = attackingTerritory.getOwner().getTerritories();
+		
+		
+		System.out.println("Spieler Vergleich: "+ attackingTerritory.getOwner().getName() +" = "+ getActivePlayer().getName());
+		for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
+			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
+		}
+		for (int i2 = 0 ; i2 < getActivePlayer().getTerritories().size(); i2++){
+			System.out.println("activePlayer Spieler: "+ getActivePlayer().getName()+" = "+ getActivePlayer().getTerritories().get(i2).getOwner().getName() +" | "+ getActivePlayer().getTerritories().get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
 		}
 	}
 
