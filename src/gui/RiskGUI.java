@@ -894,7 +894,7 @@ public class RiskGUI {
 		shell.update();
 	}
 
-	private void openEventBox(Player player, String message) {
+	public void openEventBox(Player player, String message) {
 		
 		if(player.equals(guiPlayer)){
 			EventBox eventBox = new EventBox(shell, message, player.getName());

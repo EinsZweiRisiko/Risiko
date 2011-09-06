@@ -592,8 +592,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 		Boolean conquered = false;
-		String defenderMsg;
-		String attackerMsg;
+		String defenderMsg = null;
+		String attackerMsg = null;
 		
 		attackingRound++;
 
@@ -667,6 +667,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new EventBoxAction(attackingTerritory.getOwner(),attackerMsg));
 		notifyPlayers(new EventBoxAction(attackingTerritory.getOwner(),defenderMsg));
 		
+		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
 	}
 

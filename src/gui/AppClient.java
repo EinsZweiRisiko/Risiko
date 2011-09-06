@@ -14,6 +14,7 @@ import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
 import commons.actions.AttackAction;
+import commons.actions.EventBoxAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
@@ -110,7 +111,16 @@ public class AppClient implements ClientMethods {
 					rFenster.defend(t);
 				}
 			});
-		}else {
+		}else if (a instanceof EventBoxAction ) {
+			final Player player = ((EventBoxAction) a).getPlayer();	
+			final String msg = ((EventBoxAction) a).getMsg();
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.openEventBox(player, msg);
+				}
+			});
+		} else {
+			
 			IO.write("Unidentified action.");
 		}
 	}
