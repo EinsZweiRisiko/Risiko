@@ -517,7 +517,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				}
 			}
 		}
-		
+
 		System.out.println("TERRITORIES FOR ATTACKING: ");
 		for (int i = 0 ; i < attackingTerritories.size(); i++){
 			System.out.println(attackingTerritories.get(i).getName());
@@ -618,13 +618,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		System.out.println("Verteidigerwürfelanzahl: "+defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
 		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
 		System.out.println("Anzahl des Defendterritory: "+defendTerritory.getUnits());
-		
+
 		//if there are more defending than attacking dices!
 		int lowestDiceNumber = defendDice.size();
 		if (lowestDiceNumber > attackDice.size()){
 			lowestDiceNumber = attackDice.size();
 		}
-		
+
 		for(int i = 0; i < lowestDiceNumber; i++) {
 			System.out.println("Kampfdurchlauf nr:" +i);
 
@@ -648,9 +648,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 				try {
 					territoryManager.changeTerritoryOwner(attackingTerritory.getOwner(), defendTerritory, attackDice.size() - attackLoseUnits);
-					
+
 					System.out.println(defendTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
-									
+
 					notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, attackDice.size() - attackLoseUnits));
 				} catch (InvalidTerritoryStateException e) {
 					e.printStackTrace();
@@ -668,10 +668,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
 			notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
 		}
-		
+
 		List<Territory> attackersTerritories = attackingTerritory.getOwner().getTerritories();
-		
-		
+
+
 		System.out.println("Spieler Vergleich: "+ attackingTerritory.getOwner().getName() +" = "+ getActivePlayer().getName());
 		for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
 			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
@@ -701,7 +701,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void move(Territory source, Territory target, int amount)
-			throws SimonRemoteException {
+	throws SimonRemoteException {
 		source.setUnits(source.getUnits() - amount);
 		target.setUnits(target.getUnits() + amount);
 		// Es müssen noch die Clients Notified werden
@@ -712,6 +712,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void endAttackPhase() {
 		prepareMovementAction();
-		nextPhase();
+		Phase cp = getPhase();
+		notifyPlayers(new PhaseAction(currentPlayer, cp));
 	}
 }

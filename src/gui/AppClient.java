@@ -59,8 +59,8 @@ public class AppClient implements ClientMethods {
 
 	@Override
 	public void update(final GameMethods server, Action a) {
-		
-		
+
+
 		if (a instanceof PlayerJoinedAction) {
 			// A player joined
 			PlayerJoinedAction pja = (PlayerJoinedAction) a;
@@ -103,10 +103,10 @@ public class AppClient implements ClientMethods {
 		} else if (a instanceof AttackAction ) {
 			final Territory t = ((AttackAction) a).getAttackedTerritory();	
 			display.asyncExec(new Runnable() {
-					public void run() {
-						rFenster.defend(t);
-					}
-				});
+				public void run() {
+					rFenster.defend(t);
+				}
+			});
 		}else {
 			IO.write("Unidentified action.");
 		}
@@ -120,12 +120,12 @@ public class AppClient implements ClientMethods {
 	 * @throws UnknownHostException
 	 */
 	public void connect(String ip, String name) throws LookupFailedException,
-			EstablishConnectionFailed, UnknownHostException,
-			ServerFullException, NoNameException {
+	EstablishConnectionFailed, UnknownHostException,
+	ServerFullException, NoNameException {
 		if (name.trim().isEmpty()) {
 			throw new NoNameException();
 		}
-		
+
 		connection = Simon.createNameLookup(ip, DEFAULT_PORT);
 		game = (GameMethods) connection.lookup("risk");
 
