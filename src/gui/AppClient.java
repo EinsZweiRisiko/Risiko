@@ -83,9 +83,10 @@ public class AppClient implements ClientMethods {
 				}
 			});
 		} else if (a instanceof NextPlayerAction) {
+			final Player player = ((NextPlayerAction) a).getPlayer();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updateCurrentPlayer();
+					rFenster.updateCurrentPlayer(player);
 				}
 			});
 		} else if (a instanceof PhaseAction) {

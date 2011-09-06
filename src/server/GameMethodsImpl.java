@@ -253,9 +253,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * @return Action The next action/phase
 	 */
-	public void nextPhase() {
-		System.out.println("DAVOR: nextPhase PHASE ist: "+ getPhase());
-		
+	public void nextPhase() {		
 		Phase cp = getPhase();
 		notifyPlayers(new PhaseAction(currentPlayer, cp));
 		// Which action comes afterwards the current one?
