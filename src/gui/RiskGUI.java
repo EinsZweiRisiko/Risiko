@@ -925,10 +925,6 @@ public class RiskGUI {
 			int units = (Integer) ad.open();
 
 			game.attack(attackingTerritory, attackedTerritory, units);
-
-		} else if (phase == Phase.ATTACK3) {
-			//game.resetAttack();
-
 		} else if (phase == Phase.MOVEMENT) {
 			// SOURCE TERRITORY
 			// TARGET TERRITORY
@@ -1134,7 +1130,7 @@ public class RiskGUI {
 
 	public void defend(Territory attackedTerritory2) {	
 		this.attackedTerritory = attackedTerritory2;
-		attackedPlayer = attackedTerritory2.getOwner();
+		attackedPlayer = attackedTerritory.getOwner();
 
 		//This sould only becalled ONCE!
 		if(myPlayer.equals(attackedPlayer)){
@@ -1143,11 +1139,14 @@ public class RiskGUI {
 	}
 
 	public void updatePhase() {
-
 		phase = game.getPhase();
 
 		currentPlayer = game.getActivePlayer();
 
+		
+		System.out.println("SPIELER || " + "ACTIVEPLAYER: " + game.getActivePlayer().getName() + " CURRENTPLAYER: " + currentPlayer.getName() + " MYPLAYER: " + myPlayer.getName());
+		System.out.println("PHASE || " + phase);
+		
 		//change the state of the roundButton to visualize the round
 		if (phase == Phase.PLACEMENT || phase == Phase.START || phase == Phase.TURNINCARDS){
 			roundButton.setImage(roundImage[0]);
@@ -1281,9 +1280,7 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK3) {
 
-			if (attackedPlayer.equals(myPlayer)){	
-
-				game.nextPhase();
+			if (attackedPlayer.equals(myPlayer)){
 
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
 						attackedTerritory);
@@ -1294,6 +1291,7 @@ public class RiskGUI {
 
 				//MESSAGE Verteidiger
 				EventBox eventBox = new EventBox(shell, " HIER KOMMT NOCH WAS ", myPlayer.getName());
+				game.nextPhase();
 			}
 
 			if (currentPlayer.equals(myPlayer)){	

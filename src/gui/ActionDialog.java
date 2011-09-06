@@ -248,7 +248,7 @@ public class ActionDialog extends Dialog {
     		if(phase.equals(Phase.ATTACK3)){
             	Shell parent = getParent();
                 final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-            	shell.setSize(85,80);
+            	shell.setSize(50,80);
                 shell.setText("Verteidigung");
                 center(shell);
                 
