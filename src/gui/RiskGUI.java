@@ -45,6 +45,7 @@ public class RiskGUI {
 	private Image map;
 	private Image[] unitImage = new Image[6];
 	private Image[] bonusImage = new Image[4];
+	private Image[] roundImage = new Image[3];
 	private Composite mainWindow;
 	private int imgWidth;
 	private int imgHeight;
@@ -66,6 +67,7 @@ public class RiskGUI {
 	private Label[] bonusLabelStack;
 	private Phase phase;
 	private Button nextPhaseButton;
+	private Button roundButton;
 	private Territory attackingTerritory;
 	private Territory attackedTerritory;
 
@@ -123,6 +125,8 @@ public class RiskGUI {
 		createEventWindow();
 
 		createCardWindow();
+		
+		createRoundWindow();
 
 		// resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
@@ -163,6 +167,13 @@ public class RiskGUI {
 
 		center(shell);
 		shell.open();
+	}
+
+	private void createRoundWindow() {
+		roundButton = new Button(mainWindow, SWT.PUSH);
+		roundImage[0] = new Image(dev, "assets/roundSUPPLY.png");
+		roundImage[1] = new Image(dev, "assets/roundATTACK.png");
+		roundImage[2] = new Image(dev, "assets/roundMOVEMENT.png");
 	}
 
 	/**
@@ -1134,6 +1145,44 @@ public class RiskGUI {
 		phase = game.getPhase();
 
 		currentPlayer = game.getActivePlayer();
+		
+		//change the state of the roundButton to visualize the round
+		if (phase == Phase.PLACEMENT){
+			roundButton.setImage(roundImage[0]);
+			roundButton.setToolTipText("Bitte platziere deine Verstärkung");
+			roundButton.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2 + 10),
+					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+
+			roundButton.pack();
+			shell.update();
+		}
+		if (phase == Phase.ATTACK1){
+			roundButton.setImage(roundImage[1]);
+			roundButton.setToolTipText("Bitte führe deine Angriffe durch");
+			roundButton.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2 + 10),
+					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+
+			roundButton.pack();
+			shell.update();
+		}
+		if (phase == Phase.MOVEMENT){
+			roundButton.setImage(roundImage[3]);
+			roundButton.setToolTipText("Verschiebe deine Armeen");
+			roundButton.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2 + 10),
+					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+
+			roundButton.pack();
+			shell.update();
+		}
+		
+		if(currentPlayer.equals(myPlayer)){
+			roundButton.setEnabled(true);
+		} else {
+			roundButton.setEnabled(false);
+		}
 
 		if (phase == Phase.PLACEMENT) {
 			for (Button button : buttonArray) {
@@ -1173,9 +1222,10 @@ public class RiskGUI {
 				}
 
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
+				nextPhaseButton.setVisible(true);
 				nextPhaseButton.setText("nächste Phase");
 				nextPhaseButton.setLocation(new Point(
-						((imgWidth - shell.getClientArea().width) / 2 + 10),
+						((imgWidth - shell.getClientArea().width) / 2 + 10 + 50),
 						((imgHeight - shell.getClientArea().height) / 2 + 10)));
 
 				nextPhaseButton.pack();
@@ -1185,7 +1235,7 @@ public class RiskGUI {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
-						game.nextPhase();
+						game.endAttackPhase();
 						nextPhaseButton.dispose();
 					}
 
@@ -1227,6 +1277,9 @@ public class RiskGUI {
 				}
 			}
 		} else if (phase == Phase.ATTACK3) {
+			
+			//remove next PhaseButton
+			nextPhaseButton.setVisible(false);
 
 			if (attackedPlayer.equals(myPlayer)){	
 				
@@ -1246,7 +1299,7 @@ public class RiskGUI {
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
 				nextPhaseButton.setText("Runde beenden.");
 				nextPhaseButton.setLocation(new Point(
-						((imgWidth - shell.getClientArea().width) / 2 + 10),
+						((imgWidth - shell.getClientArea().width) / 2 + 10 + 50),
 						((imgHeight - shell.getClientArea().height) / 2 + 10)));
 
 				nextPhaseButton.pack();
