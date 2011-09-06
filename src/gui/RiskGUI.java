@@ -1354,5 +1354,4 @@ public class RiskGUI {
 			}
 		}
 	}
-
 }
