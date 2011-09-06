@@ -703,4 +703,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
 	}
+
+	@Override
+	public void endAttackPhase() {
+		prepareMovementAction();
+		nextPhase();
+	}
 }
