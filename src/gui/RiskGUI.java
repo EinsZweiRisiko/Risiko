@@ -824,7 +824,6 @@ public class RiskGUI {
 			buttonArray[i].addMouseListener(new MouseListener() {
 				@Override
 				public void mouseDoubleClick(MouseEvent e) {
-					// TODO Auto-generated method stub
 
 				}
 
@@ -913,7 +912,7 @@ public class RiskGUI {
 		} else if (phase == Phase.ATTACK1) {
 			// SOURCE TERRITORY
 			attackingTerritory = territory;
-			game.nextPhase();
+			//			game.nextPhase();
 
 		} else if (phase == Phase.ATTACK2) {
 			// TARGET TERRITORY
@@ -1134,7 +1133,7 @@ public class RiskGUI {
 
 		//This sould only becalled ONCE!
 		if(myPlayer.equals(attackedPlayer)){
-			game.nextPhase();
+			//			game.nextPhase();
 		}
 	}
 
@@ -1143,10 +1142,10 @@ public class RiskGUI {
 
 		currentPlayer = game.getActivePlayer();
 
-		
+
 		System.out.println("SPIELER || " + "ACTIVEPLAYER: " + game.getActivePlayer().getName() + " CURRENTPLAYER: " + currentPlayer.getName() + " MYPLAYER: " + myPlayer.getName());
 		System.out.println("PHASE || " + phase);
-		
+
 		//change the state of the roundButton to visualize the round
 		if (phase == Phase.PLACEMENT || phase == Phase.START || phase == Phase.TURNINCARDS){
 			roundButton.setImage(roundImage[0]);
@@ -1291,7 +1290,7 @@ public class RiskGUI {
 
 				//MESSAGE Verteidiger
 				EventBox eventBox = new EventBox(shell, " HIER KOMMT NOCH WAS ", myPlayer.getName());
-				game.nextPhase();
+				//				game.nextPhase();
 			}
 
 			if (currentPlayer.equals(myPlayer)){	
@@ -1315,7 +1314,7 @@ public class RiskGUI {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
-						game.nextPhase();
+						//						game.nextPhase();
 						nextPhaseButton.dispose();
 					}
 

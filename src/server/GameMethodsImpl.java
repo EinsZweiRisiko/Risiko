@@ -91,26 +91,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		registry.bind(name, this);
 	}
 
-	// START OF observable
-
-
-	//	private void setChanged() {
-	//		changed = true;
-	//	}
-	//	
-	//	private void clearChanged() {
-	//		changed = false;
-	//	}
-
 	private void notifyPlayers(Action arg) {
-		//		if (!changed) {
-		//			return;
-		//		}
 		// Notify all observers
 		for (ClientMethods client:clients) {
 			client.update(this, arg);
 		}
-		//		clearChanged();
 	}
 
 	// END OF observable
@@ -161,7 +146,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Check if there are enough players
 		if (playerCount < 3) {
-			// TODO: implement logic for 2 players
 			throw new NotEnoughPlayersException(playerCount);
 		}
 
@@ -173,7 +157,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		} else if (playerCount == 3) {
 			startUnits = 35;
 		} else {
-			// TODO implement logic for 2 player games
 			startUnits = 36;
 		}
 
@@ -187,9 +170,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Set the game status to started
 		started = true;
 		notifyPlayers(new GameStartedAction());
-
-		// switch the pahse to turning
-		//		currentPhase = Phase.TURNINCARDS;
 
 		// Set the first phase
 		nextPhase();
