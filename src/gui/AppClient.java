@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 import org.eclipse.swt.widgets.Display;
 
+import server.GameMethodsImpl.Phase;
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.Player;
@@ -88,9 +89,10 @@ public class AppClient implements ClientMethods {
 				}
 			});
 		} else if (a instanceof PhaseAction) {
+			final Phase phase = ((PhaseAction) a).getPhase();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updatePhase();
+					rFenster.updatePhase(phase);
 				}
 			});
 		} else if (a instanceof TerritoryUnitsChangedAction) {

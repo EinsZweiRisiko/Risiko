@@ -274,6 +274,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * @return Action The next action/phase
 	 */
 	public void nextPhase() {
+		System.out.println("DAVOR: nextPhase PHASE ist: "+ getPhase());
+		
 		Phase cp = getPhase();
 		notifyPlayers(new PhaseAction(currentPlayer, cp));
 		// Which action comes afterwards the current one?
@@ -349,12 +351,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		} else {
 			// If the player can't turn in cards, skip to the next step
 			preparePlacementAction();
-			currentPhase = Phase.PLACEMENT;
 		}
 	}
 
 	/**
 	 * TODO doc
+	 * 
 	 */
 	private void preparePlacementAction() {
 		calculateSupplies();
