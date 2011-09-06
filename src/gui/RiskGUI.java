@@ -125,7 +125,7 @@ public class RiskGUI {
 		createEventWindow();
 
 		createCardWindow();
-		
+
 		createRoundWindow();
 
 		// resize listener which auto centers the game
@@ -1145,9 +1145,9 @@ public class RiskGUI {
 		phase = game.getPhase();
 
 		currentPlayer = game.getActivePlayer();
-		
+
 		//change the state of the roundButton to visualize the round
-		if (phase == Phase.PLACEMENT){
+		if (phase == Phase.PLACEMENT || phase == Phase.START || phase == Phase.TURNINCARDS){
 			roundButton.setImage(roundImage[0]);
 			roundButton.setToolTipText("Bitte platziere deine Verstärkung");
 			roundButton.setLocation(new Point(
@@ -1157,7 +1157,7 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
-		if (phase == Phase.ATTACK1){
+		if (phase == Phase.ATTACK1 || phase == Phase.ATTACK2 || phase == Phase.ATTACK3){
 			roundButton.setImage(roundImage[1]);
 			roundButton.setToolTipText("Bitte führe deine Angriffe durch");
 			roundButton.setLocation(new Point(
@@ -1177,11 +1177,13 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
-		
+
 		if(currentPlayer.equals(myPlayer)){
 			roundButton.setEnabled(true);
+			shell.update();
 		} else {
 			roundButton.setEnabled(false);
+			shell.update();
 		}
 
 		if (phase == Phase.PLACEMENT) {
@@ -1277,14 +1279,17 @@ public class RiskGUI {
 				}
 			}
 		} else if (phase == Phase.ATTACK3) {
-			
+
 			//remove next PhaseButton
-			nextPhaseButton.setVisible(false);
+			if (nextPhaseButton != null){
+				nextPhaseButton.setVisible(false);
+			}
+
 
 			if (attackedPlayer.equals(myPlayer)){	
-				
+
 				game.nextPhase();
-				
+
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
 						attackedTerritory);
 
