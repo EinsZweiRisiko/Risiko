@@ -77,10 +77,11 @@ public class AppClient implements ClientMethods {
 		} else if (a instanceof GameStartedAction) {
 			// Game started
 			IO.write("Game started.");
-
+			final Player player = ((GameStartedAction) a). getPlayer();
 			display.asyncExec(new Runnable() {
 				public void run() {
 					lobbygui.close();
+					rFenster.updateCurrentPlayer(player);
 				}
 			});
 		} else if (a instanceof NextPlayerAction) {
