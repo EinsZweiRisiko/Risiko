@@ -931,6 +931,8 @@ public class RiskGUI {
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					territory);
 			ad.open();
+			
+			// IN MOVEMENT 3 - "game.nextPlayer();
 		}
 	}
 
@@ -1115,8 +1117,9 @@ public class RiskGUI {
 	/**
 	 * Updates the current player after a NextPlayerAction was received.
 	 */
-	public void updateCurrentPlayer() {
-		Player player = game.getActivePlayer();
+	public void updateCurrentPlayer(Player player) {
+		
+		currentPlayer = player;
 
 		// Check whether the player equals my player
 		if (player.equals(myPlayer)) {
@@ -1140,9 +1143,6 @@ public class RiskGUI {
 	public void updatePhase(Phase phase) {
 		
 		this.phase = phase;
-		
-		currentPlayer = game.getActivePlayer();
-
 
 		System.out.println("SPIELER || " + "ACTIVEPLAYER: " + game.getActivePlayer().getName() + " CURRENTPLAYER: " + currentPlayer.getName() + " MYPLAYER: " + myPlayer.getName());
 		System.out.println("PHASE || " + phase);
