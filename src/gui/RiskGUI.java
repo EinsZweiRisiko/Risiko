@@ -1126,7 +1126,7 @@ public class RiskGUI {
 	public void updateCurrentPlayer(Player player) {
 		
 		currentPlayer = player;
-
+		
 		// Check whether the player equals my player
 		if (player.equals(guiPlayer)) {
 			eventWindowAppendText("Du bist dran");
@@ -1149,8 +1149,9 @@ public class RiskGUI {
 	public void updatePhase(Phase phase) {
 		
 		this.phase = phase;
-
-		System.out.println("SPIELER || " + "ACTIVEPLAYER: " + game.getActivePlayer().getName() + " CURRENTPLAYER: " + currentPlayer.getName() + " MYPLAYER: " + guiPlayer.getName());
+		
+		System.out.println(currentPlayer);
+		
 		System.out.println("PHASE || " + phase);
 
 		//change the state of the roundButton to visualize the round
