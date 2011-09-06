@@ -1137,9 +1137,10 @@ public class RiskGUI {
 		}
 	}
 
-	public void updatePhase() {
-		phase = game.getPhase();
-
+	public void updatePhase(Phase phase) {
+		
+		this.phase = phase;
+		
 		currentPlayer = game.getActivePlayer();
 
 
