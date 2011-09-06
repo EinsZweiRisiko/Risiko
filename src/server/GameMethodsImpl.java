@@ -610,6 +610,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		attackingRound++;
 
 		System.out.println("--- Kampfrunde nr: "+ attackingRound +" ---");
+		System.out.println("Es kämpfen: "+ attackingTerritory.getName() +" VS. "+ defendTerritory.getName());
 		System.out.println("Verteidigerwürfelanzahl: "+defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
 		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
 		System.out.println("Anzahl des Defendterritory: "+defendTerritory.getUnits());
@@ -671,9 +672,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
 			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
 		}
+		/*
 		for (int i2 = 0 ; i2 < getActivePlayer().getTerritories().size(); i2++){
-			System.out.println("activePlayer Spieler: "+ getActivePlayer().getName()+" = "+ getActivePlayer().getTerritories().get(i2).getOwner().getName() +" | "+ getActivePlayer().getTerritories().get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
+			System.out.println("activePlayer Spieler: "+ getActivePlayer().getName()+" = "+ getActivePlayer().getTerritories().get(i2).getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
 		}
+		*/
+		
 	}
 
 	public ArrayList<Integer> getDice(int amount) {

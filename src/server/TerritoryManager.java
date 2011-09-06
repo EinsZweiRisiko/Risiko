@@ -170,6 +170,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	public void changeTerritoryOwner(Player newOwner, Territory territory,
 			int units)
 			throws InvalidTerritoryStateException {
+		
 		// If the territory still holds units the owner cannot be changed
 		if (territory.getUnits() != 0) {
 			throw new InvalidTerritoryStateException(territory);
@@ -177,15 +178,16 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 
 		// Set the new owner
 		Player oldOwner = territory.getOwner();
-		territory.setOwner(newOwner);
-
-		// Set the amount of units that the new owner has on this territory
-		territory.setUnits(units);
-
 		// Reflect the change in the player's lists of their territories
 		if (oldOwner != null) {
 			oldOwner.removeTerritory(territory);
 		}
+	
+		// Set the new owner
+		territory.setOwner(newOwner);
+		// Set the amount of units that the new owner has on this territory
+		territory.setUnits(units);
+		// add the conquered Territory to the territory list
 		newOwner.addTerritory(territory);
 	}
 
