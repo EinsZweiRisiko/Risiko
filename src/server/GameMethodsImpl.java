@@ -493,16 +493,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public List<Territory> getMyTerritories(Player player) {
-		// TODO Auto-generated method stub
 		return player.getTerritories();
 	}
 
 	@Override
 	public List<Territory> getMyTerritoriesForAttacking(Player player) {
-		ArrayList<Territory> territories = player.getTerritories();
+		List<Territory> territories = getMyTerritories(player);
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
 
 		for(int i = 0; i < territories.size(); i++) {
+			System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
 				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
