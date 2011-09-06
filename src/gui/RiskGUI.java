@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import server.ErrorBox;
+import server.EventBox;
 import server.GameMethodsImpl.Phase;
 import valueobjects.BonusCard;
 import valueobjects.Player;
@@ -1224,7 +1226,6 @@ public class RiskGUI {
 				}
 
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
-				nextPhaseButton.setVisible(true);
 				nextPhaseButton.setText("nächste Phase");
 				nextPhaseButton.setLocation(new Point(
 						((imgWidth - shell.getClientArea().width) / 2 + 10 + 50),
@@ -1280,12 +1281,6 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK3) {
 
-			//remove next PhaseButton
-			if (nextPhaseButton != null){
-				nextPhaseButton.setVisible(false);
-			}
-
-
 			if (attackedPlayer.equals(myPlayer)){	
 
 				game.nextPhase();
@@ -1296,6 +1291,14 @@ public class RiskGUI {
 				int units = (Integer) ad2.open();
 
 				game.defend(attackedTerritory, units);
+
+				//MESSAGE Verteidiger
+				EventBox eventBox = new EventBox(shell, " HIER KOMMT NOCH WAS ", myPlayer.getName());
+			}
+
+			if (currentPlayer.equals(myPlayer)){	
+				//Message Angreifer
+				EventBox eventBox = new EventBox(shell, " HIER KOMMT NOCH WAS ", myPlayer.getName());
 			}
 		}
 
