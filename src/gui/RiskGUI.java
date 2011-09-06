@@ -42,7 +42,7 @@ public class RiskGUI {
 	private GameMethods game;
 	private Display display;
 	private AppClient app;
-	private Player myPlayer;
+	private Player guiPlayer;
 	private Shell shell;
 	private Image map;
 	private Image[] unitImage = new Image[6];
@@ -84,14 +84,14 @@ public class RiskGUI {
 		this.app = app;
 		this.display = display;
 
-		this.myPlayer = app.getClient();
+		this.guiPlayer = app.getClient();
 
 		territories = game.getTerritories();
 		players = game.getPlayers();
 
 		// Create a new Shell with Title
 		shell = new Shell(display);
-		shell.setText("EinsZweiRisiko |" + myPlayer.getName());
+		shell.setText("EinsZweiRisiko |" + guiPlayer.getName());
 
 		// Set size to default
 		shell.setSize(defaultSizeX, defaultSizeY);
@@ -890,11 +890,17 @@ public class RiskGUI {
 			}
 
 		}
-		eventWindowAppendText(currentPlayer.getName()
-				+ " hat eine Einheit auf " + territory.getName() + " gesetzt.");
+		eventWindowAppendText("DIESE AUSGABE MUSS BEARBEITET WERDEN");
 		shell.update();
 	}
 
+	private void openEventBox(Player player, String message) {
+		
+		if(player.equals(guiPlayer)){
+			EventBox eventBox = new EventBox(shell, message, player.getName());
+		}
+	}
+	
 	/**
 	 * opens a Dialog after MouseClick according to the Phase
 	 * 
@@ -912,7 +918,7 @@ public class RiskGUI {
 		} else if (phase == Phase.ATTACK1) {
 			// SOURCE TERRITORY
 			attackingTerritory = territory;
-			//			game.nextPhase();
+			game.nextPhase();
 
 		} else if (phase == Phase.ATTACK2) {
 			// TARGET TERRITORY
@@ -963,7 +969,7 @@ public class RiskGUI {
 			System.exit(1);
 		}
 
-		ArrayList<BonusCard> bonuscards = myPlayer.getBonusCards();
+		ArrayList<BonusCard> bonuscards = guiPlayer.getBonusCards();
 
 		bonusLabelStack = new Label[bonuscards.size()];
 
@@ -1005,7 +1011,7 @@ public class RiskGUI {
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);
 
-		ArrayList<BonusCard> bonuscards = myPlayer.getBonusCards();
+		ArrayList<BonusCard> bonuscards = guiPlayer.getBonusCards();
 
 		bonusLabelStack = new Label[bonuscards.size()];
 
@@ -1122,7 +1128,7 @@ public class RiskGUI {
 		currentPlayer = player;
 
 		// Check whether the player equals my player
-		if (player.equals(myPlayer)) {
+		if (player.equals(guiPlayer)) {
 			eventWindowAppendText("Du bist dran");
 		} else {
 			eventWindowAppendText(player.getName() + " ist dran.");
@@ -1131,12 +1137,12 @@ public class RiskGUI {
 
 
 	public void defend(Territory attackedTerritory2) {	
-		this.attackedTerritory = attackedTerritory2;
+//		this.attackedTerritory = attackedTerritory2;
 		attackedPlayer = attackedTerritory.getOwner();
 
 		//This sould only becalled ONCE!
-		if(myPlayer.equals(attackedPlayer)){
-			//			game.nextPhase();
+		if(guiPlayer.equals(attackedPlayer)){
+			game.nextPhase();
 		}
 	}
 
@@ -1144,7 +1150,7 @@ public class RiskGUI {
 		
 		this.phase = phase;
 
-		System.out.println("SPIELER || " + "ACTIVEPLAYER: " + game.getActivePlayer().getName() + " CURRENTPLAYER: " + currentPlayer.getName() + " MYPLAYER: " + myPlayer.getName());
+		System.out.println("SPIELER || " + "ACTIVEPLAYER: " + game.getActivePlayer().getName() + " CURRENTPLAYER: " + currentPlayer.getName() + " MYPLAYER: " + guiPlayer.getName());
 		System.out.println("PHASE || " + phase);
 
 		//change the state of the roundButton to visualize the round
@@ -1179,7 +1185,7 @@ public class RiskGUI {
 			shell.update();
 		}
 
-		if(currentPlayer.equals(myPlayer)){
+		if(currentPlayer.equals(guiPlayer)){
 			roundButton.setEnabled(true);
 			shell.update();
 		} else {
@@ -1190,10 +1196,10 @@ public class RiskGUI {
 		if (phase == Phase.PLACEMENT) {
 			for (Button button : buttonArray) {
 
-				if (currentPlayer.equals(myPlayer)) {
+				if (currentPlayer.equals(guiPlayer)) {
 					Territory territory = game.getTerritories().get(button.getData("name"));
 
-					if (territory.getOwner().equals(myPlayer)) {
+					if (territory.getOwner().equals(guiPlayer)) {
 						button.setEnabled(true);
 					} else {
 						button.setEnabled(false);
@@ -1206,7 +1212,7 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK1) {
 
-			if (currentPlayer.equals(myPlayer)) {
+			if (currentPlayer.equals(guiPlayer)) {
 
 				List<Territory> attackingTerritories = game.getMyTerritoriesForAttacking(currentPlayer);
 
@@ -1256,7 +1262,7 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK2) {
 
-			if (currentPlayer.equals(myPlayer)) {
+			if (currentPlayer.equals(guiPlayer)) {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 
 				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(attackingTerritory);
@@ -1279,8 +1285,12 @@ public class RiskGUI {
 				}
 			}
 		} else if (phase == Phase.ATTACK3) {
+			
+			for (Button button : buttonArray) {
+				button.setEnabled(false);
+			}
 
-			if (attackedPlayer.equals(myPlayer)){
+			if (attackedPlayer.equals(guiPlayer)){
 
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
 						attackedTerritory);
@@ -1288,20 +1298,11 @@ public class RiskGUI {
 				int units = (Integer) ad2.open();
 
 				game.defend(attackedTerritory, units);
-
-				//MESSAGE Verteidiger
-				EventBox eventBox = new EventBox(shell, " HIER KOMMT NOCH WAS ", myPlayer.getName());
-				//				game.nextPhase();
-			}
-
-			if (currentPlayer.equals(myPlayer)){	
-				//Message Angreifer
-				EventBox eventBox = new EventBox(shell, " HIER KOMMT NOCH WAS ", myPlayer.getName());
 			}
 		}
 
 		if (phase.equals(Phase.MOVEMENT)) {
-			if (currentPlayer.equals(myPlayer)) {
+			if (currentPlayer.equals(guiPlayer)) {
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
 				nextPhaseButton.setText("Runde beenden.");
 				nextPhaseButton.setLocation(new Point(
@@ -1333,13 +1334,13 @@ public class RiskGUI {
 				});
 			}
 
-			if (currentPlayer.equals(myPlayer)) {
+			if (currentPlayer.equals(guiPlayer)) {
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
 				}
 
 				List<Territory> sources = game
-				.getMyTerritoriesForMoving(myPlayer);
+				.getMyTerritoriesForMoving(guiPlayer);
 
 				for (Button button : buttonArray) {
 					Territory territory = game.getTerritories().get(button.getData("name"));

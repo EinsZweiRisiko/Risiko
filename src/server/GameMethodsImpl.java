@@ -28,6 +28,7 @@ import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.TerritoryUnitsChangedAction;
+import commons.actions.EventBoxAction;
 
 import cui.IO;
 import de.root1.simon.Registry;
@@ -591,6 +592,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 		Boolean conquered = false;
+		String defenderMsg;
+		String attackerMsg;
+		
 		attackingRound++;
 
 		System.out.println("--- Kampfrunde nr: "+ attackingRound +" ---");
@@ -606,8 +610,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		for(int i = 0; i < lowestDiceNumber; i++) {
-			System.out.println("Kampfdurchlauf nr:" +i);
-
 			if(defendDice.get(i) > attackDice.get(i) && defendTerritory.getUnits() != 0) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i));
 				attackLoseUnits++;
@@ -620,7 +622,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			}
 
 			// Wenn Land erobert
-			if(defendTerritory.getUnits() - defendLoseUnits == 0){
+			if((defendTerritory.getUnits() - defendLoseUnits) == 0){
 				System.out.println(defendTerritory.getName() + " ÜBERNOMMEN!");
 				conquered = true;
 
@@ -639,6 +641,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				attackingTerritory.setUnits(attackingTerritory.getUnits() - attackDice.size());
 				notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits() - attackDice.size()));
 			}
+			defenderMsg = "Du hast " + defendTerritory.getName() + " an " + attackingTerritory.getOwner().getName() + " verloren.";
+			attackerMsg = "Du hast " + defendTerritory.getName() + " von " + defendTerritory.getOwner().getName() + " erobert.";
 		}
 
 		if(!conquered){
@@ -647,6 +651,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 			notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
 			notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
+		
+			defenderMsg = defendTerritory.getOwner().getName() + "(" + defendTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren. " + "\\n" + attackingTerritory.getOwner().getName() + "(" + attackingTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren.";
+			attackerMsg = attackingTerritory.getOwner().getName() + "(" + attackingTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren. " + "\\n" + defendTerritory.getOwner().getName() + "(" + defendTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren.";
 		}
 
 		List<Territory> attackersTerritories = attackingTerritory.getOwner().getTerritories();
@@ -656,13 +663,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
 			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
 		}
+			
+		notifyPlayers(new EventBoxAction(attackingTerritory.getOwner(),attackerMsg));
+		notifyPlayers(new EventBoxAction(attackingTerritory.getOwner(),defenderMsg));
 		
-		/*
-		for (int i2 = 0 ; i2 < getActivePlayer().getTerritories().size(); i2++){
-			System.out.println("activePlayer Spieler: "+ getActivePlayer().getName()+" = "+ getActivePlayer().getTerritories().get(i2).getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
-		}
-		*/
-		
+		nextPhase();
 	}
 
 	public ArrayList<Integer> getDice(int amount) {
