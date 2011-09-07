@@ -1160,7 +1160,7 @@ public class RiskGUI {
 		System.out.println("PHASE || " + phase);
 
 		//change the state of the roundButton to visualize the round
-		if (phase == Phase.PLACEMENT || phase == Phase.START || phase == Phase.TURNINCARDS){
+		if (phase == Phase.PLACEMENT || phase == Phase.TURNINCARDS){
 			roundButton.setImage(roundImage[0]);
 			roundButton.setToolTipText("Bitte platziere deine Verstärkung");
 			roundButton.setLocation(new Point(

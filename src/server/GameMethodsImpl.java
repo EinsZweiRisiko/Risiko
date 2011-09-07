@@ -130,6 +130,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		// Set the first phase
 		nextPhase();
+		nextPhase();
 	}
 	
 	/**
