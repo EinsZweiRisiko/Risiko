@@ -169,12 +169,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		placeStartUnitsRandomly();
 		
 		notifyPlayers(new PrepareGUIAction());
-
-		System.out.println("units were placed randomly");
-		
 		
 		// Set the game status to started
 		started = true;
+		
+		notifyPlayers(new GameStartedAction(currentPlayer));
+		
 		// Set the first phase
 		nextPhase();
 	}
@@ -399,7 +399,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * TODO doc
 	 */
 	public void placeStartUnitsRandomly() {
-		Player currentPlayer;
 		for (Territory territory : territoryManager.getRandomTerritoryList()) {
 			// Cycle through all players
 			currentPlayer = players.getNextPlayer();

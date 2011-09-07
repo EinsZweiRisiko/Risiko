@@ -89,6 +89,10 @@ public class RiskGUI {
 	public void prepare(){
 		territories = game.getTerritories();
 		players = game.getPlayers();
+		
+		currentPlayer = game.getActivePlayer();
+		
+		System.out.println("CP in prepare(); " + currentPlayer);
 
 		// Create a new Shell with Title
 		shell = new Shell(display);
@@ -1151,7 +1155,7 @@ public class RiskGUI {
 		
 		this.phase = phase;
 		
-		System.out.println(currentPlayer);
+		System.out.println("CurrentPlayer || " + currentPlayer);
 		
 		System.out.println("PHASE || " + phase);
 
