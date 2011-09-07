@@ -54,6 +54,7 @@ public interface GameMethods {
 	public void defend(Territory defendTerritory, int amount);
 	public Phase getPhase();
 	public void endAttackPhase();
+	public void nextPlayer();
 
 	/* Notifications:
 	 * 

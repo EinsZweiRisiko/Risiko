@@ -125,7 +125,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Set the game status to started
 		started = true;
 		
-		notifyPlayers(new GameStartedAction(currentPlayer,currentPhase));
+		currentPlayer = players.get(0);
+		notifyPlayers(new GameStartedAction(currentPlayer ,currentPhase));
 		
 		// Set the first phase
 		nextPhase();
@@ -154,7 +155,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		switch (currentPhase) {
 			// The first action is at the end of this switch block
 			case TURNINCARDS:
-				
 				// Placing the supply units is next
 				// überprüfen der karten und supply hnzufügen
 				// currentphase = PLACEMENT
@@ -180,7 +180,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
-				//nextPlayer();
 				// Turning in cards is next
 				prepareTurnInAction();
 			default:
@@ -195,7 +194,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * Set the next player by getting the next Player from the players Collection function getNextPlayer()
 	 * 
 	 */
-	private void nextPlayer() {
+	public void nextPlayer() {
 		// Advance to the next player
 		currentPlayer = players.getNextPlayer();
 		System.out.println("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
@@ -265,6 +264,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Reset the current player to player 1
 		players.resetActivePlayer();
 		
+		System.out.println("Aktive spieler GAMEMETHODSIMPL ist: "+ players.getNextPlayer().getName());
 		notifyPlayers(new NextPlayerAction(players.getNextPlayer()));
 	}
 

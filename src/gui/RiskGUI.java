@@ -1129,19 +1129,18 @@ public class RiskGUI {
 	 * Updates the current player after a NextPlayerAction was received.
 	 */
 	public void updateCurrentPlayer(Player player) {
-
 		currentPlayer = player;
+		System.out.println("AktiveSpieler in RISKGUI ist: "+ currentPlayer.getName());
 
 		if(!(eventWindow == null)){
 			// Check whether the player equals my player
 			if (player.equals(guiPlayer)) {
 				eventWindowAppendText("Du bist dran");
 			} else {
-				eventWindowAppendText(player.getName() + " ist dran.");
+				eventWindowAppendText(currentPlayer.getName() + " ist dran.");
 			}
 		}
 	}
-
 
 	public void defend(Territory attackedTerritory2) {	
 		this.attackedTerritory = attackedTerritory2;
@@ -1331,6 +1330,7 @@ public class RiskGUI {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
+						game.nextPlayer();
 						game.nextPhase();
 						nextPhaseButton.dispose();
 					}
