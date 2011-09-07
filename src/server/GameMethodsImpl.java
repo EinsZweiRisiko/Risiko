@@ -383,7 +383,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 			
 		notifyPlayers(new EventBoxAction(attackingTerritory.getOwner(),attackerMsg));
-		notifyPlayers(new EventBoxAction(attackingTerritory.getOwner(),defenderMsg));
+		notifyPlayers(new EventBoxAction(defendTerritory.getOwner(),defenderMsg));
 		
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
