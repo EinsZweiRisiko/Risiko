@@ -150,6 +150,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	public void nextPhase() {		
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
+		System.out.println("Es spielt: "+ currentPlayer.getName());
 		// Which action comes afterwards the current one?
 		switch (currentPhase) {
 			// The first action is at the end of this switch block
@@ -227,6 +228,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Add the supplies
 		currentPlayer.addSupplies(supplies);
+		System.out.println("Spieler: "+ currentPlayer.getName()+ " Supplies = "+ currentPlayer.getSupplies());
 	}
 
 	/**
@@ -264,24 +266,21 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		players.resetActivePlayer();
 		
 		System.out.println("Aktive spieler GAMEMETHODSIMPL ist: "+ players.getNextPlayer().getName());
-		notifyPlayers(new NextPlayerAction(players.getNextPlayer()));
+		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
 
 	@Override
 	public void placeUnits(String territory, int amount) {
 		Territory t = territoryManager.getTerritoryMap().get(territory);
 
-		Player owner = t.getOwner();
-
-		if(owner.getSupplies() > 0){
+		if(currentPlayer.getSupplies() > 0){
 			t.addUnits(amount);
-			owner.subtractSupplies(amount);
-
+			currentPlayer.subtractSupplies(amount);
 			// Send a notification to all clients
 			notifyPlayers(new TerritoryUnitsChangedAction(t, t.getUnits()));
 		}
 
-		if(owner.getSupplies() == 0){
+		if(currentPlayer.getSupplies() == 0){
 			nextPhase();
 		}
 	}
@@ -529,7 +528,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
 
 		for(int i = 0; i < territories.size(); i++) {
-			System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
+			//System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
 				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
