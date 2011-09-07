@@ -373,8 +373,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
 			notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
 		
-			defenderMsg = defendTerritory.getOwner().getName() + "(" + defendTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren. " + "\\n" + attackingTerritory.getOwner().getName() + "(" + attackingTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren.";
-			attackerMsg = attackingTerritory.getOwner().getName() + "(" + attackingTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren. " + "\\n" + defendTerritory.getOwner().getName() + "(" + defendTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren.";
+			defenderMsg = defendTerritory.getOwner().getName() + "(" + defendTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren. " + "\n"  + attackingTerritory.getOwner().getName() + "(" + attackingTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren.";
+			attackerMsg = attackingTerritory.getOwner().getName() + "(" + attackingTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren. " + "\n"  + defendTerritory.getOwner().getName() + "(" + defendTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren.";
 		}
 
 		List<Territory> attackersTerritories = attackingTerritory.getOwner().getTerritories();

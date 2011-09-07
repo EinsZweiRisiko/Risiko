@@ -24,7 +24,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import server.ErrorBox;
 import server.EventBox;
 import server.GameMethodsImpl.Phase;
 import valueobjects.BonusCard;
