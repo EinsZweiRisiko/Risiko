@@ -96,7 +96,6 @@ public class AppClient implements ClientMethods {
 			final Phase phase = ((PhaseAction) a).getPhase();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					System.out.println("PhaseAction: "+ phase);
 					rFenster.updatePhase(phase);
 				}
 			});

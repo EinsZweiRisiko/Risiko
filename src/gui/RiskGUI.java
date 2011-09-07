@@ -1156,7 +1156,6 @@ public class RiskGUI {
 		this.phase = phase;
 		
 		System.out.println("CurrentPlayer || " + currentPlayer);
-		
 		System.out.println("PHASE || " + phase);
 
 		//change the state of the roundButton to visualize the round
@@ -1322,7 +1321,7 @@ public class RiskGUI {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
-						//						game.nextPhase();
+						game.nextPhase();
 						nextPhaseButton.dispose();
 					}
 
