@@ -7,6 +7,10 @@ import commons.Action;
 
 public class PhaseAction extends Action {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6549826086379273945L;
 	private Phase phase;
 	
 	public PhaseAction(Player player, Phase phase) {

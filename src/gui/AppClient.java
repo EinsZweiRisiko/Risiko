@@ -19,6 +19,7 @@ import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
+import commons.actions.PrepareGUIAction;
 import commons.actions.TerritoryUnitsChangedAction;
 
 import de.root1.simon.Lookup;
@@ -94,6 +95,7 @@ public class AppClient implements ClientMethods {
 			final Phase phase = ((PhaseAction) a).getPhase();
 			display.asyncExec(new Runnable() {
 				public void run() {
+					System.out.println("PhaseAction: "+ phase);
 					rFenster.updatePhase(phase);
 				}
 			});
@@ -119,7 +121,13 @@ public class AppClient implements ClientMethods {
 					rFenster.openEventBox(player, msg);
 				}
 			});
-		} else {
+		} else if (a instanceof PrepareGUIAction ) {
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.prepare();
+				}
+			});
+		}else {
 			
 			System.out.println("Unidentified action.");
 		}

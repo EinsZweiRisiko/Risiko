@@ -166,6 +166,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		placeStartUnitsRandomly();
+		
+		notifyPlayers(new prepareGUIAction());
 
 		// Set the game status to started
 		started = true;

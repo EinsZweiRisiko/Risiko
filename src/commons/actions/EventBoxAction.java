@@ -5,6 +5,11 @@ import commons.Action;
 
 public class EventBoxAction extends Action {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -654987663584583297L;
+	
 	Player player;
 	String msg;
 	
