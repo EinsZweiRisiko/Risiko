@@ -53,7 +53,7 @@ public class RiskGUI {
 	private Device dev;
 	private Display display;
 	private String events = "";
-	private Text eventWindow;
+	private Text eventWindow = null;
 	private GameMethods game;
 	private Player guiPlayer;
 	private int imgWidth;
@@ -71,8 +71,8 @@ public class RiskGUI {
 	private Shell shell;
 	private HashMap<String, Territory> territories;
 	private Image[] unitImage = new Image[6];
-	
-	
+
+
 	/**
 	 * creates a new GUI and Game
 	 * 
@@ -85,13 +85,13 @@ public class RiskGUI {
 		this.display = display;
 		this.guiPlayer = app.getClient();
 	}
-	
+
 	public void prepare(){
 		territories = game.getTerritories();
 		players = game.getPlayers();
-		
+
 		currentPlayer = game.getActivePlayer();
-		
+
 		System.out.println("CP in prepare(); " + currentPlayer);
 
 		// Create a new Shell with Title
@@ -900,12 +900,12 @@ public class RiskGUI {
 	}
 
 	public void openEventBox(Player player, String message) {
-		
+
 		if(player.equals(guiPlayer)){
 			EventBox eventBox = new EventBox(shell, message, player.getName());
 		}
 	}
-	
+
 	/**
 	 * opens a Dialog after MouseClick according to the Phase
 	 * 
@@ -942,7 +942,7 @@ public class RiskGUI {
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					territory);
 			ad.open();
-			
+
 			// IN MOVEMENT 3 - "game.nextPlayer();
 		}
 	}
@@ -1129,14 +1129,16 @@ public class RiskGUI {
 	 * Updates the current player after a NextPlayerAction was received.
 	 */
 	public void updateCurrentPlayer(Player player) {
-		
+
 		currentPlayer = player;
-		
-		// Check whether the player equals my player
-		if (player.equals(guiPlayer)) {
-			eventWindowAppendText("Du bist dran");
-		} else {
-			eventWindowAppendText(player.getName() + " ist dran.");
+
+		if(!(eventWindow == null)){
+			// Check whether the player equals my player
+			if (player.equals(guiPlayer)) {
+				eventWindowAppendText("Du bist dran");
+			} else {
+				eventWindowAppendText(player.getName() + " ist dran.");
+			}
 		}
 	}
 
@@ -1152,7 +1154,7 @@ public class RiskGUI {
 	}
 
 	public void updatePhase(Phase phase) {
-		
+
 		PlayerCollection players = game.getPlayers();
 		int zahl = 0;
 		
@@ -1162,7 +1164,7 @@ public class RiskGUI {
 		}
 		
 		this.phase = phase;
-		
+
 		System.out.println("CurrentPlayer || " + currentPlayer);
 		System.out.println("PHASE || " + phase);
 
@@ -1298,7 +1300,7 @@ public class RiskGUI {
 				}
 			}
 		} else if (phase == Phase.ATTACK3) {
-			
+
 			for (Button button : buttonArray) {
 				button.setEnabled(false);
 			}

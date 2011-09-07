@@ -118,9 +118,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (Player player : players) {
 			player.addSupplies(startUnits);
 		}
-
-		placeStartUnitsRandomly();
 		
+		placeStartUnitsRandomly();
 		notifyPlayers(new PrepareGUIAction());
 		
 		// Set the game status to started
@@ -435,7 +434,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		Player player = new Player(name);
 
 		players.add(player);
-
+		
 		// Output a success message
 		System.out.println("Client connected.");
 
