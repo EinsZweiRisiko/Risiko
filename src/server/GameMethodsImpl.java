@@ -263,6 +263,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Reset the current player to player 1
 		players.resetActivePlayer();
+		notifyPlayers(new NextPlayerAction(getActivePlayer()));
 	}
 
 	@Override
@@ -347,6 +348,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
 
 				try {
+					defenderMsg = "Du hast " + defendTerritory.getName() + " an " + attackingTerritory.getOwner().getName() + " verloren.";
+					attackerMsg = "Du hast " + defendTerritory.getName() + " von " + defendTerritory.getOwner().getName() + " erobert.";
+					
 					territoryManager.changeTerritoryOwner(attackingTerritory.getOwner(), defendTerritory, attackDice.size() - attackLoseUnits);
 
 					System.out.println(defendTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
@@ -359,8 +363,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				attackingTerritory.setUnits(attackingTerritory.getUnits() - attackDice.size());
 				notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits() - attackDice.size()));
 			}
-			defenderMsg = "Du hast " + defendTerritory.getName() + " an " + attackingTerritory.getOwner().getName() + " verloren.";
-			attackerMsg = "Du hast " + defendTerritory.getName() + " von " + defendTerritory.getOwner().getName() + " erobert.";
 		}
 
 		if(!conquered){

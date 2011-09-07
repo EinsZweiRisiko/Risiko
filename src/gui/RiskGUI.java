@@ -72,6 +72,8 @@ public class RiskGUI {
 	private Shell shell;
 	private HashMap<String, Territory> territories;
 	private Image[] unitImage = new Image[6];
+	
+	
 	/**
 	 * creates a new GUI and Game
 	 * 
@@ -1321,7 +1323,7 @@ public class RiskGUI {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
-						//						game.nextPhase();
+						game.nextPhase();
 						nextPhaseButton.dispose();
 					}
 
