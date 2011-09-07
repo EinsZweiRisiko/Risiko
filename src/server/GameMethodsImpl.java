@@ -27,6 +27,7 @@ import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
+import commons.actions.PrepareGUIAction;
 import commons.actions.TerritoryUnitsChangedAction;
 import commons.actions.EventBoxAction;
 
@@ -167,17 +168,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		placeStartUnitsRandomly();
 		
-		notifyPlayers(new prepareGUIAction());
-
-		System.out.println("units were placed randomly");
-		
+		notifyPlayers(new PrepareGUIAction());
 		
 		// Set the game status to started
 		started = true;
 		
+		notifyPlayers(new GameStartedAction(currentPlayer));
 		
 		// Set the first phase
-		game.nextPhase();
+		nextPhase();
 	}
 
 	/**
@@ -400,7 +399,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * TODO doc
 	 */
 	public void placeStartUnitsRandomly() {
-		Player currentPlayer;
 		for (Territory territory : territoryManager.getRandomTerritoryList()) {
 			// Cycle through all players
 			currentPlayer = players.getNextPlayer();
