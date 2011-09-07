@@ -167,10 +167,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		placeStartUnitsRandomly();
 
+		System.out.println("units were placed randomly");
+		
+		
 		// Set the game status to started
 		started = true;
+		
+		
 		// Set the first phase
-		nextPhase();
+		game.nextPhase();
 	}
 
 	/**

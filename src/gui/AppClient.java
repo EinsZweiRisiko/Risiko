@@ -43,18 +43,20 @@ public class AppClient implements ClientMethods {
 
 	public AppClient() {
 		display = new Display();
-
+		
 		// Show the connect window
 		logingui = new LoginGUI(display, this);
 		logingui.finalize();
 
 		// TODO: check if the window was closed
 
+		rFenster = new RiskGUI(display, this, game);
+		
 		lobbygui = new LobbyGUI(display, this, game);
 		lobbygui.start();
 
 		// Show the main risk window
-		rFenster = new RiskGUI(display, this, game);
+		rFenster.prepare();		
 		rFenster.start();
 	}
 

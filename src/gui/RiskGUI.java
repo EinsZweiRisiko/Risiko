@@ -83,9 +83,10 @@ public class RiskGUI {
 		this.game = game;
 		this.app = app;
 		this.display = display;
-
 		this.guiPlayer = app.getClient();
-
+	}
+	
+	public void prepare(){
 		territories = game.getTerritories();
 		players = game.getPlayers();
 
