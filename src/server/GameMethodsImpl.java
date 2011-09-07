@@ -264,8 +264,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Reset the current player to player 1
 		players.resetActivePlayer();
-		
-		notifyPlayers(new NextPlayerAction(players.getNextPlayer()));
+		Player nPlayer = players.getNextPlayer();
+		System.out.println(nPlayer.getName() + "<---- gamemethodsimpl Player");
+		notifyPlayers(new NextPlayerAction(nPlayer));
 	}
 
 	@Override
