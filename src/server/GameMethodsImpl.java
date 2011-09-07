@@ -27,6 +27,7 @@ import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
+import commons.actions.PrepareGUIAction;
 import commons.actions.TerritoryUnitsChangedAction;
 import commons.actions.EventBoxAction;
 
@@ -167,17 +168,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		placeStartUnitsRandomly();
 		
-		notifyPlayers(new prepareGUIAction());
+		notifyPlayers(new PrepareGUIAction());
 
 		System.out.println("units were placed randomly");
 		
 		
 		// Set the game status to started
 		started = true;
-		
-		
 		// Set the first phase
-		game.nextPhase();
+		nextPhase();
 	}
 
 	/**
