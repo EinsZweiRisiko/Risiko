@@ -1153,6 +1153,14 @@ public class RiskGUI {
 
 	public void updatePhase(Phase phase) {
 		
+		PlayerCollection players = game.getPlayers();
+		int zahl = 0;
+		
+		for(Player player:players){
+			++zahl;
+			System.out.println(zahl + player.getName());
+		}
+		
 		this.phase = phase;
 		
 		System.out.println("CurrentPlayer || " + currentPlayer);
