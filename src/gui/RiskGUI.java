@@ -39,40 +39,39 @@ import commons.GameMethods;
  */
 public class RiskGUI {
 
-	private GameMethods game;
-	private Display display;
 	private AppClient app;
-	private Player guiPlayer;
-	private Shell shell;
-	private Image map;
-	private Image[] unitImage = new Image[6];
+	private Territory attackedTerritory;
+	private Player attackedPlayer;
+	private Territory attackingTerritory;
 	private Image[] bonusImage = new Image[4];
-	private Image[] roundImage = new Image[3];
-	private Composite mainWindow;
-	private int imgWidth;
-	private int imgHeight;
-	private final int defaultSizeX = 800;
-	private final int defaultSizeY = 600;
-	private final int maxSizeX = 1920;
-	private final int maxSizeY = 1080;
-	private HashMap<String, Territory> territories;
-	private PlayerCollection players;
+	private Label[] bonusLabelStack;
 	private HashMap<String, Button> buttons = new HashMap<String,Button>();
 	private Button[] buttonArray = new Button[42];
-	private Button[] playerButtons;
-	private Text eventWindow;
 	private Composite cardWindow;
-	private String events = "";
 	private Player currentPlayer;
-	private Player attackedPlayer;
+	private final int defaultSizeX = 800;
+	private final int defaultSizeY = 600;
 	private Device dev;
-	private Label[] bonusLabelStack;
-	private Phase phase;
+	private Display display;
+	private String events = "";
+	private Text eventWindow;
+	private GameMethods game;
+	private Player guiPlayer;
+	private int imgWidth;
+	private int imgHeight;
+	private Composite mainWindow;
+	private Image map;
+	private final int maxSizeX = 1920;
+	private final int maxSizeY = 1080;
 	private Button nextPhaseButton;
+	private Phase phase;
+	private Button[] playerButtons;
+	private PlayerCollection players;
+	private Image[] roundImage = new Image[3];
 	private Button roundButton;
-	private Territory attackingTerritory;
-	private Territory attackedTerritory;
-
+	private Shell shell;
+	private HashMap<String, Territory> territories;
+	private Image[] unitImage = new Image[6];
 	/**
 	 * creates a new GUI and Game
 	 * 
