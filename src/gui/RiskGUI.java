@@ -895,7 +895,7 @@ public class RiskGUI {
 			}
 
 		}
-		eventWindowAppendText("DIESE AUSGABE MUSS BEARBEITET WERDEN");
+		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnits() + ")Einheiten.");
 		shell.update();
 	}
 
@@ -1259,7 +1259,7 @@ public class RiskGUI {
 					public void mouseUp(MouseEvent e) {
 						game.endAttackPhase();
 						nextPhaseButton.dispose();
-						System.out.println("NEXT PHASE BUTTON IS DISPOSING ... NOT");
+						System.out.println("NEXT PHASE BUTTON IS DISPOSING");
 					}
 
 					@Override
