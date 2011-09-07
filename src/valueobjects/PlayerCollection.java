@@ -21,6 +21,9 @@ public class PlayerCollection extends ArrayList<Player> {
 	 * @return Next player
 	 */
 	public Player getNextPlayer() {
+		
+		System.out.println("ActivePlayerINT : "+ activePlayer + " NAME : " + get(activePlayer).getName());
+		
 		// There hast to be at least one player left
 		if (isEmpty()) {
 			throw new NoPlayersException();
@@ -45,6 +48,7 @@ public class PlayerCollection extends ArrayList<Player> {
 	 */
 	public void resetActivePlayer() {
 		activePlayer = 0;
+		System.out.println("RESET ACTIVEPLA>ER : " + activePlayer + " NAME : " + get(activePlayer).getName());
 	}
 
 	/**
