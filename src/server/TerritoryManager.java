@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import server.exceptions.InvalidTerritoryStateException;
 import valueobjects.Continent;
@@ -80,7 +81,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			{ "Ural", "Sibirien" }, { "Ural", "Afghanistan" },
 			{ "Ural", "China" },
 			{ "Afghanistan", "China" }, { "Afghanistan", "Indien" },
-			{ "Indien", "China" },
+			{ "Indien", "China" }, {"Südeuropa", "Mitteleuropa"} , {"Mongolei", "Irkutsk"},
 			{ "Indien", "Siam" }, { "China", "Mongolei" }, { "China", "Siam" },
 			{ "China", "Sibirien" }, { "Sibirien", "Mongolei" },
 			{ "Sibirien", "Irkutsk" },
@@ -133,6 +134,24 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			// Set them both as neighbors of each other
 			territory1.addNeighbor(territory2);
 			territory2.addNeighbor(territory1);
+		}
+		
+		//Show all freakin neighbors		
+		Iterator<String> itr = territories.keySet().iterator(); 
+		String territoryname;
+		
+		while (itr.hasNext()) {
+			territoryname = itr.next();
+			
+			Territory territories2 = territories.get(territoryname);
+			
+			CopyOnWriteArrayList<Territory> territoriesNeigbhors = territories2.getNeighbors();
+			System.out.println(" ");
+			System.out.println("Territory: " + territories2.getName());
+			System.out.println("Nachbarn: ");
+			for (Territory territoryneigbor : territoriesNeigbhors){
+				System.out.println(territoryneigbor.getName());
+			}
 		}
 	}
 
