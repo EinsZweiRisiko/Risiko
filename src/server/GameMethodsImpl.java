@@ -155,12 +155,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		switch (currentPhase) {
 			// The first action is at the end of this switch block
 			case TURNINCARDS:
+				
 				// Placing the supply units is next
 				// überprüfen der karten und supply hnzufügen
 				// currentphase = PLACEMENT
 				preparePlacementAction();
 				break;
-
 			case PLACEMENT:
 				// Attacking other players is next
 				prepareAttack1Action();
@@ -181,9 +181,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
+				//nextPlayer();
+				// Turning in cards is next
+				prepareTurnInAction();
 			default:
 				// Start
-				nextPlayer();
 				// Turning in cards is next
 				prepareTurnInAction();
 				break;
@@ -551,9 +553,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
 
-		for(int i = 0; i <= territories.size(); i++) {
+		for(int i = 0; i < territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 0; j <= neighbors.size() ;j++){
+			for(int j = 0; j < neighbors.size() ;j++){
 				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
 					if(!moveTerritories.contains(neighbors.get(j))) {
 						moveTerritories.add(territories.get(i));
@@ -651,9 +653,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private void preparePlacementAction() {
 		calculateSupplies();
 		currentPhase = Phase.PLACEMENT;
+		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 	}
 
-	/**
+	/**s
 	 * TODO doc
 	 */
 	private void prepareAttack1Action() {

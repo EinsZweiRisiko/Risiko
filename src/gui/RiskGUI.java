@@ -1157,7 +1157,6 @@ public class RiskGUI {
 		this.phase = phase;
 		
 		System.out.println("CurrentPlayer || " + currentPlayer);
-		
 		System.out.println("PHASE || " + phase);
 
 		//change the state of the roundButton to visualize the round
