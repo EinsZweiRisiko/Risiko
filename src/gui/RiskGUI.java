@@ -1142,9 +1142,7 @@ public class RiskGUI {
 
 
 	public void defend(Territory attackedTerritory2) {	
-//		this.attackedTerritory = attackedTerritory2;
-		System.out.println("AttackedTerritory: "+ attackedTerritory.getOwner());
-		
+		this.attackedTerritory = attackedTerritory2;
 		attackedPlayer = attackedTerritory.getOwner();
 
 		//This sould only becalled ONCE!
@@ -1183,7 +1181,7 @@ public class RiskGUI {
 			shell.update();
 		}
 		if (phase == Phase.MOVEMENT){
-			roundButton.setImage(roundImage[3]);
+			roundButton.setImage(roundImage[2]);
 			roundButton.setToolTipText("Verschiebe deine Armeen");
 			roundButton.setLocation(new Point(
 					((imgWidth - shell.getClientArea().width) / 2 + 10),
