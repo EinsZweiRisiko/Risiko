@@ -92,53 +92,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		registry.bind(name, this);
 	}
 
-	private void notifyPlayers(Action arg) {
-		// Notify all observers
-		for (ClientMethods client:clients) {
-			client.update(this, arg);
-		}
-	}
-
-	// END OF observable
-
-	/**
-	 * Adds a player to the game and consequently to the list of observers
-	 * @return 
-	 */
-	public Player addPlayer(String name, ClientMethods client) throws ServerFullException {
-		if (started) {
-			// Game is already in progress
-			throw new ServerFullException();
-		} else if (players.size() >= 6) {
-			// Too many players
-			throw new ServerFullException();
-		}
-
-		// Add the client
-		if (client == null) {
-			throw new NullPointerException();
-		}
-		clients.add(client);
-
-		Player player = new Player(name);
-
-		players.add(player);
-
-		// Output a success message
-		System.out.println("Client connected.");
-
-		notifyPlayers(new PlayerJoinedAction(player));
-
-		return player;
-	}
-
-	/**
-	 * Deletes a player from the list of observers
-	 */
-	public void deletePlayer(ClientMethods client) {
-		clients.remove(client);
-	}
-
 	/**
 	 * Starts this instance of Risk
 	 */
@@ -178,70 +131,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Set the first phase
 		nextPhase();
 	}
-
-	/**
-	 * @return all Players
-	 */
-	public PlayerCollection getPlayers() {
-		return players;
-	}
-
-	public TerritoryManager getTerritoryManager() {
-		return territoryManager;
-	}
-
-	/**
-	 * Returns whether the game is over
-	 * 
-	 * @return True, if somebody has won the game
-	 */
-	public boolean isOver() {
-		// TODO Distinguish between world domination/missions
-		return players.size() == 1;
-	}
-
-	/**
-	 * Returns the winner of the game, if there is one.<br>
-	 * If the game isn't finished yet, <code>null</code> will be returned.
-	 * 
-	 * @return Winner of the game
-	 */
-	public Player getWinner() {
-		// Return the last man standing
-		Player winner = null;
-		if (isOver()) {
-			winner = players.getNextPlayer();
-		}
-		return winner;
-	}
-
-	/**
-	 * TODO doc
-	 * 
-	 * @return Player
-	 */
-	public Player getActivePlayer() {
-		return currentPlayer;
-	}
-
-	/**
-	 * TODO doc
-	 */
-	private void nextPlayer() {
-		// Advance to the next player
-		currentPlayer = players.getNextPlayer();
-		System.out.println("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
-		notifyPlayers(new NextPlayerAction(currentPlayer));
-	}
-
-	/**
-	 * Returns the current phase.
-	 * @return
-	 */
-	public Phase getPhase() {
-		return currentPhase;
-	}
-
+	
 	/**
 	 * Prepares and returns the next action in the sequence. This method can
 	 * change the active player, so always use this method before getting the
@@ -298,7 +188,23 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				break;
 		}
 	}
-
+	
+	/**
+	 * Set the next player by getting the next Player from the players Collection function getNextPlayer()
+	 * 
+	 */
+	private void nextPlayer() {
+		// Advance to the next player
+		currentPlayer = players.getNextPlayer();
+		System.out.println("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
+		notifyPlayers(new NextPlayerAction(currentPlayer));
+	}
+	
+	/*
+	 * START: *** UNITS / FIGHT / DEFEND / MOVE FUNCTIONS *** 
+	 * 
+	 */
+	
 	/**
 	 * Calculates supply for the current player. This is only called once
 	 * in every turn.<br>
@@ -321,78 +227,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Add the supplies
 		currentPlayer.addSupplies(supplies);
-	}
-
-	/**
-	 * TODO doc
-	 */
-	private void prepareTurnInAction() {
-		// Can the player turn in cards?
-		if (currentPlayer.canTurnInCards()) {
-			currentPhase = Phase.TURNINCARDS;
-		} else {
-			// If the player can't turn in cards, skip to the next step
-			preparePlacementAction();
-		}
-	}
-
-	/**
-	 * TODO doc
-	 * 
-	 */
-	private void preparePlacementAction() {
-		calculateSupplies();
-		currentPhase = Phase.PLACEMENT;
-	}
-
-	/**
-	 * TODO doc
-	 */
-	private void prepareAttack1Action() {
-		/*
-		 * Figure out which territories of the current player could be used for
-		 * an attack
-		 * Must be owned by the player
-		 * Must have at least 2 units
-		 */
-		currentPhase = Phase.ATTACK1;
-	}
-	/**
-	 * TODO doc
-	 */
-	private void prepareAttack2Action() {
-		/*
-		 * Figure out which territories of the current player could be used for
-		 * an attack
-		 * Must be owned by the player
-		 * Must have at least 2 units
-		 */
-		currentPhase = Phase.ATTACK2;
-	}
-	/**
-	 * TODO doc
-	 */
-	private void prepareAttack3Action() {
-		/*
-		 * Figure out which territories of the current player could be used for
-		 * an attack
-		 * Must be owned by the player
-		 * Must have at least 2 units
-		 */
-		currentPhase = Phase.ATTACK3;
-	}
-
-	/**
-	 * TODO doc
-	 */
-	private void prepareMovementAction() {
-		/*
-		 * Figure out which territories have units which are eligible to be
-		 * moved
-		 * The territory's units must not have participated in a battle
-		 * The territory needs at least 2 units
-		 */
-		currentPhase = Phase.MOVEMENT;
 	}
 
 	/**
@@ -430,125 +264,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		players.resetActivePlayer();
 	}
 
-	/**
-	 * TODO doc
-	 */
-	public void redeemBonusCards(List<BonusCard> cards) {
-		// TODO make this a real exception
-		assert currentPlayer.getBonusCards().containsAll(cards);
-		assert cards.size() == 3;
-		// TODO Check if the card triple is valid
-		// falls Bonuskarten drei stück verfügbar
-		// wenn genau drei karten verfügbar und alle drei gleich
-		if(currentPlayer.getBonusCards().size() == 3 && 
-				currentPlayer.getBonusCards().containsAll(cards)) {
-			// Redeem the cards
-			currentPlayer.removeBonusCards(cards);
-			currentPlayer.addSupplies(bonusTracker.getNextBonus());
-		}else if(currentPlayer.getBonusCards().size() >= 3) {
-
-		}
-	}
-
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Mission getMyMission(Player player) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BonusCard> getMyBonusCards(Player player) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public HashMap<String, Territory> getTerritories() {
-		return territoryManager.getTerritoryMap();
-	}
-
-	@Override
-	public List<Territory> getMyTerritories(Player player) {
-		return player.getTerritories();
-	}
-
-	@Override
-	public List<Territory> getMyTerritoriesForAttacking(Player player) {
-		List<Territory> territories = getMyTerritories(player);
-		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
-
-		for(int i = 0; i < territories.size(); i++) {
-			System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
-			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 0; j < neighbors.size() ;j++){
-				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
-					if(!attackingTerritories.contains(territories.get(i))) {
-						attackingTerritories.add(territories.get(i));
-					}
-				}
-			}
-		}
-
-		System.out.println("TERRITORIES FOR ATTACKING: ");
-		for (int i = 0 ; i < attackingTerritories.size(); i++){
-			System.out.println(attackingTerritories.get(i).getName());
-		}
-		return attackingTerritories;
-	}
-
-	@Override
-	public List<Territory> getMyTerritoriesForMoving(Player player) {
-		ArrayList<Territory> territories = player.getTerritories();
-		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
-
-		for(int i = 0; i <= territories.size(); i++) {
-			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
-			for(int j = 0; j <= neighbors.size() ;j++){
-				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
-					if(!moveTerritories.contains(neighbors.get(j))) {
-						moveTerritories.add(territories.get(i));
-					}
-				}
-			}
-		}
-		return moveTerritories;
-	}
-
-	@Override
-	public CopyOnWriteArrayList<Territory> getOpposingNeighborsOf(Territory territory) {
-		CopyOnWriteArrayList<Territory> opposingNeighbors = territory.getNeighbors();
-		for(Territory territory2 : opposingNeighbors) {
-			if(territory2.getOwner().equals(territory.getOwner())){
-				opposingNeighbors.remove(territory2);
-			}
-		}
-		return opposingNeighbors;
-	}
-
-	@Override
-	public CopyOnWriteArrayList<Territory> getSimilarNeighborsOf(Territory territory) {
-		CopyOnWriteArrayList<Territory> similarNeighbors = territory.getNeighbors();
-
-		for(Territory territory2 : similarNeighbors) {
-			if(!territory2.getOwner().equals(territory.getOwner())){
-				similarNeighbors.remove(territory2);
-			}
-		}
-		return similarNeighbors;
-	}
-
 	@Override
 	public void placeUnits(String territory, int amount) {
 		Territory t = territoryManager.getTerritoryMap().get(territory);
@@ -567,7 +282,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			nextPhase();
 		}
 	}
-
+	
 	@Override
 	public void attack(Territory attackingTerritory,
 			Territory attackedTerritory, int amount) {
@@ -673,6 +388,101 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		nextPhase();
 	}
 
+	@Override
+	public void move(Territory source, Territory target, int amount)
+	throws SimonRemoteException {
+		source.setUnits(source.getUnits() - amount);
+		target.setUnits(target.getUnits() + amount);
+		// Es müssen noch die Clients Notified werden
+		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
+		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
+	}
+	
+	/*
+	 * START: *** UNITS / FIGHT / DEFEND / MOVE FUNCTIONS *** 
+	 * 
+	 */
+	
+	
+	/*
+	 * START: *** PLAYER FUNCTIONS *** 
+	 */
+	
+	/**
+	 * Adds a player to the game and consequently to the list of observers
+	 * @return 
+	 */
+	public Player addPlayer(String name, ClientMethods client) throws ServerFullException {
+		if (started) {
+			// Game is already in progress
+			throw new ServerFullException();
+		} else if (players.size() >= 6) {
+			// Too many players
+			throw new ServerFullException();
+		}
+
+		// Add the client
+		if (client == null) {
+			throw new NullPointerException();
+		}
+		clients.add(client);
+
+		Player player = new Player(name);
+
+		players.add(player);
+
+		// Output a success message
+		System.out.println("Client connected.");
+
+		notifyPlayers(new PlayerJoinedAction(player));
+
+		return player;
+	}
+
+	/**
+	 * Deletes a player from the list of observers
+	 */
+	public void deletePlayer(ClientMethods client) {
+		clients.remove(client);
+	}
+	
+	/**
+	 * notifiy the Players with the current Action
+	 * 
+	 * @param arg
+	 */
+	private void notifyPlayers(Action arg) {
+		// Notify all observers
+		for (ClientMethods client:clients) {
+			client.update(this, arg);
+		}
+	}
+	
+	/*
+	 * END: *** PLAYER FUNCTIONS *** 
+	 */
+	
+	/* 
+	 * START: *** GETTER and SETTER ***
+	*/
+	
+	/**
+	 * Returns the current phase.
+	 * @return
+	 */
+	public Phase getPhase() {
+		return currentPhase;
+	}
+	
+	/**
+	 * get the active Player
+	 * 
+	 * @return Player
+	 */
+	public Player getActivePlayer() {
+		return currentPlayer;
+	}
+	
 	public ArrayList<Integer> getDice(int amount) {
 		ArrayList<Integer> dice = new ArrayList<Integer>();
 
@@ -686,21 +496,250 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
 		return dice;
 	}
-
+	
 	@Override
-	public void move(Territory source, Territory target, int amount)
-	throws SimonRemoteException {
-		source.setUnits(source.getUnits() - amount);
-		target.setUnits(target.getUnits() + amount);
-		// Es müssen noch die Clients Notified werden
-		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
-		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
+	public Mission getMyMission(Player player) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public List<BonusCard> getMyBonusCards(Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HashMap<String, Territory> getTerritories() {
+		return territoryManager.getTerritoryMap();
+	}
+
+	@Override
+	public List<Territory> getMyTerritories(Player player) {
+		return player.getTerritories();
+	}
+
+	@Override
+	public List<Territory> getMyTerritoriesForAttacking(Player player) {
+		List<Territory> territories = getMyTerritories(player);
+		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
+
+		for(int i = 0; i < territories.size(); i++) {
+			System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
+			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
+			for(int j = 0; j < neighbors.size() ;j++){
+				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
+					if(!attackingTerritories.contains(territories.get(i))) {
+						attackingTerritories.add(territories.get(i));
+					}
+				}
+			}
+		}
+
+		System.out.println("TERRITORIES FOR ATTACKING: ");
+		for (int i = 0 ; i < attackingTerritories.size(); i++){
+			System.out.println(attackingTerritories.get(i).getName());
+		}
+		return attackingTerritories;
+	}
+
+	@Override
+	public List<Territory> getMyTerritoriesForMoving(Player player) {
+		ArrayList<Territory> territories = player.getTerritories();
+		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
+
+		for(int i = 0; i <= territories.size(); i++) {
+			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
+			for(int j = 0; j <= neighbors.size() ;j++){
+				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
+					if(!moveTerritories.contains(neighbors.get(j))) {
+						moveTerritories.add(territories.get(i));
+					}
+				}
+			}
+		}
+		return moveTerritories;
+	}
+
+	@Override
+	public CopyOnWriteArrayList<Territory> getOpposingNeighborsOf(Territory territory) {
+		CopyOnWriteArrayList<Territory> opposingNeighbors = territory.getNeighbors();
+		for(Territory territory2 : opposingNeighbors) {
+			if(territory2.getOwner().equals(territory.getOwner())){
+				opposingNeighbors.remove(territory2);
+			}
+		}
+		return opposingNeighbors;
+	}
+
+	@Override
+	public CopyOnWriteArrayList<Territory> getSimilarNeighborsOf(Territory territory) {
+		CopyOnWriteArrayList<Territory> similarNeighbors = territory.getNeighbors();
+
+		for(Territory territory2 : similarNeighbors) {
+			if(!territory2.getOwner().equals(territory.getOwner())){
+				similarNeighbors.remove(territory2);
+			}
+		}
+		return similarNeighbors;
+	}
+	
+	/**
+	 * @return all Players
+	 */
+	public PlayerCollection getPlayers() {
+		return players;
+	}
+
+	public TerritoryManager getTerritoryManager() {
+		return territoryManager;
+	}
+	
+	/**
+	 * Returns whether the game is over
+	 * 
+	 * @return True, if somebody has won the game
+	 */
+	public boolean isOver() {
+		// TODO Distinguish between world domination/missions
+		return players.size() == 1;
+	}
+
+	/**
+	 * Returns the winner of the game, if there is one.<br>
+	 * If the game isn't finished yet, <code>null</code> will be returned.
+	 * 
+	 * @return Winner of the game
+	 */
+	public Player getWinner() {
+		// Return the last man standing
+		Player winner = null;
+		if (isOver()) {
+			winner = players.getNextPlayer();
+		}
+		return winner;
+	}
+	
+	/* 
+	 * END: *** GETTER and SETTER ***
+	*/
+	
+	/*
+	 * START: PREPARE / PHASE FUNCTIONS  / functions for the PHASE SWITCHING
+	 */
+	
+	/**
+	 * TODO doc
+	 */
+	private void prepareTurnInAction() {
+		// Can the player turn in cards?
+		if (currentPlayer.canTurnInCards()) {
+			currentPhase = Phase.TURNINCARDS;
+		} else {
+			// If the player can't turn in cards, skip to the next step
+			preparePlacementAction();
+		}
+	}
+
+	/**
+	 * TODO doc
+	 * 
+	 */
+	private void preparePlacementAction() {
+		calculateSupplies();
+		currentPhase = Phase.PLACEMENT;
+	}
+
+	/**
+	 * TODO doc
+	 */
+	private void prepareAttack1Action() {
+		/*
+		 * Figure out which territories of the current player could be used for
+		 * an attack
+		 * Must be owned by the player
+		 * Must have at least 2 units
+		 */
+		currentPhase = Phase.ATTACK1;
+	}
+	/**
+	 * TODO doc
+	 */
+	private void prepareAttack2Action() {
+		/*
+		 * Figure out which territories of the current player could be used for
+		 * an attack
+		 * Must be owned by the player
+		 * Must have at least 2 units
+		 */
+		currentPhase = Phase.ATTACK2;
+	}
+	/**
+	 * TODO doc
+	 */
+	private void prepareAttack3Action() {
+		/*
+		 * Figure out which territories of the current player could be used for
+		 * an attack
+		 * Must be owned by the player
+		 * Must have at least 2 units
+		 */
+		currentPhase = Phase.ATTACK3;
+	}
+
+	/**
+	 * TODO doc
+	 */
+	private void prepareMovementAction() {
+		/*
+		 * Figure out which territories have units which are eligible to be
+		 * moved
+		 * The territory's units must not have participated in a battle
+		 * The territory needs at least 2 units
+		 */
+		currentPhase = Phase.MOVEMENT;
+	}
+	
 	@Override
 	public void endAttackPhase() {
 		prepareMovementAction();
 		Phase cp = getPhase();
 		notifyPlayers(new PhaseAction(currentPlayer, cp));
+	}
+	
+	/*
+	 * END: PREPARE / PHASE FUNCTIONS  / functions for the PHASE SWITCHING
+	 */
+	
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+
+	}
+	
+	/**
+	 * TODO doc
+	 */
+	public void redeemBonusCards(List<BonusCard> cards) {
+		// TODO make this a real exception
+		assert currentPlayer.getBonusCards().containsAll(cards);
+		assert cards.size() == 3;
+		// TODO Check if the card triple is valid
+		// falls Bonuskarten drei stück verfügbar
+		// wenn genau drei karten verfügbar und alle drei gleich
+		if(currentPlayer.getBonusCards().size() == 3 && 
+				currentPlayer.getBonusCards().containsAll(cards)) {
+			// Redeem the cards
+			currentPlayer.removeBonusCards(cards);
+			currentPlayer.addSupplies(bonusTracker.getNextBonus());
+		}else if(currentPlayer.getBonusCards().size() >= 3) {
+
+		}
 	}
 }
