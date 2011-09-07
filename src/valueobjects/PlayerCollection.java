@@ -75,5 +75,8 @@ public class PlayerCollection extends ArrayList<Player> {
 		} else
 			return true;
 	}
-
+	
+	public Player getPlayer(int index) {
+		return get(index);
+	}
 }
