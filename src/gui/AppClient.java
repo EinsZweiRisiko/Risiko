@@ -57,7 +57,6 @@ public class AppClient implements ClientMethods {
 		lobbygui.start();
 
 		// Show the main risk window
-		rFenster.prepare();
 		rFenster.start();
 	}
 
