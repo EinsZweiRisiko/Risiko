@@ -149,8 +149,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * @return Action The next action/phase
 	 */
 	public void nextPhase() {		
-		Phase cp = getPhase();
-		notifyPlayers(new PhaseAction(currentPlayer, cp));
+		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 		// Which action comes afterwards the current one?
 		switch (currentPhase) {
 			// The first action is at the end of this switch block
@@ -653,7 +652,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private void preparePlacementAction() {
 		calculateSupplies();
 		currentPhase = Phase.PLACEMENT;
-		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
+		//notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 	}
 
 	/**s
@@ -709,8 +708,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void endAttackPhase() {
 		prepareMovementAction();
-		Phase cp = getPhase();
-		notifyPlayers(new PhaseAction(currentPlayer, cp));
+		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
+		prepareTurnInAction();
 	}
 	
 	/*

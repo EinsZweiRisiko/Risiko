@@ -20,7 +20,7 @@ public class PhaseAction extends Action {
 		
 		//TODO REMOVE TEST OUTS
 		System.out.println(" ");
-		System.out.println("!!! Phase: " + phase);
+		System.out.println("Neue Phase wird gemeldet! => " + phase);
 		System.out.println(" ");
 	}
 	
