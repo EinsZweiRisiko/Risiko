@@ -125,7 +125,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Set the game status to started
 		started = true;
 		
-		notifyPlayers(new GameStartedAction(currentPlayer));
+		notifyPlayers(new GameStartedAction(currentPlayer,currentPhase));
 		
 		// Set the first phase
 		nextPhase();

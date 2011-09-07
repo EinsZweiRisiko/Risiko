@@ -79,10 +79,12 @@ public class AppClient implements ClientMethods {
 			// Game started
 			System.out.println("Game started.");
 			final Player player = ((GameStartedAction) a). getPlayer();
+			final Phase phase = ((GameStartedAction) a).getPhase();
 			display.asyncExec(new Runnable() {
 				public void run() {
 					lobbygui.close();
 					rFenster.updateCurrentPlayer(player);
+					rFenster.updatePhase(phase);
 				}
 			});
 		} else if (a instanceof NextPlayerAction) {
