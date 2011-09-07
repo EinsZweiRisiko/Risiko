@@ -30,7 +30,6 @@ import commons.actions.PlayerJoinedAction;
 import commons.actions.TerritoryUnitsChangedAction;
 import commons.actions.EventBoxAction;
 
-import cui.IO;
 import de.root1.simon.Registry;
 import de.root1.simon.Simon;
 import de.root1.simon.annotation.SimonRemote;
@@ -125,7 +124,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		players.add(player);
 
 		// Output a success message
-		IO.write("Client connected.");
+		System.out.println("Client connected.");
 
 		notifyPlayers(new PlayerJoinedAction(player));
 
@@ -229,7 +228,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private void nextPlayer() {
 		// Advance to the next player
 		currentPlayer = players.getNextPlayer();
-		IO.write("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
+		System.out.println("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
 

@@ -21,7 +21,6 @@ import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.TerritoryUnitsChangedAction;
 
-import cui.IO;
 import de.root1.simon.Lookup;
 import de.root1.simon.Simon;
 import de.root1.simon.annotation.SimonRemote;
@@ -66,7 +65,7 @@ public class AppClient implements ClientMethods {
 		if (a instanceof PlayerJoinedAction) {
 			// A player joined
 			PlayerJoinedAction pja = (PlayerJoinedAction) a;
-			IO.write("Player joined: " + pja.getPlayer().getName());
+			System.out.println("Player joined: " + pja.getPlayer().getName());
 
 			// Queue the update function to run in the UI thread
 			display.asyncExec(new Runnable() {
@@ -76,7 +75,7 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (a instanceof GameStartedAction) {
 			// Game started
-			IO.write("Game started.");
+			System.out.println("Game started.");
 			final Player player = ((GameStartedAction) a). getPlayer();
 			display.asyncExec(new Runnable() {
 				public void run() {
@@ -122,7 +121,7 @@ public class AppClient implements ClientMethods {
 			});
 		} else {
 			
-			IO.write("Unidentified action.");
+			System.out.println("Unidentified action.");
 		}
 	}
 

@@ -19,8 +19,6 @@ import valueobjects.PlayerCollection;
 
 import commons.GameMethods;
 
-import cui.IO;
-
 /**
  * LobbyGUI provides a GUI in which Players can wait for other plays till they start the game
  * @author Hendrik
@@ -94,7 +92,7 @@ public class LobbyGUI {
 					try {
 						game.start();
 					} catch (NotEnoughPlayersException e1) {
-						IO.writeError(e1.getMessage());
+						System.out.println(e1.getMessage());
 					}
 				}
 		      });
