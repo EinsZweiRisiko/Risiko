@@ -136,6 +136,8 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			territory2.addNeighbor(territory1);
 		}
 		
+		// TODO delete this when debugging is over
+		/*
 		//Show all freakin neighbors		
 		Iterator<String> itr = territories.keySet().iterator(); 
 		String territoryname;
@@ -153,6 +155,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 				System.out.println(territoryneigbor.getName());
 			}
 		}
+		*/
 	}
 
 	/**
