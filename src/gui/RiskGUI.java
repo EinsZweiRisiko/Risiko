@@ -1143,6 +1143,8 @@ public class RiskGUI {
 
 	public void defend(Territory attackedTerritory2) {	
 //		this.attackedTerritory = attackedTerritory2;
+		System.out.println("AttackedTerritory: "+ attackedTerritory.getOwner());
+		
 		attackedPlayer = attackedTerritory.getOwner();
 
 		//This sould only becalled ONCE!
