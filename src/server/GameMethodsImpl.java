@@ -231,7 +231,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	/**
-	 * TODO doc
+	 * place the Units randomly on the territorys
 	 */
 	public void placeStartUnitsRandomly() {
 		for (Territory territory : territoryManager.getRandomTerritoryList()) {
