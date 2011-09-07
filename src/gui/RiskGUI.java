@@ -1259,6 +1259,7 @@ public class RiskGUI {
 					public void mouseUp(MouseEvent e) {
 						game.endAttackPhase();
 						nextPhaseButton.dispose();
+						System.out.println("NEXT PHASE BUTTON IS DISPOSING ... NOT");
 					}
 
 					@Override
