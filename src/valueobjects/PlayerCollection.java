@@ -21,16 +21,18 @@ public class PlayerCollection extends ArrayList<Player> {
 	 * @return Next player
 	 */
 	public Player getNextPlayer() {
+		
+		//System.out.println("ActivePlayerINT : "+ activePlayer + " NAME : " + get(activePlayer).getName());
+		
 		// There hast to be at least one player left
 		if (isEmpty()) {
 			throw new NoPlayersException();
 		}
 
 		Player nextPlayer = get(activePlayer);
-		
 		// Switch to the next player
-		++activePlayer;
-
+		activePlayer++;
+		
 		// If we reached the end, start over
 		if (activePlayer >= size()) {
 			activePlayer = 0;
@@ -45,6 +47,7 @@ public class PlayerCollection extends ArrayList<Player> {
 	 */
 	public void resetActivePlayer() {
 		activePlayer = 0;
+		System.out.println("RESET ACTIVEPLA>ER : " + activePlayer + " NAME : " + get(activePlayer).getName());
 	}
 
 	/**
@@ -75,5 +78,8 @@ public class PlayerCollection extends ArrayList<Player> {
 		} else
 			return true;
 	}
-
+	
+	public Player getPlayer(int index) {
+		return get(index);
+	}
 }

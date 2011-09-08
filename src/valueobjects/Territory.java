@@ -2,6 +2,7 @@ package valueobjects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Represents a territory
@@ -14,7 +15,7 @@ public class Territory implements Serializable {
 	private static final long serialVersionUID = -3644006307202028619L;
 	
 	private Continent continent;
-	private ArrayList<Territory> neighborList = new ArrayList<Territory>();
+	private CopyOnWriteArrayList<Territory> neighborList = new CopyOnWriteArrayList<Territory>();
 	
 	private String name;
 	private Player owner;
@@ -55,7 +56,7 @@ public class Territory implements Serializable {
 	 * 
 	 * @return a list of all neighbor objects.
 	 */
-	public ArrayList<Territory> getNeighbors() {
+	public CopyOnWriteArrayList<Territory> getNeighbors() {
 		return neighborList;
 	}
 

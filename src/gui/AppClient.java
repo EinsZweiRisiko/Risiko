@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 import org.eclipse.swt.widgets.Display;
 
+import server.GameMethodsImpl.Phase;
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.Player;
@@ -12,13 +13,15 @@ import valueobjects.Territory;
 import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
+import commons.actions.AttackAction;
+import commons.actions.EventBoxAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
+import commons.actions.PrepareGUIAction;
 import commons.actions.TerritoryUnitsChangedAction;
 
-import cui.IO;
 import de.root1.simon.Lookup;
 import de.root1.simon.Simon;
 import de.root1.simon.annotation.SimonRemote;
@@ -41,29 +44,32 @@ public class AppClient implements ClientMethods {
 
 	public AppClient() {
 		display = new Display();
-
+		
 		// Show the connect window
 		logingui = new LoginGUI(display, this);
 		logingui.finalize();
 
 		// TODO: check if the window was closed
 
+		rFenster = new RiskGUI(display, this, game);
+		
 		lobbygui = new LobbyGUI(display, this, game);
 		lobbygui.start();
 
 		// Show the main risk window
-		rFenster = new RiskGUI(display, this, game);
 		rFenster.start();
 	}
 
 	@Override
 	public void update(final GameMethods server, Action a) {
+
+
 		if (a instanceof PlayerJoinedAction) {
 			// A player joined
 			PlayerJoinedAction pja = (PlayerJoinedAction) a;
-			IO.write("Player joined: " + pja.getPlayer().getName());
+			System.out.println("Player joined: " + pja.getPlayer().getName());
 
-			// Queue the update function to run in the fucking UI thread
+			// Queue the update function to run in the UI thread
 			display.asyncExec(new Runnable() {
 				public void run() {
 					lobbygui.updateText();
@@ -71,23 +77,29 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (a instanceof GameStartedAction) {
 			// Game started
-			IO.write("Game started.");
-
+			System.out.println("Game started.");
+			final Player player = ((GameStartedAction) a). getPlayer();
+			final Phase phase = ((GameStartedAction) a).getPhase();
 			display.asyncExec(new Runnable() {
 				public void run() {
 					lobbygui.close();
+					System.out.println(player.getName() + "<--- GamestartedAction PLAYER");
+					rFenster.updateCurrentPlayer(player);
+					rFenster.updatePhase(phase);
 				}
 			});
 		} else if (a instanceof NextPlayerAction) {
+			final Player player = ((NextPlayerAction) a).getPlayer();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updateCurrentPlayer();
+					rFenster.updateCurrentPlayer(player);
 				}
 			});
 		} else if (a instanceof PhaseAction) {
+			final Phase phase = ((PhaseAction) a).getPhase();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updatePhase();
+					rFenster.updatePhase(phase);
 				}
 			});
 		} else if (a instanceof TerritoryUnitsChangedAction) {
@@ -97,8 +109,30 @@ public class AppClient implements ClientMethods {
 					rFenster.updateTerritory(t);
 				}
 			});
-		} else {
-			IO.write("Unidentified action.");
+		} else if (a instanceof AttackAction ) {
+			final Territory t = ((AttackAction) a).getAttackedTerritory();	
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.defend(t);
+				}
+			});
+		}else if (a instanceof EventBoxAction ) {
+			final Player player = ((EventBoxAction) a).getPlayer();	
+			final String msg = ((EventBoxAction) a).getMsg();
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.openEventBox(player, msg);
+				}
+			});
+		} else if (a instanceof PrepareGUIAction ) {
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.prepare();
+				}
+			});
+		}else {
+			
+			System.out.println("Unidentified action.");
 		}
 	}
 
@@ -110,12 +144,12 @@ public class AppClient implements ClientMethods {
 	 * @throws UnknownHostException
 	 */
 	public void connect(String ip, String name) throws LookupFailedException,
-			EstablishConnectionFailed, UnknownHostException,
-			ServerFullException, NoNameException {
+	EstablishConnectionFailed, UnknownHostException,
+	ServerFullException, NoNameException {
 		if (name.trim().isEmpty()) {
 			throw new NoNameException();
 		}
-		
+
 		connection = Simon.createNameLookup(ip, DEFAULT_PORT);
 		game = (GameMethods) connection.lookup("risk");
 

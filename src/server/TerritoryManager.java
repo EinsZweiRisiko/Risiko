@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import server.exceptions.InvalidTerritoryStateException;
 import valueobjects.Continent;
@@ -51,17 +52,16 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			{ "Ontario", "Grönland" }, { "Grönland", "Quebec" },
 			{ "Grönland", "Island" },
 			{ "Weststaaten", "Oststaaten" },
-			{ "Weststaaten", "Mittelamerika" },
+			{ "Weststaaten", "Mittelamerika" }, {"Weststaaten", "Ontario"},
 			{ "Oststaaten", "Quebec" }, { "Oststaaten", "Mittelamerika" },
 			{ "Mittelamerika", "Venezuela" }, { "Venezuela", "Peru" },
 			{ "Venezuela", "Brasilien" }, { "Peru", "Brasilien" },
 			{ "Peru", "Argentinien" },
 			{ "Brasilien", "Nordwestafrika" }, { "Brasilien", "Argentinien" },
 			{ "Nordwestafrika", "Westeuropa" },
-			{ "Nordwestafrika", "Südeuropa" },
 			{ "Nordwestafrika", "Ägypten" }, { "Nordwestafrika", "Ostafrika" },
-			{ "Nordwestafrika", "Kongo" }, { "Ägypten", "Mitteleuropa" },
-			{ "Ägypten", "Südeuropa" }, { "Ägypten", "Ostafrika" },
+			{ "Nordwestafrika", "Kongo" }, { "Ägypten", "Südeuropa" },
+		    { "Ägypten", "Ostafrika" },
 			{ "Ostafrika", "Mittlerer Osten" }, { "Ostafrika", "Kongo" },
 			{ "Ostafrika", "Südafrika" }, { "Ostafrika", "Madagaskar" },
 			{ "Südafrika", "Kongo" },
@@ -73,6 +73,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			{ "Mitteleuropa", "Ukraine" },
 			{ "Mitteleuropa", "Skandinavien" }, { "Island", "Skandinavien" },
 			{ "Skandinavien", "Ukraine" }, { "Südeuropa", "Mittlerer Osten" },
+			{ "Ukraine", "Südeuropa"},
 			{ "Mittlerer Osten", "Indien" },
 			{ "Mittlerer Osten", "Afghanistan" },
 			{ "Mittlerer Osten", "Ukraine" }, { "Ukraine", "Afghanistan" },
@@ -80,11 +81,11 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			{ "Ural", "Sibirien" }, { "Ural", "Afghanistan" },
 			{ "Ural", "China" },
 			{ "Afghanistan", "China" }, { "Afghanistan", "Indien" },
-			{ "Indien", "China" },
+			{ "Indien", "China" }, {"Südeuropa", "Mitteleuropa"} , {"Mongolei", "Irkutsk"},
 			{ "Indien", "Siam" }, { "China", "Mongolei" }, { "China", "Siam" },
 			{ "China", "Sibirien" }, { "Sibirien", "Mongolei" },
 			{ "Sibirien", "Irkutsk" },
-			{ "Sibirien", "Kamtschatka" }, { "Jakutien", "Irkutsk" },
+			{ "Sibirien", "Jakutien" }, { "Jakutien", "Irkutsk" },
 			{ "Jakutien", "Kamtschatka" }, { "Irkutsk", "Kamtschatka" },
 			{ "Japan", "Kamtschatka" }, { "Japan", "Mongolei" },
 			{ "Mongolei", "Kamtschatka" },
@@ -134,6 +135,27 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			territory1.addNeighbor(territory2);
 			territory2.addNeighbor(territory1);
 		}
+		
+		// TODO delete this when debugging is over
+		/*
+		//Show all freakin neighbors		
+		Iterator<String> itr = territories.keySet().iterator(); 
+		String territoryname;
+		
+		while (itr.hasNext()) {
+			territoryname = itr.next();
+			
+			Territory territories2 = territories.get(territoryname);
+			
+			CopyOnWriteArrayList<Territory> territoriesNeigbhors = territories2.getNeighbors();
+			System.out.println(" ");
+			System.out.println("Territory: " + territories2.getName());
+			System.out.println("Nachbarn: ");
+			for (Territory territoryneigbor : territoriesNeigbhors){
+				System.out.println(territoryneigbor.getName());
+			}
+		}
+		*/
 	}
 
 	/**
@@ -170,6 +192,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	public void changeTerritoryOwner(Player newOwner, Territory territory,
 			int units)
 			throws InvalidTerritoryStateException {
+		
 		// If the territory still holds units the owner cannot be changed
 		if (territory.getUnits() != 0) {
 			throw new InvalidTerritoryStateException(territory);
@@ -177,15 +200,16 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 
 		// Set the new owner
 		Player oldOwner = territory.getOwner();
-		territory.setOwner(newOwner);
-
-		// Set the amount of units that the new owner has on this territory
-		territory.setUnits(units);
-
 		// Reflect the change in the player's lists of their territories
 		if (oldOwner != null) {
 			oldOwner.removeTerritory(territory);
 		}
+	
+		// Set the new owner
+		territory.setOwner(newOwner);
+		// Set the amount of units that the new owner has on this territory
+		territory.setUnits(units);
+		// add the conquered Territory to the territory list
 		newOwner.addTerritory(territory);
 	}
 

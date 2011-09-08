@@ -16,35 +16,35 @@ import de.root1.simon.exceptions.SimonRemoteException;
 
 @SimonRemote
 public interface GameMethods {
-	
+
 	// Setup/Observer
 	public Player addPlayer(String name, ClientMethods client) throws ServerFullException;
 	public void deletePlayer(ClientMethods clients);
-	
+
 	// Load and saving
 	public void save();
 	public void load();
-	
+
 	public void start() throws NotEnoughPlayersException;
 	public PlayerCollection getPlayers();
-	
+
 	public boolean isOver();
 	public Player getWinner();
 	public Player getActivePlayer();
 	public void nextPhase();
 	public void placeStartUnitsRandomly();
-	
+
 	public Mission getMyMission(Player player);
 	public List<BonusCard> getMyBonusCards(Player player);
-	
+
 	public HashMap<String, Territory> getTerritories();
 	public List<Territory> getMyTerritories(Player player);
 	public List<Territory> getMyTerritoriesForAttacking(Player player);
 	public List<Territory> getMyTerritoriesForMoving(Player player);
-	
+
 	public List<Territory> getOpposingNeighborsOf(Territory territory);
 	public List<Territory> getSimilarNeighborsOf(Territory territory);
-	
+
 	// Spielphasen
 	public void redeemBonusCards(List<BonusCard> cards);
 	public void placeUnits(String territory, int amount);
@@ -53,7 +53,9 @@ public interface GameMethods {
 	public void move(Territory source, Territory target, int amount) throws SimonRemoteException;
 	public void defend(Territory defendTerritory, int amount);
 	public Phase getPhase();
-	
+	public void endAttackPhase();
+	public void nextPlayer();
+
 	/* Notifications:
 	 * 
 	 * xSpieler hinzugefügt

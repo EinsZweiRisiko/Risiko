@@ -129,7 +129,7 @@ public class ActionDialog extends Dialog {
 				});
     		}
     		
-    		if(phase.equals(Phase.ATTACK)){
+    		if(phase.equals(Phase.ATTACK2)){
             	Shell parent = getParent();
                 final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
             	shell.setSize(155,80);
@@ -143,6 +143,8 @@ public class ActionDialog extends Dialog {
                 shell.setLayout(gridLayout);
                 
                 int playercolor = territory.getOwner().getColor();
+                
+                int maxUnits = territory.getUnits()-1;
                 
                 if(playercolor == 1){
                 	playercolor = 3;
@@ -205,7 +207,7 @@ public class ActionDialog extends Dialog {
     		      });
         		
         		Button button3 = new Button(shell, SWT.PUSH);
-        		button3.setImage(units[playercolor+2]);
+        		button3.setImage(units[playercolor+2]);        		
         		button3.addMouseListener(new MouseListener() {
     				@Override
     				public void mouseDown(MouseEvent e) {
@@ -226,6 +228,104 @@ public class ActionDialog extends Dialog {
     				}
     		      });
                 
+        		if(maxUnits == 1) {
+        			button2.setEnabled(false);
+        			button3.setEnabled(false);
+        		}
+        		
+        		if(maxUnits == 2) {
+        			button3.setEnabled(false);
+        		}
+        		
+                shell.open();
+                Display display = parent.getDisplay();
+                while (!shell.isDisposed()) {
+                        if (!display.readAndDispatch()) display.sleep();
+                }
+                return result;
+            }
+    		
+    		if(phase.equals(Phase.ATTACK3)){
+            	Shell parent = getParent();
+                final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+            	shell.setSize(50,80);
+                shell.setText("Verteidigung");
+                center(shell);
+                
+                
+                GridLayout gridLayout = new GridLayout();
+                gridLayout.numColumns = 2;
+                gridLayout.horizontalSpacing = 4;
+                shell.setLayout(gridLayout);
+                
+                int playercolor = territory.getOwner().getColor();
+                
+                int maxUnits = territory.getUnits();
+                
+                if(playercolor == 1){
+                	playercolor = 3;
+                }
+                else if(playercolor == 2){
+                	playercolor = 6;
+                }
+                else if(playercolor == 3){
+                	playercolor = 9;
+                }
+                else if(playercolor == 4){
+                	playercolor = 12;
+                }
+                else if(playercolor == 5){
+                	playercolor = 15;
+                }
+                
+                Button button = new Button(shell, SWT.PUSH);
+        		button.setImage(units[playercolor]);
+        		button.addMouseListener(new MouseListener() {
+    				@Override
+    				public void mouseDown(MouseEvent e) {
+    					result = 1;
+    					shell.close();
+    				}
+
+    				@Override
+    				public void mouseDoubleClick(MouseEvent e) {
+    					// TODO Auto-generated method stub
+    					
+    				}
+
+    				@Override
+    				public void mouseUp(MouseEvent e) {
+    					// TODO Auto-generated method stub
+    					
+    				}
+    		      });
+        		
+        		Button button2 = new Button(shell, SWT.PUSH);
+        		button2.setImage(units[playercolor+1]);
+        		button2.addMouseListener(new MouseListener() {
+    				@Override
+    				public void mouseDown(MouseEvent e) {
+    					result = 2;
+    					shell.close();
+    				}
+
+    				@Override
+    				public void mouseDoubleClick(MouseEvent e) {
+    					// TODO Auto-generated method stub
+    					
+    				}
+
+    				@Override
+    				public void mouseUp(MouseEvent e) {
+    					// TODO Auto-generated method stub
+    					
+    				}
+    		      });
+                
+        		if(maxUnits == 1) {
+        			button2.setEnabled(false);
+        		}
+        		
                 shell.open();
                 Display display = parent.getDisplay();
                 while (!shell.isDisposed()) {

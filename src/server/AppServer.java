@@ -3,7 +3,6 @@ package server;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import cui.IO;
 import de.root1.simon.exceptions.NameBindingException;
 
 public class AppServer {
@@ -13,7 +12,7 @@ public class AppServer {
 	 *
 	 */
 	private static void printWelcomeMessage() {
-		IO.write("Warte auf Anfragen...");
+		System.out.println("Warte auf Anfragen...");
 	}
 	
 	/**
@@ -28,11 +27,11 @@ public class AppServer {
 			AppServer.printWelcomeMessage();
 			
 		} catch (UnknownHostException e) {
-			IO.writeError(e.getMessage());
+			System.out.println(e.getMessage());
 		} catch (IOException e) {
-			IO.writeError(e.getMessage());
+			System.out.println(e.getMessage());
 		} catch (NameBindingException e) {
-			IO.writeError(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
