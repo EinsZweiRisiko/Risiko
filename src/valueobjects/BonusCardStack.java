@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Stack;
 
+import valueobjects.BonusCard.BonusCardType;
+
 public class BonusCardStack implements Serializable {
 
 	private static final long serialVersionUID = -55075093605778452L;

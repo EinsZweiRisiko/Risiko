@@ -15,6 +15,12 @@ public class BonusCard implements Serializable {
 
 	private static final long serialVersionUID = -5904440912901516998L;
 
+	public enum BonusCardType {
+		Infantry,
+		Cavalry,
+		Artillery,
+		Wildcard
+	}
 	private BonusCardType type;
 
 	/**
