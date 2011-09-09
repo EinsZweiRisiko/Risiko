@@ -304,7 +304,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		calculateDice(attackDice, defendDice);
 	}
 
-	// diese Methode ist Pseudo mäßig programmiert
+	// TODO diese Methode ist Pseudo mäßig programmiert
 	public void calculateDice(ArrayList<Integer> attackDice, ArrayList<Integer> defendDice) {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;

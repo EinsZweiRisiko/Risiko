@@ -1,4 +1,8 @@
-package gui;
+package gui.risk;
+
+import gui.ActionDialog;
+import gui.AppClient;
+import gui.DialogBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +28,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import server.EventBox;
 import server.GameMethodsImpl.Phase;
 import valueobjects.BonusCard;
 import valueobjects.Player;
@@ -96,7 +99,7 @@ public class RiskGUI {
 
 		// Create a new Shell with Title
 		shell = new Shell(display);
-		shell.setText("EinsZweiRisiko |" + guiPlayer.getName());
+		shell.setText(AppClient.name + " | " + guiPlayer.getName());
 
 		// Set size to default
 		shell.setSize(defaultSizeX, defaultSizeY);
@@ -172,7 +175,6 @@ public class RiskGUI {
 			}
 		});
 
-		center(shell);
 		shell.open();
 	}
 
@@ -905,7 +907,7 @@ public class RiskGUI {
 	public void openEventBox(Player player, String message) {
 
 		if(player.equals(guiPlayer)){
-			EventBox eventBox = new EventBox(shell, message, player.getName());
+			new DialogBox(shell, SWT.ICON_INFORMATION, player.getName(), message);
 		}
 	}
 
@@ -1086,24 +1088,6 @@ public class RiskGUI {
 		return cutted;
 	}
 	 */
-
-	/**
-	 * Centers a Shell in the middle of the Screen
-	 * 
-	 * @param shell
-	 *            which should be centered
-	 */
-	private void center(Shell shell) {
-
-		Rectangle bds = shell.getDisplay().getBounds();
-
-		Point p = shell.getSize();
-
-		int nLeft = (bds.width - p.x) / 2;
-		int nTop = (bds.height - p.y) / 2;
-
-		shell.setBounds(nLeft, nTop, p.x, p.y);
-	}
 
 	/**
 	 * Centers an image in the middle of the Shell

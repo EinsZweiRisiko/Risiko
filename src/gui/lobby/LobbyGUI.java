@@ -1,11 +1,11 @@
-package gui;
+package gui.lobby;
+
+import gui.AppClient;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -49,7 +49,7 @@ public class LobbyGUI {
 		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
-		shell.setText("EinsZweiRisiko |Lobby");
+		shell.setText(AppClient.name + " | Lobby");
 		
 		Image bg = new Image(display, "assets/loginbg.png");
 		
@@ -100,7 +100,6 @@ public class LobbyGUI {
 		
 		lobby.setBounds(0, 0, 250, 350);
 		shell.pack();
-		center(shell);
 		shell.open();
 	}
 	
@@ -110,18 +109,6 @@ public class LobbyGUI {
 				display.sleep();
 			}
 		}
-	}
-	
-	private void center(Shell shell) {
-
-		Rectangle bds = shell.getDisplay().getBounds();
-
-		Point p = shell.getSize();
-
-		int nLeft = (bds.width - p.x) / 2;
-		int nTop = (bds.height - p.y) / 2;
-
-		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 	
 	/**

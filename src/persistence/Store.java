@@ -94,7 +94,7 @@ public class Store {
 			// Bonus Karten
 			input.add("# Bonuskarten");
 			for(int i = 0; i <= territoryCards.size(); i++) {
-				input.add(territoryCards.get(i).getType());
+				input.add(territoryCards.get(i).getType().toString());
 			}
 			
 			//Länder im Besitz

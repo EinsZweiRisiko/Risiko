@@ -1,4 +1,7 @@
-package gui;
+package gui.login;
+
+import gui.AppClient;
+import gui.DialogBox;
 
 import java.net.UnknownHostException;
 
@@ -7,7 +10,6 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -18,7 +20,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import server.ErrorBox;
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
@@ -46,15 +47,13 @@ public class LoginGUI {
 		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
-		shell.setText("EinsZweiRisiko |Login");
+		shell.setText(AppClient.name + " | Login");
 		
 		Composite login = new Composite(shell, SWT.INHERIT_DEFAULT);
 		
 		Image bg = new Image(display, "assets/loginbg.png");
 		
 		shell.setBackgroundImage(bg);
-		
-		center(shell);
 		
 		// Quit the program on window close
 		shell.addListener(SWT.Close, new Listener() {
@@ -109,15 +108,15 @@ public class LoginGUI {
 					// Close the window after a successful connect
 					shell.dispose();
 				} catch (UnknownHostException e1) {
-					new ErrorBox(shell, "Unknown host: " + e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				} catch (LookupFailedException e1) {
-					new ErrorBox(shell, e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				} catch (EstablishConnectionFailed e1) {
-					new ErrorBox(shell, e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				} catch (ServerFullException e1) {
-					new ErrorBox(shell, e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				} catch (NoNameException e1) {
-					new ErrorBox(shell, e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				}
 				
 			}
@@ -163,8 +162,6 @@ public class LoginGUI {
 		
 		shell.setMinimumSize(shellsize);
 		
-		center(shell);
-		
 		shell.open();
 
 		while (!shell.isDisposed()) {
@@ -172,22 +169,6 @@ public class LoginGUI {
 				display.sleep();
 			}
 		}
-	}
-	
-	/**
-	 * centers a shell in the middle of the display
-	 * @param shell
-	 */
-	private void center(Shell shell) {
-
-		Rectangle bds = shell.getDisplay().getBounds();
-
-		Point p = shell.getSize();
-
-		int nLeft = (bds.width - p.x) / 2;
-		int nTop = (bds.height - p.y) / 2;
-
-		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 	
 	@Override
