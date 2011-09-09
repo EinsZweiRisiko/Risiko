@@ -900,7 +900,7 @@ public class RiskGUI {
 	public void openEventBox(Player player, String message) {
 
 		if(player.equals(guiPlayer)){
-			EventBox eventBox = new EventBox(shell, message, player.getName());
+			new DialogBox(shell, SWT.ICON_INFORMATION, player.getName(), message);
 		}
 	}
 

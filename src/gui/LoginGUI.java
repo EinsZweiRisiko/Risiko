@@ -7,7 +7,6 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -106,15 +105,15 @@ public class LoginGUI {
 					// Close the window after a successful connect
 					shell.dispose();
 				} catch (UnknownHostException e1) {
-					new ErrorBox(shell, "Unknown host: " + e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				} catch (LookupFailedException e1) {
-					new ErrorBox(shell, e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				} catch (EstablishConnectionFailed e1) {
-					new ErrorBox(shell, e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				} catch (ServerFullException e1) {
-					new ErrorBox(shell, e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				} catch (NoNameException e1) {
-					new ErrorBox(shell, e1.getMessage());
+					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
 				}
 				
 			}
