@@ -1,4 +1,4 @@
-package server;
+package gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;

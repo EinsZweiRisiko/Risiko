@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 import org.eclipse.swt.widgets.Display;
 
+import server.AppServer;
 import server.GameMethodsImpl.Phase;
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
@@ -30,8 +31,6 @@ import de.root1.simon.exceptions.LookupFailedException;
 
 @SimonRemote
 public class AppClient implements ClientMethods {
-
-	private static final int DEFAULT_PORT = 50001;
 
 	private Lookup connection;
 	private GameMethods game;
@@ -150,7 +149,7 @@ public class AppClient implements ClientMethods {
 			throw new NoNameException();
 		}
 
-		connection = Simon.createNameLookup(ip, DEFAULT_PORT);
+		connection = Simon.createNameLookup(ip, AppServer.DEFAULT_PORT);
 		game = (GameMethods) connection.lookup("risk");
 
 		// Create player

@@ -201,6 +201,10 @@ public class Player implements Serializable {
 		return name;
 	}
 	
+	public String toString() {
+		return name;
+	}
+	
 	public int getColor() {
 		return color;
 	}

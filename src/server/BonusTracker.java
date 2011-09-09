@@ -1,5 +1,6 @@
 package server;
 
+import java.io.Serializable;
 
 /**
  * A class which manages the amount of bonus supplies for when the players turn
@@ -8,38 +9,42 @@ package server;
  * @author Jannes
  * 
  */
-class BonusTracker {
+public class BonusTracker implements Serializable {
+
+	private static final long serialVersionUID = 4047810657248296649L;
 
 	/**
 	 * Steps in which bonus supplies are awarded
 	 */
-	private static final int[] steps = {4, 6, 8, 10, 12, 15};
+	private static final int[] steps = { 4, 6, 8, 10, 12, 15 };
 
 	/**
 	 * Current location in the list
 	 */
 	private int currentIndex = 0;
-	
+
 	/**
 	 * Current step. This is neccessary if we exceed the steps in the list.
 	 */
-	private int currentValue;
+	private int currentBonusValue;
 
 	/**
-	 * TODO doc
-	 * @return
+	 * Returns the next bonus value for turning in cards.
+	 * 
+	 * @return Amount of bonus units
 	 */
 	public int getNextBonus() {
 		if (currentIndex < steps.length) {
-			// The list isn't exceeded
-			currentValue = steps[currentIndex];
+			// not exceeded yet
+			currentBonusValue = steps[currentIndex];
 		} else {
-			// The list is exceeded
-			currentValue += 5;
+			// exceeded
+			currentBonusValue += 5;
 		}
-		
+		// Move on
 		++currentIndex;
-		return currentValue;
+
+		return currentBonusValue;
 	}
 
 }

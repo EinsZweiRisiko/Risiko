@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import server.ErrorBox;
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
