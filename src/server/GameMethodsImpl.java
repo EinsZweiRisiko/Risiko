@@ -306,8 +306,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	// diese Methode ist Pseudo mäßig programmiert
 	public void calculateDice(ArrayList<Integer> attackDice, ArrayList<Integer> defendDice) {
-		// TODO vergleichen und auswerten der Würfel
-		// TODO irgendein lustiger algorithmus zum Vergleich der da unten steht ;-)
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 		Boolean conquered = false;
