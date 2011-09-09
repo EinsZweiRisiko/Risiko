@@ -1,5 +1,9 @@
 package gui;
 
+import gui.lobby.LobbyGUI;
+import gui.login.LoginGUI;
+import gui.risk.RiskGUI;
+
 import java.net.UnknownHostException;
 
 import org.eclipse.swt.widgets.Display;

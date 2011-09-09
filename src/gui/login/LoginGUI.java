@@ -1,4 +1,7 @@
-package gui;
+package gui.login;
+
+import gui.AppClient;
+import gui.DialogBox;
 
 import java.net.UnknownHostException;
 

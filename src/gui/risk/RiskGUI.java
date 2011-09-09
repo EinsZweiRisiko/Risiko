@@ -1,4 +1,8 @@
-package gui;
+package gui.risk;
+
+import gui.ActionDialog;
+import gui.AppClient;
+import gui.DialogBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;

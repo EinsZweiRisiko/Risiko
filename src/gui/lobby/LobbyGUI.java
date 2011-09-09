@@ -1,4 +1,6 @@
-package gui;
+package gui.lobby;
+
+import gui.AppClient;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
