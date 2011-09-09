@@ -892,8 +892,11 @@ public class RiskGUI {
 				button.setText(String.valueOf(territory.getUnits()));
 				button.setToolTipText(territory.getName() + " gehört "
 						+ territory.getOwner().getName());
+				
+				System.out.println("Button Inhale von: "+ territory.getName() +" geändert");
+				shell.update();
 			}
-
+			
 		}
 		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnits() + ")Einheiten.");
 		shell.update();

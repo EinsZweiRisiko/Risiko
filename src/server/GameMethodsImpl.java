@@ -314,11 +314,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		
 		attackingRound++;
 
-		System.out.println("--- Kampfrunde nr: "+ attackingRound +" ---");
+		System.out.println("------ Kampfrunde nr: "+ attackingRound +" ------");
 		System.out.println("Es kämpfen: "+ attackingTerritory.getName() +" VS. "+ defendTerritory.getName());
 		System.out.println("Verteidigerwürfelanzahl: "+defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
 		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
 		System.out.println("Anzahl des Defendterritory: "+defendTerritory.getUnits());
+		System.out.println("----------------------------------------------");
 
 		//if there are more defending than attacking dices!
 		int lowestDiceNumber = defendDice.size();
@@ -337,6 +338,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				System.out.println("Offensive: "+ attackDice.get(i) +" schlägt Defensive: "+ defendDice.get(i));
 				defendLoseUnits++;
 			}
+			
+			System.out.println("OFFENSIVE verliert: "+ attackLoseUnits +" Einheiten");
+			System.out.println("DEFENSIVE verliert: "+ defendLoseUnits +" Einheiten");
 
 			// Wenn Land erobert
 			if((defendTerritory.getUnits() - defendLoseUnits) == 0){
@@ -364,8 +368,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		if(!conquered){
+			System.out.println("Besetzung der Länder ...");
 			attackingTerritory.setUnits(attackingTerritory.getUnits() - attackLoseUnits);
+			System.out.println("ATTACKING TERRITORY: "+ attackingTerritory.getUnits() +" - "+ attackLoseUnits +" = "+ (attackingTerritory.getUnits() - attackLoseUnits));
 			defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
+			System.out.println("DEFENDING TERRITORY: "+ defendTerritory.getUnits() +" - "+ defendLoseUnits +" = "+ (defendTerritory.getUnits() - defendLoseUnits));
+			
 
 			notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
 			notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
