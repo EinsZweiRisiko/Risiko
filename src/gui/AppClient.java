@@ -40,6 +40,7 @@ public class AppClient implements ClientMethods {
 	private static LobbyGUI lobbygui;
 	private RiskGUI rFenster;
 	private Player me;
+	public static String name = "ZwoEinsRisiko";
 
 	public AppClient() {
 		display = new Display();

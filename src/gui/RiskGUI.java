@@ -95,7 +95,7 @@ public class RiskGUI {
 
 		// Create a new Shell with Title
 		shell = new Shell(display);
-		shell.setText("EinsZweiRisiko |" + guiPlayer.getName());
+		shell.setText(AppClient.name + " | " + guiPlayer.getName());
 
 		// Set size to default
 		shell.setSize(defaultSizeX, defaultSizeY);
@@ -171,7 +171,6 @@ public class RiskGUI {
 			}
 		});
 
-		center(shell);
 		shell.open();
 	}
 
@@ -1082,24 +1081,6 @@ public class RiskGUI {
 		return cutted;
 	}
 	 */
-
-	/**
-	 * Centers a Shell in the middle of the Screen
-	 * 
-	 * @param shell
-	 *            which should be centered
-	 */
-	private void center(Shell shell) {
-
-		Rectangle bds = shell.getDisplay().getBounds();
-
-		Point p = shell.getSize();
-
-		int nLeft = (bds.width - p.x) / 2;
-		int nTop = (bds.height - p.y) / 2;
-
-		shell.setBounds(nLeft, nTop, p.x, p.y);
-	}
 
 	/**
 	 * Centers an image in the middle of the Shell

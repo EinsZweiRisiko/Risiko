@@ -45,15 +45,13 @@ public class LoginGUI {
 		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
-		shell.setText("EinsZweiRisiko |Login");
+		shell.setText(AppClient.name + " | Login");
 		
 		Composite login = new Composite(shell, SWT.INHERIT_DEFAULT);
 		
 		Image bg = new Image(display, "assets/loginbg.png");
 		
 		shell.setBackgroundImage(bg);
-		
-		center(shell);
 		
 		// Quit the program on window close
 		shell.addListener(SWT.Close, new Listener() {
@@ -162,8 +160,6 @@ public class LoginGUI {
 		
 		shell.setMinimumSize(shellsize);
 		
-		center(shell);
-		
 		shell.open();
 
 		while (!shell.isDisposed()) {
@@ -171,22 +167,6 @@ public class LoginGUI {
 				display.sleep();
 			}
 		}
-	}
-	
-	/**
-	 * centers a shell in the middle of the display
-	 * @param shell
-	 */
-	private void center(Shell shell) {
-
-		Rectangle bds = shell.getDisplay().getBounds();
-
-		Point p = shell.getSize();
-
-		int nLeft = (bds.width - p.x) / 2;
-		int nTop = (bds.height - p.y) / 2;
-
-		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 	
 	@Override
