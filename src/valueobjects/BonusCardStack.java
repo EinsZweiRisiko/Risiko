@@ -1,50 +1,50 @@
 package valueobjects;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Collections;
+import java.util.Stack;
 
+import valueobjects.BonusCard.BonusCardType;
 
-public class BonusCardStack extends ArrayList<BonusCard> {
+public class BonusCardStack implements Serializable {
 
 	private static final long serialVersionUID = -55075093605778452L;
-	private ArrayList<BonusCard> stack = new ArrayList<BonusCard>();
-	private final int AMOUNT_OF_BONUSCARDS = 44; //-1 in der for schleife
-	
+
+	private Stack<BonusCard> stack = new Stack<BonusCard>();
+
 	/**
-	 * Constructor
+	 * Generate bonus cards at the beginning of a game
+	 * 
+	 * 14x Infanterie
+	 * 14x Kavallerie
+	 * 14x Artillerie
+	 * 2x Joker
 	 */
 	public BonusCardStack() {
-		// TODO setup bonus cards at the beginning of a game
-		// 14 von jeder Sorte
-		// 2 joker
-		//
-		// 1: infanterie
-		// 2: Kavlerier
-		// 3: Kanone
-		
-			
-		//Random generate a Stack of Bonus cards
-		for(int i = 0; i <= AMOUNT_OF_BONUSCARDS-1; i++) {
-			if(i <= 13) {
-				this.add(new BonusCard("Infantry"));
-			}else if(i <= 27) {
-				this.add(new BonusCard("Cavalry"));
-			}else if(i <= 41) {
-				this.add(new BonusCard("Artillery"));
-			}else if(i <= 43) {
-				this.add(new BonusCard("WildCard"));
-			}
+		final int cardsEach = 14;
+		// 14x each type
+		for (int i = 0; i < cardsEach; ++i) {
+			stack.push(new BonusCard(BonusCardType.Infantry));
+			stack.push(new BonusCard(BonusCardType.Cavalry));
+			stack.push(new BonusCard(BonusCardType.Artillery));
 		}
-		//Mix it
-		Collections.shuffle(this);
-		
+		// 2x wildcard
+		stack.push(new BonusCard(BonusCardType.Wildcard));
+		stack.push(new BonusCard(BonusCardType.Wildcard));
+		// Shuffle the stack
+		Collections.shuffle(stack);
 	}
 
+	/**
+	 * Emits one card from the stack. Returns null if the stack is empty.
+	 * 
+	 * @return BonusCard
+	 */
 	public BonusCard retrieveCard() {
-		Collections.shuffle(this);
-		remove(0);
-		return get(0);
-		//TODO es wird nur eine Karte gelöscht und vom Kartendeck weg genommen
-		// und nicht wieder zurück gelegt
+		if (stack.empty()) {
+			return null;
+		} else {
+			return stack.pop();
+		}
 	}
 }
