@@ -530,6 +530,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public List<Territory> getMyTerritoriesForAttacking(Player player) {
+		
+		//TODO das ganze mit Strings versuchen
+		
 		List<Territory> territories = getMyTerritories(player);
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
 
