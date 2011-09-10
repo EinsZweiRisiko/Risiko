@@ -82,7 +82,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * Phases of a player's turn
 	 */
 	public static enum Phase {
-		START, TURNINCARDS, PLACEMENT, ATTACK1, ATTACK2, ATTACK3, MOVEMENT1, MOVEMENT2
+		START, TURNINCARDS, PLACEMENT, ATTACK1, ATTACK2, ATTACK3, MOVEMENT1, MOVEMENT2, MOVEMENT3
 	};
 
 	public GameMethodsImpl(String name, int port) throws UnknownHostException,
@@ -183,6 +183,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				prepareMovement2Action();
 				break;
 			case MOVEMENT2:
+				prepareMovement3Action();
+				System.out.println("MOVEMENT 2 präperiert MOVEMENT 3");
+				break;
+			case MOVEMENT3:
 				prepareTurnInAction();
 				break;
 			default:
@@ -191,10 +195,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				prepareTurnInAction();
 				break;
 		}
-	}
-
-	private void prepareMovement2Action() {
-		currentPhase = Phase.MOVEMENT2;
 	}
 
 	/**
@@ -726,11 +726,19 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		currentPhase = Phase.MOVEMENT1;
 	}
 
+	private void prepareMovement2Action() {
+		currentPhase = Phase.MOVEMENT2;
+	}
+	
+	private void prepareMovement3Action() {
+		currentPhase = Phase.MOVEMENT3;
+	}
+
 	@Override
 	public void endAttackPhase() {
 		prepareMovement1Action();
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
-		prepareTurnInAction();
+		prepareMovement2Action();
 	}
 
 	/*
