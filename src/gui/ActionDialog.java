@@ -342,7 +342,7 @@ public class ActionDialog extends Dialog {
                 center(shell);
                 
                 GridLayout gridLayout = new GridLayout();
-                gridLayout.numColumns = 1;
+                gridLayout.numColumns = 2;
                 gridLayout.horizontalSpacing = 4;
                 shell.setLayout(gridLayout);
                 
@@ -357,7 +357,7 @@ public class ActionDialog extends Dialog {
 					@Override
 					public void mouseUp(MouseEvent e) {
 						result = spinner.getDigits();
-						
+						shell.close();
 					}
 					
 					@Override
@@ -372,8 +372,13 @@ public class ActionDialog extends Dialog {
 						
 					}
 				});
+                shell.open();
+                Display display = parent.getDisplay();
+                while (!shell.isDisposed()) {
+                        if (!display.readAndDispatch()) display.sleep();
+                }
+                return result;
     		}
-    		
     		
 			return result;
             

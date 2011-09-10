@@ -938,19 +938,17 @@ public class RiskGUI {
 
 			game.attack(sourceTerritory, targetTerritory, units);
 		} else if (phase == Phase.MOVEMENT1) {
-			// SOURCE TERRITORY
 			sourceTerritory = game.getTerritories().get(clickedButton.getData("name"));
-			System.out.println("Movement 1 Herkunftsland = " + sourceTerritory.getName());
 			game.nextPhase();			
 		} else if(phase == Phase.MOVEMENT2) {
 			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
-			System.out.println("Movement 2 Zielland = " + targetTerritory.getName());
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					game.getTerritories().get(clickedButton.getData("name")));
 			ad.open();
 			int units = (Integer) ad.open();
 
 			game.move(sourceTerritory, targetTerritory, units);
+			game.nextPhase();
 		}
 	}
 
@@ -1373,6 +1371,11 @@ public class RiskGUI {
 						}
 					}
 				}
+			}
+		}
+		if (phase.equals(Phase.MOVEMENT3)) {
+			for (Button button : buttonArray) {
+				button.setEnabled(false);
 			}
 		}
 	}
