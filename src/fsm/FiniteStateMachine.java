@@ -1,18 +1,22 @@
 package fsm;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FiniteStateMachine {
 
+	private Callback callback;
+	
 	private Set<State> states = new HashSet<State>();
 	private State currentState;
-	private Callback callback;
 	private Boolean running = false;
 	
-	public FiniteStateMachine(Callback callback, State startState) {
+	public FiniteStateMachine(Callback callback, State firstState) {
 		this.callback = callback;
-		addState(startState);
+		// Add the initial state
+		addState(firstState);
+		currentState = firstState;
 	}
 	
 	public void addState(State state) {
@@ -24,14 +28,14 @@ public class FiniteStateMachine {
 		states.add(state);
 	}
 	
-	public void run() {
+	public void execute() {
 		running = true;
 	}
 	
-	// Now we are live
+	//
 	
 	public State getState() {
-		return null;
+		return currentState;
 	}
 	
 	public void setState(State newState) {
