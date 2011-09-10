@@ -54,12 +54,12 @@ public class AppClient implements ClientMethods {
 		logingui.finalize();
 
 		// TODO: check if the window was closed
+		rFenster = new RiskGUI(display, this, game);
 		
 		lobbygui = new LobbyGUI(display, this, game);
 		lobbygui.start();
 
 		// Show the main risk window
-		rFenster = new RiskGUI(display, this, game);
 		rFenster.start();
 	}
 
