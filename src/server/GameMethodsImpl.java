@@ -52,8 +52,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	ArrayList<Integer> defendDice;
 
 	// das angreifende land und angegeriffende Land muss temporär gespeichert werden
-	Territory attackingTerritory;
-	Territory defendTerritory;
+	Territory sourceTerritory;
+	Territory targetTerritory;
 
 	private boolean started = false; 
 	private PlayerCollection players = new PlayerCollection();
@@ -279,7 +279,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Reset the current player to player 1
 		players.resetActivePlayer();
 		
-		System.out.println("Aktive spieler GAMEMETHODSIMPL ist: "+ players.getNextPlayer().getName());
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
 
@@ -305,8 +304,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
 
 		attackDice = getDice(amount);
-		this.attackingTerritory = attackingTerritory;
-		this.defendTerritory = attackedTerritory;
+		this.sourceTerritory = attackingTerritory;
+		this.targetTerritory = attackedTerritory;
 		notifyPlayers(new AttackAction(attackingTerritory, attackedTerritory, amount));
 	}
 
@@ -329,10 +328,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		attackingRound++;
 
 		System.out.println("------ Kampfrunde nr: "+ attackingRound +" ------");
-		System.out.println("Es kämpfen: "+ attackingTerritory.getName() +" VS. "+ defendTerritory.getName());
+		System.out.println("Es kämpfen: "+ sourceTerritory.getName() +" VS. "+ targetTerritory.getName());
 		System.out.println("Verteidigerwürfelanzahl: "+defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
 		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
-		System.out.println("Anzahl des Defendterritory: "+defendTerritory.getUnits());
+		System.out.println("Anzahl des Defendterritory: "+targetTerritory.getUnits());
 		System.out.println("----------------------------------------------");
 
 		//if there are more defending than attacking dices!
@@ -342,13 +341,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		for(int i = 0; i < lowestDiceNumber; i++) {
-			if(defendDice.get(i) > attackDice.get(i) && defendTerritory.getUnits() != 0) {
+			if(defendDice.get(i) > attackDice.get(i) && targetTerritory.getUnits() != 0) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i));
 				attackLoseUnits++;
-			}else if(defendDice.get(i) == attackDice.get(i) && defendTerritory.getUnits() != 0) {
+			}else if(defendDice.get(i) == attackDice.get(i) && targetTerritory.getUnits() != 0) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +" Gleiche Augenzahl!");
 				attackLoseUnits++;
-			}else if(defendDice.get(i) < attackDice.get(i) && defendTerritory.getUnits() != 0) {
+			}else if(defendDice.get(i) < attackDice.get(i) && targetTerritory.getUnits() != 0) {
 				System.out.println("Offensive: "+ attackDice.get(i) +" schlägt Defensive: "+ defendDice.get(i));
 				defendLoseUnits++;
 			}
@@ -357,55 +356,55 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			System.out.println("DEFENSIVE verliert: "+ defendLoseUnits +" Einheiten");
 
 			// Wenn Land erobert
-			if((defendTerritory.getUnits() - defendLoseUnits) == 0){
-				System.out.println(defendTerritory.getName() + " ÜBERNOMMEN!");
+			if((targetTerritory.getUnits() - defendLoseUnits) == 0){
+				System.out.println(targetTerritory.getName() + " ÜBERNOMMEN!");
 				conquered = true;
 
-				defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
+				targetTerritory.setUnits(targetTerritory.getUnits() - defendLoseUnits);
 
 				try {
-					defenderMsg = "Du hast " + defendTerritory.getName() + " an " + attackingTerritory.getOwner().getName() + " verloren.";
-					attackerMsg = "Du hast " + defendTerritory.getName() + " von " + defendTerritory.getOwner().getName() + " erobert.";
+					defenderMsg = "Du hast " + targetTerritory.getName() + " an " + sourceTerritory.getOwner().getName() + " verloren.";
+					attackerMsg = "Du hast " + targetTerritory.getName() + " von " + targetTerritory.getOwner().getName() + " erobert.";
 					
-					territoryManager.changeTerritoryOwner(attackingTerritory.getOwner(), defendTerritory, attackDice.size() - attackLoseUnits);
+					territoryManager.changeTerritoryOwner(sourceTerritory.getOwner(), targetTerritory, attackDice.size() - attackLoseUnits);
 
-					System.out.println(defendTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
+					System.out.println(targetTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
 
-					notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, attackDice.size() - attackLoseUnits));
+					notifyPlayers(new TerritoryUnitsChangedAction(targetTerritory, attackDice.size() - attackLoseUnits));
 				} catch (InvalidTerritoryStateException e) {
 					e.printStackTrace();
 				}
 
-				attackingTerritory.setUnits(attackingTerritory.getUnits() - attackDice.size());
-				notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits() - attackDice.size()));
+				sourceTerritory.setUnits(sourceTerritory.getUnits() - attackDice.size());
+				notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, sourceTerritory.getUnits() - attackDice.size()));
 			}
 		}
 
 		if(!conquered){
 			System.out.println("Besetzung der Länder ...");
-			attackingTerritory.setUnits(attackingTerritory.getUnits() - attackLoseUnits);
-			System.out.println("ATTACKING TERRITORY: "+ attackingTerritory.getUnits() +" - "+ attackLoseUnits +" = "+ (attackingTerritory.getUnits() - attackLoseUnits));
-			defendTerritory.setUnits(defendTerritory.getUnits() - defendLoseUnits);
-			System.out.println("DEFENDING TERRITORY: "+ defendTerritory.getUnits() +" - "+ defendLoseUnits +" = "+ (defendTerritory.getUnits() - defendLoseUnits));
+			sourceTerritory.setUnits(sourceTerritory.getUnits() - attackLoseUnits);
+			System.out.println("ATTACKING TERRITORY: "+ sourceTerritory.getUnits() +" - "+ attackLoseUnits +" = "+ (sourceTerritory.getUnits() - attackLoseUnits));
+			targetTerritory.setUnits(targetTerritory.getUnits() - defendLoseUnits);
+			System.out.println("DEFENDING TERRITORY: "+ targetTerritory.getUnits() +" - "+ defendLoseUnits +" = "+ (targetTerritory.getUnits() - defendLoseUnits));
 			
 
-			notifyPlayers(new TerritoryUnitsChangedAction(attackingTerritory, attackingTerritory.getUnits()));
-			notifyPlayers(new TerritoryUnitsChangedAction(defendTerritory, defendTerritory.getUnits()));
+			notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, sourceTerritory.getUnits()));
+			notifyPlayers(new TerritoryUnitsChangedAction(targetTerritory, targetTerritory.getUnits()));
 		
-			defenderMsg = defendTerritory.getOwner().getName() + "(" + defendTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren. " + "\n"  + attackingTerritory.getOwner().getName() + "(" + attackingTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren.";
-			attackerMsg = attackingTerritory.getOwner().getName() + "(" + attackingTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren. " + "\n"  + defendTerritory.getOwner().getName() + "(" + defendTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren.";
+			defenderMsg = targetTerritory.getOwner().getName() + "(" + targetTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren. " + "\n"  + sourceTerritory.getOwner().getName() + "(" + sourceTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren.";
+			attackerMsg = sourceTerritory.getOwner().getName() + "(" + sourceTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren. " + "\n"  + targetTerritory.getOwner().getName() + "(" + targetTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren.";
 		}
 
-		List<Territory> attackersTerritories = attackingTerritory.getOwner().getTerritories();
+		List<Territory> attackersTerritories = sourceTerritory.getOwner().getTerritories();
 
 
-		System.out.println("Spieler Vergleich: "+ attackingTerritory.getOwner().getName() +" = "+ getActivePlayer().getName());
+		System.out.println("Spieler Vergleich: "+ sourceTerritory.getOwner().getName() +" = "+ getActivePlayer().getName());
 		for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
 			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
 		}
 			
-		notifyPlayers(new EventBoxAction(attackingTerritory.getOwner(),attackerMsg));
-		notifyPlayers(new EventBoxAction(defendTerritory.getOwner(),defenderMsg));
+		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
+		notifyPlayers(new EventBoxAction(targetTerritory.getOwner(),defenderMsg));
 		
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
