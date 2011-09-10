@@ -892,7 +892,7 @@ public class RiskGUI {
 				button.setText(String.valueOf(territory.getUnits()));
 				button.setImage(unitImage[territory.getOwner().getColor()]);
 				button.setText(String.valueOf(territory.getUnits()));
-				button.setToolTipText(territory.getName() + " gehört "+ territory.getName());
+				button.setToolTipText(territory.getName() + " gehört "+ territory.getOwner().getName());
 				
 				System.out.println("Button Inhale von: "+ territory.getName() +" geändert");
 				

@@ -107,6 +107,9 @@ public class Territory implements Serializable {
 		this.units = units;
 	}
 
+	public void removeUnits(int units) {
+		this.units -= units;
+	}
 	public void addUnits(int units) {
 		this.units += units;
 	}

@@ -353,25 +353,35 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				conquered = true;
 
 				newUnitCnt = targetTerritory.getUnits() - defendLoseUnits;
-				targetTerritory.setUnits(newUnitCnt);
+				targetTerritory.removeUnits(newUnitCnt);
 
 				try {
 					defenderMsg = "Du hast " + targetTerritory.getName() + " an " + sourceTerritory.getOwner().getName() + " verloren.";
 					attackerMsg = "Du hast " + targetTerritory.getName() + " von " + targetTerritory.getOwner().getName() + " erobert.";
-					
+
+
 					newUnitCnt = attackDice.size() - attackLoseUnits;
 					territoryManager.changeTerritoryOwner(sourceTerritory.getOwner(), targetTerritory, newUnitCnt);
 
+					/*
+					targetTerritory.setOwner(sourceTerritory.getOwner());
+					targetTerritory.setUnits(newUnitCnt);
+
+					targetTerritory.getOwner().removeTerritory(targetTerritory);
+
+					sourceTerritory.getOwner().addTerritory(targetTerritory);
+					 */
 					System.out.println(targetTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
-					
+
 					newUnitCnt = attackDice.size() - attackLoseUnits;
 					notifyPlayers(new TerritoryUnitsChangedAction(targetTerritory, newUnitCnt));
+
 				} catch (InvalidTerritoryStateException e) {
 					e.printStackTrace();
 				}
-				
+
 				newUnitCnt = sourceTerritory.getUnits() - attackDice.size();
-				sourceTerritory.setUnits(newUnitCnt);
+				sourceTerritory.removeUnits(newUnitCnt);
 				notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, newUnitCnt));
 			}
 		}
@@ -379,10 +389,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		if(!conquered){
 			System.out.println("Besetzung der Länder ...");
 			newUnitCnt = sourceTerritory.getUnits() - attackLoseUnits;
-			sourceTerritory.setUnits(newUnitCnt);
+			sourceTerritory.removeUnits(newUnitCnt);
 			System.out.println("ATTACKING TERRITORY: "+ sourceTerritory.getUnits() +" - "+ attackLoseUnits +" = "+ (sourceTerritory.getUnits() - attackLoseUnits));
 			newUnitCnt = targetTerritory.getUnits() - defendLoseUnits;
-			targetTerritory.setUnits(newUnitCnt);
+			targetTerritory.removeUnits(newUnitCnt);
 			System.out.println("DEFENDING TERRITORY: "+ targetTerritory.getUnits() +" - "+ defendLoseUnits +" = "+ (targetTerritory.getUnits() - defendLoseUnits));
 
 
@@ -411,8 +421,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void move(Territory source, Territory target, int amount)
 	throws SimonRemoteException {
-		source.setUnits(source.getUnits() - amount);
-		target.setUnits(target.getUnits() + amount);
+		source.removeUnits(amount);
+		target.addUnits(amount);
 		// Es müssen noch die Clients Notified werden
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
@@ -551,7 +561,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			//System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
-				if(!neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
+				if(!neighbors.get(j).getOwner().equals(player) && (territoryManager.getTerritoryMap().get(territories.get(i).getName()).getUnits() > 1)){
 					if(!attackingTerritories.contains(territories.get(i))) {
 						attackingTerritories.add(territories.get(i));
 					}
@@ -579,17 +589,17 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for(int i = 0; i < territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
-					if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
-						if(!moveTerritories.contains(neighbors.get(j))) {
-							moveTerritories.add(territories.get(i));
-						}
+				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
+					if(!moveTerritories.contains(neighbors.get(j))) {
+						moveTerritories.add(territories.get(i));
 					}
+				}
 			}
 		}
 		System.out.println("Anzahl der zu bewegenen Länder: "+ moveTerritories.size());
 		return moveTerritories;
 	}
-	
+
 	/**
 	 * get the territories for moving by the selected Territory
 	 */
@@ -734,7 +744,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private void prepareMovement2Action() {
 		currentPhase = Phase.MOVEMENT2;
 	}
-	
+
 	private void prepareMovement3Action() {
 		currentPhase = Phase.MOVEMENT3;
 	}
