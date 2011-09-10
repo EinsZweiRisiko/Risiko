@@ -944,14 +944,14 @@ public class RiskGUI {
 		} else if (phase == Phase.MOVEMENT1) {
 			// SOURCE TERRITORY
 			sourceTerritory = territory;
-			System.out.println("Movement 1 Land = ");
+			System.out.println("Movement 1 Herkunftsland = " + sourceTerritory.getName());
 			game.nextPhase();			
 		} else if(phase == Phase.MOVEMENT2) {
 			targetTerritory = territory;
+			System.out.println("Movement 2 Zielland = " + targetTerritory.getName());
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					territory);
 			ad.open();
-			
 			int units = (Integer) ad.open();
 			
 			game.move(sourceTerritory, targetTerritory, units);
