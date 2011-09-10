@@ -41,6 +41,9 @@ import commons.GameMethods;
  */
 public class RiskGUI {
 
+	private final int defaultSizeX = 800;
+	private final int defaultSizeY = 600;
+	
 	private AppClient app;
 	private Territory attackedTerritory;
 	private Player attackedPlayer;
@@ -51,8 +54,6 @@ public class RiskGUI {
 	private Button[] buttonArray = new Button[42];
 	private Composite cardWindow;
 	private Player currentPlayer;
-	private final int defaultSizeX = 800;
-	private final int defaultSizeY = 600;
 	private Device dev;
 	private Display display;
 	private String events = "";
