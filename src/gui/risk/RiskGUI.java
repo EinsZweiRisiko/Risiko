@@ -43,11 +43,11 @@ public class RiskGUI {
 
 	private final int defaultSizeX = 800;
 	private final int defaultSizeY = 600;
-	
+
 	private AppClient app;
-	private Territory attackedTerritory;
+	private Territory targetTerritory;
 	private Player attackedPlayer;
-	private Territory attackingTerritory;
+	private Territory sourceTerritory;
 	private Image[] bonusImage = new Image[4];
 	private Label[] bonusLabelStack;
 	private HashMap<String, Button> buttons = new HashMap<String,Button>();
@@ -895,11 +895,11 @@ public class RiskGUI {
 				button.setText(String.valueOf(territory.getUnits()));
 				button.setToolTipText(territory.getName() + " gehört "
 						+ territory.getOwner().getName());
-				
+
 				System.out.println("Button Inhale von: "+ territory.getName() +" geändert");
 				shell.update();
 			}
-			
+
 		}
 		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnits() + ")Einheiten.");
 		shell.update();
@@ -928,28 +928,30 @@ public class RiskGUI {
 			game.placeUnits(territory.getName(), 1);
 		} else if (phase == Phase.ATTACK1) {
 			// SOURCE TERRITORY
-			attackingTerritory = territory;
+			sourceTerritory = territory;
 			game.nextPhase();
 
 		} else if (phase == Phase.ATTACK2) {
 			// TARGET TERRITORY
-			attackedTerritory = territory;
+			targetTerritory = territory;
 
 			// AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
-					attackingTerritory);
+					sourceTerritory);
 			int units = (Integer) ad.open();
 
-			game.attack(attackingTerritory, attackedTerritory, units);
+			game.attack(sourceTerritory, targetTerritory, units);
 		} else if (phase == Phase.MOVEMENT1) {
 			// SOURCE TERRITORY
-			// TARGET TERRITORY
-			// AMOUNT
+			sourceTerritory = territory;
+			game.nextPhase();			
+		} else if(phase == Phase.MOVEMENT2) {
+			targetTerritory = territory;
+			game.nextPhase();
+		} else if(phase == Phase.MOVEMENT3) {
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					territory);
 			ad.open();
-
-			// IN MOVEMENT 3 - "game.nextPlayer();
 		}
 	}
 
@@ -1131,8 +1133,8 @@ public class RiskGUI {
 	}
 
 	public void defend(Territory attackedTerritory2) {	
-		this.attackedTerritory = attackedTerritory2;
-		attackedPlayer = attackedTerritory.getOwner();
+		this.targetTerritory = attackedTerritory2;
+		attackedPlayer = targetTerritory.getOwner();
 
 		//This sould only becalled ONCE!
 		if(guiPlayer.equals(attackedPlayer)){
@@ -1144,12 +1146,12 @@ public class RiskGUI {
 
 		PlayerCollection players = game.getPlayers();
 		int zahl = 0;
-		
+
 		for(Player player:players){
 			++zahl;
 			System.out.println(zahl + player.getName());
 		}
-		
+
 		this.phase = phase;
 
 		System.out.println("CurrentPlayer || " + currentPlayer);
@@ -1176,7 +1178,7 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
-		if (phase == Phase.MOVEMENT1){
+		if (phase == Phase.MOVEMENT1 || phase == Phase.MOVEMENT2 || phase == phase.MOVEMENT3){
 			roundButton.setImage(roundImage[2]);
 			roundButton.setToolTipText("Verschiebe deine Armeen");
 			roundButton.setLocation(new Point(
@@ -1268,7 +1270,7 @@ public class RiskGUI {
 			if (currentPlayer.equals(guiPlayer)) {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 
-				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(attackingTerritory);
+				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(sourceTerritory);
 
 
 				for (Button button : buttonArray) {
@@ -1296,16 +1298,34 @@ public class RiskGUI {
 			if (attackedPlayer.equals(guiPlayer)){
 
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
-						attackedTerritory);
+						targetTerritory);
 
 				int units = (Integer) ad2.open();
 
-				game.defend(attackedTerritory, units);
+				game.defend(targetTerritory, units);
 			}
 		}
 
 		if (phase.equals(Phase.MOVEMENT1)) {
 			if (currentPlayer.equals(guiPlayer)) {
+
+				List<Territory> movingTerritories = game.getMyTerritoriesForMoving(currentPlayer);
+
+				for (Button button : buttonArray) {
+					button.setEnabled(false);
+				}
+
+				for (Button button : buttonArray) {
+					Territory territory = game.getTerritories().get(button.getData("name"));
+
+					for(int i = 0 ; i  < movingTerritories.size(); i++){						
+						if(territory.getName().equals(movingTerritories.get(i).getName())){
+							button.setEnabled(true);
+						}
+					}
+				}
+
+
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
 				nextPhaseButton.setText("Runde beenden.");
 				nextPhaseButton.setLocation(new Point(
@@ -1337,24 +1357,24 @@ public class RiskGUI {
 					}
 				});
 			}
-
+		}
+		if (phase.equals(Phase.MOVEMENT2)) {
 			if (currentPlayer.equals(guiPlayer)) {
+
+				List<Territory> movingTerritories = game.getSimilarNeighborsOf(sourceTerritory);
+
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
 				}
-
-				List<Territory> sources = game
-				.getMyTerritoriesForMoving(guiPlayer);
 
 				for (Button button : buttonArray) {
 					Territory territory = game.getTerritories().get(button.getData("name"));
-					if (sources.contains(territory)) {
-						button.setEnabled(true);
+
+					for(int i = 0 ; i  < movingTerritories.size(); i++){						
+						if(territory.getName().equals(movingTerritories.get(i).getName())){
+							button.setEnabled(true);
+						}
 					}
-				}
-			} else {
-				for (Button button : buttonArray) {
-					button.setEnabled(false);
 				}
 			}
 		}
