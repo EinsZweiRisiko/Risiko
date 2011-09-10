@@ -334,7 +334,7 @@ public class ActionDialog extends Dialog {
                 return result;
             }
     		
-    		if (phase.equals(Phase.MOVEMENT3)){
+    		if (phase.equals(Phase.MOVEMENT2)){
     			Shell parent = getParent();
                 final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
             	shell.setSize(155,80);

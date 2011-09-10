@@ -944,14 +944,17 @@ public class RiskGUI {
 		} else if (phase == Phase.MOVEMENT1) {
 			// SOURCE TERRITORY
 			sourceTerritory = territory;
+			System.out.println("Movement 1 Land = ");
 			game.nextPhase();			
 		} else if(phase == Phase.MOVEMENT2) {
 			targetTerritory = territory;
-			game.nextPhase();
-		} else if(phase == Phase.MOVEMENT3) {
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					territory);
 			ad.open();
+			
+			int units = (Integer) ad.open();
+			
+			game.move(sourceTerritory, targetTerritory, units);
 		}
 	}
 
@@ -1178,7 +1181,7 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
-		if (phase == Phase.MOVEMENT1 || phase == Phase.MOVEMENT2 || phase == phase.MOVEMENT3){
+		if (phase == Phase.MOVEMENT1 || phase == Phase.MOVEMENT2){
 			roundButton.setImage(roundImage[2]);
 			roundButton.setToolTipText("Verschiebe deine Armeen");
 			roundButton.setLocation(new Point(
