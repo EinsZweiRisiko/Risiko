@@ -9,6 +9,9 @@ import de.root1.simon.exceptions.SimonRemoteException;
  * 
  */
 public class NoNameException extends SimonRemoteException {
+
+	private static final long serialVersionUID = 2837050188548997353L;
+
 	public NoNameException() {
 		super("Please specify a name.");
 	}

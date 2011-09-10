@@ -22,14 +22,13 @@ import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
 import commons.actions.AttackAction;
-import commons.actions.DefendAction;
+import commons.actions.EventBoxAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.PrepareGUIAction;
 import commons.actions.TerritoryUnitsChangedAction;
-import commons.actions.EventBoxAction;
 
 import de.root1.simon.Registry;
 import de.root1.simon.Simon;
