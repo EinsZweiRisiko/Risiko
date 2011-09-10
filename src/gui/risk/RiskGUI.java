@@ -941,7 +941,7 @@ public class RiskGUI {
 			int units = (Integer) ad.open();
 
 			game.attack(attackingTerritory, attackedTerritory, units);
-		} else if (phase == Phase.MOVEMENT) {
+		} else if (phase == Phase.MOVEMENT1) {
 			// SOURCE TERRITORY
 			// TARGET TERRITORY
 			// AMOUNT
@@ -1176,7 +1176,7 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
-		if (phase == Phase.MOVEMENT){
+		if (phase == Phase.MOVEMENT1){
 			roundButton.setImage(roundImage[2]);
 			roundButton.setToolTipText("Verschiebe deine Armeen");
 			roundButton.setLocation(new Point(
@@ -1304,7 +1304,7 @@ public class RiskGUI {
 			}
 		}
 
-		if (phase.equals(Phase.MOVEMENT)) {
+		if (phase.equals(Phase.MOVEMENT1)) {
 			if (currentPlayer.equals(guiPlayer)) {
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
 				nextPhaseButton.setText("Runde beenden.");

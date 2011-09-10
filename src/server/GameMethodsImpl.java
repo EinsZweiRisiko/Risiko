@@ -82,7 +82,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * Phases of a player's turn
 	 */
 	public static enum Phase {
-		START, TURNINCARDS, PLACEMENT, ATTACK1, ATTACK2, ATTACK3, MOVEMENT
+		START, TURNINCARDS, PLACEMENT, ATTACK1, ATTACK2, ATTACK3, MOVEMENT1, MOVEMENT2, MOVEMENT3
 	};
 
 	public GameMethodsImpl(String name, int port) throws UnknownHostException,
@@ -175,12 +175,19 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				//defend and reset the attack!
 				prepareAttack1Action();
 				break;
-			case MOVEMENT:
+			case MOVEMENT1:
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
 				// Turning in cards is next
+				prepareMovement2Action();
+				break;
+			case MOVEMENT2:
+				prepareMovement3Action();
+				break;
+			case MOVEMENT3:
 				prepareTurnInAction();
+				break;
 			default:
 				// Start
 				// Turning in cards is next
@@ -189,6 +196,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 	}
 	
+	private void prepareMovement3Action() {
+		currentPhase = Phase.MOVEMENT3;
+	}
+
+	private void prepareMovement2Action() {
+		currentPhase = Phase.MOVEMENT2;
+	}
+
 	/**
 	 * Set the next player by getting the next Player from the players Collection function getNextPlayer()
 	 * 
@@ -709,19 +724,19 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * TODO doc
 	 */
-	private void prepareMovementAction() {
+	private void prepareMovement1Action() {
 		/*
 		 * Figure out which territories have units which are eligible to be
 		 * moved
 		 * The territory's units must not have participated in a battle
 		 * The territory needs at least 2 units
 		 */
-		currentPhase = Phase.MOVEMENT;
+		currentPhase = Phase.MOVEMENT1;
 	}
 	
 	@Override
 	public void endAttackPhase() {
-		prepareMovementAction();
+		prepareMovement1Action();
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 		prepareTurnInAction();
 	}
