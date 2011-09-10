@@ -64,7 +64,7 @@ public class AppClient implements ClientMethods {
 	}
 
 	@Override
-	public void update(final GameMethods server, Action a) {
+	public void update(final GameMethods server, final Action a) {
 		if (a instanceof PlayerJoinedAction) {
 			// A player joined
 			PlayerJoinedAction pja = (PlayerJoinedAction) a;
@@ -79,50 +79,42 @@ public class AppClient implements ClientMethods {
 		} else if (a instanceof GameStartedAction) {
 			// Game started
 			System.out.println("Game started.");
-			final Player player = ((GameStartedAction) a). getPlayer();
-			final Phase phase = ((GameStartedAction) a).getPhase();
 			display.asyncExec(new Runnable() {
 				public void run() {
 					lobbygui.close();
-					System.out.println(player.getName() + "<--- GamestartedAction PLAYER");
-					rFenster.updateCurrentPlayer(player);
-					rFenster.updatePhase(phase);
+					System.out.println(((GameStartedAction) a). getPlayer().getName() + "<--- GamestartedAction PLAYER");
+					rFenster.updateCurrentPlayer(((GameStartedAction) a). getPlayer());
+					rFenster.updatePhase(((GameStartedAction) a).getPhase());
 				}
 			});
 		} else if (a instanceof NextPlayerAction) {
-			final Player player = ((NextPlayerAction) a).getPlayer();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updateCurrentPlayer(player);
+					rFenster.updateCurrentPlayer(((NextPlayerAction) a).getPlayer());
 				}
 			});
 		} else if (a instanceof PhaseAction) {
-			final Phase phase = ((PhaseAction) a).getPhase();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updatePhase(phase);
+					rFenster.updatePhase(((PhaseAction) a).getPhase());
 				}
 			});
 		} else if (a instanceof TerritoryUnitsChangedAction) {
-			final Territory t = ((TerritoryUnitsChangedAction) a).getTerritory();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updateTerritory(t);
+					rFenster.updateTerritory(((TerritoryUnitsChangedAction) a).getTerritory());
 				}
 			});
 		} else if (a instanceof AttackAction ) {
-			final Territory t = ((AttackAction) a).getAttackedTerritory();	
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.defend(t);
+					rFenster.defend(((AttackAction) a).getAttackedTerritory());
 				}
 			});
 		}else if (a instanceof EventBoxAction ) {
-			final Player player = ((EventBoxAction) a).getPlayer();	
-			final String msg = ((EventBoxAction) a).getMsg();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.openEventBox(player, msg);
+					rFenster.openEventBox(((EventBoxAction) a).getPlayer(), ((EventBoxAction) a).getMsg());
 				}
 			});
 		} else if (a instanceof PrepareGUIAction ) {

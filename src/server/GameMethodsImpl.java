@@ -277,13 +277,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void placeUnits(String territory, int amount) {
-		Territory t = territoryManager.getTerritoryMap().get(territory);
-
 		if(currentPlayer.getSupplies() > 0){
-			t.addUnits(amount);
+			territoryManager.getTerritoryMap().get(territory).addUnits(amount);
 			currentPlayer.subtractSupplies(amount);
 			// Send a notification to all clients
-			notifyPlayers(new TerritoryUnitsChangedAction(t, t.getUnits()));
+			notifyPlayers(new TerritoryUnitsChangedAction(territoryManager.getTerritoryMap().get(territory), territoryManager.getTerritoryMap().get(territory).getUnits()));
 		}
 
 		if(currentPlayer.getSupplies() == 0){
@@ -574,27 +572,17 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for(int i = 0; i < territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
-					if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1 && neighbors.get(j).isNeighborOf(territories.get(i))){
+					if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
 						if(!moveTerritories.contains(neighbors.get(j))) {
 							moveTerritories.add(territories.get(i));
 						}
 					}
 			}
 		}
+		System.out.println("Anzahl der zu bewegenen Länder: "+ moveTerritories.size());
 		return moveTerritories;
 	}
-
-	@Override
-	public CopyOnWriteArrayList<Territory> getOpposingNeighborsOf(Territory territory) {
-		CopyOnWriteArrayList<Territory> opposingNeighbors = territory.getNeighbors();
-		for(Territory territory2 : opposingNeighbors) {
-			if(territory2.getOwner().equals(territory.getOwner())){
-				opposingNeighbors.remove(territory2);
-			}
-		}
-		return opposingNeighbors;
-	}
-
+	
 	/**
 	 * get the territories for moving by the selected Territory
 	 */
@@ -607,6 +595,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			}
 		}
 		return similarNeighbors;
+	}
+	@Override
+	public CopyOnWriteArrayList<Territory> getOpposingNeighborsOf(Territory territory) {
+		CopyOnWriteArrayList<Territory> opposingNeighbors = territory.getNeighbors();
+		for(Territory territory2 : opposingNeighbors) {
+			if(territory2.getOwner().equals(territory.getOwner())){
+				opposingNeighbors.remove(territory2);
+			}
+		}
+		return opposingNeighbors;
 	}
 
 	/**

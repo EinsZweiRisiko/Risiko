@@ -5,6 +5,7 @@ import java.util.List;
 
 import server.GameMethodsImpl.Phase;
 import server.Mission;
+import server.TerritoryManager;
 import server.exceptions.NotEnoughPlayersException;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.BonusCard;
@@ -55,6 +56,7 @@ public interface GameMethods {
 	public Phase getPhase();
 	public void endAttackPhase();
 	public void nextPlayer();
+	public TerritoryManager getTerritoryManager();
 
 	/* Notifications:
 	 * 

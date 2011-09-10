@@ -196,12 +196,10 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 		if (territory.getUnits() != 0) {
 			throw new InvalidTerritoryStateException(territory);
 		}
-
-		// Set the new owner
-		Player oldOwner = territory.getOwner();
+		
 		// Reflect the change in the player's lists of their territories
-		if (oldOwner != null) {
-			oldOwner.removeTerritory(territory);
+		if (territory.getOwner() != null) {
+			territory.getOwner().removeTerritory(territory);
 		}
 	
 		// Set the new owner

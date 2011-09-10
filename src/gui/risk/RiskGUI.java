@@ -890,13 +890,12 @@ public class RiskGUI {
 		for (Button button : buttonArray) {
 			if (button.getData("name").equals(territory.getName())) {
 				button.setText(String.valueOf(territory.getUnits()));
-
 				button.setImage(unitImage[territory.getOwner().getColor()]);
 				button.setText(String.valueOf(territory.getUnits()));
-				button.setToolTipText(territory.getName() + " gehört "
-						+ territory.getOwner().getName());
-
+				button.setToolTipText(territory.getName() + " gehört "+ territory.getName());
+				
 				System.out.println("Button Inhale von: "+ territory.getName() +" geändert");
+				
 				shell.update();
 			}
 
@@ -919,21 +918,18 @@ public class RiskGUI {
 	 *            calling Object
 	 */
 	private void performAction(MouseEvent e) {
-
 		Button clickedButton = (Button) e.widget;
-
-		Territory territory = game.getTerritories().get(clickedButton.getData("name"));
-
+		
 		if (phase == Phase.PLACEMENT) {
-			game.placeUnits(territory.getName(), 1);
+			game.placeUnits(game.getTerritories().get(clickedButton.getData("name")).getName(), 1);
 		} else if (phase == Phase.ATTACK1) {
 			// SOURCE TERRITORY
-			sourceTerritory = territory;
+			sourceTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			game.nextPhase();
 
 		} else if (phase == Phase.ATTACK2) {
 			// TARGET TERRITORY
-			targetTerritory = territory;
+			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
 
 			// AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
@@ -943,17 +939,17 @@ public class RiskGUI {
 			game.attack(sourceTerritory, targetTerritory, units);
 		} else if (phase == Phase.MOVEMENT1) {
 			// SOURCE TERRITORY
-			sourceTerritory = territory;
+			sourceTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			System.out.println("Movement 1 Herkunftsland = " + sourceTerritory.getName());
 			game.nextPhase();			
 		} else if(phase == Phase.MOVEMENT2) {
-			targetTerritory = territory;
+			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			System.out.println("Movement 2 Zielland = " + targetTerritory.getName());
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
-					territory);
+					game.getTerritories().get(clickedButton.getData("name")));
 			ad.open();
 			int units = (Integer) ad.open();
-			
+
 			game.move(sourceTerritory, targetTerritory, units);
 		}
 	}
@@ -1228,10 +1224,8 @@ public class RiskGUI {
 				}
 
 				for (Button button : buttonArray) {
-					Territory territory = game.getTerritories().get(button.getData("name"));
-
 					for(int i = 0 ; i  < attackingTerritories.size(); i++){						
-						if(territory.getName().equals(attackingTerritories.get(i).getName())){
+						if(game.getTerritories().get(button.getData("name")).getName().equals(attackingTerritories.get(i).getName())){
 							button.setEnabled(true);
 						}
 					}
