@@ -32,16 +32,18 @@ import de.root1.simon.exceptions.LookupFailedException;
  */
 public class LoginGUI {
 	
-	Shell shell;
-	AppClient app;
+	private Shell shell;
+	private AppClient app;
 	
 	/**
-	 * create a new instance of a Login Window
-	 * @param display the display which should be used for showing the shell
-	 * @param app the calling AppClient
+	 * Create a new instance of a login window
+	 * 
+	 * @param display
+	 *            the display which should be used for showing the shell
+	 * @param app
+	 *            the calling AppClient
 	 */
 	public LoginGUI(Display display, final AppClient app) {
-		
 		this.app = app;
 		
 		shell = new Shell(display, SWT.MIN);
