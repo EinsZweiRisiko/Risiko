@@ -315,6 +315,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		Boolean conquered = false;
 		String defenderMsg = null;
 		String attackerMsg = null;
+		
+		Player oldOwner = targetTerritory.getOwner();
 
 		attackingRound++;
 
@@ -345,7 +347,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 			System.out.println("OFFENSIVE verliert: "+ attackLoseUnits +" Einheiten");
 			System.out.println("DEFENSIVE verliert: "+ defendLoseUnits +" Einheiten");
-
+			
 			// Wenn Land erobert
 			if((targetTerritory.getUnits() - defendLoseUnits) == 0){
 				System.out.println(targetTerritory.getName() + " ÜBERNOMMEN!");
@@ -356,7 +358,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				try {
 					defenderMsg = "Du hast " + targetTerritory.getName() + " an " + sourceTerritory.getOwner().getName() + " verloren.";
 					attackerMsg = "Du hast " + targetTerritory.getName() + " von " + targetTerritory.getOwner().getName() + " erobert.";
-
+					
 					territoryManager.changeTerritoryOwner(sourceTerritory.getOwner(), targetTerritory, attackDice.size() - attackLoseUnits);
 
 					System.out.println(targetTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
@@ -395,7 +397,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
-		notifyPlayers(new EventBoxAction(targetTerritory.getOwner(),defenderMsg));
+		notifyPlayers(new EventBoxAction(oldOwner,defenderMsg));
 
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
