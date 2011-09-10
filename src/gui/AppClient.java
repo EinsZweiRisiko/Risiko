@@ -66,8 +66,6 @@ public class AppClient implements ClientMethods {
 
 	@Override
 	public void update(final GameMethods server, Action a) {
-
-
 		if (a instanceof PlayerJoinedAction) {
 			// A player joined
 			PlayerJoinedAction pja = (PlayerJoinedAction) a;

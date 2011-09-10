@@ -551,8 +551,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 		return attackingTerritories;
 	}
-
-	@Override
+	
+	// TODO: rekusive überprüfung der Nachbar der Nachbarn usw.
+	
+	/**
+	 * get all the Terrietories for moving
+	 * 
+	 */
 	public List<Territory> getMyTerritoriesForMoving(Player player) {
 		ArrayList<Territory> territories = player.getTerritories();
 		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
@@ -581,7 +586,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		return opposingNeighbors;
 	}
 
-	@Override
+	/**
+	 * get the territories for moving by the selected Territory
+	 */
 	public CopyOnWriteArrayList<Territory> getSimilarNeighborsOf(Territory territory) {
 		CopyOnWriteArrayList<Territory> similarNeighbors = territory.getNeighbors();
 
