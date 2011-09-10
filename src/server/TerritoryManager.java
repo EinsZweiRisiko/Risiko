@@ -205,7 +205,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 		// Set the new owner
 		territory.setOwner(newOwner);
 		// Set the amount of units that the new owner has on this territory
-		territory.setUnits(units);
+		territory.addUnits(units);
 		// add the conquered Territory to the territory list
 		newOwner.addTerritory(territory);
 	}

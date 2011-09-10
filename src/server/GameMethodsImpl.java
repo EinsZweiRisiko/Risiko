@@ -353,8 +353,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				System.out.println(targetTerritory.getName() + " ÜBERNOMMEN!");
 				conquered = true;
 
-				newUnitCnt = targetTerritory.getUnits() - defendLoseUnits;
-				targetTerritory.removeUnits(newUnitCnt);
+				targetTerritory.removeUnits(defendLoseUnits);
 
 				try {
 					defenderMsg = "Du hast " + targetTerritory.getName() + " an " + sourceTerritory.getOwner().getName() + " verloren.";
@@ -380,20 +379,17 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				} catch (InvalidTerritoryStateException e) {
 					e.printStackTrace();
 				}
-
-				newUnitCnt = sourceTerritory.getUnits() - attackDice.size();
-				sourceTerritory.removeUnits(newUnitCnt);
+				
+				sourceTerritory.removeUnits(attackDice.size());
 				notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, newUnitCnt));
 			}
 		}
 
 		if(!conquered){
 			System.out.println("Besetzung der Länder ...");
-			newUnitCnt = sourceTerritory.getUnits() - attackLoseUnits;
-			sourceTerritory.removeUnits(newUnitCnt);
+			sourceTerritory.removeUnits(attackLoseUnits);
 			System.out.println("ATTACKING TERRITORY: "+ sourceTerritory.getUnits() +" - "+ attackLoseUnits +" = "+ (sourceTerritory.getUnits() - attackLoseUnits));
-			newUnitCnt = targetTerritory.getUnits() - defendLoseUnits;
-			targetTerritory.removeUnits(newUnitCnt);
+			targetTerritory.removeUnits(defendLoseUnits);
 			System.out.println("DEFENDING TERRITORY: "+ targetTerritory.getUnits() +" - "+ defendLoseUnits +" = "+ (targetTerritory.getUnits() - defendLoseUnits));
 
 
