@@ -67,7 +67,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * The number of Fight Rounds
 	 */
 	private int attackingRound = 0;
-	
+
 	/**
 	 * The current player
 	 */
@@ -117,21 +117,21 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (Player player : players) {
 			player.addSupplies(startUnits);
 		}
-		
+
 		placeStartUnitsRandomly();
 		notifyPlayers(new PrepareGUIAction());
-		
+
 		// Set the game status to started
 		started = true;
-		
+
 		currentPlayer = players.get(0);
 		notifyPlayers(new GameStartedAction(currentPlayer ,currentPhase));
-		
+
 		// Set the first phase
 		nextPhase();
 		nextPhase();
 	}
-	
+
 	/**
 	 * Prepares and returns the next action in the sequence. This method can
 	 * change the active player, so always use this method before getting the
@@ -195,7 +195,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				break;
 		}
 	}
-	
+
 	private void prepareMovement3Action() {
 		currentPhase = Phase.MOVEMENT3;
 	}
@@ -214,12 +214,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		System.out.println("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
-	
+
 	/*
 	 * START: *** UNITS / FIGHT / DEFEND / MOVE FUNCTIONS *** 
 	 * 
 	 */
-	
+
 	/**
 	 * Calculates supply for the current player. This is only called once
 	 * in every turn.<br>
@@ -278,7 +278,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Reset the current player to player 1
 		players.resetActivePlayer();
-		
+
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
 
@@ -297,7 +297,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			nextPhase();
 		}
 	}
-	
+
 	@Override
 	public void attack(Territory attackingTerritory,
 			Territory attackedTerritory, int amount) {
@@ -324,7 +324,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		Boolean conquered = false;
 		String defenderMsg = null;
 		String attackerMsg = null;
-		
+
 		attackingRound++;
 
 		System.out.println("------ Kampfrunde nr: "+ attackingRound +" ------");
@@ -351,7 +351,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				System.out.println("Offensive: "+ attackDice.get(i) +" schlägt Defensive: "+ defendDice.get(i));
 				defendLoseUnits++;
 			}
-			
+
 			System.out.println("OFFENSIVE verliert: "+ attackLoseUnits +" Einheiten");
 			System.out.println("DEFENSIVE verliert: "+ defendLoseUnits +" Einheiten");
 
@@ -365,7 +365,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				try {
 					defenderMsg = "Du hast " + targetTerritory.getName() + " an " + sourceTerritory.getOwner().getName() + " verloren.";
 					attackerMsg = "Du hast " + targetTerritory.getName() + " von " + targetTerritory.getOwner().getName() + " erobert.";
-					
+
 					territoryManager.changeTerritoryOwner(sourceTerritory.getOwner(), targetTerritory, attackDice.size() - attackLoseUnits);
 
 					System.out.println(targetTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
@@ -386,11 +386,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			System.out.println("ATTACKING TERRITORY: "+ sourceTerritory.getUnits() +" - "+ attackLoseUnits +" = "+ (sourceTerritory.getUnits() - attackLoseUnits));
 			targetTerritory.setUnits(targetTerritory.getUnits() - defendLoseUnits);
 			System.out.println("DEFENDING TERRITORY: "+ targetTerritory.getUnits() +" - "+ defendLoseUnits +" = "+ (targetTerritory.getUnits() - defendLoseUnits));
-			
+
 
 			notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, sourceTerritory.getUnits()));
 			notifyPlayers(new TerritoryUnitsChangedAction(targetTerritory, targetTerritory.getUnits()));
-		
+
 			defenderMsg = targetTerritory.getOwner().getName() + "(" + targetTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren. " + "\n"  + sourceTerritory.getOwner().getName() + "(" + sourceTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren.";
 			attackerMsg = sourceTerritory.getOwner().getName() + "(" + sourceTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren. " + "\n"  + targetTerritory.getOwner().getName() + "(" + targetTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren.";
 		}
@@ -402,10 +402,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
 			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
 		}
-			
+
 		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
 		notifyPlayers(new EventBoxAction(targetTerritory.getOwner(),defenderMsg));
-		
+
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
 	}
@@ -419,17 +419,17 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
 	}
-	
+
 	/*
 	 * START: *** UNITS / FIGHT / DEFEND / MOVE FUNCTIONS *** 
 	 * 
 	 */
-	
-	
+
+
 	/*
 	 * START: *** PLAYER FUNCTIONS *** 
 	 */
-	
+
 	/**
 	 * Adds a player to the game and consequently to the list of observers
 	 * @return 
@@ -452,7 +452,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		Player player = new Player(name);
 
 		players.add(player);
-		
+
 		// Output a success message
 		System.out.println("Client connected.");
 
@@ -467,7 +467,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void deletePlayer(ClientMethods client) {
 		clients.remove(client);
 	}
-	
+
 	/**
 	 * notifiy the Players with the current Action
 	 * 
@@ -479,15 +479,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			client.update(this, arg);
 		}
 	}
-	
+
 	/*
 	 * END: *** PLAYER FUNCTIONS *** 
 	 */
-	
+
 	/* 
 	 * START: *** GETTER and SETTER ***
-	*/
-	
+	 */
+
 	/**
 	 * Returns the current phase.
 	 * @return
@@ -495,7 +495,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public Phase getPhase() {
 		return currentPhase;
 	}
-	
+
 	/**
 	 * get the active Player
 	 * 
@@ -504,7 +504,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public Player getActivePlayer() {
 		return currentPlayer;
 	}
-	
+
 	public ArrayList<Integer> getDice(int amount) {
 		ArrayList<Integer> dice = new ArrayList<Integer>();
 
@@ -518,7 +518,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
 		return dice;
 	}
-	
+
 	@Override
 	public Mission getMyMission(Player player) {
 		// TODO Auto-generated method stub
@@ -543,9 +543,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public List<Territory> getMyTerritoriesForAttacking(Player player) {
-		
+
 		//TODO das ganze mit Strings versuchen
-		
+
 		List<Territory> territories = getMyTerritories(player);
 		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
 
@@ -567,9 +567,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 		return attackingTerritories;
 	}
-	
+
 	// TODO: rekusive überprüfung der Nachbar der Nachbarn usw.
-	
+
 	/**
 	 * get all the Terrietories for moving
 	 * 
@@ -581,11 +581,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for(int i = 0; i < territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
-				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
-					if(!moveTerritories.contains(neighbors.get(j))) {
-						moveTerritories.add(territories.get(i));
+					if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1 && neighbors.get(j).isNeighborOf(territories.get(i))){
+						if(!moveTerritories.contains(neighbors.get(j))) {
+							moveTerritories.add(territories.get(i));
+						}
 					}
-				}
 			}
 		}
 		return moveTerritories;
@@ -615,7 +615,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 		return similarNeighbors;
 	}
-	
+
 	/**
 	 * @return all Players
 	 */
@@ -626,7 +626,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public TerritoryManager getTerritoryManager() {
 		return territoryManager;
 	}
-	
+
 	/**
 	 * Returns whether the game is over
 	 * 
@@ -651,15 +651,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 		return winner;
 	}
-	
+
 	/* 
 	 * END: *** GETTER and SETTER ***
-	*/
-	
+	 */
+
 	/*
 	 * START: PREPARE / PHASE FUNCTIONS  / functions for the PHASE SWITCHING
 	 */
-	
+
 	/**
 	 * TODO doc
 	 */
@@ -732,18 +732,18 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		 */
 		currentPhase = Phase.MOVEMENT1;
 	}
-	
+
 	@Override
 	public void endAttackPhase() {
 		prepareMovement1Action();
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 		prepareTurnInAction();
 	}
-	
+
 	/*
 	 * END: PREPARE / PHASE FUNCTIONS  / functions for the PHASE SWITCHING
 	 */
-	
+
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
@@ -755,7 +755,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	/**
 	 * TODO doc
 	 */
