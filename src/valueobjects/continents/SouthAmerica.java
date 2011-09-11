@@ -11,6 +11,8 @@ import valueobjects.Territory;
  */
 public class SouthAmerica extends Continent {
 
+	private static final long serialVersionUID = -767593745864522688L;
+
 	/**
 	 * Constructor automatically creates and adds Venezuela, Peru, Brasilien and
 	 * Argentinien. Also it defines the amount of supply (2) which is granted
@@ -18,7 +20,7 @@ public class SouthAmerica extends Continent {
 	 */
 	public SouthAmerica() {
 		name = "Südamerika";
-		supplies = 2;
+		bonusSupplies = 2;
 		territoryList.add(new Territory("Venezuela"));
 		territoryList.add(new Territory("Peru"));
 		territoryList.add(new Territory("Brasilien"));

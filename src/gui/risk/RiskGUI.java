@@ -277,7 +277,7 @@ public class RiskGUI {
 		buttonArray[0] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[0].setData("name", "Alaska");
 		buttonArray[0].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[0].setText(String.valueOf(territory.getUnits()));
+		buttonArray[0].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[0].setBounds(615 - buttonSizeW / 2, 332 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[0].setToolTipText(territory.getName() + " gehört "
@@ -290,7 +290,7 @@ public class RiskGUI {
 		buttonArray[1] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[1].setData("name", "Nordwest-Territorium");
 		buttonArray[1].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[1].setText(String.valueOf(territory.getUnits()));
+		buttonArray[1].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[1].setBounds(690 - buttonSizeW / 2, 342 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[1].setToolTipText(territory.getName() + " gehört "
@@ -303,7 +303,7 @@ public class RiskGUI {
 		buttonArray[2] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[2].setData("name", "Alberta");
 		buttonArray[2].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[2].setText(String.valueOf(territory.getUnits()));
+		buttonArray[2].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[2].setBounds(682 - buttonSizeW / 2, 382 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[2].setToolTipText(territory.getName() + " gehört "
@@ -316,7 +316,7 @@ public class RiskGUI {
 		buttonArray[3] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[3].setData("name", "Ontario");
 		buttonArray[3].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[3].setText(String.valueOf(territory.getUnits()));
+		buttonArray[3].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[3].setBounds(736 - buttonSizeW / 2, 400 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[3].setToolTipText(territory.getName() + " gehört "
@@ -329,7 +329,7 @@ public class RiskGUI {
 		buttonArray[4] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[4].setData("name", "Quebec");
 		buttonArray[4].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[4].setText(String.valueOf(territory.getUnits()));
+		buttonArray[4].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[4].setBounds(790 - buttonSizeW / 2, 404 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[4].setToolTipText(territory.getName() + " gehört "
@@ -342,7 +342,7 @@ public class RiskGUI {
 		buttonArray[5] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[5].setData("name", "Weststaaten");
 		buttonArray[5].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[5].setText(String.valueOf(territory.getUnits()));
+		buttonArray[5].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[5].setBounds(687 - buttonSizeW / 2, 445 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[5].setToolTipText(territory.getName() + " gehört "
@@ -355,7 +355,7 @@ public class RiskGUI {
 		buttonArray[6] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[6].setData("name", "Oststaaten");
 		buttonArray[6].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[6].setText(String.valueOf(territory.getUnits()));
+		buttonArray[6].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[6].setBounds(750 - buttonSizeW / 2, 465 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[6].setToolTipText(territory.getName() + " gehört "
@@ -368,7 +368,7 @@ public class RiskGUI {
 		buttonArray[7] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[7].setData("name", "Mittelamerika");
 		buttonArray[7].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[7].setText(String.valueOf(territory.getUnits()));
+		buttonArray[7].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[7].setBounds(690 - buttonSizeW / 2, 512 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[7].setToolTipText(territory.getName() + " gehört "
@@ -381,7 +381,7 @@ public class RiskGUI {
 		buttonArray[8] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[8].setData("name", "Grönland");
 		buttonArray[8].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[8].setText(String.valueOf(territory.getUnits()));
+		buttonArray[8].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[8].setBounds(843 - buttonSizeW / 2, 320 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[8].setToolTipText(territory.getName() + " gehört "
@@ -396,7 +396,7 @@ public class RiskGUI {
 		buttonArray[9] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[9].setData("name", "Venezuela");
 		buttonArray[9].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[9].setText(String.valueOf(territory.getUnits()));
+		buttonArray[9].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[9].setBounds(748 - buttonSizeW / 2, 571 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[9].setToolTipText(territory.getName() + " gehört "
@@ -409,7 +409,7 @@ public class RiskGUI {
 		buttonArray[10] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[10].setData("name", "Peru");
 		buttonArray[10].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[10].setText(String.valueOf(territory.getUnits()));
+		buttonArray[10].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[10].setBounds(757 - buttonSizeW / 2, 641 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[10].setToolTipText(territory.getName() + " gehört "
@@ -422,7 +422,7 @@ public class RiskGUI {
 		buttonArray[11] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[11].setData("name", "Brasilien");
 		buttonArray[11].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[11].setText(String.valueOf(territory.getUnits()));
+		buttonArray[11].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[11].setBounds(810 - buttonSizeW / 2, 623 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[11].setToolTipText(territory.getName() + " gehört "
@@ -435,7 +435,7 @@ public class RiskGUI {
 		buttonArray[12] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[12].setData("name", "Argentinien");
 		buttonArray[12].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[12].setText(String.valueOf(territory.getUnits()));
+		buttonArray[12].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[12].setBounds(765 - buttonSizeW / 2, 710 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[12].setToolTipText(territory.getName() + " gehört "
@@ -450,7 +450,7 @@ public class RiskGUI {
 		buttonArray[13] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[13].setData("name", "Island");
 		buttonArray[13].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[13].setText(String.valueOf(territory.getUnits()));
+		buttonArray[13].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[13].setBounds(910 - buttonSizeW / 2, 378 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[13].setToolTipText(territory.getName() + " gehört "
@@ -463,7 +463,7 @@ public class RiskGUI {
 		buttonArray[14] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[14].setData("name", "Skandinavien");
 		buttonArray[14].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[14].setText(String.valueOf(territory.getUnits()));
+		buttonArray[14].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[14].setBounds(968 - buttonSizeW / 2, 383 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[14].setToolTipText(territory.getName() + " gehört "
@@ -476,7 +476,7 @@ public class RiskGUI {
 		buttonArray[15] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[15].setData("name", "Großbritannien");
 		buttonArray[15].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[15].setText(String.valueOf(territory.getUnits()));
+		buttonArray[15].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[15].setBounds(892 - buttonSizeW / 2, 444 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[15].setToolTipText(territory.getName() + " gehört "
@@ -489,7 +489,7 @@ public class RiskGUI {
 		buttonArray[16] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[16].setData("name", "Mitteleuropa");
 		buttonArray[16].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[16].setText(String.valueOf(territory.getUnits()));
+		buttonArray[16].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[16].setBounds(967 - buttonSizeW / 2, 454 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[16].setToolTipText(territory.getName() + " gehört "
@@ -502,7 +502,7 @@ public class RiskGUI {
 		buttonArray[17] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[17].setData("name", "Südeuropa");
 		buttonArray[17].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[17].setText(String.valueOf(territory.getUnits()));
+		buttonArray[17].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[17].setBounds(976 - buttonSizeW / 2, 503 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[17].setToolTipText(territory.getName() + " gehört "
@@ -515,7 +515,7 @@ public class RiskGUI {
 		buttonArray[18] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[18].setData("name", "Westeuropa");
 		buttonArray[18].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[18].setText(String.valueOf(territory.getUnits()));
+		buttonArray[18].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[18].setBounds(915 - buttonSizeW / 2, 508 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[18].setToolTipText(territory.getName() + " gehört "
@@ -528,7 +528,7 @@ public class RiskGUI {
 		buttonArray[19] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[19].setData("name", "Ukraine");
 		buttonArray[19].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[19].setText(String.valueOf(territory.getUnits()));
+		buttonArray[19].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[19].setBounds(1042 - buttonSizeW / 2, 415 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[19].setToolTipText(territory.getName() + " gehört "
@@ -543,7 +543,7 @@ public class RiskGUI {
 		buttonArray[20] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[20].setData("name", "Nordwestafrika");
 		buttonArray[20].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[20].setText(String.valueOf(territory.getUnits()));
+		buttonArray[20].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[20].setBounds(938 - buttonSizeW / 2, 606 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[20].setToolTipText(territory.getName() + " gehört "
@@ -556,7 +556,7 @@ public class RiskGUI {
 		buttonArray[21] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[21].setData("name", "Ägypten");
 		buttonArray[21].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[21].setText(String.valueOf(territory.getUnits()));
+		buttonArray[21].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[21].setBounds(998 - buttonSizeW / 2, 577 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[21].setToolTipText(territory.getName() + " gehört "
@@ -569,7 +569,7 @@ public class RiskGUI {
 		buttonArray[22] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[22].setData("name", "Ostafrika");
 		buttonArray[22].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[22].setText(String.valueOf(territory.getUnits()));
+		buttonArray[22].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[22].setBounds(1037 - buttonSizeW / 2, 649 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[22].setToolTipText(territory.getName() + " gehört "
@@ -582,7 +582,7 @@ public class RiskGUI {
 		buttonArray[23] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[23].setData("name", "Kongo");
 		buttonArray[23].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[23].setText(String.valueOf(territory.getUnits()));
+		buttonArray[23].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[23].setBounds(998 - buttonSizeW / 2, 678 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[23].setToolTipText(territory.getName() + " gehört "
@@ -595,7 +595,7 @@ public class RiskGUI {
 		buttonArray[24] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[24].setData("name", "Südafrika");
 		buttonArray[24].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[24].setText(String.valueOf(territory.getUnits()));
+		buttonArray[24].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[24].setBounds(999 - buttonSizeW / 2, 743 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[24].setToolTipText(territory.getName() + " gehört "
@@ -608,7 +608,7 @@ public class RiskGUI {
 		buttonArray[25] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[25].setData("name", "Madagaskar");
 		buttonArray[25].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[25].setText(String.valueOf(territory.getUnits()));
+		buttonArray[25].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[25].setBounds(1075 - buttonSizeW / 2, 745 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[25].setToolTipText(territory.getName() + " gehört "
@@ -623,7 +623,7 @@ public class RiskGUI {
 		buttonArray[26] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[26].setData("name", "Ural");
 		buttonArray[26].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[26].setText(String.valueOf(territory.getUnits()));
+		buttonArray[26].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[26].setBounds(1121 - buttonSizeW / 2, 404 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[26].setToolTipText(territory.getName() + " gehört "
@@ -636,7 +636,7 @@ public class RiskGUI {
 		buttonArray[27] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[27].setData("name", "Sibirien");
 		buttonArray[27].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[27].setText(String.valueOf(territory.getUnits()));
+		buttonArray[27].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[27].setBounds(1165 - buttonSizeW / 2, 365 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[27].setToolTipText(territory.getName() + " gehört "
@@ -649,7 +649,7 @@ public class RiskGUI {
 		buttonArray[28] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[28].setData("name", "Jakutien");
 		buttonArray[28].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[28].setText(String.valueOf(territory.getUnits()));
+		buttonArray[28].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[28].setBounds(1219 - buttonSizeW / 2, 344 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[28].setToolTipText(territory.getName() + " gehört "
@@ -662,7 +662,7 @@ public class RiskGUI {
 		buttonArray[29] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[29].setData("name", "Kamtschatka");
 		buttonArray[29].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[29].setText(String.valueOf(territory.getUnits()));
+		buttonArray[29].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[29].setBounds(1285 - buttonSizeW / 2, 346 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[29].setToolTipText(territory.getName() + " gehört "
@@ -675,7 +675,7 @@ public class RiskGUI {
 		buttonArray[30] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[30].setData("name", "Irkutsk");
 		buttonArray[30].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[30].setText(String.valueOf(territory.getUnits()));
+		buttonArray[30].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[30].setBounds(1200 - buttonSizeW / 2, 416 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[30].setToolTipText(territory.getName() + " gehört "
@@ -688,7 +688,7 @@ public class RiskGUI {
 		buttonArray[31] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[31].setData("name", "Mongolei");
 		buttonArray[31].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[31].setText(String.valueOf(territory.getUnits()));
+		buttonArray[31].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[31].setBounds(1218 - buttonSizeW / 2, 460 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[31].setToolTipText(territory.getName() + " gehört "
@@ -701,7 +701,7 @@ public class RiskGUI {
 		buttonArray[32] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[32].setData("name", "China");
 		buttonArray[32].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[32].setText(String.valueOf(territory.getUnits()));
+		buttonArray[32].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[32].setBounds(1195 - buttonSizeW / 2, 509 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[32].setToolTipText(territory.getName() + " gehört "
@@ -714,7 +714,7 @@ public class RiskGUI {
 		buttonArray[33] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[33].setData("name", "Japan");
 		buttonArray[33].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[33].setText(String.valueOf(territory.getUnits()));
+		buttonArray[33].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[33].setBounds(1299 - buttonSizeW / 2, 464 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[33].setToolTipText(territory.getName() + " gehört "
@@ -727,7 +727,7 @@ public class RiskGUI {
 		buttonArray[34] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[34].setData("name", "Afghanistan");
 		buttonArray[34].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[34].setText(String.valueOf(territory.getUnits()));
+		buttonArray[34].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[34].setBounds(1105 - buttonSizeW / 2, 472 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[34].setToolTipText(territory.getName() + " gehört "
@@ -740,7 +740,7 @@ public class RiskGUI {
 		buttonArray[35] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[35].setData("name", "Mittlerer Osten");
 		buttonArray[35].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[35].setText(String.valueOf(territory.getUnits()));
+		buttonArray[35].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[35].setBounds(1054 - buttonSizeW / 2, 558 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[35].setToolTipText(territory.getName() + " gehört "
@@ -753,7 +753,7 @@ public class RiskGUI {
 		buttonArray[36] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[36].setData("name", "Indien");
 		buttonArray[36].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[36].setText(String.valueOf(territory.getUnits()));
+		buttonArray[36].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[36].setBounds(1153 - buttonSizeW / 2, 550 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[36].setToolTipText(territory.getName() + " gehört "
@@ -766,7 +766,7 @@ public class RiskGUI {
 		buttonArray[37] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[37].setData("name", "Siam");
 		buttonArray[37].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[37].setText(String.valueOf(territory.getUnits()));
+		buttonArray[37].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[37].setBounds(1214 - buttonSizeW / 2, 576 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[37].setToolTipText(territory.getName() + " gehört "
@@ -781,7 +781,7 @@ public class RiskGUI {
 		buttonArray[38] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[38].setData("name", "Indonesien");
 		buttonArray[38].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[38].setText(String.valueOf(territory.getUnits()));
+		buttonArray[38].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[38].setBounds(1226 - buttonSizeW / 2, 664 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[38].setToolTipText(territory.getName() + " gehört "
@@ -794,7 +794,7 @@ public class RiskGUI {
 		buttonArray[39] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[39].setData("name", "Neu-Guinea");
 		buttonArray[39].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[39].setText(String.valueOf(territory.getUnits()));
+		buttonArray[39].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[39].setBounds(1292 - buttonSizeW / 2, 638 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[39].setToolTipText(territory.getName() + " gehört "
@@ -807,7 +807,7 @@ public class RiskGUI {
 		buttonArray[40] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[40].setData("name", "West-Australien");
 		buttonArray[40].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[40].setText(String.valueOf(territory.getUnits()));
+		buttonArray[40].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[40].setBounds(1258 - buttonSizeW / 2, 740 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[40].setToolTipText(territory.getName() + " gehört "
@@ -820,7 +820,7 @@ public class RiskGUI {
 		buttonArray[41] = new Button(mainWindow, SWT.PUSH);
 		buttonArray[41].setData("name", "Ost-Australien");
 		buttonArray[41].setImage(unitImage[territory.getOwner().getColor()]);
-		buttonArray[41].setText(String.valueOf(territory.getUnits()));
+		buttonArray[41].setText(String.valueOf(territory.getUnitCount()));
 		buttonArray[41].setBounds(1306 - buttonSizeW / 2, 712 - buttonSizeH / 2,
 				buttonSizeW, buttonSizeH);
 		buttonArray[41].setToolTipText(territory.getName() + " gehört "
@@ -858,7 +858,7 @@ public class RiskGUI {
 			playerButtons[i] = new Button(mainWindow, SWT.PUSH | SWT.LEFT);
 			playerButtons[i].setImage(unitImage[players.get(i).getColor()]);
 			playerButtons[i].setText(players.get(i).getName() + "("
-					+ players.get(i).getAllUnits() + ")");
+					+ players.get(i).getUnitCount() + ")");
 			playerButtons[i].setAlignment(SWT.LEFT);
 			playerButtons[i].pack();
 			if (playerButtons[i].getBounds().width > biggestButton) {
@@ -890,9 +890,9 @@ public class RiskGUI {
 	public void updateTerritory(Territory territory) {
 		for (Button button : buttonArray) {
 			if (button.getData("name").equals(territory.getName())) {
-				button.setText(String.valueOf(territory.getUnits()));
+				button.setText(String.valueOf(territory.getUnitCount()));
 				button.setImage(unitImage[territory.getOwner().getColor()]);
-				button.setText(String.valueOf(territory.getUnits()));
+				button.setText(String.valueOf(territory.getUnitCount()));
 				button.setToolTipText(territory.getName() + " gehört "+ territory.getOwner().getName());
 
 				System.out.println("Button Inhale von: "+ territory.getName() +" geändert");
@@ -901,7 +901,7 @@ public class RiskGUI {
 			}
 
 		}
-		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnits() + ") Einheiten.");
+		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnitCount() + ") Einheiten.");
 		shell.update();
 	}
 

@@ -194,7 +194,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			throws InvalidTerritoryStateException {
 		
 		// If the territory still holds units the owner cannot be changed
-		if (territory.getUnits() != 0) {
+		if (territory.getUnitCount() != 0) {
 			throw new InvalidTerritoryStateException(territory);
 		}
 		
