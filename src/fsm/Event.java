@@ -12,4 +12,8 @@ public class Event {
 		return name;
 	}
 	
+	public boolean equals(String aString) {
+		return this.name.equals(aString);
+	}
+	
 }

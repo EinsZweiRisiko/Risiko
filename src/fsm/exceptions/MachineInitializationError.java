@@ -1,9 +1,9 @@
 package fsm.exceptions;
 
-public class InitializationError extends Error {
+public class MachineInitializationError extends Error {
 	private static final long serialVersionUID = 8857224395534090823L;
 
-	public InitializationError(String message) {
+	public MachineInitializationError(String message) {
 		super(message);
 	}
 }

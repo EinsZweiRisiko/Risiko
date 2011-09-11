@@ -3,8 +3,9 @@ package fsm;
 import java.util.HashMap;
 import java.util.Map;
 
-import fsm.exceptions.InitializationError;
+import fsm.exceptions.MachineInitializationError;
 import fsm.exceptions.MachineAlreadyRunningException;
+import fsm.exceptions.StateNotFoundException;
 
 /**
  * Creates a finite-state machine.<br>
@@ -16,17 +17,17 @@ import fsm.exceptions.MachineAlreadyRunningException;
  */
 public class StateMachine {
 
-	private Map<String, State> states = new HashMap<String, State>();
-	private State startState;
-	private State currentState;
-	private Boolean running = false;
+	private Map<String, AbstractState> states = new HashMap<String, AbstractState>();
+	private AbstractState startState;
+	private AbstractState currentState;
+	private boolean running = false;
 
 	/**
 	 * Adds a possible state to the state machine.
 	 * 
 	 * @param state
 	 */
-	public void addState(State state) {
+	public void addState(AbstractState state) {
 		if (running) {
 			throw new MachineAlreadyRunningException(
 					"You can't add another state, because the machine is already running.");
@@ -48,7 +49,7 @@ public class StateMachine {
 					"This machine is already running.");
 		}
 		if (startState == null) {
-			throw new InitializationError("No start state defined.");
+			throw new MachineInitializationError("No start state defined.");
 		}
 		// Start it
 		running = true;
@@ -69,9 +70,9 @@ public class StateMachine {
 	 * 
 	 * @return State state
 	 */
-	public State getState() {
+	public AbstractState getState() {
 		if (!running) {
-			throw new InitializationError("Not started yet.");
+			throw new MachineInitializationError("Not started yet.");
 		}
 		return currentState;
 	}
@@ -83,7 +84,7 @@ public class StateMachine {
 	 */
 	public String getStateName() {
 		if (!running) {
-			throw new InitializationError("Not started yet.");
+			throw new MachineInitializationError("Not started yet.");
 		}
 		return currentState.getName();
 	}
@@ -94,12 +95,12 @@ public class StateMachine {
 	 * @param nextState
 	 *            State
 	 */
-	public void toState(State nextState) {
+	public void toState(AbstractState nextState) {
 		if (!running) {
-			throw new InitializationError("Not started yet.");
+			throw new MachineInitializationError("Not started yet.");
 		}
 		// If this is run for the first time, currentState will be null
-		State oldState = currentState;
+		AbstractState oldState = currentState;
 
 		// Set the new state
 		currentState = nextState;
@@ -119,16 +120,13 @@ public class StateMachine {
 	 */
 	public void toState(String name) {
 		if (!running) {
-			throw new InitializationError("Not started yet.");
+			throw new MachineInitializationError("Not started yet.");
 		}
-		// Get the state from the hashmap
-		State nextState = states.get(name);
-		if (nextState == null) {
-			// TODO
-			throw new RuntimeException("State not found");
+		if (!states.containsKey(name)) {
+			throw new StateNotFoundException("The state '" + name + "' could not be found.");
 		}
 		// Set the state
-		toState(nextState);
+		toState(states.get(name));
 	}
 
 	/**
@@ -138,7 +136,7 @@ public class StateMachine {
 	 */
 	public void handle(Event event) {
 		if (!running) {
-			throw new InitializationError("Not started yet.");
+			throw new MachineInitializationError("Not started yet.");
 		}
 		// Delegate the event to the appropriate state
 		currentState.handle(event);
