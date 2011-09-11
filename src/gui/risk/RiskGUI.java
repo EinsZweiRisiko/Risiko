@@ -1016,16 +1016,15 @@ public class RiskGUI {
 	}
 
 	public void updateBonusCard(Player player) {
-
-		ArrayList<BonusCard> bonuscards = player.getBonusCards();
+		
 		if(currentPlayer.equals(guiPlayer)){
 			cardWindow = new Composite(mainWindow, SWT.NONE);
 			RowLayout rowLayout = new RowLayout();
 			cardWindow.setLayout(rowLayout);
 
-			ArrayList<BonusCard> bonuscards = currentPlayer.getBonusCards();
+			ArrayList<BonusCard> bonuscards = player.getBonusCards();
 			
-			System.out.println(bonuscards);
+			System.out.println(" Bonuskarten auf GUI : " + bonuscards);
 
 			bonusLabelStack = new Label[bonuscards.size()];
 
@@ -1034,16 +1033,16 @@ public class RiskGUI {
 
 				int type = 0;
 
-				if (bonusCard.getType().equals("Infantry")) {
+				if (bonusCard.getType() == BonusCard.BonusCardType.Infantry) {
 					type = 0;
 				}
-				if (bonusCard.getType().equals("Cavalry")) {
+				if (bonusCard.getType() == BonusCard.BonusCardType.Cavalry) {
 					type = 1;
 				}
-				if (bonusCard.getType().equals("Artillery")) {
+				if (bonusCard.getType() == BonusCard.BonusCardType.Artillery) {
 					type = 2;
 				}
-				if (bonusCard.getType().equals("WildCard")) {
+				if (bonusCard.getType() == BonusCard.BonusCardType.Wildcard) {
 					type = 3;
 				}
 
