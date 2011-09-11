@@ -1338,7 +1338,6 @@ public class RiskGUI {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
-						game.nextPlayer();
 						game.endMovementPhase();
 						nextPhaseButton.dispose();
 					}

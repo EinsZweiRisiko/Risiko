@@ -62,6 +62,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private TerritoryManager territoryManager = new TerritoryManager();
 	private BonusCardStack bonusCardManager = new BonusCardStack();
 	private BonusTracker bonusTracker = new BonusTracker();
+	private Boolean recieveBonuscard = false;
 
 	/**
 	 * The number of Fight Rounds
@@ -345,7 +346,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 			System.out.println("OFFENSIVE verliert: "+ attackLoseUnits +" Einheiten");
 			System.out.println("DEFENSIVE verliert: "+ defendLoseUnits +" Einheiten");
-			
+
 			// Wenn Land erobert
 			if((targetTerritory.getUnits() - defendLoseUnits) == 0){
 				System.out.println(targetTerritory.getName() + " ÜBERNOMMEN!");
@@ -356,7 +357,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				try {
 					defenderMsg = "Du hast " + targetTerritory.getName() + " an " + sourceTerritory.getOwner().getName() + " verloren.";
 					attackerMsg = "Du hast " + targetTerritory.getName() + " von " + targetTerritory.getOwner().getName() + " erobert.";
-					
+
 
 					newUnitCnt = attackDice.size() - attackLoseUnits;
 					territoryManager.changeTerritoryOwner(sourceTerritory.getOwner(), targetTerritory, newUnitCnt);
@@ -373,13 +374,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 					newUnitCnt = attackDice.size() - attackLoseUnits;
 					notifyPlayers(new TerritoryUnitsChangedAction(targetTerritory, newUnitCnt));
-
 				} catch (InvalidTerritoryStateException e) {
 					e.printStackTrace();
 				}
-				
+
 				sourceTerritory.removeUnits(attackDice.size());
 				notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, newUnitCnt));
+				recieveBonuscard = true;
 			}
 		}
 
@@ -419,9 +420,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		source.removeUnits(amount);
 		target.addUnits(amount);
-		
+
 		System.out.println("Es sollen " + amount + " Einheiten von " + source.getName() + " nach " + target.getName() + " verschoben werden.");
-		
+
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
 	}
@@ -753,8 +754,21 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 		prepareMovement2Action();
 	}
-	
+
 	public void endMovementPhase() {
+		
+		if(recieveBonuscard){
+			currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
+			
+			//TODO EVENTBOX
+			System.out.println(currentPlayer.getName() + " erhielt eine Bonuskarte");
+			
+			notifyPlayers(new BonusCardAction(currentPlayer, currentPhase));
+			
+			recieveBonuscard = false;
+		}
+		nextPlayer();
+		
 		prepareTurnInAction();
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 	}

@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -249,17 +250,13 @@ public class ActionDialog extends Dialog {
     		
     		if(phase.equals(Phase.ATTACK3)){
             	Shell parent = getParent();
-                final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-            	shell.setSize(50,80);
+                final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.CENTER);
+            	shell.setSize(155,80);
                 shell.setText("Verteidigung");
                 center(shell);
                 
-                
-                GridLayout gridLayout = new GridLayout();
-                gridLayout.numColumns = 2;
-                gridLayout.horizontalSpacing = 4;
+                GridLayout gridLayout = new GridLayout(2,true);   
                 shell.setLayout(gridLayout);
-                
                 int playercolor = territory.getOwner().getColor();
                 
                 int maxUnits = territory.getUnits();
@@ -327,7 +324,7 @@ public class ActionDialog extends Dialog {
         		if(maxUnits == 1) {
         			button2.setEnabled(false);
         		}
-        		
+        		gridLayout.marginLeft = 20;
                 shell.open();
                 Display display = parent.getDisplay();
                 while (!shell.isDisposed()) {
