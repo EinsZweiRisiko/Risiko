@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.ShellEvent;
@@ -44,7 +45,7 @@ public class RiskGUI {
 	private final int defaultSizeX = 800;
 	private final int defaultSizeY = 600;
 
-	private AppClient app;
+//	private AppClient app;
 	private Territory targetTerritory;
 	private Player attackedPlayer;
 	private Territory sourceTerritory;
@@ -85,7 +86,7 @@ public class RiskGUI {
 	 */
 	public RiskGUI(Display display, AppClient app, final GameMethods game) {
 		this.game = game;
-		this.app = app;
+//		this.app = app;
 		this.display = display;
 		this.guiPlayer = app.getClient();
 	}
@@ -1243,7 +1244,7 @@ public class RiskGUI {
 				nextPhaseButton.pack();
 				shell.update();
 
-				nextPhaseButton.addMouseListener(new MouseListener() {
+				nextPhaseButton.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
@@ -1252,17 +1253,6 @@ public class RiskGUI {
 						System.out.println("NEXT PHASE BUTTON IS DISPOSING");
 					}
 
-					@Override
-					public void mouseDown(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void mouseDoubleClick(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 			}
 		} else if (phase == Phase.ATTACK2) {
@@ -1339,7 +1329,7 @@ public class RiskGUI {
 				nextPhaseButton.pack();
 				shell.update();
 
-				nextPhaseButton.addMouseListener(new MouseListener() {
+				nextPhaseButton.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
@@ -1347,17 +1337,6 @@ public class RiskGUI {
 						nextPhaseButton.dispose();
 					}
 
-					@Override
-					public void mouseDown(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void mouseDoubleClick(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 			}
 		}
