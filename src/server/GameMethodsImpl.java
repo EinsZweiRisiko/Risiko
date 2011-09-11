@@ -416,9 +416,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void move(Territory source, Territory target, int amount)
 	throws SimonRemoteException {
+
 		source.removeUnits(amount);
 		target.addUnits(amount);
-		// Es müssen noch die Clients Notified werden
+		
+		System.out.println("Es sollen " + amount + " Einheiten von " + source.getName() + " nach " + target.getName() + " verschoben werden.");
+		
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
 	}

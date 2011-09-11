@@ -943,7 +943,7 @@ public class RiskGUI {
 		} else if(phase == Phase.MOVEMENT2) {
 			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
-					game.getTerritories().get(clickedButton.getData("name")));
+					sourceTerritory);
 			int units = (Integer) ad.open();
 
 			game.move(sourceTerritory, targetTerritory, units);
@@ -1290,6 +1290,10 @@ public class RiskGUI {
 				button.setEnabled(false);
 			}
 
+			if (currentPlayer.equals(guiPlayer)) {
+				nextPhaseButton.dispose();
+			}
+			
 			if (attackedPlayer.equals(guiPlayer)){
 
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,

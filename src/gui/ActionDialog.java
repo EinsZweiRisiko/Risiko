@@ -1,6 +1,8 @@
 package gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Device;
@@ -356,7 +358,7 @@ public class ActionDialog extends Dialog {
 					
 					@Override
 					public void mouseUp(MouseEvent e) {
-						result = spinner.getDigits();
+						result = Integer.parseInt(spinner.getText());
 						shell.close();
 					}
 					
@@ -372,6 +374,8 @@ public class ActionDialog extends Dialog {
 						
 					}
 				});
+                
+                
                 shell.open();
                 Display display = parent.getDisplay();
                 while (!shell.isDisposed()) {
