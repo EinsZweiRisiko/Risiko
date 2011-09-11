@@ -1015,12 +1015,12 @@ public class RiskGUI {
 		shell.update();
 	}
 
-	public void updateBonusCard() {
+	public void updateBonusCard(Player player) {
 		cardWindow = new Composite(mainWindow, SWT.NONE);
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);
 
-		ArrayList<BonusCard> bonuscards = guiPlayer.getBonusCards();
+		ArrayList<BonusCard> bonuscards = player.getBonusCards();
 
 		bonusLabelStack = new Label[bonuscards.size()];
 
