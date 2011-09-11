@@ -1174,6 +1174,7 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
+		
 		if (phase == Phase.MOVEMENT1 || phase == Phase.MOVEMENT2){
 			roundButton.setImage(roundImage[2]);
 			roundButton.setToolTipText("Verschiebe deine Armeen");
