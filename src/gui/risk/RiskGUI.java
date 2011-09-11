@@ -893,9 +893,9 @@ public class RiskGUI {
 				button.setImage(unitImage[territory.getOwner().getColor()]);
 				button.setText(String.valueOf(territory.getUnits()));
 				button.setToolTipText(territory.getName() + " gehört "+ territory.getOwner().getName());
-				
+
 				System.out.println("Button Inhale von: "+ territory.getName() +" geändert");
-				
+
 				shell.update();
 			}
 
@@ -919,7 +919,7 @@ public class RiskGUI {
 	 */
 	private void performAction(MouseEvent e) {
 		Button clickedButton = (Button) e.widget;
-		
+
 		if (phase == Phase.PLACEMENT) {
 			game.placeUnits(game.getTerritories().get(clickedButton.getData("name")).getName(), 1);
 		} else if (phase == Phase.ATTACK1) {
@@ -1016,47 +1016,52 @@ public class RiskGUI {
 	}
 
 	public void updateBonusCard() {
-		cardWindow = new Composite(mainWindow, SWT.NONE);
-		RowLayout rowLayout = new RowLayout();
-		cardWindow.setLayout(rowLayout);
 
-		ArrayList<BonusCard> bonuscards = guiPlayer.getBonusCards();
+		if(currentPlayer.equals(guiPlayer)){
+			cardWindow = new Composite(mainWindow, SWT.NONE);
+			RowLayout rowLayout = new RowLayout();
+			cardWindow.setLayout(rowLayout);
 
-		bonusLabelStack = new Label[bonuscards.size()];
+			ArrayList<BonusCard> bonuscards = currentPlayer.getBonusCards();
+			
+			System.out.println(bonuscards);
 
-		for (BonusCard bonusCard : bonuscards) {
-			Label label = new Label(cardWindow, SWT.NONE);
+			bonusLabelStack = new Label[bonuscards.size()];
 
-			int type = 0;
+			for (BonusCard bonusCard : bonuscards) {
+				Label label = new Label(cardWindow, SWT.NONE);
 
-			if (bonusCard.getType().equals("Infantry")) {
-				type = 0;
+				int type = 0;
+
+				if (bonusCard.getType().equals("Infantry")) {
+					type = 0;
+				}
+				if (bonusCard.getType().equals("Cavalry")) {
+					type = 1;
+				}
+				if (bonusCard.getType().equals("Artillery")) {
+					type = 2;
+				}
+				if (bonusCard.getType().equals("WildCard")) {
+					type = 3;
+				}
+
+				label.setSize(22, 32);
+				label.setImage(bonusImage[type]);
+				label.pack();
+				cardWindow.pack();
 			}
-			if (bonusCard.getType().equals("Cavalry")) {
-				type = 1;
-			}
-			if (bonusCard.getType().equals("Artillery")) {
-				type = 2;
-			}
-			if (bonusCard.getType().equals("WildCard")) {
-				type = 3;
-			}
 
-			label.setSize(22, 32);
-			label.setImage(bonusImage[type]);
-			label.pack();
-			cardWindow.pack();
+			cardWindow
+			.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2
+							+ shell.getClientArea().width - cardWindow
+							.getBounds().width),
+							((imgHeight - shell.getClientArea().height) / 2
+									+ 5)));
+
+			shell.update();
 		}
-
-		cardWindow
-		.setLocation(new Point(
-				((imgWidth - shell.getClientArea().width) / 2
-						+ shell.getClientArea().width - cardWindow
-						.getBounds().width),
-						((imgHeight - shell.getClientArea().height) / 2
-								+ 5)));
-
-		shell.update();
 
 	}
 
@@ -1174,7 +1179,7 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
-		
+
 		if (phase == Phase.MOVEMENT1 || phase == Phase.MOVEMENT2){
 			roundButton.setImage(roundImage[2]);
 			roundButton.setToolTipText("Verschiebe deine Armeen");
@@ -1293,7 +1298,7 @@ public class RiskGUI {
 			if (currentPlayer.equals(guiPlayer)) {
 				nextPhaseButton.dispose();
 			}
-			
+
 			if (attackedPlayer.equals(guiPlayer)){
 
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,

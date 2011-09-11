@@ -762,7 +762,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 			
 			//TODO EVENTBOX
-			System.out.println(currentPlayer.getName() + " erhielt eine Bonuskarte");
+			System.out.println(currentPlayer.getName() + " erhielt eine Bonuskarte" + "Er besitzt folgende Karten " + currentPlayer.getBonusCards());;
 			
 			notifyPlayers(new BonusCardAction());
 			
