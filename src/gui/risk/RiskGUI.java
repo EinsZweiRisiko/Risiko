@@ -1015,7 +1015,7 @@ public class RiskGUI {
 		shell.update();
 	}
 
-	private void updateBonusCard() {
+	public void updateBonusCard() {
 		cardWindow = new Composite(mainWindow, SWT.NONE);
 		RowLayout rowLayout = new RowLayout();
 		cardWindow.setLayout(rowLayout);

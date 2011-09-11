@@ -19,6 +19,7 @@ import commons.Action;
 import commons.ClientMethods;
 import commons.GameMethods;
 import commons.actions.AttackAction;
+import commons.actions.BonusCardAction;
 import commons.actions.EventBoxAction;
 import commons.actions.GameStartedAction;
 import commons.actions.NextPlayerAction;
@@ -121,6 +122,12 @@ public class AppClient implements ClientMethods {
 			display.asyncExec(new Runnable() {
 				public void run() {
 					rFenster.prepare();
+				}
+			});
+		}else if (a instanceof BonusCardAction ) {
+			display.asyncExec(new Runnable() {
+				public void run() {
+					rFenster.updateBonusCard();
 				}
 			});
 		}else {
