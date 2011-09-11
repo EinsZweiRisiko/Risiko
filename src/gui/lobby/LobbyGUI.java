@@ -130,7 +130,6 @@ public class LobbyGUI {
 	
 	public void close() {
 		shell.dispose();
-		System.out.println("LobbyGUI geschloßen");
 	}
 
 }

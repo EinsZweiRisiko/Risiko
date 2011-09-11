@@ -57,6 +57,7 @@ public interface GameMethods {
 	public void endAttackPhase();
 	public void nextPlayer();
 	public TerritoryManager getTerritoryManager();
+	public void endMovementPhase();
 
 	/* Notifications:
 	 * 

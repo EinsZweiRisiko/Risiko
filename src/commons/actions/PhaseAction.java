@@ -17,11 +17,6 @@ public class PhaseAction extends Action {
 		super(player, phase);
 		
 		this.phase = phase;
-		
-		//TODO REMOVE TEST OUTS
-		System.out.println(" ");
-		System.out.println("Neue Phase wird gemeldet! => " + phase);
-		System.out.println(" ");
 	}
 	
 	public Phase getPhase() {

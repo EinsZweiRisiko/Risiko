@@ -752,6 +752,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 		prepareMovement2Action();
 	}
+	
+	public void endMovementPhase() {
+		prepareTurnInAction();
+		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
+		preparePlacementAction();
+	}
 
 	/*
 	 * END: PREPARE / PHASE FUNCTIONS  / functions for the PHASE SWITCHING
