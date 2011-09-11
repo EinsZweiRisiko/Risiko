@@ -124,7 +124,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Set the game status to started
 		started = true;
 
-		currentPlayer = players.get(0);
 		notifyPlayers(new GameStartedAction(currentPlayer ,currentPhase));
 
 		// Set the first phase
@@ -204,7 +203,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void nextPlayer() {
 		// Advance to the next player
 		currentPlayer = players.getNextPlayer();
-		System.out.println("Next player: "+ currentPlayer.getName() + " (" + currentPlayer.getSupplies() + ")");
 		notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
 
@@ -271,8 +269,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Reset the current player to player 1
 		players.resetActivePlayer();
-
-		notifyPlayers(new NextPlayerAction(currentPlayer));
+		currentPlayer = getActivePlayer();
+		nextPlayer();
 	}
 
 	@Override

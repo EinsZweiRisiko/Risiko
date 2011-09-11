@@ -47,7 +47,6 @@ public class PlayerCollection extends ArrayList<Player> {
 	 */
 	public void resetActivePlayer() {
 		activePlayer = 0;
-		System.out.println("RESET ACTIVEPLA>ER : " + activePlayer + " NAME : " + get(activePlayer).getName());
 	}
 
 	/**
