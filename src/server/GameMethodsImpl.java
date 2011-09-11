@@ -756,7 +756,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void endMovementPhase() {
 		prepareTurnInAction();
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
-		preparePlacementAction();
 	}
 
 	/*
