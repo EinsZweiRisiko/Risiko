@@ -7,6 +7,7 @@ import commons.Action;
 public class SupplyAction extends Action {
 
 	private static final long serialVersionUID = -4315446016098748069L;
+	
 	Player player;
 	int supplies;
 	

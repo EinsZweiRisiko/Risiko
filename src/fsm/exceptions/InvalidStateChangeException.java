@@ -1,4 +1,4 @@
-package fsm;
+package fsm.exceptions;
 
 public class InvalidStateChangeException extends Exception {
 
