@@ -900,7 +900,7 @@ public class RiskGUI {
 			}
 
 		}
-		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnits() + ")Einheiten.");
+		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnits() + ") Einheiten.");
 		shell.update();
 	}
 
