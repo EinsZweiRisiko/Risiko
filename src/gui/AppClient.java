@@ -127,7 +127,7 @@ public class AppClient implements ClientMethods {
 		}else if (a instanceof BonusCardAction ) {
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updateBonusCard();
+					rFenster.updateBonusCard(((BonusCardAction) a).getPlayer());
 				}
 			});
 		}else {

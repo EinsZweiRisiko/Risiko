@@ -1015,8 +1015,9 @@ public class RiskGUI {
 		shell.update();
 	}
 
-	public void updateBonusCard() {
+	public void updateBonusCard(Player player) {
 
+		ArrayList<BonusCard> bonuscards = player.getBonusCards();
 		if(currentPlayer.equals(guiPlayer)){
 			cardWindow = new Composite(mainWindow, SWT.NONE);
 			RowLayout rowLayout = new RowLayout();
