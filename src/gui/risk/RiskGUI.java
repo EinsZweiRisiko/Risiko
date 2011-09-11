@@ -944,7 +944,6 @@ public class RiskGUI {
 			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					game.getTerritories().get(clickedButton.getData("name")));
-			ad.open();
 			int units = (Integer) ad.open();
 
 			game.move(sourceTerritory, targetTerritory, units);
@@ -1335,7 +1334,7 @@ public class RiskGUI {
 					@Override
 					public void mouseUp(MouseEvent e) {
 						game.nextPlayer();
-						game.nextPhase();
+						game.endMovementPhase();
 						nextPhaseButton.dispose();
 					}
 
