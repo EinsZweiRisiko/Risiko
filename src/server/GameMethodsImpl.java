@@ -49,8 +49,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	private static final long serialVersionUID = -3491803188267650698L;
 
 	// die gewürfelten Ergebnisse müssen auf dem Server lokal gespeichert werden
-	ArrayList<Integer> attackDice;
-	ArrayList<Integer> defendDice;
+	List<Integer> attackDice;
+	List<Integer> defendDice;
 
 	// das angreifende land und angegeriffende Land muss temporär gespeichert werden
 	Territory sourceTerritory;
@@ -126,7 +126,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Set the game status to started
 		started = true;
 
-		notifyPlayers(new GameStartedAction(currentPlayer ,currentPhase));
+		notifyPlayers(new GameStartedAction(currentPlayer, currentPhase));
 
 		// Set the first phase
 		nextPhase();
@@ -309,7 +309,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	// TODO diese Methode ist Pseudo mäßig programmiert
-	public void calculateDice(ArrayList<Integer> attackDice, ArrayList<Integer> defendDice) {
+	public void calculateDice(List<Integer> attackDice, List<Integer> defendDice) {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 		Boolean conquered = false;
@@ -513,8 +513,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		return currentPlayer;
 	}
 
-	public ArrayList<Integer> getDice(int amount) {
-		ArrayList<Integer> dice = new ArrayList<Integer>();
+	public List<Integer> getDice(int amount) {
+		List<Integer> dice = new ArrayList<Integer>();
 
 		for(int i = 0; i < amount; i++) {
 			dice.add(i, (int) ((Math.random()) * 6 + 1));
@@ -555,7 +555,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		//TODO das ganze mit Strings versuchen
 
 		List<Territory> territories = getMyTerritories(player);
-		ArrayList<Territory> attackingTerritories = new ArrayList<Territory>();
+		List<Territory> attackingTerritories = new ArrayList<Territory>();
 
 		for(int i = 0; i < territories.size(); i++) {
 			//System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
@@ -583,8 +583,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 */
 	public List<Territory> getMyTerritoriesForMoving(Player player) {
-		ArrayList<Territory> territories = player.getTerritories();
-		ArrayList<Territory> moveTerritories = new ArrayList<Territory>();
+		List<Territory> territories = player.getTerritories();
+		List<Territory> moveTerritories = new ArrayList<Territory>();
 
 		for(int i = 0; i < territories.size(); i++) {
 			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();

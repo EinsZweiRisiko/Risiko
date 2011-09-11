@@ -979,7 +979,7 @@ public class RiskGUI {
 			System.exit(1);
 		}
 
-		ArrayList<BonusCard> bonuscards = guiPlayer.getBonusCards();
+		List<BonusCard> bonuscards = guiPlayer.getBonusCards();
 
 		bonusLabelStack = new Label[bonuscards.size()];
 
@@ -1023,7 +1023,7 @@ public class RiskGUI {
 			RowLayout rowLayout = new RowLayout();
 			cardWindow.setLayout(rowLayout);
 
-			ArrayList<BonusCard> bonuscards = player.getBonusCards();
+			List<BonusCard> bonuscards = player.getBonusCards();
 			
 			System.out.println(" Bonuskarten auf GUI : " + bonuscards);
 

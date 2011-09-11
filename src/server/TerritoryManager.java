@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import server.exceptions.InvalidTerritoryStateException;
 import valueobjects.Continent;
@@ -31,7 +32,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	/**
 	 * List of all continents
 	 */
-	private ArrayList<Continent> continents = new ArrayList<Continent>();
+	private List<Continent> continents = new ArrayList<Continent>();
 
 	/**
 	 * List of all territories coupled with their names
@@ -234,10 +235,9 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	 *            List of territories against which this check is performed
 	 * @return
 	 */
-	public ArrayList<Continent> getConqueredContinents(
-			ArrayList<Territory> territory) {
+	public List<Continent> getConqueredContinents(List<Territory> territory) {
 		// Array für das Ergebnis
-		ArrayList<Continent> conqueredContinents = new ArrayList<Continent>();
+		List<Continent> conqueredContinents = new ArrayList<Continent>();
 
 		// durchläuft jeden kotninent[] und überprüft den Besitzer
 		Continent currentContinent;
@@ -259,9 +259,9 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	 * 
 	 * @return Random territory list
 	 */
-	public ArrayList<Territory> getRandomTerritoryList() {
+	public List<Territory> getRandomTerritoryList() {
 		// Create a copy of the values
-		ArrayList<Territory> territoryList = new ArrayList<Territory>(
+		List<Territory> territoryList = new ArrayList<Territory>(
 				territories.values());
 
 		// Shuffle it
@@ -270,7 +270,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 		return territoryList;
 	}
 
-	public ArrayList<Continent> getContinents() {
+	public List<Continent> getContinents() {
 		return continents;
 	}
 	

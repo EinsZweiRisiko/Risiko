@@ -10,56 +10,79 @@ import java.util.List;
  * @author Jannes, Hendrik
  */
 public class Player implements Serializable {
+
 	private static final long serialVersionUID = 8766228170511017486L;
+
+	/**
+	 * This is a static attribute that is used to assign each player a unique ID
+	 */
+	private static int playerCounter = 0;
+
+	/**
+	 * Name of the player
+	 */
+	private String name;
+
+	/**
+	 * Color of the player
+	 */
+	private int color;
 
 	/**
 	 * The territories that the player has conquered
 	 */
-	private ArrayList<Territory> territoryList = new ArrayList<Territory>();
+	private List<Territory> territoryList = new ArrayList<Territory>();
 
 	/**
 	 * A list of territory cards that the player currently has. These can be
 	 * exchanged for bonus units
 	 * at the start of every round.
 	 */
-	private ArrayList<BonusCard> bonusCards = new ArrayList<BonusCard>();
+	private List<BonusCard> bonusCards = new ArrayList<BonusCard>();
 
-	ArrayList<Continent> continents = new ArrayList<Continent>();
-	
-	Continent continent;
-	
-	/**
-	 * This is a static attribute that is used to assign each player a unique ID
-	 */
-	private static int playerCounter = 0;
-	
-	/**
-	 * The player's name
-	 */
-	private String name;
-
-	/**
-	 * The player's color
-	 */
-	private int color;
-	
 	/**
 	 * The number of units the player still has to place on the board. This
-	 * happens at the start of
-	 * every round. The player can only start attacking someone else if all
-	 * units are placed.
+	 * happens at the start of every round. The player can only start attacking
+	 * someone else if all units are placed.
 	 */
-	protected int suppliesToAllocate = 0;
-	
+	private int suppliesToAllocate = 0;
+
 	/**
 	 * Constructor
 	 * 
 	 * @param name
-	 *            of the player.
+	 *            Name of the player
 	 */
 	public Player(String name) {
 		this.name = name;
 		this.color = playerCounter++;
+	}
+
+	/**
+	 * Get the player's name
+	 * 
+	 * @return name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Get the player's name.
+	 * 
+	 * @return name
+	 */
+	public String toString() {
+		return name;
+	}
+
+	/**
+	 * Get the player's color.
+	 * 
+	 * @return int color
+	 */
+	public int getColor() {
+		return color;
 	}
 
 	/**
@@ -91,7 +114,7 @@ public class Player implements Serializable {
 	 * 
 	 * @return List of territories
 	 */
-	public ArrayList<Territory> getTerritories() {
+	public List<Territory> getTerritories() {
 		// TODO protect the internal list from changes
 		return territoryList;
 	}
@@ -116,6 +139,7 @@ public class Player implements Serializable {
 
 	/**
 	 * TODO doc
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -123,7 +147,7 @@ public class Player implements Serializable {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	/**
 	 * Returns a random territory which is owned by the player
 	 * 
@@ -152,10 +176,10 @@ public class Player implements Serializable {
 	 * 
 	 * @return List of territory cards
 	 */
-	public ArrayList<BonusCard> getBonusCards() {
+	public List<BonusCard> getBonusCards() {
 		return bonusCards;
 	}
-	
+
 	/**
 	 * Removes cards from the player's bonus cards
 	 * 
@@ -166,74 +190,36 @@ public class Player implements Serializable {
 		bonusCards.removeAll(cards);
 	}
 
-	// TODO this method is in the wrong class
-	/**
-	 * TODO doc
-	 * 
-	 * @return
-	 */
-	public ArrayList<Continent> getContinents() {
-		// Will hold the list of continents this player owns	
-		for (int i = 1; i <= territoryList.size(); i++) {
-			if (territoryList.containsAll(continent.getTerritories())) {
-				continents.add(continent);
-			}
-		}
-		return continents;
-	}
-	
-	public int getAllUnits() {
-		int units = 0;
-		
-		for(Territory territory: territoryList){
-			units += territory.getUnits();
-		}
-		
-		return units;
-	}
-	
-	/**
-	 * Gets the player's name
-	 * 
-	 * @return name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	public String toString() {
-		return name;
-	}
-	
-	public int getColor() {
-		return color;
-	}
-	
-	public void setName(String name) {
-		// TODO Auto-generated method stub
-		this.name = name;
+	// TODO implement getContinents
+	public List<Continent> getContinents() {
+		return null;
 	}
 
-	public void setColor(int color) {
-		// TODO Auto-generated method stub
-		this.color = color;
+	public int getAllUnits() {
+		int units = 0;
+
+		for (Territory territory : territoryList) {
+			units += territory.getUnits();
+		}
+
+		return units;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Player)) {
 			return false;
 		}
-		
+
 		Player p = (Player) o;
-		
+
 		if (p.getColor() == getColor()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Adds the specified number to the amount of units that need to be
 	 * allocated.

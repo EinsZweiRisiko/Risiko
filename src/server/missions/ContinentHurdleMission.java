@@ -1,6 +1,7 @@
 package server.missions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import server.Mission;
 import server.TerritoryManager;
@@ -22,7 +23,7 @@ public class ContinentHurdleMission implements Mission {
 	/**
 	 * List of continents which have to be conquered
 	 */
-	private ArrayList<Continent> continentList = new ArrayList<Continent>();
+	private List<Continent> continentList = new ArrayList<Continent>();
 
 	/**
 	 * Number of other, arbitrary continents which also have to be conquered.
@@ -42,7 +43,7 @@ public class ContinentHurdleMission implements Mission {
 	 *            Continents which need to be conquered.
 	 */
 	public ContinentHurdleMission(Player player, TerritoryManager territoryManager,
-			ArrayList<Continent> continentList) {
+			List<Continent> continentList) {
 //		super(player);
 		this.player = player;
 		this.territoryManager = territoryManager;
@@ -66,7 +67,7 @@ public class ContinentHurdleMission implements Mission {
 	 * @param additionalContinents Number of other, arbitrary continents which also have to be conquered.
 	 */
 	public ContinentHurdleMission(Player player, TerritoryManager territoryManager,
-			ArrayList<Continent> continentList, int additionalContinents) {
+			List<Continent> continentList, int additionalContinents) {
 		this.player = player;
 		this.territoryManager = territoryManager;
 //		if (continentList.size() > 2) {
@@ -83,8 +84,7 @@ public class ContinentHurdleMission implements Mission {
 	 */
 	@Override
 	public boolean test() {
-		ArrayList<Continent> conqueredContinents = territoryManager.getConqueredContinents(player
-				.getTerritories());
+		List<Continent> conqueredContinents = territoryManager.getConqueredContinents(player.getTerritories());
 		
 		// Check if all required continents are conquered
 		if (additionalContinents == 0) {
