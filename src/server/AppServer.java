@@ -1,7 +1,23 @@
 package server;
 
+import gui.AppClient;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 import de.root1.simon.exceptions.NameBindingException;
 
@@ -33,7 +49,6 @@ public class AppServer {
 		try {
 			new GameMethodsImpl("risk", port);
 			System.out.println("Listening on port " + port + "...");
-
 		} catch (UnknownHostException e) {
 			System.err.println(e.getMessage());
 		} catch (IOException e) {
@@ -42,5 +57,4 @@ public class AppServer {
 			System.err.println(e.getMessage());
 		}
 	}
-
 }

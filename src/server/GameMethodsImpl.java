@@ -81,6 +81,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	private Phase currentPhase = Phase.START;
 
+	private AppServer appServer;
+
 	/**
 	 * Phases of a player's turn
 	 */
@@ -92,6 +94,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	IOException, NameBindingException {
 		Registry registry = Simon.createRegistry(port);
 		registry.bind(name, this);
+		this.appServer = appServer;
 	}
 
 	/**
@@ -324,6 +327,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		String defenderMsg = null;
 		String attackerMsg = null;
 		int newUnitCnt = 0;
+		Player oldOwner = targetTerritory.getOwner();
+		
 
 		attackingRound++;
 
@@ -408,7 +413,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
-		notifyPlayers(new EventBoxAction(targetTerritory.getOwner(),defenderMsg));
+		notifyPlayers(new EventBoxAction(oldOwner,defenderMsg));
 
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
@@ -524,10 +529,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			dice.add(i, (int) ((Math.random()) * 6 + 1));
 		}
 
-		//sortieren der würfel TODO Absteigend oder Aufsteigend ? Inhalt muss man noch auslesen
 		Collections.sort(dice);
 		Collections.reverse(dice);
-		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
+
 		return dice;
 	}
 
@@ -560,13 +564,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public List<Territory> getMyTerritoriesForAttacking(Player player) {
 
-		//TODO das ganze mit Strings versuchen
-
 		List<Territory> territories = getMyTerritories(player);
 		List<Territory> attackingTerritories = new ArrayList<Territory>();
 
 		for(int i = 0; i < territories.size(); i++) {
-			//System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
 			List<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
 				if(!neighbors.get(j).getOwner().equals(player) && (territoryManager.getTerritoryMap().get(territories.get(i).getName()).getUnitCount() > 1)){
@@ -575,11 +576,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 					}
 				}
 			}
-		}
-
-		System.out.println("TERRITORIES FOR ATTACKING: ");
-		for (int i = 0 ; i < attackingTerritories.size(); i++){
-			System.out.println(attackingTerritories.get(i).getName());
 		}
 		return attackingTerritories;
 	}
@@ -591,20 +587,20 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 */
 	public List<Territory> getMyTerritoriesForMoving(Player player) {
-		List<Territory> territories = player.getTerritories();
+		
+		List<Territory> territories = getMyTerritories(player);
 		List<Territory> moveTerritories = new ArrayList<Territory>();
 
 		for(int i = 0; i < territories.size(); i++) {
 			List<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
-				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnitCount() > 1){
-					if(!moveTerritories.contains(neighbors.get(j))) {
+				if(neighbors.get(j).getOwner().equals(player) && (territoryManager.getTerritoryMap().get(territories.get(i).getName()).getUnitCount() > 1)){
+					if(!moveTerritories.contains(territories.get(i))) {
 						moveTerritories.add(territories.get(i));
 					}
 				}
 			}
 		}
-		System.out.println("Anzahl der zu bewegenen Länder: "+ moveTerritories.size());
 		return moveTerritories;
 	}
 
