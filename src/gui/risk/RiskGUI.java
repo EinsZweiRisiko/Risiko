@@ -2,9 +2,8 @@ package gui.risk;
 
 import gui.ActionDialog;
 import gui.AppClient;
-import gui.DialogBox;
+import gui.MessageDialog;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,7 +87,7 @@ public class RiskGUI {
 		this.game = game;
 //		this.app = app;
 		this.display = display;
-		this.guiPlayer = app.getClient();
+		this.guiPlayer = app.getPlayer();
 	}
 
 	public void prepare(){
@@ -176,26 +175,25 @@ public class RiskGUI {
 				centerImage(mainWindow);
 			}
 		});
-
-		shell.open();
 	}
-
-	private void createRoundWindow() {
-		roundButton = new Button(mainWindow, SWT.PUSH);
-		roundImage[0] = new Image(dev, "assets/roundSUPPLY.png");
-		roundImage[1] = new Image(dev, "assets/roundATTACK.png");
-		roundImage[2] = new Image(dev, "assets/roundMOVEMENT.png");
-	}
-
+	
 	/**
 	 * Starts the game loop
 	 */
-	public void start() {
+	public void pumpLoop() {
+		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
+	}
+	
+	private void createRoundWindow() {
+		roundButton = new Button(mainWindow, SWT.PUSH);
+		roundImage[0] = new Image(dev, "assets/roundSUPPLY.png");
+		roundImage[1] = new Image(dev, "assets/roundATTACK.png");
+		roundImage[2] = new Image(dev, "assets/roundMOVEMENT.png");
 	}
 
 	/**
@@ -908,7 +906,7 @@ public class RiskGUI {
 	public void openEventBox(Player player, String message) {
 
 		if(player.equals(guiPlayer)){
-			new DialogBox(shell, SWT.ICON_INFORMATION, player.getName(), message);
+			new MessageDialog(shell, SWT.ICON_INFORMATION, player.getName(), message);
 		}
 	}
 

@@ -1,15 +1,13 @@
 package gui.login;
 
 import gui.AppClient;
-import gui.DialogBox;
+import gui.MessageDialog;
 
 import java.net.UnknownHostException;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -26,156 +24,178 @@ import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.exceptions.LookupFailedException;
 
 /**
- * shows a login screen
- * @author Hendrik
- *
+ * Shows a login screen
+ * 
+ * @author Hendrik, Jannes
  */
 public class LoginGUI {
-	
+
+	private AppClient app;
+
+	private Display display;
 	private Shell shell;
-//	private AppClient app;
-	
+	private Button loadGame;
+	private Button joinGame;
+	private Text server;
+	private Text name;
+
 	/**
-	 * Create a new instance of a login window
+	 * Create a new instance of a login window.
 	 * 
 	 * @param display
-	 *            the display which should be used for showing the shell
-	 * @param app
-	 *            the calling AppClient
+	 *            The display to use for showing the shell
+	 * @param appClient
+	 *            The calling AppClient
 	 */
-	public LoginGUI(Display display, final AppClient app) {
-//		this.app = app;
-		
-		shell = new Shell(display, SWT.MIN);
+	public LoginGUI(Display display, AppClient appClient) {
+		// Save the calling AppClient
+		this.display = display;
+		app = appClient;
+
+		// Create a new window
+		shell = new Shell(display);
+		shell.setText("Login - " + AppClient.name);
+
+		// Set background image
+		shell.setBackgroundImage(new Image(display, "assets/loginbg.png"));
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
+
+		// Create the user interface
+		buildUserInterface();
+
+		// Connect the event handlers
+		connectEventHandlers();
+
+		// Set the window size
+		shell.pack();
+		shell.setMinimumSize(shell.getSize());
 		
-		shell.setText(AppClient.name + " | Login");
-		
-		Composite login = new Composite(shell, SWT.INHERIT_DEFAULT);
-		
-		Image bg = new Image(display, "assets/loginbg.png");
-		
-		shell.setBackgroundImage(bg);
-		
-		// Quit the program on window close
-		shell.addListener(SWT.Close, new Listener() {
-		      public void handleEvent(Event event) {
-		    	  shell.dispose();
-		    	  System.exit(0);
-		      }
-		});
-		
-		GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns =2;
-        gridLayout.horizontalSpacing = 10;
-        gridLayout.verticalSpacing = 10;
-        
-       	login.setLayout(gridLayout);
-       	
-       	Label nameLabel = new Label(login, SWT.INHERIT_NONE);
-       	nameLabel.setText("Name: ");
-       	
-       	final Text nameText = new Text(login, SWT.SINGLE);
-       	
-       	Label serverLabel = new Label (login, SWT.INHERIT_NONE);
-       	serverLabel.setText("Server: ");
-       	
-       	final Text serverText = new Text(login, SWT.SINGLE);
-       	serverText.setText("localhost");
-       	
-       	
-        Button joinGame = new Button(login, SWT.PUSH);
+		// Display the window
+		pumpLoop();
+	}
+
+	/**
+	 * Build the user interface
+	 */
+	private void buildUserInterface() {
+		// Create layout manager
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		layout.horizontalSpacing = 6;
+		layout.verticalSpacing = 6;
+
+		// Create composite
+		Composite login = new Composite(shell, SWT.NONE);
+		login.setLayout(layout);
+
+		// Add name label
+		Label nameLabel = new Label(login, SWT.NONE);
+		nameLabel.setText("Your name:");
+
+		// Add name input
+		name = new Text(login, SWT.SINGLE | SWT.BORDER);
+		name.setText("test " + (int)(Math.random() * 30));
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = SWT.FILL;
+		gridData.grabExcessHorizontalSpace = true;
+		name.setLayoutData(gridData);
+
+		// Add server label
+		Label serverLabel = new Label(login, SWT.NONE);
+		serverLabel.setText("Server:");
+
+		// Add server input
+		server = new Text(login, SWT.SINGLE | SWT.BORDER);
+		server.setText("localhost");
+		server.setLayoutData(gridData);
+
+		// Add "join game" button
+		joinGame = new Button(login, SWT.PUSH);
 		joinGame.setText("Spiel beitreten");
-		
-		joinGame.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				// TODO Auto-generated method stub
-			}
+		shell.setDefaultButton(joinGame);
 
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+		// Add "load game" button
+		loadGame = new Button(login, SWT.PUSH);
+		loadGame.setText("Spiel laden");
 
-			@Override
-			public void mouseUp(MouseEvent e) {
+		login.setBounds(0, 0, 250, 250);
+
+		// Create composite
+		Composite about = new Composite(shell, SWT.NONE);
+		about.setLayout(layout);
+
+		// Add about text
+		Label aboutlabel = new Label(about, SWT.NONE);
+		aboutlabel.setText("EinsZweiRisiko\n" + "Hochschule Bremen 2011\n"
+				+ "Hendrik Druse, Jannes Meyer, Timur Teker");
+
+		about.setBounds(0, 300, 250, 50);
+	}
+
+	/**
+	 * Connect the event handlers
+	 */
+	private void connectEventHandlers() {
+		// Join game
+		joinGame.addListener(SWT.Selection, new Listener() {
+
+			public void handleEvent(Event event) {
+				String ip = server.getText();
+				String player = name.getText();
 				try {
-					String ip = serverText.getText();
-					String name = nameText.getText();
-					
 					// Connect to the server
-					app.connect(ip, name);
+					app.connect(ip, player);
 					// Close the window after a successful connect
 					shell.dispose();
-				} catch (UnknownHostException e1) {
-					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
-				} catch (LookupFailedException e1) {
-					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
-				} catch (EstablishConnectionFailed e1) {
-					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
-				} catch (ServerFullException e1) {
-					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
-				} catch (NoNameException e1) {
-					new DialogBox(shell, SWT.ICON_WARNING, "Error", "Unknown host: " + e1.getMessage());
+				} catch (UnknownHostException e) {
+					new MessageDialog(shell, SWT.ICON_WARNING, "Error",
+							"Unknown host: " + e.getMessage());
+				} catch (LookupFailedException e) {
+					new MessageDialog(shell, SWT.ICON_WARNING, "Error",
+							"Unknown host: " + e.getMessage());
+				} catch (EstablishConnectionFailed e) {
+					new MessageDialog(shell, SWT.ICON_WARNING, "Error",
+							"Unknown host: " + e.getMessage());
+				} catch (ServerFullException e) {
+					new MessageDialog(shell, SWT.ICON_WARNING, "Error",
+							"Unknown host: " + e.getMessage());
+				} catch (NoNameException e) {
+					new MessageDialog(shell, SWT.ICON_WARNING, "Error",
+							"Unknown host: " + e.getMessage());
 				}
-				
-			}
-	      });
-		
-		Button loadGame = new Button(login, SWT.PUSH);
-		loadGame.setText("Spiel laden");
-		loadGame.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseUp(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseDown(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
-		Composite about = new Composite(shell, SWT.INHERIT_NONE);
-		
-		about.setLayout(gridLayout);
-		
-		Label aboutlabel = new Label(about, SWT.NONE);
-		aboutlabel.setText("EinsZweiRisiko \n"+"Hochschule Bremen 2011 \n"+"Hendrik Druse, Jannes Meyer, Timur Teker");
-		aboutlabel.pack();
-		
-		login.setBounds(0, 0, 250, 250);
-		about.setBounds(0, 300, 250, 50);
-		
-		shell.pack();
-		
-		Point shellsize = shell.getSize();
-		
-		shell.setMinimumSize(shellsize);
-		
-		shell.open();
 
+		// Load game
+		loadGame.addListener(SWT.Selection, new Listener() {
+
+			public void handleEvent(Event event) {
+				// TODO Auto-generated method stub
+			}
+
+		});
+
+		// Quit the program on window close
+		shell.addListener(SWT.Close, new Listener() {
+
+			public void handleEvent(Event event) {
+				System.exit(0);
+			}
+
+		});
+	}
+	
+	/**
+	 * UI loop
+	 */
+	private void pumpLoop() {
+		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
 	}
-	
-	@Override
-	public void finalize() {
-		shell.dispose();
-	}
-	
+
 }

@@ -447,7 +447,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			throw new ServerFullException();
 		} else if (players.size() >= 6) {
 			// Too many players
-			throw new ServerFullException();
+			// TODO Reenable this check (for debugging purposes off)
+			//throw new ServerFullException();
 		}
 
 		// Add the client
