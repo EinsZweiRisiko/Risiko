@@ -1,4 +1,4 @@
-package fsm;
+package fsm.exceptions;
 
 public class MachineAlreadyRunningException extends RuntimeException {
 	
