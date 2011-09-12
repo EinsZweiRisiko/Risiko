@@ -45,7 +45,7 @@ public class RiskGUI {
 	private final int defaultSizeX = 800;
 	private final int defaultSizeY = 600;
 
-//	private AppClient app;
+	//	private AppClient app;
 	private Territory targetTerritory;
 	private Player attackedPlayer;
 	private Territory sourceTerritory;
@@ -75,6 +75,7 @@ public class RiskGUI {
 	private Shell shell;
 	private HashMap<String, Territory> territories;
 	private Image[] unitImage = new Image[6];
+	private Button supplyButton;
 
 
 	/**
@@ -85,7 +86,7 @@ public class RiskGUI {
 	 */
 	public RiskGUI(Display display, AppClient app, final GameMethods game) {
 		this.game = game;
-//		this.app = app;
+		//		this.app = app;
 		this.display = display;
 		this.guiPlayer = app.getPlayer();
 	}
@@ -176,7 +177,7 @@ public class RiskGUI {
 			}
 		});
 	}
-	
+
 	/**
 	 * Starts the game loop
 	 */
@@ -188,8 +189,9 @@ public class RiskGUI {
 			}
 		}
 	}
-	
+
 	private void createRoundWindow() {
+		supplyButton = new Button(mainWindow, SWT.PUSH);
 		roundButton = new Button(mainWindow, SWT.PUSH);
 		roundImage[0] = new Image(dev, "assets/roundSUPPLY.png");
 		roundImage[1] = new Image(dev, "assets/roundATTACK.png");
@@ -861,8 +863,8 @@ public class RiskGUI {
 			playerButtons[i].pack();
 			if (playerButtons[i].getBounds().width > biggestButton) {
 				biggestButton = playerButtons[i].getBounds().width;
-				playerButtons[i].setSize(biggestButton, 20);
 			}
+			playerButtons[i].setSize(biggestButton, 20);
 			playerButtons[i].setLocation(new Point(((imgWidth - shell
 					.getClientArea().width) / 2 + 10), ((imgHeight - shell
 							.getClientArea().height)
@@ -899,6 +901,31 @@ public class RiskGUI {
 			}
 
 		}
+
+		int biggestButton = 0;
+
+		players = game.getPlayers();
+		for (int i = 0; i < players.size(); i++) {
+			playerButtons[i].setImage(unitImage[players.get(i).getColor()]);
+			playerButtons[i].setText(players.get(i).getName() + "("
+					+ players.get(i).getUnitCount() + ")");
+			playerButtons[i].pack();
+			if (playerButtons[i].getBounds().width > biggestButton) {
+				biggestButton = playerButtons[i].getBounds().width;
+			}
+			playerButtons[i].setSize(biggestButton, 20);
+		}
+
+		// make all Buttons same size
+		for (Button button : playerButtons) {
+			if (button.getBounds().width > biggestButton) {
+				biggestButton = button.getBounds().width;
+				button.setSize(biggestButton, 20);
+			} else if (button.getBounds().width < biggestButton) {
+				button.setSize(biggestButton, 20);
+			}
+		}
+
 		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnitCount() + ") Einheiten.");
 		shell.update();
 	}
@@ -925,7 +952,6 @@ public class RiskGUI {
 			// SOURCE TERRITORY
 			sourceTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			game.nextPhase();
-
 		} else if (phase == Phase.ATTACK2) {
 			// TARGET TERRITORY
 			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
@@ -933,9 +959,9 @@ public class RiskGUI {
 			// AMOUNT
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, sourceTerritory);
 			int units = (Integer) ad.open();
-			
+
 			game.attack(sourceTerritory, targetTerritory, units);
-			
+
 		} else if (phase == Phase.MOVEMENT1) {
 			sourceTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			game.nextPhase();			
@@ -1013,7 +1039,7 @@ public class RiskGUI {
 	}
 
 	public void updateBonusCard(Player player) {
-		
+
 		if(player.equals(guiPlayer)){
 			cardWindow = new Composite(mainWindow, SWT.NONE);
 			RowLayout rowLayout = new RowLayout();
@@ -1041,12 +1067,12 @@ public class RiskGUI {
 					type = 3;
 					cardname = "Joker";
 				}
-				
+
 				Label bonusLabel =  new Label(cardWindow, SWT.NONE);
 				bonusLabel.setSize(22, 32);
 				bonusLabel.setImage(bonusImage[type]);
 				bonusLabel.setToolTipText(cardname);
-				
+
 			}
 
 			cardWindow.pack();
@@ -1117,7 +1143,7 @@ public class RiskGUI {
 	public void updatePhase(Phase phase, Player player, PlayerCollection players ) {
 
 		//PlayerCollection players = game.getPlayers();
-		
+
 		int zahl = 0;
 
 		for(Player player2 : players){
@@ -1126,9 +1152,6 @@ public class RiskGUI {
 		}
 
 		this.phase = phase;
-
-		System.out.println("CurrentPlayer || " + player);
-		System.out.println("PHASE || " + phase);
 
 		//change the state of the roundButton to visualize the round
 		if (phase == Phase.PLACEMENT || phase == Phase.TURNINCARDS){
@@ -1141,6 +1164,7 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
+
 		if (phase == Phase.ATTACK1 || phase == Phase.ATTACK2 || phase == Phase.ATTACK3){
 			roundButton.setImage(roundImage[1]);
 			roundButton.setToolTipText("Bitte führe deine Angriffe durch");
@@ -1175,6 +1199,13 @@ public class RiskGUI {
 			for (Button button : buttonArray) {
 
 				if (player.equals(guiPlayer)) {
+					currentPlayer = player;
+					supplyButton.setVisible(true);
+					supplyButton.setText(Integer.toString(player.getSupplies()));
+					supplyButton.setToolTipText("Verbleibende Verstärkung");
+					supplyButton.setLocation(roundButton.getBounds().x + roundButton.getBounds().width + 5, roundButton.getBounds().y);
+					supplyButton.pack();
+
 					Territory territory = game.getTerritories().get(button.getData("name"));
 
 					if (territory.getOwner().equals(guiPlayer)) {
@@ -1191,6 +1222,7 @@ public class RiskGUI {
 		} else if (phase == Phase.ATTACK1) {
 
 			if (player.equals(guiPlayer)) {
+				supplyButton.setVisible(false);
 
 				List<Territory> attackingTerritories = game.getMyTerritoriesForAttacking(player);
 
@@ -1336,6 +1368,13 @@ public class RiskGUI {
 			for (Button button : buttonArray) {
 				button.setEnabled(false);
 			}
+		}
+	}
+
+	public void updateSupplyWindow(Player player) {
+		System.out.println(player);
+		if(player.equals(guiPlayer)){
+			supplyButton.setText(Integer.toString(player.getSupplies()));
 		}
 	}
 }
