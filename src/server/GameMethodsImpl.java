@@ -420,11 +420,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void move(Territory source, Territory target, int amount)
 	throws SimonRemoteException {
 
-		source.subtractUnits(amount);
-		target.addUnits(amount);
+		Territory source2 = territoryManager.getTerritoryMap().get(source.getName());
+		Territory target2 = territoryManager.getTerritoryMap().get(target.getName());
+		
+		source2.subtractUnits(amount);
+		target2.addUnits(amount);
 
-		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnitCount()));
-		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnitCount()));
+		notifyPlayers(new TerritoryUnitsChangedAction(source2, source.getUnitCount()));
+		notifyPlayers(new TerritoryUnitsChangedAction(target2, target.getUnitCount()));
 	}
 
 	/*
