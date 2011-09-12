@@ -83,6 +83,11 @@ public class LoginGUI {
 		layout.numColumns = 2;
 		layout.horizontalSpacing = 6;
 		layout.verticalSpacing = 6;
+		
+		// Layout data for the text input fields
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = SWT.FILL;
+		gridData.grabExcessHorizontalSpace = true;
 
 		// Create composite
 		Composite login = new Composite(shell, SWT.NONE);
@@ -95,9 +100,7 @@ public class LoginGUI {
 		// Add name input
 		name = new Text(login, SWT.SINGLE | SWT.BORDER);
 		name.setText("test " + (int)(Math.random() * 30));
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
+		name.selectAll();
 		name.setLayoutData(gridData);
 
 		// Add server label
@@ -126,7 +129,7 @@ public class LoginGUI {
 
 		// Add about text
 		Label aboutlabel = new Label(about, SWT.NONE);
-		aboutlabel.setText("EinsZweiRisiko\n" + "Hochschule Bremen 2011\n"
+		aboutlabel.setText(AppClient.name + "\n" + "Hochschule Bremen 2011\n"
 				+ "Hendrik Druse, Jannes Meyer, Timur Teker");
 
 		about.setBounds(0, 300, 250, 50);
