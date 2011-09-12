@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import persistence.Store;
+
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
 import server.remoteexceptions.ServerFullException;
@@ -130,6 +132,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		notifyPlayers(new GameStartedAction(currentPlayer, currentPhase, players));
 
+		save();
+		
+		load();
 		// Set the first phase
 		nextPhase();
 		nextPhase();
@@ -513,6 +518,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		return currentPlayer;
 	}
 
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+	
 	public List<Integer> getDice(int amount) {
 		List<Integer> dice = new ArrayList<Integer>();
 
@@ -543,6 +552,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		return territoryManager.getTerritoryMap();
 	}
 
+	public void setCurrentPhase(Phase currentPhase) {
+		this.currentPhase = currentPhase;
+	}
+	
 	@Override
 	public List<Territory> getMyTerritories(Player player) {
 		return player.getTerritories();
@@ -780,13 +793,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
-
+		Store save = new Store(players, this);
 	}
 
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-
+		Store load = new Store(players, this);
 	}
 
 	/**

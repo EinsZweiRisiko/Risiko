@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import server.GameMethodsImpl;
+import server.GameMethodsImpl.Phase;
 import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
+import valueobjects.BonusCard.BonusCardType;
 
 /**
  * Speichern und Laden
@@ -46,20 +48,17 @@ public class Store {
 	 */
 	List<Player> players;
 	GameMethodsImpl game;
-	PlayerCollection playerManager;
 	private final String SAVE_PATH = "C:\\riskSave2.txt";
 
-	public Store(PlayerCollection playerManager, GameMethodsImpl game) {
-		this.playerManager = playerManager;
+	public Store(PlayerCollection players, GameMethodsImpl game) {
+		this.players = players;
 		this.game = game;
+		buildInput();
+		save();
 	}
 
 	public List<String> buildInput() {
-
-		// holt sich alle Spieler und schreibt sie lokal
-		players = playerManager;
-
-		// in Input werden die Daten 
+		// in Input werden die Daten zusammengetragen
 		List<String> input = new ArrayList<String>();
 		List<Territory> territories;
 
@@ -67,47 +66,42 @@ public class Store {
 		// der aktuelle Spieler der dran war
 		input.add("# Aktueller Spieler");
 		input.add(game.getActivePlayer().getName());
-		
+
 		//die Aktuelle Phase
 		input.add("# Aktuelle Phase");
-		// TODO Pahse zum String konventieren altaaaa!!!1
-//		input.add(Enum.toString(game.getCurrentPhase()));
-		
-		/* TODO muss mit allen Spielern geschehen
-		 *  eine while schleife durchladen aller spieler
-		 *  alle spieler bekommen wir von PlayerManager mit getPlayers();
-		 */
+		input.add(game.getPhase().name());
 
-		for(int a = 0; a <= players.size()-1; a++) {
+		// hier beginnt das Inputbuild für jeden Spieler
+		for(int a = 0; a < players.size(); a++) {
 			//Spieler input Build
 			input.add("# Name");
 			input.add(players.get(a).getName());	// Name
 
+			// Spielerfarbe
 			input.add("# Farbe");
 			input.add(String.valueOf(players.get(a).getColor()));	// Farbe
 
-			
 			//Anzahl der Bonuskarten
-			List<BonusCard> territoryCards = players.get(a).getBonusCards();
 			input.add("# AnzahlBonusKarten");
-			input.add(String.valueOf(territoryCards.size())); 	//Anzahl von Karten
-			
+			input.add(String.valueOf(players.get(a).getBonusCards().size())); 	//Anzahl von Karten
+
 			// Bonus Karten
 			input.add("# Bonuskarten");
-			for(int i = 0; i <= territoryCards.size(); i++) {
-				input.add(territoryCards.get(i).getType().toString());
+			for(int i = 0; i < players.get(a).getBonusCards().size(); i++) {
+				input.add(players.get(a).getBonusCards().get(i).getType().name());
 			}
-			
+
 			//Länder im Besitz
 			input.add("# AnzahlLänder");
 			input.add(String.valueOf(players.get(a).getTerritoryCount())); // Anzahl der Länder
-			
+
+			// Territory Liste
 			input.add("# BesitzendeLänder:AnzahlEinheitendrauf");
 			territories = players.get(a).getTerritories();				// Name der Länder
-			for(int i = 0; i <= territories.size(); i++) {
+			for(int i = 0; i < territories.size(); i++) {
 				input.add(territories.get(i).getName()+":"+ String.valueOf(territories.get(i).getUnitCount()));
 			}
-			
+
 			//anzahl der gesamten Einheiten
 			input.add("# AnzahlGesamtEinheiten");
 			input.add(String.valueOf(players.get(a).getUnitCount()));
@@ -123,17 +117,11 @@ public class Store {
 	}
 
 	public void save() {
-		/*
-		System.out.println("START DES SPEICHERNS");
-		for(int i = 0; i <= buildInput().size(); i++) {
-			System.out.println(buildInput().get(i));
-		}
-		System.out.println("ENDE DES SPEICHERNS");
-		 */
 
 		//zusammen bauen des input Arrays
 		List<String> input = new ArrayList<String>();
-		for(int i = 0; i <= buildInput().size()-1; i++) {
+
+		for(int i = 0; i < buildInput().size(); i++) {
 			System.out.println("Es wurde folgendes gelesen: "+ buildInput().get(i));
 			input.add(buildInput().get(i));
 		}
@@ -144,37 +132,119 @@ public class Store {
 			File file = new File(SAVE_PATH);
 			FileWriter fw = new FileWriter(file);
 
-			for(int i = 0; i <= input.size()-1; i++) {
+			for(int i = 0; i < input.size(); i++) {
 				fw.write(input.get(i));
 				fw.write("\r\n");
 			}
 			fw.flush();
 			fw.close();
+			System.out.println("GESPEICHERT!");
 		}
 		catch( IOException e )
 		{
 			e.printStackTrace();
 		}
-
 	}
 
 	public void filterLoadFile(List<String> loadText) {
-		int player = 0;
+		Player loadedPlayer = null;
 
 		//TODO reImplement setter
-		for(int i = 0; i <= loadText.size(); i++) {
-			if(loadText.get(i) == "# Name") {
-				player++;
-//				players.get(player).setName(loadText.get(i+1));
-			}
-			if(loadText.get(i) == "# Farbe") {
-//				players.get(player).setColor(Integer.parseInt(loadText.get(i+1)));
-			}
-			if(loadText.get(i) == "# Bonuskarten") {
-				while(loadText.get(i+1).contains("#")) {
-
+		for(int i = 0; i < loadText.size(); i++) {
+			if(loadText.get(i) == "# Aktueller Spieler") {
+				for(int a = 0; a < players.size(); a++) {
+					if(players.get(a).getName() == loadText.get(i+1)) {
+						game.setCurrentPlayer(players.get(a));
+					}
 				}
-				//players.get(player).setBonusCards
+			}
+
+			if(loadText.get(i) == "# Aktuelle Phase") {
+				Phase phase = null;
+
+				if(loadText.get(i+1) == "START") {
+					phase = Phase.START;
+				}else if(loadText.get(i+1) == "TURNINCARDS") {
+					phase = Phase.TURNINCARDS;
+				}else if(loadText.get(i+1) == "PLACEMENT") {
+					phase = Phase.PLACEMENT;
+				}else if(loadText.get(i+1) == "ATTACK1") {
+					phase = Phase.ATTACK1;
+				}else if(loadText.get(i+1) == "ATTACK2") {
+					phase = Phase.ATTACK2;
+				}else if(loadText.get(i+1) == "ATTACK3") {
+					phase = Phase.ATTACK3;
+				}else if(loadText.get(i+1) == "MOVEMENT1") {
+					phase = Phase.MOVEMENT1;
+				}else if(loadText.get(i+1) == "MOVEMENT2") {
+					phase = Phase.MOVEMENT2;
+				}else if(loadText.get(i+1) == "MOVEMENT3") {
+					phase = Phase.MOVEMENT3;
+				}
+				game.setCurrentPhase(phase);
+			}
+
+			// hier beginnt das laden der Inhalte für den jeweiligen Spieler steht in loadedPlayer
+
+			if(loadText.get(i) == "# Name") {
+				for(int a = 0; a < players.size(); a++) {
+					if(players.get(a).getName() == loadText.get(i+1)) {
+						loadedPlayer = players.get(a);
+					}
+				}
+			}
+
+			if(loadText.get(i) == "# Farbe") {
+				loadedPlayer.setColor(Integer.parseInt(loadText.get(i+1)));
+			}
+
+			if(loadText.get(i) == "# Bonuskarten") {
+				BonusCard bonusCard = null;
+				BonusCardType loadedCardType = null;
+
+				// solange die Zeile nicht der näcshten Sektion übereinstimmt
+				for(int a = i+1; !loadText.get(a).contains("# AnzahlLänder"); a++) {
+					if(loadText.get(i+1) == "Infantry") {
+						loadedCardType = loadedCardType.Infantry;
+						bonusCard = new BonusCard(loadedCardType);
+						loadedPlayer.addBonusCard(bonusCard);
+					}else if(loadText.get(i+1) == "Cavalry") {
+						loadedCardType = loadedCardType.Cavalry;
+						bonusCard = new BonusCard(loadedCardType);
+						loadedPlayer.addBonusCard(bonusCard);
+					}else if(loadText.get(i+1) == "Artillery") {
+						loadedCardType = loadedCardType.Artillery;
+						bonusCard = new BonusCard(loadedCardType);
+						loadedPlayer.addBonusCard(bonusCard);
+					}else if(loadText.get(i+1) == "Wildcard") {
+						loadedCardType = loadedCardType.Wildcard;
+						bonusCard = new BonusCard(loadedCardType);
+						loadedPlayer.addBonusCard(bonusCard);;
+					}
+					i = a;
+				}
+			}
+
+			if(loadText.get(i) == "# BesitzendeLänder:AnzahlEinheitendrauf") {
+				for(int a = i+1; !loadText.get(a).contains("# AnzahlLänder"); a++) {
+					// jetzt wird es richtig FIES!
+					char[] zeichen = loadText.get(a).toCharArray();
+					int endIndex = 0;
+
+					for(int x = 0; a < zeichen.length; x++) {
+						if(zeichen[x] == ':') {
+							endIndex = a;
+						}
+					}
+					game.getTerritoryManager().getTerritoryMap().get(loadText.get(a).substring(0, (endIndex-1)));
+				}
+			}
+
+			if(loadText.get(i) == "# AnzahlGesamtEinheiten") {
+
+			}
+			if(loadText.get(i) == "# AnzahlZuSetzendeEinheiten") {
+
 			}
 		}
 	}
@@ -200,6 +270,11 @@ public class Store {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+
+		// ausgeben des gelesenen
+		for(int x = 0; i < loadText.size(); x++) {
+			System.out.println(loadText.get(x));
 		}
 	}
 }
