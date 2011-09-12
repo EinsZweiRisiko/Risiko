@@ -11,6 +11,8 @@ import valueobjects.Territory;
  */
 public class Africa extends Continent {
 
+	private static final long serialVersionUID = 2140046189563613850L;
+
 	/**
 	 * Constructor automatically creates and adds Nordwestafrika, Ägypten,
 	 * Ostafrika, Kongo, Südafrika and Madagaskar. Also it defines the amount of
@@ -18,7 +20,7 @@ public class Africa extends Continent {
 	 */
 	public Africa() {
 		name = "Afrika";
-		supplies = 3;
+		bonusSupplies = 3;
 		territoryList.add(new Territory("Nordwestafrika"));
 		territoryList.add(new Territory("Ägypten"));
 		territoryList.add(new Territory("Ostafrika"));

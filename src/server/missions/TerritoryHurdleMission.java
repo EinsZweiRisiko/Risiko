@@ -43,7 +43,7 @@ public class TerritoryHurdleMission implements Mission {
 		
 		// Check the unit hurdle for each territory
 		for (Territory territory : playerTerritories) {
-			if (territory.getUnits() < territoryUnitHurdle) {
+			if (territory.getUnitCount() < territoryUnitHurdle) {
 				return false;
 			}
 		}

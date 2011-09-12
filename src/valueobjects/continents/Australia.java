@@ -11,6 +11,8 @@ import valueobjects.Territory;
  */
 public class Australia extends Continent {
 
+	private static final long serialVersionUID = 6052958239532645054L;
+
 	/**
 	 * Constructor automatically creates and adds Indonesien, Neu-Guinea,
 	 * West-Australien and Ost-Australien. Also it defines the amount of supply
@@ -18,7 +20,7 @@ public class Australia extends Continent {
 	 */
 	public Australia() {
 		name = "Australien";
-		supplies = 2;
+		bonusSupplies = 2;
 		territoryList.add(new Territory("Indonesien"));
 		territoryList.add(new Territory("Neu-Guinea"));
 		territoryList.add(new Territory("West-Australien"));

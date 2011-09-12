@@ -11,6 +11,8 @@ import valueobjects.Territory;
  */
 public class Europe extends Continent {
 
+	private static final long serialVersionUID = -4583649431625747760L;
+
 	/**
 	 * Constructor automatically creates and adds Island, Skandinavien, Ukraine,
 	 * Großbritannien, Mitteleuropa and Südeuropa. Also it defines the amount of
@@ -18,7 +20,7 @@ public class Europe extends Continent {
 	 */
 	public Europe() {
 		name = "Europa";
-		supplies = 5;
+		bonusSupplies = 5;
 		territoryList.add(new Territory("Island"));
 		territoryList.add(new Territory("Skandinavien"));
 		territoryList.add(new Territory("Ukraine"));

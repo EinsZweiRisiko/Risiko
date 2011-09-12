@@ -7,6 +7,8 @@ import java.util.List;
 
 import server.TerritoryManager;
 
+import commons.GameMethods;
+
 /**
  * A class that represents a player
  * 
@@ -19,7 +21,7 @@ public class Player implements Serializable {
 	/**
 	 * This is a static attribute that is used to assign each player a unique ID
 	 */
-	private static int playerCounter = 0;
+	private static int staticPlayerCounter = 0;
 
 	/**
 	 * Name of the player
@@ -54,32 +56,96 @@ public class Player implements Serializable {
 	 * Constructor
 	 * 
 	 * @param name
-	 *            Name of the player
+	 *            Name of the player as String.
 	 */
 	public Player(String name) {
 		this.name = name;
-		this.color = playerCounter++;
+		// Increase the player counter
+		this.color = staticPlayerCounter++;
 	}
 
 	/**
+	 * Get the player's name.
+	 * 
+	 * @return name String
+	 */
+	public String toString() {
+		return name;
+	}
+
+	/**
+	 * Get the player's color.
 	 * Get the player's name
 	 * 
-	 * @return name
+	 * @return name String
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
+	 * Set the player's name
+	 * 
+	 * @param name
+	 *            String
+	 */
+	public void setName(String name) {
+		// TODO remove as soon as we have a working persistence
+		this.name = name;
+	}
+
+	/**
 	 * Get the player's color.
 	 * 
-	 * @return int color
+	 * @return color int
 	 */
 	public int getColor() {
 		return color;
 	}
 
 	/**
+	 * Set the player's color
+	 * 
+	 * @param color
+	 *            int
+	 */
+	public void setColor(int color) {
+		// TODO remove as soon as we have a working persistence
+		this.color = color;
+	}
+
+	/**
+	 * Returns a list of territories the player owns.
+	 * 
+	 * The list should not be altered in any way.
+	 * 
+	 * @return List of territories
+	 */
+	public List<Territory> getTerritories() {
+		// TODO The internal list is unprotected
+		return territoryList;
+	}
+
+	/**
+	 * Returns the number of countries the player currently owns.
+	 * 
+	 * @return int Number of countries
+	 */
+	public int getTerritoryCount() {
+		return territoryList.size();
+	}
+
+	/**
+	 * Returns true, if the player is dead, i.e. he doesn't own any territories.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isDead() {
+		return territoryList.isEmpty();
+	}
+
+	/**
+	 * Returns a random territory which is owned by the player
 	 * Adds a territory to the list of territories which are owned by the
 	 * player.
 	 * 
@@ -102,78 +168,13 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Returns a list of territories the player owns.
+	 * Returns the player's list of territory cards which can be exchanged for
+	 * bonus units
 	 * 
-	 * The list should not be altered in any way.
-	 * 
-	 * @return List of territories
+	 * @return List of territory cards
 	 */
-	public List<Territory> getTerritories() {
-		// TODO protect the internal list from changes
-		return territoryList;
-	}
-
-	/**
-	 * Returns the number of countries the player currently owns.
-	 * 
-	 * @return the number of countries the player currently owns.
-	 */
-	public int getTerritoryCount() {
-		return territoryList.size();
-	}
-
-	/**
-	 * Returns if the player is dead
-	 * 
-	 * @return True, if the player has no territories left
-	 */
-	public boolean isDead() {
-		return territoryList.isEmpty();
-	}
-
-	/**
-	 * calculate if there ist 3 similiar Bonus cards
-	 * 
-	 * @param player
-	 * @return
-	 */
-	public boolean canTurnInCards(Player player) {
-		int cntInfantry = 0;
-		int cntCavalry = 0;
-		int cntArtillery = 0;
-
-		if(player.getBonusCards().size() >= 2) {
-			for(int i = 0; i < player.getBonusCards().size(); i++) {
-				String cardName = player.getBonusCards().get(i).getType().name();
-				if(cntInfantry == 2 || cntCavalry == 2 || cntArtillery == 2) {
-					cntInfantry = 0;
-					cntCavalry = 0;
-					cntArtillery = 0;
-					return true;
-				}else {
-					if(cardName == "Infantry" ||  cardName == "Wildcard") {
-						cntInfantry++;
-					}else if(cardName == "Cavalry" ||  cardName == "Wildcard") {
-						cntCavalry++;
-					} else if(cardName == "Artillery" ||  cardName == "Wildcard") {
-						cntArtillery++;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Returns a random territory which is owned by the player
-	 * 
-	 * @return a random Territory
-	 */
-	public Territory getRandomTerritory() {
-		// Generate a pseudo random number
-		int random = (int) (Math.random() * territoryList.size());
-		// Return the territory
-		return territoryList.get(random);
+	public List<BonusCard> getBonusCards() {
+		return bonusCards;
 	}
 
 	/**
@@ -184,16 +185,6 @@ public class Player implements Serializable {
 	 */
 	public void addBonusCard(BonusCard card) {
 		bonusCards.add(card);
-	}
-
-	/**
-	 * Returns the player's list of territory cards which can be exchanged for
-	 * bonus units
-	 * 
-	 * @return List of territory cards
-	 */
-	public List<BonusCard> getBonusCards() {
-		return bonusCards;
 	}
 
 	/**
@@ -223,25 +214,54 @@ public class Player implements Serializable {
 		int units = 0;
 
 		for (Territory territory : territoryList) {
-			units += territory.getUnits();
+			units += territory.getUnitCount();
 		}
 
 		return units;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof Player)) {
-			return false;
-		}
+	/**
+	 * Calculate if there are 3 similiar bonus cards
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public boolean canTurnInCards() {
+		int numBonusCards = bonusCards.size();
+		int cntInfantry = 0;
+		int cntCavalry = 0;
+		int cntArtillery = 0;
 
-		Player p = (Player) o;
-
-		if (p.getColor() == getColor()) {
-			return true;
-		} else {
-			return false;
+		if(numBonusCards >= 2) {
+			for(int i = 0; i < numBonusCards; i++) {
+				String cardName = bonusCards.get(i).getType().name();
+				if(cntInfantry == 2 || cntCavalry == 2 || cntArtillery == 2) {
+					cntInfantry = 0;
+					cntCavalry = 0;
+					cntArtillery = 0;
+					return true;
+				}else {
+					if(cardName == "Infantry" ||  cardName == "Wildcard") {
+						cntInfantry++;
+					}else if(cardName == "Cavalry" ||  cardName == "Wildcard") {
+						cntCavalry++;
+					} else if(cardName == "Artillery" ||  cardName == "Wildcard") {
+						cntArtillery++;
+					}
+				}
+			}
 		}
+		return false;
+	}
+
+	/**
+	 * Returns the total amount of supply units that the player needs to
+	 * allocate.
+	 * 
+	 * @return
+	 */
+	public int getSupplies() {
+		return suppliesToAllocate;
 	}
 
 	/**
@@ -267,13 +287,51 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Returns the total amount of supply units that the player needs to
-	 * allocate.
+	 * Returns a random territory which is owned by the player.
 	 * 
-	 * @return
+	 * @see GameMethods placeStartUnitsRandomly
+	 * @return A random Territory
 	 */
-	public int getSupplies() {
-		return suppliesToAllocate;
+	public Territory getRandomTerritory() {
+		// Generate a pseudo random number
+		int random = (int) (Math.random() * territoryList.size());
+		// Return the territory
+		return territoryList.get(random);
+	}
+
+	/**
+	 * Returns a list of all continents that the player has completely
+	 * conquered.
+	 * 
+	 * @return List of continents
+	 */
+	public List<Continent> getContinents() {
+		// TODO implement getContinents
+		return null;
+	}
+
+	/**
+	 * Gets a count of all units that the player has placed on the board.
+	 * 
+	 * @return Unit count
+	 */
+	public int getUnitCount() {
+		int count = 0;
+		for (Territory territory : territoryList) {
+			count += territory.getUnitCount();
+		}
+		return count;
+	}
+
+	/**
+	 * Check if two player objects are equal
+	 */
+	public boolean equals(Player player) {
+//		if (!(o instanceof Player)) {
+//			return false;
+//		}
+//		Player player = (Player) o;
+		return getColor() == player.getColor();
 	}
 
 }
