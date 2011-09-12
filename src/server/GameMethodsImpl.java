@@ -79,6 +79,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	private Phase currentPhase = Phase.START;
 
+	private AppServer appServer;
+
 	/**
 	 * Phases of a player's turn
 	 */
@@ -86,10 +88,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		START, TURNINCARDS, PLACEMENT, ATTACK1, ATTACK2, ATTACK3, MOVEMENT1, MOVEMENT2, MOVEMENT3
 	};
 
-	public GameMethodsImpl(String name, int port, AppServer appServer) throws UnknownHostException,
+	public GameMethodsImpl(String name, int port) throws UnknownHostException,
 	IOException, NameBindingException {
 		Registry registry = Simon.createRegistry(port);
 		registry.bind(name, this);
+		this.appServer = appServer;
 	}
 
 	/**

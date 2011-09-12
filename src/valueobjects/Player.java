@@ -222,7 +222,6 @@ public class Player implements Serializable {
 
 	/**
 	 * Calculate if there are 3 similiar bonus cards
-	 * 
 	 * @param player
 	 * @return
 	 */
