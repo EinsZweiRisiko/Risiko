@@ -1,6 +1,6 @@
 package server.missions;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import server.Mission;
 import valueobjects.Player;
@@ -30,7 +30,7 @@ public class TerritoryHurdleMission implements Mission {
 	@Override
 	public boolean test() {
 		// Get all territories that are owned by the player
-		ArrayList<Territory> playerTerritories = player.getTerritories();
+		List<Territory> playerTerritories = player.getTerritories();
 		
 		// Check the territory hurdle
 		if (playerTerritories.size() < territoryHurdle) {

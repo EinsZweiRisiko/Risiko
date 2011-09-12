@@ -2,6 +2,7 @@ package valueobjects;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import server.TerritoryManager;
 
@@ -30,7 +31,7 @@ public abstract class Continent implements Iterable<Territory> {
 	/**
 	 * Contains all territories that make this continent up
 	 */
-	protected ArrayList<Territory> territoryList = new ArrayList<Territory>();
+	protected List<Territory> territoryList = new ArrayList<Territory>();
 
 	/**
 	 * Returns an iterator which can be used to iterate over all the territories
@@ -72,7 +73,7 @@ public abstract class Continent implements Iterable<Territory> {
 	 * @return List of territories
 	 * @see TerritoryManager
 	 */
-	public ArrayList<Territory> getTerritories() {
+	public List<Territory> getTerritories() {
 		return territoryList;
 	}
 

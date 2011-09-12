@@ -3,8 +3,8 @@ package gui.lobby;
 import gui.AppClient;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -28,9 +28,8 @@ public class LobbyGUI {
 	
 	private Display display;
 	private Shell shell;
-	@SuppressWarnings("unused")
-	private AppClient app;
-	private GameMethods game;
+//	private AppClient app;
+	private GameMethods serverMethods;
 	private Composite lobby;
 	private Label playerList;
 	
@@ -38,19 +37,17 @@ public class LobbyGUI {
 	 * creates a new instance of a Lobby Window
 	 * @param display the display which should be used for showing the shell
 	 * @param app the calling AppClient
-	 * @param game the instance of the game which should be started
-	 * @param creator true == this GUI belongs to a user who is creating the game false == this GUI belongs to a user who is joining a game
+	 * @param serverMethods the instance of the game which should be started
 	 */
-	public LobbyGUI(Display display, final AppClient app, final GameMethods game){
+	public LobbyGUI(Display display, AppClient app, final GameMethods serverMethods) {
 		this.display = display;
-		this.app = app;
-		this.game = game;
+//		this.app = app;
+		this.serverMethods = serverMethods;
 		
 		shell = new Shell(display, SWT.MIN);
+		shell.setText("Lobby");
+		// Set background
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
-		
-		shell.setText(AppClient.name + " | Lobby");
-		
 		Image bg = new Image(display, "assets/loginbg.png");
 		
 		shell.setBackgroundImage(bg);
@@ -70,29 +67,19 @@ public class LobbyGUI {
 		// Update the text
 		updateText();
 		
-		// if joining Player is a Creator, show him a start Button.
-		if(game.getPlayers().size() == 1) {
+		// If the player is the first player, show him a start Button.
+		if(serverMethods.getPlayers().size() == 1) {
 			Button startGame = new Button(lobby,SWT.PUSH);
 			startGame.setText("Spiel starten");		
 			
-			startGame.addMouseListener(new MouseListener() {
-				@Override
-				public void mouseDown(MouseEvent e) {
-					// TODO Auto-generated method stub
-				}
+			startGame.addMouseListener(new MouseAdapter() {
 
 				@Override
-				public void mouseDoubleClick(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void mouseUp(MouseEvent e) {
+				public void mouseUp(MouseEvent event) {
 					try {
-						game.start();
-					} catch (NotEnoughPlayersException e1) {
-						System.out.println(e1.getMessage());
+						serverMethods.start();
+					} catch (NotEnoughPlayersException e) {
+						System.out.println(e.getMessage());
 					}
 				}
 		      });
@@ -115,7 +102,7 @@ public class LobbyGUI {
 	 * Updates the text field.
 	 */
 	public void updateText() {
-		PlayerCollection players = game.getPlayers();
+		PlayerCollection players = serverMethods.getPlayers();
 		
 		String text = "";
 		for (Player player:players) {

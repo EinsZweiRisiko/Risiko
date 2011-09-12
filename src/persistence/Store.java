@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import server.GameMethodsImpl;
 import valueobjects.BonusCard;
@@ -43,7 +44,7 @@ public class Store {
 	 * Mission
 	 * 
 	 */
-	ArrayList<Player> players;
+	List<Player> players;
 	GameMethodsImpl game;
 	PlayerCollection playerManager;
 	private final String SAVE_PATH = "C:\\riskSave2.txt";
@@ -53,14 +54,14 @@ public class Store {
 		this.game = game;
 	}
 
-	public ArrayList<String> buildInput() {
+	public List<String> buildInput() {
 
 		// holt sich alle Spieler und schreibt sie lokal
 		players = playerManager;
 
 		// in Input werden die Daten 
-		ArrayList<String> input = new ArrayList<String>();
-		ArrayList<Territory> territories;
+		List<String> input = new ArrayList<String>();
+		List<Territory> territories;
 
 		// Allgemeines Input Build
 		// der aktuelle Spieler der dran war
@@ -87,7 +88,7 @@ public class Store {
 
 			
 			//Anzahl der Bonuskarten
-			ArrayList<BonusCard> territoryCards = players.get(a).getBonusCards();
+			List<BonusCard> territoryCards = players.get(a).getBonusCards();
 			input.add("# AnzahlBonusKarten");
 			input.add(String.valueOf(territoryCards.size())); 	//Anzahl von Karten
 			
@@ -131,7 +132,7 @@ public class Store {
 		 */
 
 		//zusammen bauen des input Arrays
-		ArrayList<String> input = new ArrayList<String>();
+		List<String> input = new ArrayList<String>();
 		for(int i = 0; i <= buildInput().size()-1; i++) {
 			System.out.println("Es wurde folgendes gelesen: "+ buildInput().get(i));
 			input.add(buildInput().get(i));
@@ -157,7 +158,7 @@ public class Store {
 
 	}
 
-	public void filterLoadFile(ArrayList<String> loadText) {
+	public void filterLoadFile(List<String> loadText) {
 		int player = 0;
 
 		for(int i = 0; i <= loadText.size(); i++) {
@@ -184,7 +185,7 @@ public class Store {
 		BufferedReader br;
 		String line;
 		int i = 0;
-		ArrayList<String> loadText = new ArrayList<String>();
+		List<String> loadText = new ArrayList<String>();
 
 		try {
 			br = new BufferedReader(new FileReader(SAVE_PATH));

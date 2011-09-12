@@ -33,7 +33,7 @@ import de.root1.simon.exceptions.LookupFailedException;
 public class LoginGUI {
 	
 	private Shell shell;
-	private AppClient app;
+//	private AppClient app;
 	
 	/**
 	 * Create a new instance of a login window
@@ -44,7 +44,7 @@ public class LoginGUI {
 	 *            the calling AppClient
 	 */
 	public LoginGUI(Display display, final AppClient app) {
-		this.app = app;
+//		this.app = app;
 		
 		shell = new Shell(display, SWT.MIN);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);

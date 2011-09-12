@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.ShellEvent;
@@ -44,7 +45,7 @@ public class RiskGUI {
 	private final int defaultSizeX = 800;
 	private final int defaultSizeY = 600;
 
-	private AppClient app;
+//	private AppClient app;
 	private Territory targetTerritory;
 	private Player attackedPlayer;
 	private Territory sourceTerritory;
@@ -85,7 +86,7 @@ public class RiskGUI {
 	 */
 	public RiskGUI(Display display, AppClient app, final GameMethods game) {
 		this.game = game;
-		this.app = app;
+//		this.app = app;
 		this.display = display;
 		this.guiPlayer = app.getClient();
 	}
@@ -893,14 +894,14 @@ public class RiskGUI {
 				button.setImage(unitImage[territory.getOwner().getColor()]);
 				button.setText(String.valueOf(territory.getUnits()));
 				button.setToolTipText(territory.getName() + " gehört "+ territory.getOwner().getName());
-				
+
 				System.out.println("Button Inhalte von: "+ territory.getName() +" geändert");
-				
+
 				shell.update();
 			}
 
 		}
-		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnits() + ")Einheiten.");
+		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnits() + ") Einheiten.");
 		shell.update();
 	}
 
@@ -919,7 +920,7 @@ public class RiskGUI {
 	 */
 	private void performAction(MouseEvent e) {
 		Button clickedButton = (Button) e.widget;
-		
+
 		if (phase == Phase.PLACEMENT) {
 			game.placeUnits(game.getTerritories().get(clickedButton.getData("name")).getName(), 1);
 		} else if (phase == Phase.ATTACK1) {
@@ -978,7 +979,7 @@ public class RiskGUI {
 			System.exit(1);
 		}
 
-		ArrayList<BonusCard> bonuscards = guiPlayer.getBonusCards();
+		List<BonusCard> bonuscards = guiPlayer.getBonusCards();
 
 		bonusLabelStack = new Label[bonuscards.size()];
 
@@ -1016,47 +1017,52 @@ public class RiskGUI {
 	}
 
 	public void updateBonusCard(Player player) {
-		cardWindow = new Composite(mainWindow, SWT.NONE);
-		RowLayout rowLayout = new RowLayout();
-		cardWindow.setLayout(rowLayout);
+		
+		if(currentPlayer.equals(guiPlayer)){
+			cardWindow = new Composite(mainWindow, SWT.NONE);
+			RowLayout rowLayout = new RowLayout();
+			cardWindow.setLayout(rowLayout);
 
-		ArrayList<BonusCard> bonuscards = player.getBonusCards();
+			List<BonusCard> bonuscards = player.getBonusCards();
+			
+			System.out.println(" Bonuskarten auf GUI : " + bonuscards);
 
-		bonusLabelStack = new Label[bonuscards.size()];
+			bonusLabelStack = new Label[bonuscards.size()];
 
-		for (BonusCard bonusCard : bonuscards) {
-			Label label = new Label(cardWindow, SWT.NONE);
+			for (BonusCard bonusCard : bonuscards) {
+				Label label = new Label(cardWindow, SWT.NONE);
 
-			int type = 0;
+				int type = 0;
 
-			if (bonusCard.getType().equals("Infantry")) {
-				type = 0;
+				if (bonusCard.getType() == BonusCard.BonusCardType.Infantry) {
+					type = 0;
+				}
+				if (bonusCard.getType() == BonusCard.BonusCardType.Cavalry) {
+					type = 1;
+				}
+				if (bonusCard.getType() == BonusCard.BonusCardType.Artillery) {
+					type = 2;
+				}
+				if (bonusCard.getType() == BonusCard.BonusCardType.Wildcard) {
+					type = 3;
+				}
+
+				label.setSize(22, 32);
+				label.setImage(bonusImage[type]);
+				label.pack();
+				cardWindow.pack();
 			}
-			if (bonusCard.getType().equals("Cavalry")) {
-				type = 1;
-			}
-			if (bonusCard.getType().equals("Artillery")) {
-				type = 2;
-			}
-			if (bonusCard.getType().equals("WildCard")) {
-				type = 3;
-			}
 
-			label.setSize(22, 32);
-			label.setImage(bonusImage[type]);
-			label.pack();
-			cardWindow.pack();
+			cardWindow
+			.setLocation(new Point(
+					((imgWidth - shell.getClientArea().width) / 2
+							+ shell.getClientArea().width - cardWindow
+							.getBounds().width),
+							((imgHeight - shell.getClientArea().height) / 2
+									+ 5)));
+
+			shell.update();
 		}
-
-		cardWindow
-		.setLocation(new Point(
-				((imgWidth - shell.getClientArea().width) / 2
-						+ shell.getClientArea().width - cardWindow
-						.getBounds().width),
-						((imgHeight - shell.getClientArea().height) / 2
-								+ 5)));
-
-		shell.update();
 
 	}
 
@@ -1147,7 +1153,7 @@ public class RiskGUI {
 			roundButton.pack();
 			shell.update();
 		}
-		
+
 		if (phase == Phase.MOVEMENT1 || phase == Phase.MOVEMENT2){
 			roundButton.setImage(roundImage[2]);
 			roundButton.setToolTipText("Verschiebe deine Armeen");
@@ -1211,7 +1217,7 @@ public class RiskGUI {
 				nextPhaseButton.pack();
 				shell.update();
 
-				nextPhaseButton.addMouseListener(new MouseListener() {
+				nextPhaseButton.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
@@ -1220,17 +1226,6 @@ public class RiskGUI {
 						System.out.println("NEXT PHASE BUTTON IS DISPOSING");
 					}
 
-					@Override
-					public void mouseDown(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void mouseDoubleClick(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 			}
 		} else if (phase == Phase.ATTACK2) {
@@ -1266,7 +1261,7 @@ public class RiskGUI {
 			if (player.equals(guiPlayer)) {
 				nextPhaseButton.dispose();
 			}
-			
+
 			if (attackedPlayer.equals(guiPlayer)){
 
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
@@ -1307,7 +1302,7 @@ public class RiskGUI {
 				nextPhaseButton.pack();
 				shell.update();
 
-				nextPhaseButton.addMouseListener(new MouseListener() {
+				nextPhaseButton.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mouseUp(MouseEvent e) {
@@ -1315,17 +1310,6 @@ public class RiskGUI {
 						nextPhaseButton.dispose();
 					}
 
-					@Override
-					public void mouseDown(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void mouseDoubleClick(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 			}
 		}

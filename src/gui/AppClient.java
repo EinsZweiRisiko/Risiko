@@ -9,11 +9,9 @@ import java.net.UnknownHostException;
 import org.eclipse.swt.widgets.Display;
 
 import server.AppServer;
-import server.GameMethodsImpl.Phase;
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.Player;
-import valueobjects.Territory;
 
 import commons.Action;
 import commons.ClientMethods;
@@ -131,7 +129,6 @@ public class AppClient implements ClientMethods {
 				}
 			});
 		}else {
-			
 			System.out.println("Unidentified action.");
 		}
 	}
