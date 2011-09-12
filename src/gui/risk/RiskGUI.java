@@ -945,7 +945,7 @@ public class RiskGUI {
 					sourceTerritory);
 			int units = (Integer) ad.open();
 
-			game.move(sourceTerritory, targetTerritory, units);
+			game.move(game.getTerritoryManager().getTerritoryMap().get(sourceTerritory.getName()), game.getTerritoryManager().getTerritoryMap().get(targetTerritory.getName()), units);
 			game.nextPhase();
 		}
 	}
