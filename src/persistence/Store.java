@@ -161,13 +161,14 @@ public class Store {
 	public void filterLoadFile(List<String> loadText) {
 		int player = 0;
 
+		//TODO reImplement setter
 		for(int i = 0; i <= loadText.size(); i++) {
 			if(loadText.get(i) == "# Name") {
 				player++;
-				players.get(player).setName(loadText.get(i+1));
+//				players.get(player).setName(loadText.get(i+1));
 			}
 			if(loadText.get(i) == "# Farbe") {
-				players.get(player).setColor(Integer.parseInt(loadText.get(i+1)));
+//				players.get(player).setColor(Integer.parseInt(loadText.get(i+1)));
 			}
 			if(loadText.get(i) == "# Bonuskarten") {
 				while(loadText.get(i+1).contains("#")) {

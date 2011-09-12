@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Text;
 
 import server.GameMethodsImpl.Phase;
 import valueobjects.BonusCard;
+import valueobjects.BonusCard.BonusCardType;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
@@ -50,7 +51,6 @@ public class RiskGUI {
 	private Player attackedPlayer;
 	private Territory sourceTerritory;
 	private Image[] bonusImage = new Image[4];
-	private Label[] bonusLabelStack;
 	private HashMap<String, Button> buttons = new HashMap<String,Button>();
 	private Button[] buttonArray = new Button[42];
 	private Composite cardWindow;
@@ -981,8 +981,6 @@ public class RiskGUI {
 
 		List<BonusCard> bonuscards = guiPlayer.getBonusCards();
 
-		bonusLabelStack = new Label[bonuscards.size()];
-
 		for (BonusCard bonusCard : bonuscards) {
 			Label label = new Label(cardWindow, SWT.NONE);
 			int type = 0;
@@ -1018,41 +1016,42 @@ public class RiskGUI {
 
 	public void updateBonusCard(Player player) {
 		
-		if(currentPlayer.equals(guiPlayer)){
+		if(player.equals(guiPlayer)){
 			cardWindow = new Composite(mainWindow, SWT.NONE);
 			RowLayout rowLayout = new RowLayout();
 			cardWindow.setLayout(rowLayout);
 
 			List<BonusCard> bonuscards = player.getBonusCards();
-			
-			System.out.println(" Bonuskarten auf GUI : " + bonuscards);
 
-			bonusLabelStack = new Label[bonuscards.size()];
-
-			for (BonusCard bonusCard : bonuscards) {
-				Label label = new Label(cardWindow, SWT.NONE);
-
+			for (BonusCard bonusCard : bonuscards) {				
 				int type = 0;
+				String cardname = "";
 
-				if (bonusCard.getType() == BonusCard.BonusCardType.Infantry) {
+				if (bonusCard.getType() == BonusCardType.Infantry) {
 					type = 0;
+					cardname = "Infanterie";
 				}
-				if (bonusCard.getType() == BonusCard.BonusCardType.Cavalry) {
+				if (bonusCard.getType() == BonusCardType.Cavalry) {
 					type = 1;
+					cardname = "Kavallerie";
 				}
-				if (bonusCard.getType() == BonusCard.BonusCardType.Artillery) {
+				if (bonusCard.getType() == BonusCardType.Artillery) {
 					type = 2;
+					cardname = "Artillerie";
 				}
-				if (bonusCard.getType() == BonusCard.BonusCardType.Wildcard) {
+				if (bonusCard.getType() == BonusCardType.Wildcard) {
 					type = 3;
+					cardname = "Joker";
 				}
-
-				label.setSize(22, 32);
-				label.setImage(bonusImage[type]);
-				label.pack();
-				cardWindow.pack();
+				
+				Label bonusLabel =  new Label(cardWindow, SWT.NONE);
+				bonusLabel.setSize(22, 32);
+				bonusLabel.setImage(bonusImage[type]);
+				bonusLabel.setToolTipText(cardname);
+				
 			}
 
+			cardWindow.pack();
 			cardWindow
 			.setLocation(new Point(
 					((imgWidth - shell.getClientArea().width) / 2
