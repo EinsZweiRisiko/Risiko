@@ -1038,6 +1038,13 @@ public class RiskGUI {
 		shell.update();
 	}
 
+	public void updateSupplyWindow(Player player) {
+		System.out.println(player);
+		if(player.equals(guiPlayer)){
+			supplyButton.setText(Integer.toString(player.getSupplies()));
+		}
+	}
+
 	public void updateBonusCard(Player player) {
 
 		if(player.equals(guiPlayer)){
@@ -1194,8 +1201,21 @@ public class RiskGUI {
 			roundButton.setEnabled(false);
 			shell.update();
 		}
-
-		if (phase == Phase.PLACEMENT) {
+		if (phase == Phase.TURNINCARDS) {
+			if(player.equals(guiPlayer)){
+				
+				ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
+						targetTerritory);
+				Boolean turnInCards = (Boolean) ad.open();
+				
+				if(turnInCards){
+					//TODO do something usefull ;D
+					game.nextPhase();
+				} else {
+					game.nextPhase();
+				}
+			}
+		} else if (phase == Phase.PLACEMENT) {
 			for (Button button : buttonArray) {
 
 				if (player.equals(guiPlayer)) {
@@ -1298,8 +1318,7 @@ public class RiskGUI {
 						targetTerritory);
 
 				int units = (Integer) ad2.open();
-
-				System.out.println("GUI source: "+ sourceTerritory.getName() + " GUI target: "+ targetTerritory.getName());
+				
 				game.defend(sourceTerritory, targetTerritory, units);
 			}
 		}
@@ -1368,13 +1387,6 @@ public class RiskGUI {
 			for (Button button : buttonArray) {
 				button.setEnabled(false);
 			}
-		}
-	}
-
-	public void updateSupplyWindow(Player player) {
-		System.out.println(player);
-		if(player.equals(guiPlayer)){
-			supplyButton.setText(Integer.toString(player.getSupplies()));
 		}
 	}
 }

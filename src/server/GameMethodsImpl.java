@@ -544,7 +544,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public List<BonusCard> getMyBonusCards(Player player) {
 		// TODO Auto-generated method stub
-		return null;
+		return player.getBonusCards();
 	}
 
 	@Override

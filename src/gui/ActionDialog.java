@@ -73,7 +73,7 @@ public class ActionDialog extends Dialog {
     		if (phase.equals(Phase.TURNINCARDS)){
     			Shell parent = getParent();
     			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-    			shell.setSize(155, 80);
+    			shell.setSize(200, 80);
     			shell.setText("Karteneintauschen");
     			center(shell);
     			
@@ -88,8 +88,9 @@ public class ActionDialog extends Dialog {
 					
 					@Override
 					public void mouseUp(MouseEvent e) {
+						//TODO change this to something usefull
 						// playselectedCARDS
-						
+						result = true;
 					}
 					
 					@Override
@@ -127,6 +128,13 @@ public class ActionDialog extends Dialog {
 						
 					}
 				});
+    			
+    			shell.open();
+                Display display = parent.getDisplay();
+                while (!shell.isDisposed()) {
+                        if (!display.readAndDispatch()) display.sleep();
+                }
+                return result;
     		}
     		
     		if(phase.equals(Phase.ATTACK2)){
