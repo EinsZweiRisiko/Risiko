@@ -14,6 +14,7 @@ import server.exceptions.NotEnoughPlayersException;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.BonusCard;
 import valueobjects.BonusCardStack;
+import valueobjects.Continent;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
@@ -25,7 +26,6 @@ import commons.actions.AttackAction;
 import commons.actions.BonusCardAction;
 import commons.actions.EventBoxAction;
 import commons.actions.GameStartedAction;
-import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.PrepareGUIAction;
@@ -229,9 +229,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		// TODO Extra supplies for conquered continents
-		//		for (Continent continent : activePlayer.getContinents()) {
-		//			supplies += continent.getBonusSupplies();
-		//		}
+		if(currentPlayer.getContinents(currentPlayer, territoryManager) != null) {
+			for (Continent continent : currentPlayer.getContinents(currentPlayer, territoryManager)) {
+				supplies += continent.getBonusSupplies();
+			}	
+		}
+
 
 		// Add the supplies
 		currentPlayer.addSupplies(supplies);
@@ -290,39 +293,39 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	@Override
-	public void attack(Territory attackingTerritory,
-			Territory attackedTerritory, int amount) {
+	public void attack(Territory sourceTerritory, Territory targetTerritory, int amount) {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
-
+		
 		attackDice = getDice(amount);
+		/*
 		this.sourceTerritory = attackingTerritory;
 		this.targetTerritory = attackedTerritory;
-		notifyPlayers(new AttackAction(attackingTerritory, attackedTerritory, amount));
+		*/
+		// herausziehen des jeweiligen territory aus der MAP
+		notifyPlayers(new AttackAction(sourceTerritory, targetTerritory, amount));
 	}
 
-	public void defend(Territory defendTerritory, int amount) {
+	public void defend(Territory sourceTerritory, Territory targetTerritory, int amount) {
 		// Verteidiger(amount) darf nicht mehr als 2 und nicht weniger als 1 sein
 		defendDice = getDice(amount);
 		//notifyPlayers(new DefendAction(defendTerritory, amount));
 		// nun wird der Kampf bzw. die zwei würfel verglichen "Kampf" findet statt
-		calculateDice(attackDice, defendDice);
+		calculateDice(attackDice, defendDice, territoryManager.getTerritoryMap().get(sourceTerritory.getName()), territoryManager.getTerritoryMap().get(targetTerritory.getName()));
 	}
 
-	// TODO diese Methode ist Pseudo mäßig programmiert
-	public void calculateDice(List<Integer> attackDice, List<Integer> defendDice) {
+	public void calculateDice(List<Integer> attackDice, List<Integer> defendDice, Territory sourceTerritory, Territory targetTerritory) {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
 		Boolean conquered = false;
 		String defenderMsg = null;
 		String attackerMsg = null;
 		int newUnitCnt = 0;
-		Player oldOwner = targetTerritory.getOwner();
 
 		attackingRound++;
 
 		System.out.println("------ Kampfrunde nr: "+ attackingRound +" ------");
 		System.out.println("Es kämpfen: "+ sourceTerritory.getName() +" VS. "+ targetTerritory.getName());
-		System.out.println("Verteidigerwürfelanzahl: "+defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
+		System.out.println("Verteidigerwürfelanzahl: "+ defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
 		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
 		System.out.println("Anzahl des Defendterritory: "+targetTerritory.getUnits());
 		System.out.println("----------------------------------------------");
@@ -363,15 +366,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 					newUnitCnt = attackDice.size() - attackLoseUnits;
 					territoryManager.changeTerritoryOwner(sourceTerritory.getOwner(), targetTerritory, newUnitCnt);
 
-					/*
-					targetTerritory.setOwner(sourceTerritory.getOwner());
-					targetTerritory.setUnits(newUnitCnt);
-
-					targetTerritory.getOwner().removeTerritory(targetTerritory);
-
-					sourceTerritory.getOwner().addTerritory(targetTerritory);
-					 */
-					System.out.println(targetTerritory.getOwner().getName() + "<--defend OWNER attacker Territories--> ");
+					System.out.println(targetTerritory.getOwner().getName() + " <--defend OWNER attacker Territories--> ");
 
 					newUnitCnt = attackDice.size() - attackLoseUnits;
 					notifyPlayers(new TerritoryUnitsChangedAction(targetTerritory, newUnitCnt));
@@ -409,7 +404,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
-		notifyPlayers(new EventBoxAction(oldOwner,defenderMsg));
+		notifyPlayers(new EventBoxAction(targetTerritory.getOwner(),defenderMsg));
 
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
@@ -673,8 +668,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	private void prepareTurnInAction() {
 		// Can the player turn in cards?
-		if (currentPlayer.canTurnInCards()) {
+		if (currentPlayer.canTurnInCards(currentPlayer)) {
 			currentPhase = Phase.TURNINCARDS;
+			notifyPlayers(new PhaseAction(currentPlayer, currentPhase, players));
 		} else {
 			// If the player can't turn in cards, skip to the next step
 			preparePlacementAction();
@@ -682,8 +678,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	/**
-	 * TODO doc
-	 * 
+	 * prepare the placement phase by setting the currentphase to Phase.PLACEMENT 
 	 */
 	private void preparePlacementAction() {
 		calculateSupplies();
@@ -691,8 +686,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		//notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
 	}
 
-	/**s
-	 * TODO doc
+	/**
+	 * prepare the attack1 phase by setting the currentphase to Phase.ATTACK1
 	 */
 	private void prepareAttack1Action() {
 		/*
@@ -704,7 +699,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		currentPhase = Phase.ATTACK1;
 	}
 	/**
-	 * TODO doc
+	 * prepare the attack2 phase by setting the currentphase to Phase.ATTACK2
 	 */
 	private void prepareAttack2Action() {
 		/*
@@ -716,7 +711,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		currentPhase = Phase.ATTACK2;
 	}
 	/**
-	 * TODO doc
+	 * prepare the attack3 phase by setting the currentphase to Phase.ATTACK3
 	 */
 	private void prepareAttack3Action() {
 		/*
@@ -729,7 +724,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	/**
-	 * TODO doc
+	 * prepare the MOVEMENT1 phase by setting the currentphase to Phase.MOVEMENT1
 	 */
 	private void prepareMovement1Action() {
 		/*
@@ -757,19 +752,19 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	public void endMovementPhase() {
-		
+
 		if(recieveBonuscard){
 			currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
-			
+
 			//TODO EVENTBOX
 			System.out.println(currentPlayer.getName() + " erhielt eine Bonuskarte" + "Er besitzt folgende Karten " + currentPlayer.getBonusCards());;
-			
+
 			notifyPlayers(new BonusCardAction(currentPlayer));
-			
+
 			recieveBonuscard = false;
 		}
 		nextPlayer();
-		
+
 		prepareTurnInAction();
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase, players));
 	}

@@ -26,5 +26,4 @@ public class Africa extends Continent {
 		territoryList.add(new Territory("Südafrika"));
 		territoryList.add(new Territory("Madagaskar"));
 	}
-
 }
