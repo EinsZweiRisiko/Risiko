@@ -87,7 +87,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		START, TURNINCARDS, PLACEMENT, ATTACK1, ATTACK2, ATTACK3, MOVEMENT1, MOVEMENT2, MOVEMENT3
 	};
 
-	public GameMethodsImpl(String name, int port) throws UnknownHostException,
+	public GameMethodsImpl(String name, int port, AppServer appServer) throws UnknownHostException,
 	IOException, NameBindingException {
 		Registry registry = Simon.createRegistry(port);
 		registry.bind(name, this);
@@ -320,6 +320,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		String defenderMsg = null;
 		String attackerMsg = null;
 		int newUnitCnt = 0;
+		Player oldOwner = targetTerritory.getOwner();
+		
 
 		attackingRound++;
 
@@ -404,7 +406,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
-		notifyPlayers(new EventBoxAction(targetTerritory.getOwner(),defenderMsg));
+		notifyPlayers(new EventBoxAction(oldOwner,defenderMsg));
 
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
@@ -515,10 +517,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			dice.add(i, (int) ((Math.random()) * 6 + 1));
 		}
 
-		//sortieren der würfel TODO Absteigend oder Aufsteigend ? Inhalt muss man noch auslesen
 		Collections.sort(dice);
 		Collections.reverse(dice);
-		// Nach dem return muss der attaker die Würfel mit dem des verteidiger vergelichen
+
 		return dice;
 	}
 
