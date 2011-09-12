@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import persistence.Store;
 
@@ -289,7 +288,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			territoryManager.getTerritoryMap().get(territory).addUnits(amount);
 			currentPlayer.subtractSupplies(amount);
 			// Send a notification to all clients
-			notifyPlayers(new TerritoryUnitsChangedAction(territoryManager.getTerritoryMap().get(territory), territoryManager.getTerritoryMap().get(territory).getUnits()));
+			notifyPlayers(new TerritoryUnitsChangedAction(territoryManager.getTerritoryMap().get(territory), territoryManager.getTerritoryMap().get(territory).getUnitCount()));
 		}
 
 		if(currentPlayer.getSupplies() == 0){
@@ -332,7 +331,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		System.out.println("Es kämpfen: "+ sourceTerritory.getName() +" VS. "+ targetTerritory.getName());
 		System.out.println("Verteidigerwürfelanzahl: "+ defendDice.size() +" Verteidigunswürfel Werte: "+ defendDice);
 		System.out.println("Anfreiferwürfelanzahl: "+attackDice.size() +" Angriffwürfel Werte: "+ attackDice);
-		System.out.println("Anzahl des Defendterritory: "+targetTerritory.getUnits());
+		System.out.println("Anzahl des Defendterritory: "+targetTerritory.getUnitCount());
 		System.out.println("----------------------------------------------");
 
 		//if there are more defending than attacking dices!
@@ -342,13 +341,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 
 		for(int i = 0; i < lowestDiceNumber; i++) {
-			if(defendDice.get(i) > attackDice.get(i) && targetTerritory.getUnits() != 0) {
+			if(defendDice.get(i) > attackDice.get(i) && targetTerritory.getUnitCount() != 0) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i));
 				attackLoseUnits++;
-			}else if(defendDice.get(i) == attackDice.get(i) && targetTerritory.getUnits() != 0) {
+			}else if(defendDice.get(i) == attackDice.get(i) && targetTerritory.getUnitCount() != 0) {
 				System.out.println("Defensive: "+ defendDice.get(i) +" schlägt Offensive: "+ attackDice.get(i) +" Gleiche Augenzahl!");
 				attackLoseUnits++;
-			}else if(defendDice.get(i) < attackDice.get(i) && targetTerritory.getUnits() != 0) {
+			}else if(defendDice.get(i) < attackDice.get(i) && targetTerritory.getUnitCount() != 0) {
 				System.out.println("Offensive: "+ attackDice.get(i) +" schlägt Defensive: "+ defendDice.get(i));
 				defendLoseUnits++;
 			}
@@ -357,11 +356,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			System.out.println("DEFENSIVE verliert: "+ defendLoseUnits +" Einheiten");
 
 			// Wenn Land erobert
-			if((targetTerritory.getUnits() - defendLoseUnits) == 0){
+			if((targetTerritory.getUnitCount() - defendLoseUnits) == 0){
 				System.out.println(targetTerritory.getName() + " ÜBERNOMMEN!");
 				conquered = true;
 
-				targetTerritory.removeUnits(defendLoseUnits);
+				targetTerritory.subtractUnits(defendLoseUnits);
 
 				try {
 					defenderMsg = "Du hast " + targetTerritory.getName() + " an " + sourceTerritory.getOwner().getName() + " verloren.";
@@ -379,7 +378,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 					e.printStackTrace();
 				}
 
-				sourceTerritory.removeUnits(attackDice.size());
+				sourceTerritory.subtractUnits(attackDice.size());
 				notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, newUnitCnt));
 				recieveBonuscard = true;
 			}
@@ -387,14 +386,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		if(!conquered){
 			System.out.println("Besetzung der Länder ...");
-			sourceTerritory.removeUnits(attackLoseUnits);
-			System.out.println("ATTACKING TERRITORY: "+ sourceTerritory.getUnits() +" - "+ attackLoseUnits +" = "+ (sourceTerritory.getUnits() - attackLoseUnits));
-			targetTerritory.removeUnits(defendLoseUnits);
-			System.out.println("DEFENDING TERRITORY: "+ targetTerritory.getUnits() +" - "+ defendLoseUnits +" = "+ (targetTerritory.getUnits() - defendLoseUnits));
+			sourceTerritory.subtractUnits(attackLoseUnits);
+			System.out.println("ATTACKING TERRITORY: "+ sourceTerritory.getUnitCount() +" - "+ attackLoseUnits +" = "+ (sourceTerritory.getUnitCount() - attackLoseUnits));
+			targetTerritory.subtractUnits(defendLoseUnits);
+			System.out.println("DEFENDING TERRITORY: "+ targetTerritory.getUnitCount() +" - "+ defendLoseUnits +" = "+ (targetTerritory.getUnitCount() - defendLoseUnits));
 
 
-			notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, sourceTerritory.getUnits()));
-			notifyPlayers(new TerritoryUnitsChangedAction(targetTerritory, targetTerritory.getUnits()));
+			notifyPlayers(new TerritoryUnitsChangedAction(sourceTerritory, sourceTerritory.getUnitCount()));
+			notifyPlayers(new TerritoryUnitsChangedAction(targetTerritory, targetTerritory.getUnitCount()));
 
 			defenderMsg = targetTerritory.getOwner().getName() + "(" + targetTerritory.getName() + ")" + " hat " + defendLoseUnits + " Einheiten verloren. " + "\n"  + sourceTerritory.getOwner().getName() + "(" + sourceTerritory.getName() + ")" + " hat" + attackLoseUnits + " Einheiten verloren.";
 			attackerMsg = sourceTerritory.getOwner().getName() + "(" + sourceTerritory.getName() + ")" + " hat " + attackLoseUnits + " Einheiten verloren. " + "\n"  + targetTerritory.getOwner().getName() + "(" + targetTerritory.getName() + ")" + " hat" + defendLoseUnits + " Einheiten verloren.";
@@ -405,7 +404,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		System.out.println("Spieler Vergleich: "+ sourceTerritory.getOwner().getName() +" = "+ getActivePlayer().getName());
 		for (int i2 = 0 ; i2 < attackersTerritories.size(); i2++){
-			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnits());
+			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnitCount());
 		}
 
 		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
@@ -419,13 +418,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void move(Territory source, Territory target, int amount)
 	throws SimonRemoteException {
 
-		source.removeUnits(amount);
+		source.subtractUnits(amount);
 		target.addUnits(amount);
 
 		System.out.println("Es sollen " + amount + " Einheiten von " + source.getName() + " nach " + target.getName() + " verschoben werden.");
 
-		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnits()));
-		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnits()));
+		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnitCount()));
+		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnitCount()));
 	}
 
 	/*
@@ -448,7 +447,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			throw new ServerFullException();
 		} else if (players.size() >= 6) {
 			// Too many players
-			throw new ServerFullException();
+			// TODO Reenable this check (for debugging purposes off)
+			//throw new ServerFullException();
 		}
 
 		// Add the client
@@ -567,9 +567,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		for(int i = 0; i < territories.size(); i++) {
 			//System.out.println("ES WIRD " + territories.get(i).getName() + " WIRD GEPRÜFT.");
-			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
+			List<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
-				if(!neighbors.get(j).getOwner().equals(player) && (territoryManager.getTerritoryMap().get(territories.get(i).getName()).getUnits() > 1)){
+				if(!neighbors.get(j).getOwner().equals(player) && (territoryManager.getTerritoryMap().get(territories.get(i).getName()).getUnitCount() > 1)){
 					if(!attackingTerritories.contains(territories.get(i))) {
 						attackingTerritories.add(territories.get(i));
 					}
@@ -595,9 +595,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		List<Territory> moveTerritories = new ArrayList<Territory>();
 
 		for(int i = 0; i < territories.size(); i++) {
-			CopyOnWriteArrayList<Territory> neighbors = territories.get(i).getNeighbors();
+			List<Territory> neighbors = territories.get(i).getNeighbors();
 			for(int j = 0; j < neighbors.size() ;j++){
-				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnits() > 1){
+				if(neighbors.get(j).getOwner().equals(player) && territories.get(i).getUnitCount() > 1){
 					if(!moveTerritories.contains(neighbors.get(j))) {
 						moveTerritories.add(territories.get(i));
 					}
@@ -611,8 +611,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * get the territories for moving by the selected Territory
 	 */
-	public CopyOnWriteArrayList<Territory> getSimilarNeighborsOf(Territory territory) {
-		CopyOnWriteArrayList<Territory> similarNeighbors = territory.getNeighbors();
+	public List<Territory> getSimilarNeighborsOf(Territory territory) {
+		List<Territory> similarNeighbors = territory.getNeighbors();
 
 		for(Territory territory2 : similarNeighbors) {
 			if(!territory2.getOwner().equals(territory.getOwner())){
@@ -622,8 +622,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		return similarNeighbors;
 	}
 	@Override
-	public CopyOnWriteArrayList<Territory> getOpposingNeighborsOf(Territory territory) {
-		CopyOnWriteArrayList<Territory> opposingNeighbors = territory.getNeighbors();
+	public List<Territory> getOpposingNeighborsOf(Territory territory) {
+		List<Territory> opposingNeighbors = territory.getNeighbors();
 		for(Territory territory2 : opposingNeighbors) {
 			if(territory2.getOwner().equals(territory.getOwner())){
 				opposingNeighbors.remove(territory2);
@@ -681,7 +681,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	private void prepareTurnInAction() {
 		// Can the player turn in cards?
-		if (currentPlayer.canTurnInCards(currentPlayer)) {
+		if (currentPlayer.canTurnInCards()) {
 			currentPhase = Phase.TURNINCARDS;
 			notifyPlayers(new PhaseAction(currentPlayer, currentPhase, players));
 		} else {

@@ -144,7 +144,7 @@ public class ActionDialog extends Dialog {
                 
                 int playercolor = territory.getOwner().getColor();
                 
-                int maxUnits = territory.getUnits()-1;
+                int maxUnits = territory.getUnitCount()-1;
                 
                 if(playercolor == 1){
                 	playercolor = 3;
@@ -256,7 +256,7 @@ public class ActionDialog extends Dialog {
                 shell.setLayout(gridLayout);
                 int playercolor = territory.getOwner().getColor();
                 
-                int maxUnits = territory.getUnits();
+                int maxUnits = territory.getUnitCount();
                 
                 if(playercolor == 1){
                 	playercolor = 3;
@@ -344,7 +344,7 @@ public class ActionDialog extends Dialog {
                 
                 final Spinner spinner = new Spinner(shell, SWT.NONE);
                 spinner.setMinimum(0);
-                spinner.setMaximum(territory.getUnits()-1);
+                spinner.setMaximum(territory.getUnitCount()-1);
                 
                 Button ok = new Button(shell,SWT.PUSH);
                 ok.setText("Bestätigen");

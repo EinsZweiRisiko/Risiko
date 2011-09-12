@@ -99,12 +99,12 @@ public class Store {
 			input.add("# BesitzendeLänder:AnzahlEinheitendrauf");
 			territories = players.get(a).getTerritories();				// Name der Länder
 			for(int i = 0; i < territories.size(); i++) {
-				input.add(territories.get(i).getName()+":"+ String.valueOf(territories.get(i).getUnits()));
+				input.add(territories.get(i).getName()+":"+ String.valueOf(territories.get(i).getUnitCount()));
 			}
 
 			//anzahl der gesamten Einheiten
 			input.add("# AnzahlGesamtEinheiten");
-			input.add(String.valueOf(players.get(a).getAllUnits()));
+			input.add(String.valueOf(players.get(a).getUnitCount()));
 
 			//anzahl der noch zu setzenden Einheiten
 			input.add("# AnzahlZuSetzendeEinheiten");

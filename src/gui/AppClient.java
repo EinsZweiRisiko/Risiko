@@ -35,102 +35,42 @@ import de.root1.simon.exceptions.LookupFailedException;
 @SimonRemote
 public class AppClient implements ClientMethods {
 
-	private Lookup connection;
-	private GameMethods game;
-
-	private Display display;
-	private static LoginGUI logingui;
-	private static LobbyGUI lobbygui;
-	private RiskGUI rFenster;
-	private Player me;
 	public static String name = "ZwoEinsRisiko";
 
-	public AppClient() {
-		display = new Display();
-		
-		// Show the connect window
-		logingui = new LoginGUI(display, this);
-		logingui.finalize();
+	private Lookup connection;
+	private GameMethods server;
+	private Player player;
 
-		// TODO: check if the window was closed
-		rFenster = new RiskGUI(display, this, game);
-		
-		lobbygui = new LobbyGUI(display, this, game);
-		lobbygui.start();
+	private Display display;
+	private LobbyGUI lobbyWindow;
+	private RiskGUI riskWindow;
 
-		// Show the main risk window
-		rFenster.start();
+	/**
+	 * Main
+	 * 
+	 * @param args
+	 *            Command line arguments
+	 */
+	public static void main(String[] args) {
+		new AppClient();
 	}
 
-	@Override
-	public void update(final GameMethods server, final Action a) {
-		if (a instanceof PlayerJoinedAction) {
-			// A player joined
-			PlayerJoinedAction pja = (PlayerJoinedAction) a;
-			System.out.println("Player joined: " + pja.getPlayer().getName());
+	/**
+	 * Constructor
+	 */
+	public AppClient() {
+		display = new Display();
 
-			// Queue the update function to run in the UI thread
-			display.asyncExec(new Runnable() {
-				public void run() {
-					lobbygui.updateText();
-				}
-			});
-		} else if (a instanceof GameStartedAction) {
-			// Game started
-			System.out.println("Game started.");
-			display.asyncExec(new Runnable() {
-				public void run() {
-					lobbygui.close();
-					System.out.println(((GameStartedAction) a). getPlayer().getName() + "<--- GamestartedAction PLAYER");
-					//rFenster.updateCurrentPlayer(((GameStartedAction) a). getPlayer());
-					rFenster.updatePhase(((GameStartedAction) a).getPhase(), ((GameStartedAction) a).getPlayer(), ((GameStartedAction) a).getPlayers());
-				}
-			});
-		} else if (a instanceof NextPlayerAction) {
-			display.asyncExec(new Runnable() {
-				public void run() {
-					rFenster.updateCurrentPlayer(((NextPlayerAction) a).getPlayer());
-				}
-			});
-		} else if (a instanceof PhaseAction) {
-			display.asyncExec(new Runnable() {
-				public void run() {
-					rFenster.updatePhase(((PhaseAction) a).getPhase(), ((PhaseAction) a).getPlayer(), ((PhaseAction) a).getPlayers());
-				}
-			});
-		} else if (a instanceof TerritoryUnitsChangedAction) {
-			display.asyncExec(new Runnable() {
-				public void run() {
-					rFenster.updateTerritory(((TerritoryUnitsChangedAction) a).getTerritory());
-				}
-			});
-		} else if (a instanceof AttackAction ) {
-			display.asyncExec(new Runnable() {
-				public void run() {
-					rFenster.defend(((AttackAction) a).getSourceTerritory(), ((AttackAction) a).getTargetTerritory());
-				}
-			});
-		}else if (a instanceof EventBoxAction ) {
-			display.asyncExec(new Runnable() {
-				public void run() {
-					rFenster.openEventBox(((EventBoxAction) a).getPlayer(), ((EventBoxAction) a).getMsg());
-				}
-			});
-		} else if (a instanceof PrepareGUIAction ) {
-			display.asyncExec(new Runnable() {
-				public void run() {
-					rFenster.prepare();
-				}
-			});
-		}else if (a instanceof BonusCardAction ) {
-			display.asyncExec(new Runnable() {
-				public void run() {
-					rFenster.updateBonusCard(((BonusCardAction) a).getPlayer());
-				}
-			});
-		}else {
-			System.out.println("Unidentified action.");
-		}
+		// Show the login window
+		new LoginGUI(display, this);
+
+		// Create the lobby and the risk board
+		lobbyWindow = new LobbyGUI(display, this, server);
+		riskWindow = new RiskGUI(display, this, server);
+		
+		// Show the lobby and then the risk board
+		lobbyWindow.pumpLoop();
+		riskWindow.pumpLoop();
 	}
 
 	/**
@@ -141,17 +81,17 @@ public class AppClient implements ClientMethods {
 	 * @throws UnknownHostException
 	 */
 	public void connect(String ip, String name) throws LookupFailedException,
-	EstablishConnectionFailed, UnknownHostException,
-	ServerFullException, NoNameException {
+			EstablishConnectionFailed, UnknownHostException,
+			ServerFullException, NoNameException {
 		if (name.trim().isEmpty()) {
 			throw new NoNameException();
 		}
 
 		connection = Simon.createNameLookup(ip, AppServer.DEFAULT_PORT);
-		game = (GameMethods) connection.lookup("risk");
+		server = (GameMethods) connection.lookup("risk");
 
 		// Create player
-		me = game.addPlayer(name, this);
+		player = server.addPlayer(name, this);
 	}
 
 	/**
@@ -159,17 +99,101 @@ public class AppClient implements ClientMethods {
 	 * 
 	 * @return
 	 */
-	public Player getClient() {
-		return me;
+	public Player getPlayer() {
+		return player;
 	}
 
 	/**
-	 * Main method
+	 * Action handler. Gets called by the server.
 	 * 
-	 * @param args
+	 * @param server
+	 *            GameMethods instance over the network
+	 * @param action
+	 *            Action that the server sent to us
 	 */
-	public static void main(String[] args) {
-		new AppClient();
+	@Override
+	public void update(final GameMethods server, Action action) {
+		// TODO remove debug stuff
+		System.out.println("[Action] " + action.getClass().getSimpleName());
+
+		if (action instanceof PlayerJoinedAction) {
+			// Queue the update function to run in the UI thread
+			display.asyncExec(new Runnable() {
+				public void run() {
+					// A player joined, so we have to update the player list
+					lobbyWindow.updatePlayerList();
+				}
+			});
+		} else if (action instanceof GameStartedAction) {
+			final GameStartedAction a = (GameStartedAction) action;
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					lobbyWindow.closeWindow();
+					// TODO Because of this probably comes the need to instantiate the risk window so early
+//					riskWindow.updateCurrentPlayer(a.getPlayer());
+					riskWindow.updatePhase(a.getPhase(), a.getPlayer(), a.getPlayers());
+				}
+			});
+		} else if (action instanceof NextPlayerAction) {
+			final NextPlayerAction a = (NextPlayerAction) action;
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					riskWindow.updateCurrentPlayer(a.getPlayer());
+				}
+			});
+		} else if (action instanceof PhaseAction) {
+			final PhaseAction a = (PhaseAction) action;
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					riskWindow.updatePhase(a.getPhase(), a.getPlayer(), a.getPlayers());
+				}
+			});
+		} else if (action instanceof TerritoryUnitsChangedAction) {
+			final TerritoryUnitsChangedAction a = (TerritoryUnitsChangedAction) action;
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					riskWindow.updateTerritory(a.getTerritory());
+				}
+			});
+		} else if (action instanceof AttackAction) {
+			final AttackAction a = (AttackAction) action;
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					riskWindow.defend(a.getSourceTerritory(), a.getTargetTerritory());
+				}
+			});
+		} else if (action instanceof EventBoxAction) {
+			final EventBoxAction a = (EventBoxAction) action;
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					riskWindow.openEventBox(a.getPlayer(), a.getMsg());
+				}
+			});
+		} else if (action instanceof PrepareGUIAction) {
+//			final PrepareGUIAction a = (PrepareGUIAction) action;
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					riskWindow.prepare();
+				}
+			});
+		} else if (action instanceof BonusCardAction) {
+			final BonusCardAction a = (BonusCardAction) action;
+			
+			display.asyncExec(new Runnable() {
+				public void run() {
+					riskWindow.updateBonusCard(a.getPlayer());
+				}
+			});
+		} else {
+			System.out.println("Unidentified action.");
+		}
 	}
 
 }
