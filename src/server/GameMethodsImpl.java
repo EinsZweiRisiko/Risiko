@@ -31,6 +31,7 @@ import commons.actions.GameStartedAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.PrepareGUIAction;
+import commons.actions.SupplyAction;
 import commons.actions.TerritoryUnitsChangedAction;
 
 import de.root1.simon.Registry;
@@ -293,6 +294,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			currentPlayer.subtractSupplies(amount);
 			// Send a notification to all clients
 			notifyPlayers(new TerritoryUnitsChangedAction(territoryManager.getTerritoryMap().get(territory), territoryManager.getTerritoryMap().get(territory).getUnitCount()));
+			supplyChanged((territoryManager.getTerritoryMap().get(territory).getOwner()));
 		}
 
 		if(currentPlayer.getSupplies() == 0){
@@ -543,7 +545,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public List<BonusCard> getMyBonusCards(Player player) {
 		// TODO Auto-generated method stub
-		return null;
+		return player.getBonusCards();
 	}
 
 	@Override
@@ -811,5 +813,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}else if(currentPlayer.getBonusCards().size() >= 3) {
 
 		}
+	}
+
+	public void supplyChanged(Player player) {
+		notifyPlayers(new SupplyAction(player,player.getSupplies()));
 	}
 }
