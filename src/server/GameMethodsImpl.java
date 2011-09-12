@@ -304,10 +304,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
 		
 		attackDice = getDice(amount);
-		/*
-		this.sourceTerritory = attackingTerritory;
-		this.targetTerritory = attackedTerritory;
-		*/
+
 		// herausziehen des jeweiligen territory aus der MAP
 		notifyPlayers(new AttackAction(sourceTerritory, targetTerritory, amount));
 	}
@@ -425,8 +422,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		source.subtractUnits(amount);
 		target.addUnits(amount);
-
-		System.out.println("Es sollen " + amount + " Einheiten von " + source.getName() + " nach " + target.getName() + " verschoben werden.");
 
 		notifyPlayers(new TerritoryUnitsChangedAction(source, source.getUnitCount()));
 		notifyPlayers(new TerritoryUnitsChangedAction(target, target.getUnitCount()));
