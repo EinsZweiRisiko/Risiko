@@ -63,7 +63,10 @@ public class Store {
 		List<Territory> territories;
 
 		// Allgemeines Input Build
-		// der aktuelle Spieler der dran war
+		input.add("# Anzahl Spieler");
+		input.add(String.valueOf(players.size()+1));
+		
+		// der aktuelle Spieler der dran ist
 		input.add("# Aktueller Spieler");
 		input.add(game.getActivePlayer().getName());
 
@@ -148,7 +151,10 @@ public class Store {
 
 	public void filterLoadFile(List<String> loadText) {
 		Player loadedPlayer = null;
-
+		// player = server.addPlayer(name, this);
+		
+		// erstellen der Player
+		
 		//TODO reImplement setter
 		for(int i = 0; i < loadText.size(); i++) {
 			if(loadText.get(i) == "# Aktueller Spieler") {
@@ -236,6 +242,7 @@ public class Store {
 							endIndex = a;
 						}
 					}
+					
 					game.getTerritoryManager().getTerritoryMap().get(loadText.get(a).substring(0, (endIndex-1)));
 				}
 			}

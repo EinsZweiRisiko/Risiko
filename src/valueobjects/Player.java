@@ -222,7 +222,6 @@ public class Player implements Serializable {
 
 	/**
 	 * Calculate if there are 3 similiar bonus cards
-	 * 
 	 * @param player
 	 * @return
 	 */
@@ -333,10 +332,4 @@ public class Player implements Serializable {
 //		Player player = (Player) o;
 		return getColor() == player.getColor();
 	}
-
-	public void setColor(int color) {
-		// TODO Auto-generated method stub
-		this.color = color;
-	}
-
 }
