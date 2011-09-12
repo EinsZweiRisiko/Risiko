@@ -333,10 +333,4 @@ public class Player implements Serializable {
 //		Player player = (Player) o;
 		return getColor() == player.getColor();
 	}
-
-	public void setColor(int color) {
-		// TODO Auto-generated method stub
-		this.color = color;
-	}
-
 }
