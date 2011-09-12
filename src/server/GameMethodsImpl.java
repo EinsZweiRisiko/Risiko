@@ -668,7 +668,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	private void prepareTurnInAction() {
 		// Can the player turn in cards?
-		if (currentPlayer.canTurnInCards(currentPlayer)) {
+		if (currentPlayer.canTurnInCards()) {
 			currentPhase = Phase.TURNINCARDS;
 			notifyPlayers(new PhaseAction(currentPlayer, currentPhase, players));
 		} else {
