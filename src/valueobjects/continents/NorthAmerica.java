@@ -11,6 +11,8 @@ import valueobjects.Territory;
  */
 public class NorthAmerica extends Continent {
 
+	private static final long serialVersionUID = 4544042189783571553L;
+
 	/**
 	 * Constructor automatically creates and adds Alaska, Nordwest-Territorium,
 	 * Grönland, Alberta, Ontario, Quebec, Weststaaten, Oststaaten and
@@ -19,7 +21,7 @@ public class NorthAmerica extends Continent {
 	 */
 	public NorthAmerica() {
 		name = "Nordamerika";
-		supplies = 5;
+		bonusSupplies = 5;
 		territoryList.add(new Territory("Alaska"));
 		territoryList.add(new Territory("Nordwest-Territorium"));
 		territoryList.add(new Territory("Grönland"));

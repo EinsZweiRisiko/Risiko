@@ -11,6 +11,8 @@ import valueobjects.Territory;
  */
 public class Asia extends Continent {
 
+	private static final long serialVersionUID = 6046402604974587744L;
+
 	/**
 	 * Constructor automatically creates and adds Ural, Sibirien, Jakutien,
 	 * Irkutsk, Kamtschakta, Mongolei, Japan, Afghanistan, China, Mittlerer
@@ -19,7 +21,7 @@ public class Asia extends Continent {
 	 */
 	public Asia() {
 		name = "Asien";
-		supplies = 7;
+		bonusSupplies = 7;
 		territoryList.add(new Territory("Ural"));
 		territoryList.add(new Territory("Sibirien"));
 		territoryList.add(new Territory("Jakutien"));
