@@ -894,7 +894,7 @@ public class RiskGUI {
 				button.setText(String.valueOf(territory.getUnits()));
 				button.setToolTipText(territory.getName() + " gehört "+ territory.getOwner().getName());
 				
-				System.out.println("Button Inhale von: "+ territory.getName() +" geändert");
+				System.out.println("Button Inhalte von: "+ territory.getName() +" geändert");
 				
 				shell.update();
 			}
@@ -1061,34 +1061,6 @@ public class RiskGUI {
 	}
 
 	/**
-	 * Method to find out which territory the Button belongs to
-	 * 
-	 * @param toolTipText
-	 *            of the calling Button
-	 * @return the name of the Territory of the calling Button
-
-	 */
-	/*
-	private String cutTooltip(String toolTipText) {
-		String cutted = "";
-
-		char[] toolTipChar = toolTipText.toCharArray();
-
-		for (int i = 0; i < toolTipChar.length; i++) {
-			if (toolTipChar[i] == ' ') {
-				if (cutted.equals("Mittlerer")) {
-					cutted = "Mittlerer Osten";
-				}
-				return cutted;
-			}
-			cutted += toolTipChar[i];
-		}
-
-		return cutted;
-	}
-	 */
-
-	/**
 	 * Centers an image in the middle of the Shell
 	 */
 	private void centerImage(Composite window) {
@@ -1138,19 +1110,20 @@ public class RiskGUI {
 		}
 	}
 
-	public void updatePhase(Phase phase) {
+	public void updatePhase(Phase phase, Player player, PlayerCollection players ) {
 
-		PlayerCollection players = game.getPlayers();
+		//PlayerCollection players = game.getPlayers();
+		
 		int zahl = 0;
 
-		for(Player player:players){
+		for(Player player2 : players){
 			++zahl;
-			System.out.println(zahl + player.getName());
+			System.out.println(zahl + player2.getName());
 		}
 
 		this.phase = phase;
 
-		System.out.println("CurrentPlayer || " + currentPlayer);
+		System.out.println("CurrentPlayer || " + player);
 		System.out.println("PHASE || " + phase);
 
 		//change the state of the roundButton to visualize the round
@@ -1186,7 +1159,7 @@ public class RiskGUI {
 			shell.update();
 		}
 
-		if(currentPlayer.equals(guiPlayer)){
+		if(player.equals(guiPlayer)){
 			roundButton.setEnabled(true);
 			shell.update();
 		} else {
@@ -1197,7 +1170,7 @@ public class RiskGUI {
 		if (phase == Phase.PLACEMENT) {
 			for (Button button : buttonArray) {
 
-				if (currentPlayer.equals(guiPlayer)) {
+				if (player.equals(guiPlayer)) {
 					Territory territory = game.getTerritories().get(button.getData("name"));
 
 					if (territory.getOwner().equals(guiPlayer)) {
@@ -1213,9 +1186,9 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK1) {
 
-			if (currentPlayer.equals(guiPlayer)) {
+			if (player.equals(guiPlayer)) {
 
-				List<Territory> attackingTerritories = game.getMyTerritoriesForAttacking(currentPlayer);
+				List<Territory> attackingTerritories = game.getMyTerritoriesForAttacking(player);
 
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
@@ -1262,7 +1235,7 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK2) {
 
-			if (currentPlayer.equals(guiPlayer)) {
+			if (player.equals(guiPlayer)) {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 
 				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(sourceTerritory);
@@ -1290,7 +1263,7 @@ public class RiskGUI {
 				button.setEnabled(false);
 			}
 
-			if (currentPlayer.equals(guiPlayer)) {
+			if (player.equals(guiPlayer)) {
 				nextPhaseButton.dispose();
 			}
 			
@@ -1306,9 +1279,9 @@ public class RiskGUI {
 		}
 
 		if (phase.equals(Phase.MOVEMENT1)) {
-			if (currentPlayer.equals(guiPlayer)) {
+			if (player.equals(guiPlayer)) {
 
-				List<Territory> movingTerritories = game.getMyTerritoriesForMoving(currentPlayer);
+				List<Territory> movingTerritories = game.getMyTerritoriesForMoving(player);
 
 				for (Button button : buttonArray) {
 					button.setEnabled(false);
@@ -1357,7 +1330,7 @@ public class RiskGUI {
 			}
 		}
 		if (phase.equals(Phase.MOVEMENT2)) {
-			if (currentPlayer.equals(guiPlayer)) {
+			if (player.equals(guiPlayer)) {
 
 				List<Territory> movingTerritories = game.getSimilarNeighborsOf(sourceTerritory);
 

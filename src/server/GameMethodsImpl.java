@@ -126,7 +126,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// Set the game status to started
 		started = true;
 
-		notifyPlayers(new GameStartedAction(currentPlayer ,currentPhase));
+		notifyPlayers(new GameStartedAction(currentPlayer, currentPhase, players));
 
 		// Set the first phase
 		nextPhase();
@@ -149,7 +149,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * @return Action The next action/phase
 	 */
 	public void nextPhase() {		
-		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
+		notifyPlayers(new PhaseAction(currentPlayer, currentPhase, players));
 		System.out.println("Es spielt: "+ currentPlayer.getName());
 		// Which action comes afterwards the current one?
 		switch (currentPhase) {
@@ -205,7 +205,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void nextPlayer() {
 		// Advance to the next player
 		currentPlayer = players.getNextPlayer();
-		notifyPlayers(new NextPlayerAction(currentPlayer));
+		//notifyPlayers(new NextPlayerAction(currentPlayer));
 	}
 
 	/*
@@ -752,7 +752,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void endAttackPhase() {
 		prepareMovement1Action();
-		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
+		notifyPlayers(new PhaseAction(currentPlayer, currentPhase, players));
 		prepareMovement2Action();
 	}
 
@@ -771,7 +771,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		nextPlayer();
 		
 		prepareTurnInAction();
-		notifyPlayers(new PhaseAction(currentPlayer, currentPhase));
+		notifyPlayers(new PhaseAction(currentPlayer, currentPhase, players));
 	}
 
 	/*

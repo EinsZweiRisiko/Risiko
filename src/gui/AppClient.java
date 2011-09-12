@@ -84,8 +84,8 @@ public class AppClient implements ClientMethods {
 				public void run() {
 					lobbygui.close();
 					System.out.println(((GameStartedAction) a). getPlayer().getName() + "<--- GamestartedAction PLAYER");
-					rFenster.updateCurrentPlayer(((GameStartedAction) a). getPlayer());
-					rFenster.updatePhase(((GameStartedAction) a).getPhase());
+					//rFenster.updateCurrentPlayer(((GameStartedAction) a). getPlayer());
+					rFenster.updatePhase(((GameStartedAction) a).getPhase(), ((GameStartedAction) a).getPlayer(), ((GameStartedAction) a).getPlayers());
 				}
 			});
 		} else if (a instanceof NextPlayerAction) {
@@ -97,7 +97,7 @@ public class AppClient implements ClientMethods {
 		} else if (a instanceof PhaseAction) {
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.updatePhase(((PhaseAction) a).getPhase());
+					rFenster.updatePhase(((PhaseAction) a).getPhase(), ((PhaseAction) a).getPlayer(), ((PhaseAction) a).getPlayers());
 				}
 			});
 		} else if (a instanceof TerritoryUnitsChangedAction) {
