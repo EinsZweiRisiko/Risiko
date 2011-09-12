@@ -50,9 +50,10 @@ public interface GameMethods {
 	public void redeemBonusCards(List<BonusCard> cards);
 	public void placeUnits(String territory, int amount);
 
-	public void attack(Territory attackingTerritory, Territory attackedTerritory, int amount);
-	public void move(Territory source, Territory target, int amount) throws SimonRemoteException;
-	public void defend(Territory defendTerritory, int amount);
+	public void attack(Territory sourceTerritory, Territory targetTerritory, int amount);
+	public void move(Territory sourceTerritory, Territory targetTerritory, int amount) throws SimonRemoteException;
+	public void defend(Territory sourceTerritory, Territory targetTerritory, int amount);
+	
 	public Phase getPhase();
 	public void endAttackPhase();
 	public void nextPlayer();

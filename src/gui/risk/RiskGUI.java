@@ -933,11 +933,11 @@ public class RiskGUI {
 			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
 
 			// AMOUNT
-			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
-					sourceTerritory);
+			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, sourceTerritory);
 			int units = (Integer) ad.open();
-
+			
 			game.attack(sourceTerritory, targetTerritory, units);
+			
 		} else if (phase == Phase.MOVEMENT1) {
 			sourceTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			game.nextPhase();			
@@ -1105,8 +1105,9 @@ public class RiskGUI {
 		}
 	}
 
-	public void defend(Territory attackedTerritory2) {	
-		this.targetTerritory = attackedTerritory2;
+	public void defend(Territory sourceTerritory, Territory targetTerritory) {	
+		this.targetTerritory = targetTerritory;
+		this.sourceTerritory = sourceTerritory;
 		attackedPlayer = targetTerritory.getOwner();
 
 		//This sould only becalled ONCE!
@@ -1268,7 +1269,8 @@ public class RiskGUI {
 
 				int units = (Integer) ad2.open();
 
-				game.defend(targetTerritory, units);
+				System.out.println("GUI source: "+ sourceTerritory.getName() + " GUI target: "+ targetTerritory.getName());
+				game.defend(sourceTerritory, targetTerritory, units);
 			}
 		}
 

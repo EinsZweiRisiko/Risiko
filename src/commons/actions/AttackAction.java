@@ -8,28 +8,25 @@ public class AttackAction extends Action {
 	
 	private static final long serialVersionUID = -3602731354375567470L;
 	
-	Territory attackingTerritory;
-	Territory attackedTerritory;
+	Territory sourceTerritory;
+	Territory targetTerritory;
 	int amount;
 	
-	public AttackAction(Territory attackingTerritory,
-			Territory attackedTerritory, int amount) {
-		this.attackedTerritory = attackedTerritory;
-		this.attackingTerritory = attackingTerritory;
+	public AttackAction(Territory attackingTerritory, Territory attackedTerritory, int amount) {
+		this.targetTerritory = attackedTerritory;
+		this.sourceTerritory = attackingTerritory;
 		this.amount = amount;
 	}
 	
-	public Territory getAttackingTerritory() {
-		return attackingTerritory;
+	public Territory getSourceTerritory() {
+		return sourceTerritory;
 	}
 
-	public Territory getAttackedTerritory() {
-		return attackedTerritory;
+	public Territory getTargetTerritory() {
+		return targetTerritory;
 	}
 
 	public int getAmount() {
 		return amount;
-	}
-
-	
+	}	
 }

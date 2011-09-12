@@ -2,7 +2,10 @@ package valueobjects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import server.TerritoryManager;
 
 /**
  * A class that represents a player
@@ -68,15 +71,6 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Get the player's name.
-	 * 
-	 * @return name
-	 */
-	public String toString() {
-		return name;
-	}
-
-	/**
 	 * Get the player's color.
 	 * 
 	 * @return int color
@@ -138,13 +132,35 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * TODO doc
+	 * calculate if there ist 3 similiar Bonus cards
 	 * 
 	 * @param player
 	 * @return
 	 */
-	public boolean canTurnInCards() {
-		// TODO Auto-generated method stub
+	public boolean canTurnInCards(Player player) {
+		int cntInfantry = 0;
+		int cntCavalry = 0;
+		int cntArtillery = 0;
+
+		if(player.getBonusCards().size() >= 2) {
+			for(int i = 0; i < player.getBonusCards().size(); i++) {
+				String cardName = player.getBonusCards().get(i).getType().name();
+				if(cntInfantry == 2 || cntCavalry == 2 || cntArtillery == 2) {
+					cntInfantry = 0;
+					cntCavalry = 0;
+					cntArtillery = 0;
+					return true;
+				}else {
+					if(cardName == "Infantry" ||  cardName == "Wildcard") {
+						cntInfantry++;
+					}else if(cardName == "Cavalry" ||  cardName == "Wildcard") {
+						cntCavalry++;
+					} else if(cardName == "Artillery" ||  cardName == "Wildcard") {
+						cntArtillery++;
+					}
+				}
+			}
+		}
 		return false;
 	}
 
@@ -191,7 +207,15 @@ public class Player implements Serializable {
 	}
 
 	// TODO implement getContinents
-	public List<Continent> getContinents() {
+	public List<Continent> getContinents(Player player, TerritoryManager territoryManager) {
+		List<Continent> continents = new ArrayList<Continent>();
+
+		for(int i = 0; i < territoryManager.getContinents().size(); i++) {
+			if(territoryList.containsAll((Collection<?>) territoryManager.getContinents().get(i).getTerritories())) {
+				continents.add(territoryManager.getContinents().get(0));
+				return continents;
+			}
+		}
 		return null;
 	}
 

@@ -107,7 +107,7 @@ public class AppClient implements ClientMethods {
 		} else if (a instanceof AttackAction ) {
 			display.asyncExec(new Runnable() {
 				public void run() {
-					rFenster.defend(((AttackAction) a).getAttackedTerritory());
+					rFenster.defend(((AttackAction) a).getSourceTerritory(), ((AttackAction) a).getTargetTerritory());
 				}
 			});
 		}else if (a instanceof EventBoxAction ) {
