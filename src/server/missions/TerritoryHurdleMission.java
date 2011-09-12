@@ -17,10 +17,14 @@ public class TerritoryHurdleMission implements Mission {
 	
 	// TODO javadoc
 	public TerritoryHurdleMission(Player player, int territoryHurdle, int territoryUnitHurdle) {
-		// TODO 2nd constructor without territoryUnitHurdle 
 		this.player = player;
 		this.territoryHurdle = territoryHurdle;
 		this.territoryUnitHurdle = territoryUnitHurdle;
+	}
+	
+	public TerritoryHurdleMission(Player player, int territoryHurdle) {
+		this.player = player;
+		this.territoryHurdle = territoryHurdle;
 	}
 	
 	/**
