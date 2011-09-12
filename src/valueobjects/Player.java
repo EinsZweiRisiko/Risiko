@@ -276,4 +276,9 @@ public class Player implements Serializable {
 		return suppliesToAllocate;
 	}
 
+	public void setColor(int color) {
+		// TODO Auto-generated method stub
+		this.color = color;
+	}
+
 }

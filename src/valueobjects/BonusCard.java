@@ -23,6 +23,10 @@ public class BonusCard implements Serializable {
 	}
 	private BonusCardType type;
 
+	public void setType(BonusCardType type) {
+		this.type = type;
+	}
+
 	/**
 	 * Create a bonus card
 	 * 
