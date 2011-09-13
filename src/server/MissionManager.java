@@ -64,7 +64,12 @@ public class MissionManager {
 	 * @return mission
 	 */
 	public Mission retrieveMission(Player player) {
-		return missions.pop();
+		Mission mission = missions.pop();
+		
+		// Tell the mission who owns it
+		mission.setOwner(player);
+
+		return mission;
 	}
 
 }
