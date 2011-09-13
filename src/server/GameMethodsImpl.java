@@ -601,7 +601,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 					}
 				}
 			}
-		}
+		}		
 		return moveTerritories;
 	}
 
@@ -616,6 +616,25 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				similarNeighbors.remove(territory2);
 			}
 		}
+		
+		int oldSimilarTerritories;
+		
+		do {
+			oldSimilarTerritories = similarNeighbors.size();
+
+			for(int i = 0; i < similarNeighbors.size(); i++) {
+				List<Territory> neighbors = similarNeighbors.get(i).getNeighbors();
+				for(int j = 0; j < neighbors.size() ;j++){
+					if(neighbors.get(j).getOwner().equals(territory.getOwner())){
+						if(!similarNeighbors.contains(neighbors.get(j))) {
+							similarNeighbors.add(neighbors.get(j));
+						}
+					}
+				}
+			}
+			
+		} while (similarNeighbors.size() > oldSimilarTerritories);
+		
 		return similarNeighbors;
 	}
 	@Override
