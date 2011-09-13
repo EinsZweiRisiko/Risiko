@@ -1,5 +1,5 @@
 bin/*
-lib/*
+dependencies/*
 src/_*
 *.ser
 .classpath
