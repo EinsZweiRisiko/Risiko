@@ -3,6 +3,8 @@ package gui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -74,14 +76,14 @@ public class ActionDialog extends Dialog {
 	 * @return
 	 */
 	public Object open() {
-		
+
 		result = 0;
-		
+
 		// Turn in Cards
 		if (phase.equals(Phase.TURNINCARDS)){
-			
+
 			result = false;
-			
+
 			Shell parent = getParent();
 			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 			shell.setSize(200, 80);
@@ -210,6 +212,7 @@ public class ActionDialog extends Dialog {
 			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.CENTER);
 			shell.setSize(155,80);
 			shell.setText("Verteidigung");
+
 			center(shell);
 
 			GridLayout gridLayout = new GridLayout(2,true);   
@@ -267,7 +270,7 @@ public class ActionDialog extends Dialog {
 		}
 
 		// MOVEMENT
-		
+
 		if (phase.equals(Phase.MOVEMENT2)){
 			Shell parent = getParent();
 			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);

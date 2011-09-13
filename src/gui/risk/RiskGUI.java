@@ -1421,6 +1421,11 @@ public class RiskGUI {
 
 				int units = (Integer) ad2.open();
 
+				//prevent that the defender is closing the window instead of responding correctly
+				do {
+					units = (Integer) ad2.open();
+				} while(units == 0);
+				
 				game.defend(sourceTerritory, targetTerritory, units);
 			}
 		}
