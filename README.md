@@ -26,11 +26,11 @@ Then setup the environment:
  3. Make sure that the SWT project is included in ZwoEinsRisiko's build path
  4. Make sure that the SIMON jar file is included in ZwoEinsRisiko's build path
  5. Start the server:
-    + server.AppServer
+    + src/server/AppServer.java
  6. Start the client:
-    + gui.AppClient
+    + src/gui/AppClient.java
 
-Sorry, I don't know of an easier process. I could create a jar file but it wouldn't be cross-platform compatible, because I can only package one version of SWT at a time. If I packaged the Windows version of SWT the jar file wouldn't work on Mac OS X or Linux. To add insult to injury, there are also separate x86 and x64 versions of SWT.
+Sorry, I don't know of an easier process. I could create a jar file but it wouldn't be cross-platform because I can only package one version of SWT at a time. If I packaged the Windows version of SWT, the jar file wouldn't work on Mac OS X or Linux and vice versa. To add insult to injury, there are also separate x86 and x64 versions of SWT, which would require me to package six jar files to cover all platforms.
 
 Authors
 -------
