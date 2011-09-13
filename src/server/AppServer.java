@@ -19,6 +19,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import server.gui.ServerMonitor;
+
 import de.root1.simon.exceptions.NameBindingException;
 
 public class AppServer {
@@ -47,8 +49,14 @@ public class AppServer {
 	 */
 	public static void start(int port) {
 		try {
-			new GameMethodsImpl("risk", port);
-			System.out.println("Listening on port " + port + "...");
+			Display display = new Display();
+			GameMethodsImpl gameImpl = new GameMethodsImpl("risk", port);
+			ServerMonitor serverM = new ServerMonitor(gameImpl, display);
+			gameImpl.setServerMonitor(serverM);
+			gameImpl.setDisplay(display);
+			
+			serverM.updateConsole("Listening on port " + port + "...");
+			serverM.start();
 		} catch (UnknownHostException e) {
 			System.err.println(e.getMessage());
 		} catch (IOException e) {

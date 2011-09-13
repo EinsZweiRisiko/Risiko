@@ -3,7 +3,6 @@ package gui.risk;
 import gui.ActionDialog;
 import gui.AppClient;
 import gui.AttackDialog;
-import gui.MessageDialog;
 
 import java.util.HashMap;
 import java.util.List;
