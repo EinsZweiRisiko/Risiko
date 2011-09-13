@@ -179,7 +179,7 @@ public class AppClient implements ClientMethods {
 
 			display.asyncExec(new Runnable() {
 				public void run() {
-					riskWindow.prepare();
+					riskWindow.buildUserInterface();
 				}
 			});
 		} else if (action instanceof BonusCardAction) {

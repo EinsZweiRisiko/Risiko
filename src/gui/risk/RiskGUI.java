@@ -12,9 +12,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.events.ShellListener;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -55,16 +54,15 @@ public class RiskGUI {
 	private Button[] buttonArray = new Button[42];
 	private Composite cardWindow;
 	private Player currentPlayer;
-	private Device dev;
 	private Display display;
 	private String events = "";
 	private Text eventWindow = null;
 	private GameMethods game;
-	private Player guiPlayer;
+	private Player clientPlayer;
 	private int imgWidth;
 	private int imgHeight;
 	private Composite mainWindow;
-	private Image map;
+	private Image backgroundImage;
 	private final int maxSizeX = 1920;
 	private final int maxSizeY = 1080;
 	private Button nextPhaseButton;
@@ -87,14 +85,14 @@ public class RiskGUI {
 	 * @param display
 	 *            the Display on which the shell is shown
 	 */
-	public RiskGUI(Display display, AppClient app, final GameMethods game) {
+	public RiskGUI(Display display, AppClient app, GameMethods game) {
+		this.display = display;
 		this.game = game;
 //		this.app = app;
-		this.display = display;
-		this.guiPlayer = app.getPlayer();
+		this.clientPlayer = app.getPlayer();
 	}
 
-	public void prepare(){
+	public void buildUserInterface(){
 		territories = game.getTerritories();
 		players = game.getPlayers();
 
@@ -102,7 +100,7 @@ public class RiskGUI {
 
 		// Create a new Shell with Title
 		shell = new Shell(display);
-		shell.setText(AppClient.name + " | " + guiPlayer.getName());
+		shell.setText(AppClient.name + " | " + clientPlayer.getName());
 
 		// Set size to default
 		shell.setSize(defaultSizeX, defaultSizeY);
@@ -110,28 +108,26 @@ public class RiskGUI {
 		// Create a new Composite make it default size adjust the Shell
 		mainWindow = new Composite(shell, SWT.NONE);
 		mainWindow.setSize(defaultSizeX, defaultSizeY);
-		shell.pack();
-
+		
 		// Shell set minimum size to default size
+		shell.pack();
 		shell.setMinimumSize(shell.getBounds().width, shell.getBounds().height);
 
 		// Composite set size to max size
 		mainWindow.setSize(maxSizeX, maxSizeY);
 
-		dev = shell.getDisplay();
-
 		try {
-			map = new Image(dev, "assets/riskClean.png");
+			backgroundImage = new Image(display, "assets/riskClean.png");
 		} catch (Exception e) {
-			System.out.println("Cannot load image");
-			System.out.println(e.getMessage());
+			System.err.println("Cannot load image: " + e.getMessage());
 			System.exit(1);
 		}
 
-		imgWidth = map.getBounds().width;
-		imgHeight = map.getBounds().height;
+		imgWidth = backgroundImage.getBounds().width;
+		imgHeight = backgroundImage.getBounds().height;
 
-		mainWindow.setBackgroundImage(map);
+		mainWindow.setBackgroundImage(backgroundImage);
+		mainWindow.setBackgroundMode(SWT.INHERIT_DEFAULT);
 
 		createButtons();
 
@@ -143,38 +139,22 @@ public class RiskGUI {
 		
 		createSaveButton();
 
-		// resize listener which auto centers the game
+		// Always center the UI
 		shell.addListener(SWT.Resize, new Listener() {
 			public void handleEvent(Event e) {
 				centerImage(mainWindow);
 			}
 		});
-
-		// defines all Actions if Shell is closed, deactivated, deinconified or
-		// iconified
-		shell.addShellListener(new ShellListener() {
-			@Override
+		shell.addShellListener(new ShellAdapter() {
 			public void shellActivated(ShellEvent e) {
 				centerImage(mainWindow);
 			}
-
-			@Override
-			public void shellClosed(ShellEvent e) {
-
-			}
-
-			@Override
 			public void shellDeactivated(ShellEvent e) {
 				centerImage(mainWindow);
-				;
 			}
-
-			@Override
 			public void shellDeiconified(ShellEvent e) {
 				centerImage(mainWindow);
 			}
-
-			@Override
 			public void shellIconified(ShellEvent e) {
 				centerImage(mainWindow);
 			}
@@ -196,9 +176,9 @@ public class RiskGUI {
 	private void createRoundWindow() {
 		supplyButton = new Button(mainWindow, SWT.PUSH);
 		roundButton = new Button(mainWindow, SWT.PUSH);
-		roundImage[0] = new Image(dev, "assets/roundSUPPLY.png");
-		roundImage[1] = new Image(dev, "assets/roundATTACK.png");
-		roundImage[2] = new Image(dev, "assets/roundMOVEMENT.png");
+		roundImage[0] = new Image(display, "assets/roundSUPPLY.png");
+		roundImage[1] = new Image(display, "assets/roundATTACK.png");
+		roundImage[2] = new Image(display, "assets/roundMOVEMENT.png");
 	}
 
 	/**
@@ -217,7 +197,6 @@ public class RiskGUI {
 	 * for the User
 	 */
 	private void createEventWindow() {
-		mainWindow.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		eventWindow = new Text(mainWindow, SWT.NONE | SWT.MULTI | SWT.WRAP
 				| SWT.RESIZE | SWT.V_SCROLL);
 		eventWindow.setBounds(0, 0, 250, 50);
@@ -231,7 +210,7 @@ public class RiskGUI {
 
 	private void createSaveButton() {
 		try {
-			saveImage = new Image(dev, "assets/save.png");
+			saveImage = new Image(display, "assets/save.png");
 		} catch (Exception e) {
 			System.out.println("Cannot load image");
 			System.out.println(e.getMessage());
@@ -264,21 +243,21 @@ public class RiskGUI {
 		try {
 			// load unit pictures
 			// BLACK
-			unitImage[0] = new Image(dev, "assets/unitsBLACK.png");
+			unitImage[0] = new Image(display, "assets/unitsBLACK.png");
 			// BLUE
-			unitImage[1] = new Image(dev, "assets/unitsGREEN.png");
+			unitImage[1] = new Image(display, "assets/unitsGREEN.png");
 			// RED
-			unitImage[2] = new Image(dev, "assets/unitsRED.png");
+			unitImage[2] = new Image(display, "assets/unitsRED.png");
 			// YELLOW
-			unitImage[3] = new Image(dev, "assets/unitsYELLOW.png");
+			unitImage[3] = new Image(display, "assets/unitsYELLOW.png");
 			// PINK
-			unitImage[4] = new Image(dev, "assets/unitsPINK.png");
+			unitImage[4] = new Image(display, "assets/unitsPINK.png");
 			// GREEN
-			unitImage[5] = new Image(dev, "assets/unitsBLUE.png");
+			unitImage[5] = new Image(display, "assets/unitsBLUE.png");
 
 			// rescale unit icons for Buttons to 16x16px
 			for (int i = 0; i < unitImage.length; i++) {
-				unitImage[i] = new Image(dev, unitImage[i].getImageData()
+				unitImage[i] = new Image(display, unitImage[i].getImageData()
 						.scaledTo(16,
 								16));
 			}
@@ -959,7 +938,7 @@ public class RiskGUI {
 
 	public void openEventBox(Player player, String message, List<Integer> attackDice, List<Integer> defendDice) {
 
-		if(player.equals(guiPlayer)){
+		if(player.equals(clientPlayer)){
 			new AttackDialog(shell, player.getName(), message, attackDice, defendDice, sourceTerritory, targetTerritory);
 		}
 	}
@@ -1014,23 +993,23 @@ public class RiskGUI {
 			// load bonus pictures
 
 			// Infantary
-			bonusImage[0] = new Image(dev, "assets/bonusINF.png");
+			bonusImage[0] = new Image(display, "assets/bonusINF.png");
 
 			// Calvary
-			bonusImage[1] = new Image(dev, "assets/bonusCAL.png");
+			bonusImage[1] = new Image(display, "assets/bonusCAL.png");
 
 			// Artillery
-			bonusImage[2] = new Image(dev, "assets/bonusART.png");
+			bonusImage[2] = new Image(display, "assets/bonusART.png");
 
 			// Joker alias Wildcard
-			bonusImage[3] = new Image(dev, "assets/bonusJOK.png");
+			bonusImage[3] = new Image(display, "assets/bonusJOK.png");
 		} catch (Exception e) {
 			System.out.println("Cannot load image");
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
 
-		List<BonusCard> bonuscards = guiPlayer.getBonusCards();
+		List<BonusCard> bonuscards = clientPlayer.getBonusCards();
 
 		for (BonusCard bonusCard : bonuscards) {
 			Label label = new Label(cardWindow, SWT.NONE);
@@ -1066,14 +1045,14 @@ public class RiskGUI {
 	}
 
 	public void updateSupplyWindow(Player player) {
-		if(player.equals(guiPlayer)){
+		if(player.equals(clientPlayer)){
 			supplyButton.setText(Integer.toString(player.getSupplies()));
 		}
 	}
 
 	public void updateBonusCard(Player player) {
 
-		if(player.equals(guiPlayer)){
+		if(player.equals(clientPlayer)){
 			cardWindow = new Composite(mainWindow, SWT.NONE);
 			RowLayout rowLayout = new RowLayout();
 			cardWindow.setLayout(rowLayout);
@@ -1153,7 +1132,7 @@ public class RiskGUI {
 
 		if(!(eventWindow == null)){
 			// Check whether the player equals my player
-			if (player.equals(guiPlayer)) {
+			if (player.equals(clientPlayer)) {
 				eventWindowAppendText("Du bist dran");
 			} else {
 				eventWindowAppendText(currentPlayer.getName() + " ist dran.");
@@ -1167,7 +1146,7 @@ public class RiskGUI {
 		attackedPlayer = targetTerritory.getOwner();
 
 		//This sould only becalled ONCE!
-		if(guiPlayer.equals(attackedPlayer)){
+		if(clientPlayer.equals(attackedPlayer)){
 			game.nextPhase();
 		}
 	}
@@ -1176,7 +1155,7 @@ public class RiskGUI {
 
 		//PlayerCollection players = game.getPlayers();
 		
-		if(player.equals(guiPlayer)){
+		if(player.equals(clientPlayer)){
 			saveButton.setVisible(true);
 		} else {
 			saveButton.setVisible(false);
@@ -1218,7 +1197,7 @@ public class RiskGUI {
 			shell.update();
 		}
 
-		if(player.equals(guiPlayer)){
+		if(player.equals(clientPlayer)){
 			roundButton.setEnabled(true);
 			shell.update();
 		} else {
@@ -1226,7 +1205,7 @@ public class RiskGUI {
 			shell.update();
 		}
 		if (phase == Phase.TURNINCARDS) {
-			if(player.equals(guiPlayer)){
+			if(player.equals(clientPlayer)){
 
 				ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 						targetTerritory);
@@ -1242,7 +1221,7 @@ public class RiskGUI {
 		} else if (phase == Phase.PLACEMENT) {
 			for (Button button : buttonArray) {
 
-				if (player.equals(guiPlayer)) {
+				if (player.equals(clientPlayer)) {
 					currentPlayer = player;
 					supplyButton.setVisible(true);
 					supplyButton.setText(Integer.toString(player.getSupplies()));
@@ -1252,7 +1231,7 @@ public class RiskGUI {
 
 					Territory territory = game.getTerritories().get(button.getData("name"));
 
-					if (territory.getOwner().equals(guiPlayer)) {
+					if (territory.getOwner().equals(clientPlayer)) {
 						button.setEnabled(true);
 					} else {
 						button.setEnabled(false);
@@ -1265,7 +1244,7 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK1) {
 
-			if (player.equals(guiPlayer)) {
+			if (player.equals(clientPlayer)) {
 				supplyButton.setVisible(false);
 
 				List<Territory> attackingTerritories = game.getMyTerritoriesForAttacking(player);
@@ -1303,7 +1282,7 @@ public class RiskGUI {
 			}
 		} else if (phase == Phase.ATTACK2) {
 
-			if (player.equals(guiPlayer)) {
+			if (player.equals(clientPlayer)) {
 				//meine Länder anzeigen von den ich angreifen kann (mehr als 1 Einheit + feindliches Land)
 
 				List<Territory> attackableTerritories = game.getOpposingNeighborsOf(sourceTerritory);
@@ -1331,11 +1310,11 @@ public class RiskGUI {
 				button.setEnabled(false);
 			}
 
-			if (player.equals(guiPlayer)) {
+			if (player.equals(clientPlayer)) {
 				nextPhaseButton.dispose();
 			}
 
-			if (attackedPlayer.equals(guiPlayer)){
+			if (attackedPlayer.equals(clientPlayer)){
 
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
 						targetTerritory);
@@ -1347,7 +1326,7 @@ public class RiskGUI {
 		}
 
 		if (phase.equals(Phase.MOVEMENT1)) {
-			if (player.equals(guiPlayer)) {
+			if (player.equals(clientPlayer)) {
 
 				List<Territory> movingTerritories = game.getMyTerritoriesForMoving(player);
 
@@ -1387,7 +1366,7 @@ public class RiskGUI {
 			}
 		}
 		if (phase.equals(Phase.MOVEMENT2)) {
-			if (player.equals(guiPlayer)) {
+			if (player.equals(clientPlayer)) {
 
 				List<Territory> movingTerritories = game.getSimilarNeighborsOf(sourceTerritory);
 
