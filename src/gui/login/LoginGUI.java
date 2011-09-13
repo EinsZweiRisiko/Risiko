@@ -95,7 +95,7 @@ public class LoginGUI {
 
 		// Add name label
 		Label nameLabel = new Label(login, SWT.NONE);
-		nameLabel.setText("Your name:");
+		nameLabel.setText("Your name: ");
 
 		// Add name input
 		name = new Text(login, SWT.SINGLE | SWT.BORDER);
@@ -105,7 +105,7 @@ public class LoginGUI {
 
 		// Add server label
 		Label serverLabel = new Label(login, SWT.NONE);
-		serverLabel.setText("Server:");
+		serverLabel.setText("Server: ");
 
 		// Add server input
 		server = new Text(login, SWT.SINGLE | SWT.BORDER);
@@ -114,12 +114,12 @@ public class LoginGUI {
 
 		// Add "join game" button
 		joinGame = new Button(login, SWT.PUSH);
-		joinGame.setText("Spiel beitreten");
+		joinGame.setText("Join game");
 		shell.setDefaultButton(joinGame);
 
 		// Add "load game" button
 		loadGame = new Button(login, SWT.PUSH);
-		loadGame.setText("Spiel laden");
+		loadGame.setText("Load game");
 
 		login.setBounds(0, 0, 250, 250);
 
