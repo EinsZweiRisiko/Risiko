@@ -90,7 +90,7 @@ public class RiskGUI {
 	 */
 	public RiskGUI(Display display, AppClient app, final GameMethods game) {
 		this.game = game;
-//		this.app = app;
+		//		this.app = app;
 		this.display = display;
 		this.guiPlayer = app.getPlayer();
 	}
@@ -1425,7 +1425,7 @@ public class RiskGUI {
 				do {
 					units = (Integer) ad2.open();
 				} while(units == 0);
-				
+
 				game.defend(sourceTerritory, targetTerritory, units);
 			}
 		}
