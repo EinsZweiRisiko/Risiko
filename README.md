@@ -30,7 +30,7 @@ Then setup the environment:
  6. Start the client:
     + gui.AppClient
 
-Sorry, I don't know of an easier process. I could create a jar file but it won't be cross-platform compatible, because I can only package one version of SWT at a time. If I packaged the Windows version of SWT the jar file wouldn't work on Mac OS X and vice versa.
+Sorry, I don't know of an easier process. I could create a jar file but it wouldn't be cross-platform compatible, because I can only package one version of SWT at a time. If I packaged the Windows version of SWT the jar file wouldn't work on Mac OS X or Linux. To add insult to injury, there are also separate x86 and x64 versions of SWT.
 
 Authors
 -------
