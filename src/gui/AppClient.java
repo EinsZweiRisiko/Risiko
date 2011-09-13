@@ -175,7 +175,7 @@ public class AppClient implements ClientMethods {
 				}
 			});
 		} else if (action instanceof PrepareGUIAction) {
-			//			final PrepareGUIAction a = (PrepareGUIAction) action;
+//			final PrepareGUIAction a = (PrepareGUIAction) action;
 
 			display.asyncExec(new Runnable() {
 				public void run() {
