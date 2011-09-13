@@ -46,6 +46,8 @@ public class RiskGUI {
 
 	private final int defaultSizeX = 800;
 	private final int defaultSizeY = 600;
+	private final int maxSizeX = 1920;
+	private final int maxSizeY = 1080;
 
 	private Territory targetTerritory;
 	private Player attackedPlayer;
@@ -60,12 +62,9 @@ public class RiskGUI {
 	private Text eventWindow = null;
 	private GameMethods game;
 	private Player clientPlayer;
-	private int imgWidth;
-	private int imgHeight;
+	private Rectangle backgroundSize;
 	private Composite mainWindow;
 	private Image backgroundImage;
-	private final int maxSizeX = 1920;
-	private final int maxSizeY = 1080;
 	private Button nextPhaseButton;
 	private Phase phase;
 	private Button[] playerButtons;
@@ -126,9 +125,7 @@ public class RiskGUI {
 			System.err.println("Cannot load image: " + e.getMessage());
 			System.exit(1);
 		}
-
-		imgWidth = backgroundImage.getBounds().width;
-		imgHeight = backgroundImage.getBounds().height;
+		backgroundSize = backgroundImage.getBounds();
 
 		mainWindow.setBackgroundImage(backgroundImage);
 		mainWindow.setBackgroundMode(SWT.INHERIT_DEFAULT);
@@ -190,22 +187,19 @@ public class RiskGUI {
 		missionButton.setImage(missionImage);
 		missionButton.setToolTipText("Klicke um deine Mission zu sehen");
 		missionButton.pack();
-		missionButton.setLocation(new Point(((imgWidth - shell
-				.getClientArea().width) / 2 + playerButtons[0].getBounds().width + 15), ((imgHeight - shell
-						.getClientArea().height)
-						/ 2
-						+ shell.getClientArea().height
-						- 10 -missionButton.getBounds().height)));
+		
+		Rectangle clientArea = shell.getClientArea();
+		int x = (backgroundSize.width - clientArea.width) / 2 + playerButtons[0].getBounds().width + 15;
+		int y = (backgroundSize.height - clientArea.height) / 2 + clientArea.height - 10 - missionButton.getBounds().height;
+		missionButton.setLocation(x, y);
+		
 		missionButton.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseUp(MouseEvent e) {
 				Mission myMission = game.getMyMission(clientPlayer);
 
 				MissionDialog md = new MissionDialog(myMission, display);
 				md.open();
-
 			}
-
 		});
 	}
 
@@ -236,15 +230,16 @@ public class RiskGUI {
 	 * for the User
 	 */
 	private void createEventWindow() {
-		eventWindow = new Text(mainWindow, SWT.NONE | SWT.MULTI | SWT.WRAP
+		eventWindow = new Text(mainWindow, SWT.MULTI | SWT.WRAP
 				| SWT.RESIZE | SWT.V_SCROLL);
-		eventWindow.setBounds(0, 0, 250, 50);
 		eventWindow.setText(events);
-		eventWindow.setLocation(new Point(
-				((imgWidth - shell.getClientArea().width) / 2
-						+ shell.getClientArea().width - 250),
-						((imgHeight - shell.getClientArea().height) / 2
-								+ shell.getClientArea().height - 50)));
+		
+		Rectangle clientArea = shell.getClientArea();
+		Point size = new Point(300, 50);
+		Point location = new Point((backgroundSize.width - clientArea.width) / 2 + clientArea.width - size.x,
+				                   (backgroundSize.height - clientArea.height) / 2 + clientArea.height - size.y);
+		
+		eventWindow.setBounds(location.x, location.y, size.x, size.y);
 	}
 
 	/**
@@ -880,18 +875,7 @@ public class RiskGUI {
 
 		// add to all buttons a Mouselistener
 		for (int i = 0; i < buttonArray.length; i++) {
-			buttonArray[i].addMouseListener(new MouseListener() {
-				@Override
-				public void mouseDoubleClick(MouseEvent e) {
-
-				}
-
-				@Override
-				public void mouseDown(MouseEvent e) {
-
-				}
-
-				@Override
+			buttonArray[i].addMouseListener(new MouseAdapter() {
 				public void mouseUp(MouseEvent e) {
 					performAction(e);
 				}
@@ -915,12 +899,11 @@ public class RiskGUI {
 				biggestButton = playerButtons[i].getBounds().width;
 			}
 			playerButtons[i].setSize(biggestButton, 20);
-			playerButtons[i].setLocation(new Point(((imgWidth - shell
-					.getClientArea().width) / 2 + 10), ((imgHeight - shell
-							.getClientArea().height)
-							/ 2
-							+ shell.getClientArea().height
-							- 10 - players.size() * 20 + (i * 20))));
+			
+			Rectangle clientArea = shell.getClientArea();
+			int x = (backgroundSize.width - clientArea.width) / 2 + 10;
+			int y = (backgroundSize.height - clientArea.height) / 2 + shell.getClientArea().height - 10 - players.size() * 20 + (i * 20);
+			playerButtons[i].setLocation(new Point(x, y));
 		}
 
 		// make all Buttons same size
@@ -1094,13 +1077,10 @@ public class RiskGUI {
 			cardWindow.pack();
 		}
 
-		cardWindow
-		.setLocation(new Point(
-				((imgWidth - shell.getClientArea().width) / 2
-						+ shell.getClientArea().width - cardWindow
-						.getBounds().width),
-						((imgHeight - shell.getClientArea().height) / 2
-								+ 5)));
+		Rectangle clientArea = shell.getClientArea();
+		int x = (backgroundSize.width - clientArea.width) / 2 + clientArea.width - cardWindow.getBounds().width;
+		int y = (backgroundSize.height - clientArea.height) / 2 + 5;
+		cardWindow.setLocation(new Point(x, y));
 
 		shell.update();
 	}
@@ -1158,13 +1138,11 @@ public class RiskGUI {
 			}
 
 			cardWindow.pack();
-			cardWindow
-			.setLocation(new Point(
-					((imgWidth - shell.getClientArea().width) / 2
-							+ shell.getClientArea().width - cardWindow
-							.getBounds().width),
-							((imgHeight - shell.getClientArea().height) / 2
-									+ 5)));
+			
+			Rectangle clientArea = shell.getClientArea();
+			int x = (backgroundSize.width - clientArea.width) / 2 + clientArea.width - cardWindow.getBounds().width;
+			int y = (backgroundSize.height - clientArea.height) / 2 + 5;
+			cardWindow.setLocation(new Point(x, y));
 
 			shell.update();
 		}
@@ -1174,19 +1152,14 @@ public class RiskGUI {
 	/**
 	 * Centers an image in the middle of the Shell
 	 */
-	private void centerImage(Composite window) {
+	private void centerImage(Composite composite) {
 		// center Composition
-		int shellClientWidth = shell.getClientArea().width;
-		int shellClientHeight = shell.getClientArea().height;
+		Rectangle clientArea = shell.getClientArea();
+		Rectangle bounds = composite.getBounds();
 
-		Rectangle bds = window.getBounds();
-		Point p = window.getSize();
-
-		int nLeft = (bds.width - p.x) / 2;
-		int nTop = (bds.height - p.y) / 2;
-
-		window.setLocation(-((imgWidth - shellClientWidth) / 2) + nLeft,
-				-((imgHeight - shellClientHeight) / 2) + nTop);
+		int x = -(bounds.width - clientArea.width) / 2;
+		int y = -(bounds.height - clientArea.height) / 2;
+		composite.setLocation(x, y);
 	}
 
 	@Override
@@ -1200,12 +1173,12 @@ public class RiskGUI {
 	public void updateCurrentPlayer(Player player) {
 		currentPlayer = player;
 
-		if(!(eventWindow == null)){
+		if(eventWindow != null){
 			// Check whether the player equals my player
 			if (player.equals(clientPlayer)) {
 				eventWindowAppendText("Du bist dran");
 			} else {
-				eventWindowAppendText(currentPlayer.getName() + " ist dran.");
+				eventWindowAppendText(currentPlayer + " ist dran.");
 			}
 		}
 	}
@@ -1239,13 +1212,18 @@ public class RiskGUI {
 
 		this.phase = phase;
 
-		//change the state of the roundButton to visualize the round
+
+		// Base location
+		Rectangle clientArea = shell.getClientArea();
+		int x = (backgroundSize.width - clientArea.width) / 2 + 10;
+		int y = (backgroundSize.height - clientArea.height) / 2 + 10;
+		
+		// change the state of the roundButton to visualize the round
 		if (phase == Phase.PLACEMENT || phase == Phase.TURNINCARDS){
 			roundButton.setImage(roundImage[0]);
 			roundButton.setToolTipText("Bitte platziere deine Verstärkung");
-			roundButton.setLocation(new Point(
-					((imgWidth - shell.getClientArea().width) / 2 + 10),
-					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+			
+			roundButton.setLocation(x, y);
 
 			roundButton.pack();
 			shell.update();
@@ -1254,9 +1232,8 @@ public class RiskGUI {
 		if (phase == Phase.ATTACK1 || phase == Phase.ATTACK2 || phase == Phase.ATTACK3){
 			roundButton.setImage(roundImage[1]);
 			roundButton.setToolTipText("Bitte führe deine Angriffe durch");
-			roundButton.setLocation(new Point(
-					((imgWidth - shell.getClientArea().width) / 2 + 10),
-					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+			
+			roundButton.setLocation(x, y);
 
 			roundButton.pack();
 			shell.update();
@@ -1265,9 +1242,8 @@ public class RiskGUI {
 		if (phase == Phase.MOVEMENT1 || phase == Phase.MOVEMENT2){
 			roundButton.setImage(roundImage[2]);
 			roundButton.setToolTipText("Verschiebe deine Armeen");
-			roundButton.setLocation(new Point(
-					((imgWidth - shell.getClientArea().width) / 2 + 10),
-					((imgHeight - shell.getClientArea().height) / 2 + 10)));
+			
+			roundButton.setLocation(x, y);
 
 			roundButton.pack();
 			shell.update();
@@ -1282,7 +1258,7 @@ public class RiskGUI {
 		}
 
 
-		//prepare the gui for userActions
+		// prepare the gui for userActions
 		if (phase == Phase.TURNINCARDS) {
 			if(player.equals(clientPlayer)){
 
@@ -1342,21 +1318,17 @@ public class RiskGUI {
 
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
 				nextPhaseButton.setText("nächste Phase");
-				nextPhaseButton.setLocation(new Point(
-						((imgWidth - shell.getClientArea().width) / 2 + 10 + 50),
-						((imgHeight - shell.getClientArea().height) / 2 + 10)));
+				// 50px to the right of the base location
+				nextPhaseButton.setLocation(x + 50, y);
 
 				nextPhaseButton.pack();
 				shell.update();
 
 				nextPhaseButton.addMouseListener(new MouseAdapter() {
-
-					@Override
 					public void mouseUp(MouseEvent e) {
 						game.endAttackPhase();
 						nextPhaseButton.dispose();
 					}
-
 				});
 			}
 		} else if (phase == Phase.ATTACK2) {
@@ -1431,21 +1403,18 @@ public class RiskGUI {
 
 				nextPhaseButton = new Button(mainWindow, SWT.PUSH);
 				nextPhaseButton.setText("Runde beenden.");
-				nextPhaseButton.setLocation(new Point(
-						((imgWidth - shell.getClientArea().width) / 2 + 10 + 50),
-						((imgHeight - shell.getClientArea().height) / 2 + 10)));
+				
+				// 50px to the right of the base location
+				nextPhaseButton.setLocation(x + 50, y);
 
 				nextPhaseButton.pack();
 				shell.update();
 
 				nextPhaseButton.addMouseListener(new MouseAdapter() {
-
-					@Override
 					public void mouseUp(MouseEvent e) {
 						game.endMovementPhase();
 						nextPhaseButton.dispose();
 					}
-
 				});
 			}
 		}

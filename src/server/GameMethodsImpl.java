@@ -1079,12 +1079,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void save() {
-		Store store = new Store(players, this, "save");
+//		Store store = new Store(players, this, "save");
 	}
 
 	@Override
 	public void load() {
-		Store store = new Store(players, this, "load");
+		// 100% cpu usage? das muss weg
+//		Store store = new Store(players, this, "load");
 	}
 
 	/**
