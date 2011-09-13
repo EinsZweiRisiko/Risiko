@@ -11,11 +11,21 @@ import org.eclipse.swt.widgets.Shell;
 
 import server.missions.Mission;
 
+/**
+ * 
+ * @author Hendrik
+ *
+ */
 public class MissionDialog {
 
 	private Shell shell;
 	private Display display;
 
+	/**
+	 * shows a windows showing a players mission
+	 * @param myMission
+	 * @param display
+	 */
 	public MissionDialog(Mission myMission, Display display) {
 		this.display = display;
 		shell = new Shell(display);
@@ -30,7 +40,10 @@ public class MissionDialog {
 		shell.pack();
 	}
 
-	public void start() {
+	/**
+	 * opens the window
+	 */
+	public void open() {
 		shell.open();
 
 		while (!shell.isDisposed()) {

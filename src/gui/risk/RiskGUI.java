@@ -48,7 +48,6 @@ public class RiskGUI {
 	private final int defaultSizeX = 800;
 	private final int defaultSizeY = 600;
 
-	//	private AppClient app;
 	private Territory targetTerritory;
 	private Player attackedPlayer;
 	private Territory sourceTerritory;
@@ -222,7 +221,9 @@ public class RiskGUI {
 			public void mouseUp(MouseEvent e) {
 				Mission myMission = game.getMyMission(guiPlayer);
 
-				new MissionDialog(myMission, display);				
+				MissionDialog md = new MissionDialog(myMission, display);
+				md.open();
+				
 			}
 
 		});
@@ -1237,6 +1238,12 @@ public class RiskGUI {
 		}
 	}
 
+	/**
+	 * updates the current phase for the gui
+	 * @param phase current phase
+	 * @param player current player
+	 * @param players all other players
+	 */
 	public void updatePhase(Phase phase, Player player, PlayerCollection players ) {
 
 		//PlayerCollection players = game.getPlayers();
@@ -1290,6 +1297,9 @@ public class RiskGUI {
 			roundButton.setEnabled(false);
 			shell.update();
 		}
+		
+		
+		//prepare the gui for userActions
 		if (phase == Phase.TURNINCARDS) {
 			if(player.equals(guiPlayer)){
 

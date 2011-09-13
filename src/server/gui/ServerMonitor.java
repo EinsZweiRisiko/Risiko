@@ -16,6 +16,11 @@ import org.eclipse.swt.widgets.Text;
 import server.GameMethodsImpl;
 import server.GameMethodsImpl.Phase;
 
+/**
+ * 
+ * @author Hendrik
+ *
+ */
 public class ServerMonitor {
 
 	private Text console;
@@ -25,6 +30,11 @@ public class ServerMonitor {
 	private Table table;
 	private TableItem item;
 
+	/**
+	 * creates a gui for a server monitor
+	 * @param serverMethods
+	 * @param display
+	 */
 	public ServerMonitor(GameMethodsImpl serverMethods, Display display){
 		this.display = display;
 
@@ -39,7 +49,6 @@ public class ServerMonitor {
 		tableComp.setSize(800,480);		
 
 		//TABLE
-
 		table = new Table (tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLocation(0, 0);
 		table.setLinesVisible (true);
@@ -83,6 +92,19 @@ public class ServerMonitor {
 		labelComp.pack();
 	}
 
+	public void start() {
+		shell.open();
+	
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) display.sleep();
+		}
+		System.exit(0);
+	}
+
+	/**
+	 * centers the window
+	 * @param shell
+	 */
 	private void center(Shell shell) {
 
 		Rectangle bds = shell.getDisplay().getBounds();
@@ -95,46 +117,70 @@ public class ServerMonitor {
 		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 
+	/**
+	 * appends text to the console
+	 * @param string
+	 */
 	public void updateConsole(String string) {
 		console.append("> " + string  + "\n");
 		labelComp.pack();
 	}
 
-	public void start() {
-		shell.open();
-
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) display.sleep();
-		}
-		System.exit(0);
-	}
-
-	public void updatePhase(Phase currentPhase2) {
-		item.setText(0, currentPhase2.name());
+	/**
+	 * updates the shown current phase
+	 * @param currentPhase
+	 */
+	public void updatePhase(Phase currentPhase) {
+		item.setText(0, currentPhase.name());
 	}
 	
-	public void updateCurrentPlayer(String currentPlayer2) {
-		item.setText(1, currentPlayer2);
+	/**
+	 * updates the shown current player
+	 * @param currentPlayer
+	 */
+	public void updateCurrentPlayer(String currentPlayer) {
+		item.setText(1, currentPlayer);
 	}
 
+	/**
+	 * updates the shown source territory
+	 * @param source
+	 * @param target
+	 */
 	public void updateSourceTarget(String source, String target) {
 		item.setText(2, source);
 		item.setText(3, target);
 	}
 
-	public void updateSupply(int supply2) {
-		item.setText(4, Integer.toString(supply2));
+	/**
+	 * updates the shown supply to allocate
+	 * @param supply
+	 */
+	public void updateSupply(int supply) {
+		item.setText(4, Integer.toString(supply));
 	}
 	
+	/**
+	 * updates the shown total amount of units of the current player
+	 * @param totalUnits
+	 */
 	public void updateTotalUnitAmmount(String totalUnits){
 		item.setText(5, totalUnits);
 	}
 
-	public void updateRecieveBonus(String recieveBonuscard2) {
-		item.setText(6, recieveBonuscard2);
+	/**
+	 * updates whether the current player gets a bonuscard 
+	 * @param recieveBonuscard
+	 */
+	public void updateRecieveBonus(String recieveBonuscard) {
+		item.setText(6, recieveBonuscard);
 	}
 
-	public void updateNextPlayer(String nextPlayer2) {
-		item.setText(7, nextPlayer2);
+	/**
+	 * updates the shown next player
+	 * @param nextPlayer
+	 */
+	public void updateNextPlayer(String nextPlayer) {
+		item.setText(7, nextPlayer);
 	}
 }
