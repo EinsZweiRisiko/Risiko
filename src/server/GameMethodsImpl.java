@@ -43,7 +43,7 @@ import de.root1.simon.exceptions.SimonRemoteException;
 /**
  * The game class manages a complete game of Risk
  * 
- * @author Jannes, Hendrik
+ * @author Jannes, Hendrik, Timur
  * 
  */
 @SimonRemote
@@ -288,7 +288,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		nextPlayer();
 	}
 
-	@Override
+	/**
+	 * 
+	 * place the Units of the specified Territory
+	 */
 	public void placeUnits(String territory, int amount) {
 		if(currentPlayer.getSupplies() > 0){
 			territoryManager.getTerritoryMap().get(territory).addUnits(amount);
@@ -303,7 +306,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 	}
 
-	@Override
+	/**
+	 * Attack Method to set the attacking dices
+	 * 
+	 */
 	public void attack(Territory sourceTerritory, Territory targetTerritory, int amount) {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
 		
@@ -313,6 +319,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new AttackAction(sourceTerritory, targetTerritory, amount));
 	}
 
+	/**
+	 * Defend Method to set the defend dices and call the CalculateDice Method for the fight/dice calculation
+	 */
 	public void defend(Territory sourceTerritory, Territory targetTerritory, int amount) {
 		// Verteidiger(amount) darf nicht mehr als 2 und nicht weniger als 1 sein
 		defendDice = getDice(amount);
@@ -320,7 +329,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		// nun wird der Kampf bzw. die zwei würfel verglichen "Kampf" findet statt
 		calculateDice(attackDice, defendDice, territoryManager.getTerritoryMap().get(sourceTerritory.getName()), territoryManager.getTerritoryMap().get(targetTerritory.getName()));
 	}
-
+/**
+ * Calculate the dices and set the specified Territorys with the calcualtet Values
+ * 
+ * @param attackDice
+ * @param defendDice
+ * @param sourceTerritory
+ * @param targetTerritory
+ */
 	public void calculateDice(List<Integer> attackDice, List<Integer> defendDice, Territory sourceTerritory, Territory targetTerritory) {
 		int defendLoseUnits = 0;
 		int attackLoseUnits = 0;
@@ -420,7 +436,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		nextPhase();
 	}
 
-	@Override
+	/**
+	 * Move Method for move Units from one to the other Territory
+	 */
 	public void move(Territory source, Territory target, int amount)
 	throws SimonRemoteException {
 

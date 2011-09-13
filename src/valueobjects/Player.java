@@ -12,7 +12,7 @@ import commons.GameMethods;
 /**
  * A class that represents a player
  * 
- * @author Jannes, Hendrik
+ * @author Jannes, Hendrik, Timur
  */
 public class Player implements Serializable {
 

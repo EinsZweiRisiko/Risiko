@@ -20,7 +20,7 @@ import valueobjects.Territory;
 import valueobjects.BonusCard.BonusCardType;
 
 /**
- * Speichern und Laden
+ * Save and load
  * 
  * @author Timur
  */
@@ -48,12 +48,21 @@ public class Store {
 	 * Supply Einheiten
 	 * Mission
 	 * 
+	 * 
+	 * Die Informationen liegen alle in einer TXT Datei die in Kategorien unterteilt sind
+	 * Siehe Textdatei
 	 */
 	List<Player> players;
 	GameMethodsImpl game;
 	private final String SAVE_PATH = "C:\\riskSave2.txt";
 	List<String> playerMac;
 
+	/**
+	 * Constructur that get the parameters from the Server to handle with it
+	 * @param players
+	 * @param game
+	 * @param arg
+	 */
 	public Store(PlayerCollection players, GameMethodsImpl game, String arg) {
 		this.players = players;
 		this.game = game;
@@ -73,6 +82,10 @@ public class Store {
 		}
 	}
 
+	/**
+	 * build the save Input List that will be write later in the .txt
+	 * @return
+	 */
 	public List<String> buildInput() {
 		// in Input werden die Daten zusammengetragen
 		List<String> input = new ArrayList<String>();
@@ -144,7 +157,12 @@ public class Store {
 		}
 		return input;
 	}
-
+/**
+ * edit the created loadText List and set the Values of the Server by the specified Data
+ * 
+ * @param loadText
+ * @throws InvalidTerritoryStateException
+ */
 	public void filterLoadFile(List<String> loadText) throws InvalidTerritoryStateException {
 		Player loadedPlayer = null;
 		int player = 0;
@@ -283,8 +301,12 @@ public class Store {
 
 	public void filterLoad2() {
 
-
 	}
+	
+	/**
+	 * load the txt file and read the data into an List
+	 * @return
+	 */
 	public List<String> load() {
 		// einlesen der Daten
 		// also seten den Variablen druch die setter Funktionen
@@ -317,6 +339,9 @@ public class Store {
 		return loadText;
 	}
 
+	/**
+	 * save the created input List into a txt file
+	 */
 	public void save() {
 
 		//zusammen bauen des input Arrays
@@ -347,6 +372,12 @@ public class Store {
 		}
 	}
 
+	/**
+	 * get the MAC Adress of the loval Machine/Client
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public static String getMacAddress() throws Exception {
 
 		String result = "";

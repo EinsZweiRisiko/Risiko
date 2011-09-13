@@ -8,7 +8,7 @@ import java.io.Serializable;
  * 
  * These cards are also referred to as "RISK cards" in the manual.
  * 
- * @author Jannes
+ * @author Jannes, Timur
  * 
  */
 public class BonusCard implements Serializable {
