@@ -17,11 +17,11 @@ Download these dependencies:
 
  + [SWT](http://archive.eclipse.org/eclipse/downloads/)
 
-	+ Select newest Eclipse build and find the SWT section.
-	+ Example: [SWT 3.6.1](http://archive.eclipse.org/eclipse/downloads/drops/R-3.6.1-201009090800/#SWT)
-	+ Then download the appropriate version of SWT for your platform.
+    + Select newest Eclipse build and find the SWT section.
+    + Example: [SWT 3.6.1](http://archive.eclipse.org/eclipse/downloads/drops/R-3.6.1-201009090800/#SWT)
+    + Then download the appropriate version of SWT for your platform.
 
  + [SIMON](http://dev.root1.de/projects/simon/files)
 
-	+ Download SIMON with dependencies
-	+ Example: [simon-1.1.2-jar-with-dependencies.jar](http://dev.root1.de/attachments/download/120/simon-1.1.2-jar-with-dependencies.jar)
+    + Download SIMON with dependencies
+    + Example: [simon-1.1.2-jar-with-dependencies.jar](http://dev.root1.de/attachments/download/120/simon-1.1.2-jar-with-dependencies.jar)
