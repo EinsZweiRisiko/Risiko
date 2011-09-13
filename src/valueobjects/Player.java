@@ -197,31 +197,44 @@ public class Player implements Serializable {
 		bonusCards.removeAll(cards);
 	}
 
-	// TODO implement getContinents
-	public List<Continent> getContinents(Player player, TerritoryManager territoryManager) {
-		List<Continent> continents = new ArrayList<Continent>();
+	/**
+	 * Gets all continents that the player has conquered completely.
+	 * 
+	 * @param player
+	 *            Player
+	 * @param t
+	 *            TerritoryManager
+	 * @return
+	 */
+	public List<Continent> getContinents(TerritoryManager t) {
+		Collection<Continent> allContinents = t.getContinents();
+		List<Continent> myContinents = new ArrayList<Continent>();
 
-		for(int i = 0; i < territoryManager.getContinents().size(); i++) {
-			if(territoryList.containsAll((Collection<?>) territoryManager.getContinents().get(i).getTerritories())) {
-				continents.add(territoryManager.getContinents().get(0));
-				return continents;
+		for (Continent continent : allContinents) {
+			if (territoryList.containsAll(continent.getTerritories())) {
+				myContinents.add(continent);
 			}
 		}
-		return null;
+		
+		return myContinents;
 	}
 
-	public int getAllUnits() {
-		int units = 0;
-
+	/**
+	 * Gets a count of all units that the player has placed on the board.
+	 * 
+	 * @return Unit count
+	 */
+	public int getUnitCount() {
+		int count = 0;
 		for (Territory territory : territoryList) {
-			units += territory.getUnitCount();
+			count += territory.getUnitCount();
 		}
-
-		return units;
+		return count;
 	}
 
 	/**
 	 * Calculate if there are 3 similiar bonus cards
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -231,20 +244,21 @@ public class Player implements Serializable {
 		int cntCavalry = 0;
 		int cntArtillery = 0;
 
-		if(numBonusCards >= 2) {
-			for(int i = 0; i < numBonusCards; i++) {
+		if (numBonusCards >= 2) {
+			for (int i = 0; i < numBonusCards; i++) {
 				String cardName = bonusCards.get(i).getType().name();
-				if(cntInfantry == 2 || cntCavalry == 2 || cntArtillery == 2) {
+				if (cntInfantry == 2 || cntCavalry == 2 || cntArtillery == 2) {
 					cntInfantry = 0;
 					cntCavalry = 0;
 					cntArtillery = 0;
 					return true;
-				}else {
-					if(cardName == "Infantry" ||  cardName == "Wildcard") {
+				} else {
+					if (cardName == "Infantry" || cardName == "Wildcard") {
 						cntInfantry++;
-					}else if(cardName == "Cavalry" ||  cardName == "Wildcard") {
+					} else if (cardName == "Cavalry" || cardName == "Wildcard") {
 						cntCavalry++;
-					} else if(cardName == "Artillery" ||  cardName == "Wildcard") {
+					} else if (cardName == "Artillery"
+							|| cardName == "Wildcard") {
 						cntArtillery++;
 					}
 				}
@@ -296,30 +310,6 @@ public class Player implements Serializable {
 		int random = (int) (Math.random() * territoryList.size());
 		// Return the territory
 		return territoryList.get(random);
-	}
-
-	/**
-	 * Returns a list of all continents that the player has completely
-	 * conquered.
-	 * 
-	 * @return List of continents
-	 */
-	public List<Continent> getContinents() {
-		// TODO implement getContinents
-		return null;
-	}
-
-	/**
-	 * Gets a count of all units that the player has placed on the board.
-	 * 
-	 * @return Unit count
-	 */
-	public int getUnitCount() {
-		int count = 0;
-		for (Territory territory : territoryList) {
-			count += territory.getUnitCount();
-		}
-		return count;
 	}
 
 	/**

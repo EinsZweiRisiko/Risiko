@@ -5,11 +5,10 @@ import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import persistence.Store;
-
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
 import server.missions.Mission;
@@ -83,8 +82,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 */
 	private Phase currentPhase = Phase.START;
 
-	private AppServer appServer;
-
 	/**
 	 * Phases of a player's turn
 	 */
@@ -96,7 +93,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	IOException, NameBindingException {
 		Registry registry = Simon.createRegistry(port);
 		registry.bind(name, this);
-		this.appServer = appServer;
 	}
 
 	/**
@@ -237,11 +233,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			supplies = 3;
 		}
 
-		// TODO Extra supplies for conquered continents
-		if(currentPlayer.getContinents(currentPlayer, territoryManager) != null) {
-			for (Continent continent : currentPlayer.getContinents(currentPlayer, territoryManager)) {
-				supplies += continent.getBonusSupplies();
-			}	
+		// Extra supplies for conquered continents
+		for (Continent continent : currentPlayer.getContinents(territoryManager)) {
+			supplies += continent.getBonusSupplies();
 		}
 
 
@@ -549,7 +543,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	@Override
-	public HashMap<String, Territory> getTerritories() {
+	public Map<String, Territory> getTerritories() {
 		return territoryManager.getTerritoryMap();
 	}
 

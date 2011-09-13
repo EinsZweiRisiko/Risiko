@@ -1,30 +1,30 @@
 package server.missions;
 
+import server.TerritoryManager;
 import valueobjects.Player;
 
 public abstract class Mission {
 
-	private String description;
+	protected TerritoryManager t;
+	
 	protected Player owner;
 
 	/**
-	 * Creates a mission with the supplied description. The mission logic must
-	 * be part of a subclass.
-	 * 
-	 * @param description
-	 *            String
+	 * Constructor
+	 * @param territoryManager Reference to the territoryManager
 	 */
-	public Mission(String description) {
-		this.description = description;
+	public Mission(TerritoryManager territoryManager) {
+		this.t = territoryManager;
 	}
-
+	
 	/**
-	 * Gets the description of the Mission as a String.
+	 * Sets the owner.
 	 * 
-	 * @return Description as String
+	 * @param owner
+	 *            The player who owns this mission.
 	 */
-	public String getDescription() {
-		return description;
+	public void setOwner(Player owner) {
+		this.owner = owner;
 	}
 
 	/**
@@ -35,6 +35,13 @@ public abstract class Mission {
 	public Player getOwner() {
 		return owner;
 	}
+
+	/**
+	 * Gets the description of this mission.
+	 * 
+	 * @return description
+	 */
+	public abstract String getDescription();
 
 	/**
 	 * Returns whether this mission has been accomplished.

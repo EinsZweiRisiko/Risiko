@@ -1,7 +1,7 @@
 package commons;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import server.GameMethodsImpl.Phase;
 import server.TerritoryManager;
@@ -38,7 +38,7 @@ public interface GameMethods {
 	public Mission getMyMission(Player player);
 	public List<BonusCard> getMyBonusCards(Player player);
 
-	public HashMap<String, Territory> getTerritories();
+	public Map<String, Territory> getTerritories();
 	public List<Territory> getMyTerritories(Player player);
 	public List<Territory> getMyTerritoriesForAttacking(Player player);
 	public List<Territory> getMyTerritoriesForMoving(Player player);

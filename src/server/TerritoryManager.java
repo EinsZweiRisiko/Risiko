@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import server.exceptions.InvalidTerritoryStateException;
 import valueobjects.Continent;
@@ -32,12 +33,12 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	/**
 	 * List of all continents
 	 */
-	private List<Continent> continents = new ArrayList<Continent>();
+	private Map<String, Continent> continents = new HashMap<String, Continent>();
 
 	/**
 	 * List of all territories coupled with their names
 	 */
-	private HashMap<String, Territory> territories = new HashMap<String, Territory>();
+	private Map<String, Territory> territories = new HashMap<String, Territory>();
 
 	/**
 	 * A list which contains all pairs of adjacent territories
@@ -52,7 +53,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			{ "Ontario", "Grönland" }, { "Grönland", "Quebec" },
 			{ "Grönland", "Island" },
 			{ "Weststaaten", "Oststaaten" },
-			{ "Weststaaten", "Mittelamerika" }, {"Weststaaten", "Ontario"},
+			{ "Weststaaten", "Mittelamerika" }, { "Weststaaten", "Ontario" },
 			{ "Oststaaten", "Quebec" }, { "Oststaaten", "Mittelamerika" },
 			{ "Mittelamerika", "Venezuela" }, { "Venezuela", "Peru" },
 			{ "Venezuela", "Brasilien" }, { "Peru", "Brasilien" },
@@ -61,7 +62,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			{ "Nordwestafrika", "Westeuropa" },
 			{ "Nordwestafrika", "Ägypten" }, { "Nordwestafrika", "Ostafrika" },
 			{ "Nordwestafrika", "Kongo" }, { "Ägypten", "Südeuropa" },
-		    { "Ägypten", "Ostafrika" },
+			{ "Ägypten", "Ostafrika" },
 			{ "Ostafrika", "Mittlerer Osten" }, { "Ostafrika", "Kongo" },
 			{ "Ostafrika", "Südafrika" }, { "Ostafrika", "Madagaskar" },
 			{ "Südafrika", "Kongo" },
@@ -73,7 +74,7 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			{ "Mitteleuropa", "Ukraine" },
 			{ "Mitteleuropa", "Skandinavien" }, { "Island", "Skandinavien" },
 			{ "Skandinavien", "Ukraine" }, { "Südeuropa", "Mittlerer Osten" },
-			{ "Ukraine", "Südeuropa"},
+			{ "Ukraine", "Südeuropa" },
 			{ "Mittlerer Osten", "Indien" },
 			{ "Mittlerer Osten", "Afghanistan" },
 			{ "Mittlerer Osten", "Ukraine" }, { "Ukraine", "Afghanistan" },
@@ -81,7 +82,8 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			{ "Ural", "Sibirien" }, { "Ural", "Afghanistan" },
 			{ "Ural", "China" },
 			{ "Afghanistan", "China" }, { "Afghanistan", "Indien" },
-			{ "Indien", "China" }, {"Südeuropa", "Mitteleuropa"} , {"Mongolei", "Irkutsk"},
+			{ "Indien", "China" }, { "Südeuropa", "Mitteleuropa" },
+			{ "Mongolei", "Irkutsk" },
 			{ "Indien", "Siam" }, { "China", "Mongolei" }, { "China", "Siam" },
 			{ "China", "Sibirien" }, { "Sibirien", "Mongolei" },
 			{ "Sibirien", "Irkutsk" },
@@ -99,19 +101,23 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	 * Constructor
 	 */
 	public TerritoryManager() {
+		// This list is only needed temporarily until we have the Map properly initialized
+		List<Continent> continentList = new ArrayList<Continent>();
 		// Create continents (and territories)
-		continents.add(new Africa());
-		continents.add(new Asia());
-		continents.add(new Australia());
-		continents.add(new Europe());
-		continents.add(new NorthAmerica());
-		continents.add(new SouthAmerica());
+		continentList.add(new Africa());
+		continentList.add(new Asia());
+		continentList.add(new Australia());
+		continentList.add(new Europe());
+		continentList.add(new NorthAmerica());
+		continentList.add(new SouthAmerica());
 
 		// Get all territories and put them in a Map<String, Territory>
-		for (Continent continent : continents) {
+		// Get all continents and put them in a Map<String, Continent>
+		for (Continent continent : continentList) {
 			for (Territory territory : continent.getTerritories()) {
 				territories.put(territory.getName(), territory);
 			}
+			continents.put(continent.getName(), continent);
 		}
 
 		// Initializes all neighboring territories based on the pairs in the
@@ -135,27 +141,28 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 			territory1.addNeighbor(territory2);
 			territory2.addNeighbor(territory1);
 		}
-		
+
 		// TODO delete this when debugging is over
 		/*
-		//Show all freakin neighbors		
-		Iterator<String> itr = territories.keySet().iterator(); 
-		String territoryname;
-		
-		while (itr.hasNext()) {
-			territoryname = itr.next();
-			
-			Territory territories2 = territories.get(territoryname);
-			
-			CopyOnWriteArrayList<Territory> territoriesNeigbhors = territories2.getNeighbors();
-			System.out.println(" ");
-			System.out.println("Territory: " + territories2.getName());
-			System.out.println("Nachbarn: ");
-			for (Territory territoryneigbor : territoriesNeigbhors){
-				System.out.println(territoryneigbor.getName());
-			}
-		}
-		*/
+		 * //Show all freakin neighbors
+		 * Iterator<String> itr = territories.keySet().iterator();
+		 * String territoryname;
+		 * 
+		 * while (itr.hasNext()) {
+		 * territoryname = itr.next();
+		 * 
+		 * Territory territories2 = territories.get(territoryname);
+		 * 
+		 * CopyOnWriteArrayList<Territory> territoriesNeigbhors =
+		 * territories2.getNeighbors();
+		 * System.out.println(" ");
+		 * System.out.println("Territory: " + territories2.getName());
+		 * System.out.println("Nachbarn: ");
+		 * for (Territory territoryneigbor : territoriesNeigbhors){
+		 * System.out.println(territoryneigbor.getName());
+		 * }
+		 * }
+		 */
 	}
 
 	/**
@@ -192,17 +199,17 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	public void changeTerritoryOwner(Player newOwner, Territory territory,
 			int units)
 			throws InvalidTerritoryStateException {
-		
+
 		// If the territory still holds units the owner cannot be changed
 		if (territory.getUnitCount() != 0) {
 			throw new InvalidTerritoryStateException(territory);
 		}
-		
+
 		// Reflect the change in the player's lists of their territories
 		if (territory.getOwner() != null) {
 			territory.getOwner().removeTerritory(territory);
 		}
-	
+
 		// Set the new owner
 		territory.setOwner(newOwner);
 		// Set the amount of units that the new owner has on this territory
@@ -229,12 +236,52 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 	}
 
 	/**
+	 * Creates a new list which contains all territories sorted in a random way
+	 * 
+	 * @return Random territory list
+	 */
+	public List<Territory> getRandomTerritoryList() {
+		// Create a copy of the values
+		List<Territory> territoryList = new ArrayList<Territory>(
+				territories.values());
+
+		// Shuffle it
+		Collections.shuffle(territoryList);
+
+		return territoryList;
+	}
+
+	/**
+	 * Gets all the continents that exist. The values should not be modified in any way.
+	 * 
+	 * @return continents
+	 */
+	public Collection<Continent> getContinents() {
+		return continents.values();
+	}
+
+	/**
+	 * Gets a specific continent by its name
+	 * 
+	 * @param name
+	 *            The continent's name
+	 * @return continent
+	 */
+	public Continent getContinent(String name) {
+		if (!continents.containsKey(name)) {
+			throw new IllegalArgumentException("The continent " + name + " doesn't exist.");
+		}
+		return continents.get(name);
+	}
+
+	/**
 	 * Returns a list with all continents that are completely conquered
 	 * 
 	 * @param territory
 	 *            List of territories against which this check is performed
 	 * @return
 	 */
+	// TODO Still needed after implementing the MissionManager?
 	public List<Continent> getConqueredContinents(List<Territory> territory) {
 		// Array für das Ergebnis
 		List<Continent> conqueredContinents = new ArrayList<Continent>();
@@ -251,33 +298,12 @@ public class TerritoryManager implements Iterable<Territory>, Serializable {
 		}
 
 		return conqueredContinents;
-
 	}
 
-	/**
-	 * Creates a new list which contains all territories sorted in a random way
-	 * 
-	 * @return Random territory list
-	 */
-	public List<Territory> getRandomTerritoryList() {
-		// Create a copy of the values
-		List<Territory> territoryList = new ArrayList<Territory>(
-				territories.values());
-
-		// Shuffle it
-		Collections.shuffle(territoryList);
-
-		return territoryList;
-	}
-
-	public List<Continent> getContinents() {
-		return continents;
-	}
-	
-	public HashMap<String,Territory> getTerritoryMap() {
+	public Map<String, Territory> getTerritoryMap() {
 		return territories;
 	}
-	
+
 	public Collection<Territory> getTerritoryList() {
 		return territories.values();
 	}

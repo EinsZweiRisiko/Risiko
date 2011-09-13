@@ -6,6 +6,7 @@ import gui.MessageDialog;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
@@ -50,7 +51,7 @@ public class RiskGUI {
 	private Player attackedPlayer;
 	private Territory sourceTerritory;
 	private Image[] bonusImage = new Image[4];
-	private HashMap<String, Button> buttons = new HashMap<String,Button>();
+	private Map<String, Button> buttons = new HashMap<String,Button>();
 	private Button[] buttonArray = new Button[42];
 	private Composite cardWindow;
 	private Player currentPlayer;
@@ -73,7 +74,7 @@ public class RiskGUI {
 	private Image[] roundImage = new Image[3];
 	private Button roundButton;
 	private Shell shell;
-	private HashMap<String, Territory> territories;
+	private Map<String, Territory> territories;
 	private Image[] unitImage = new Image[6];
 	private Button supplyButton;
 
