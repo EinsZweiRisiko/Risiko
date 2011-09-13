@@ -567,11 +567,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 				try {
 					defenderMsg = "Du hast " + targetTerritory
-							+ " an " + sourceTerritory.getOwner()
-							+ " verloren.";
+							+ " an \"" + sourceTerritory.getOwner()
+							+ "\" verloren.";
 					attackerMsg = "Du hast " + targetTerritory
-							+ " von " + targetTerritory.getOwner()
-							+ " erobert.";
+							+ " von \"" + targetTerritory.getOwner()
+							+ "\" erobert.";
 
 					newUnitCnt = attackDice.size() - attackLoseUnits;
 					territoryManager.changeTerritoryOwner(
@@ -615,13 +615,13 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 					+ targetTerritory + ") hat "
 					+ defendLoseUnits + " Einheiten verloren.\n"
 					+ sourceTerritory.getOwner() + " ("
-					+ sourceTerritory + ") hat"
+					+ sourceTerritory + ") hat "
 					+ attackLoseUnits + " Einheiten verloren.";
 			attackerMsg = sourceTerritory.getOwner() + " ("
 					+ sourceTerritory + ") hat "
 					+ attackLoseUnits + " Einheiten verloren.\n"
 					+ targetTerritory.getOwner() + " ("
-					+ targetTerritory + ") hat"
+					+ targetTerritory + ") hat "
 					+ defendLoseUnits + " Einheiten verloren.";
 		}
 

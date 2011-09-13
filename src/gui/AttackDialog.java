@@ -83,7 +83,7 @@ public class AttackDialog {
 		Label attackerL = new Label(vsComp, SWT.NONE);
 		attackerL.setFont(font);
 		attackerL.setForeground(red);
-		attackerL.setText(source.getName() +  "(" + source.getUnitCount() + ")");
+		attackerL.setText(source +  " (" + source.getUnitCount() + ")");
 		attackerL.pack();
 		
 		Label vs = new Label (vsComp, SWT.NONE);
@@ -94,7 +94,7 @@ public class AttackDialog {
 		Label defenderL = new Label(vsComp, SWT.NONE);
 		defenderL.setFont(font);
 		defenderL.setForeground(blue);
-		defenderL.setText(target.getName() +  "(" + target.getUnitCount() + ")");
+		defenderL.setText(target +  " (" + target.getUnitCount() + ")");
 		defenderL.pack();
 		
 		Composite diceComp = new Composite(mainComp, SWT.CENTER);
@@ -185,7 +185,7 @@ public class AttackDialog {
 		label.pack();
 
 		Button ok = new Button(mainComp, SWT.PUSH | SWT.CENTER);
-		ok.setText("Ok");
+		ok.setText("OK");
 		ok.addMouseListener(new MouseAdapter() {
 
 			@Override
