@@ -12,10 +12,13 @@ import valueobjects.BonusCard;
 import valueobjects.Player;
 import valueobjects.PlayerCollection;
 import valueobjects.Territory;
-import de.root1.simon.annotation.SimonRemote;
 import de.root1.simon.exceptions.SimonRemoteException;
 
-@SimonRemote
+/**
+ * defines the Methods for the Interface
+ * @author tmr
+ *
+ */
 public interface GameMethods {
 
 	// Setup/Observer

@@ -12,7 +12,7 @@ import commons.GameMethods;
 /**
  * A class that represents a player
  * 
- * @author Jannes, Hendrik
+ * @author Jannes, Hendrik, Timur
  */
 public class Player implements Serializable {
 
@@ -322,4 +322,9 @@ public class Player implements Serializable {
 //		Player player = (Player) o;
 		return getColor() == player.getColor();
 	}
+	
+	public void setSuppliesToAllocate(int suppliesToAllocate) {
+		this.suppliesToAllocate = suppliesToAllocate;
+	}
+
 }

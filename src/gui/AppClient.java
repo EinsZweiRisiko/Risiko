@@ -114,8 +114,6 @@ public class AppClient implements ClientMethods {
 	 */
 	@Override
 	public void update(final GameMethods server, Action action) {
-		// TODO remove debug stuff
-		System.out.println("[Action] " + action.getClass().getSimpleName());
 
 		if (action instanceof PlayerJoinedAction) {
 			// Queue the update function to run in the UI thread
@@ -173,7 +171,7 @@ public class AppClient implements ClientMethods {
 
 			display.asyncExec(new Runnable() {
 				public void run() {
-					riskWindow.openEventBox(a.getPlayer(), a.getMsg());
+					riskWindow.openEventBox(a.getPlayer(), a.getMsg(), a.getAttackDice(), a.getDefendDice());
 				}
 			});
 		} else if (action instanceof PrepareGUIAction) {

@@ -2,7 +2,7 @@ package gui.risk;
 
 import gui.ActionDialog;
 import gui.AppClient;
-import gui.MessageDialog;
+import gui.AttackDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +77,8 @@ public class RiskGUI {
 	private Map<String, Territory> territories;
 	private Image[] unitImage = new Image[6];
 	private Button supplyButton;
+	private Button saveButton;
+	private Image saveImage;
 
 
 	/**
@@ -97,8 +99,6 @@ public class RiskGUI {
 		players = game.getPlayers();
 
 		currentPlayer = game.getActivePlayer();
-
-		System.out.println("CP in prepare(); " + currentPlayer);
 
 		// Create a new Shell with Title
 		shell = new Shell(display);
@@ -140,6 +140,8 @@ public class RiskGUI {
 		createCardWindow();
 
 		createRoundWindow();
+		
+		createSaveButton();
 
 		// resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
@@ -225,6 +227,32 @@ public class RiskGUI {
 						+ shell.getClientArea().width - 250),
 						((imgHeight - shell.getClientArea().height) / 2
 								+ shell.getClientArea().height - 50)));
+	}
+
+	private void createSaveButton() {
+		try {
+			saveImage = new Image(dev, "assets/save.png");
+		} catch (Exception e) {
+			System.out.println("Cannot load image");
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		
+		saveButton = new Button(mainWindow, SWT.PUSH);
+		saveButton.setToolTipText("Hier klicken um das Spiel zu speichern!");
+		
+		saveButton.setImage(saveImage);
+		saveButton.pack();
+		saveButton.setLocation(eventWindow.getBounds().x  - saveButton.getBounds().width -5 , eventWindow.getBounds().y);
+		saveButton.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseUp(MouseEvent e) {
+				game.save();
+			}
+
+		});
+		
 	}
 
 	/**
@@ -896,8 +924,6 @@ public class RiskGUI {
 				button.setText(String.valueOf(territory.getUnitCount()));
 				button.setToolTipText(territory.getName() + " gehört "+ territory.getOwner().getName());
 
-				System.out.println("Button Inhalte von: "+ territory.getName() +" geändert");
-
 				shell.update();
 			}
 
@@ -931,10 +957,10 @@ public class RiskGUI {
 		shell.update();
 	}
 
-	public void openEventBox(Player player, String message) {
+	public void openEventBox(Player player, String message, List<Integer> attackDice, List<Integer> defendDice) {
 
 		if(player.equals(guiPlayer)){
-			new MessageDialog(shell, SWT.ICON_INFORMATION, player.getName(), message);
+			new AttackDialog(shell, player.getName(), message, attackDice, defendDice, sourceTerritory, targetTerritory);
 		}
 	}
 
@@ -1040,7 +1066,6 @@ public class RiskGUI {
 	}
 
 	public void updateSupplyWindow(Player player) {
-		System.out.println(player);
 		if(player.equals(guiPlayer)){
 			supplyButton.setText(Integer.toString(player.getSupplies()));
 		}
@@ -1125,7 +1150,6 @@ public class RiskGUI {
 	 */
 	public void updateCurrentPlayer(Player player) {
 		currentPlayer = player;
-		System.out.println("AktiveSpieler in RISKGUI ist: "+ currentPlayer.getName());
 
 		if(!(eventWindow == null)){
 			// Check whether the player equals my player
@@ -1151,12 +1175,11 @@ public class RiskGUI {
 	public void updatePhase(Phase phase, Player player, PlayerCollection players ) {
 
 		//PlayerCollection players = game.getPlayers();
-
-		int zahl = 0;
-
-		for(Player player2 : players){
-			++zahl;
-			System.out.println(zahl + player2.getName());
+		
+		if(player.equals(guiPlayer)){
+			saveButton.setVisible(true);
+		} else {
+			saveButton.setVisible(false);
 		}
 
 		this.phase = phase;
@@ -1204,11 +1227,11 @@ public class RiskGUI {
 		}
 		if (phase == Phase.TURNINCARDS) {
 			if(player.equals(guiPlayer)){
-				
+
 				ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 						targetTerritory);
 				Boolean turnInCards = (Boolean) ad.open();
-				
+
 				if(turnInCards){
 					//TODO do something usefull ;D
 					game.nextPhase();
@@ -1274,7 +1297,6 @@ public class RiskGUI {
 					public void mouseUp(MouseEvent e) {
 						game.endAttackPhase();
 						nextPhaseButton.dispose();
-						System.out.println("NEXT PHASE BUTTON IS DISPOSING");
 					}
 
 				});
@@ -1319,7 +1341,7 @@ public class RiskGUI {
 						targetTerritory);
 
 				int units = (Integer) ad2.open();
-				
+
 				game.defend(sourceTerritory, targetTerritory, units);
 			}
 		}
