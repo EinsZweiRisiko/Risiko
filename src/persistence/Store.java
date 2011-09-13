@@ -237,19 +237,19 @@ public class Store {
 				// solange die Zeile nicht der näcshten Sektion übereinstimmt
 				for(int a = i+1; !loadText.get(a).contains("# AnzahlLänder"); a++) {
 					if(loadText.get(i+1).equalsIgnoreCase("Infantry")) {
-						loadedCardType = loadedCardType.Infantry;
+						loadedCardType = BonusCardType.Infantry;
 						bonusCard = new BonusCard(loadedCardType);
 						loadedPlayer.addBonusCard(bonusCard);
 					}else if(loadText.get(i+1).equalsIgnoreCase("Cavalry")) {
-						loadedCardType = loadedCardType.Cavalry;
+						loadedCardType = BonusCardType.Cavalry;
 						bonusCard = new BonusCard(loadedCardType);
 						loadedPlayer.addBonusCard(bonusCard);
 					}else if(loadText.get(i+1).equalsIgnoreCase("Artillery")) {
-						loadedCardType = loadedCardType.Artillery;
+						loadedCardType = BonusCardType.Artillery;
 						bonusCard = new BonusCard(loadedCardType);
 						loadedPlayer.addBonusCard(bonusCard);
 					}else if(loadText.get(i+1).equalsIgnoreCase("Wildcard")) {
-						loadedCardType = loadedCardType.Wildcard;
+						loadedCardType = BonusCardType.Wildcard;
 						bonusCard = new BonusCard(loadedCardType);
 						loadedPlayer.addBonusCard(bonusCard);;
 					}
