@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 
 import server.TerritoryManager;
-import server.missions.Mission;
 
 import commons.GameMethods;
 
@@ -52,8 +51,6 @@ public class Player implements Serializable {
 	 * someone else if all units are placed.
 	 */
 	private int suppliesToAllocate = 0;
-
-	private Mission mission;
 
 	/**
 	 * Constructor
@@ -218,7 +215,7 @@ public class Player implements Serializable {
 				myContinents.add(continent);
 			}
 		}
-		
+
 		return myContinents;
 	}
 
@@ -325,17 +322,9 @@ public class Player implements Serializable {
 //		Player player = (Player) o;
 		return getColor() == player.getColor();
 	}
-	
+
 	public void setSuppliesToAllocate(int suppliesToAllocate) {
 		this.suppliesToAllocate = suppliesToAllocate;
-	}
-
-	public Mission getMission() {
-		return mission;
-	}
-
-	public void setMission(Mission mission) {
-		this.mission = mission;
 	}
 
 }

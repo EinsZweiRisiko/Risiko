@@ -51,7 +51,7 @@ public class EliminationMission extends Mission {
 	@Override
 	public String getDescription() {
 		if (alternateMission == null) {
-			return "Befreien Sie alle Länder von den Armeen des Spielers " + enemy + "!";
+			return "Befreien Sie alle Länder von den Armeen des Spielers \"" + enemy + "\"!";
 		} else {
 			return "Befreien Sie alle Länder ihren eigenen Armeen! Wenn sie das nicht wollen, heißt ihr Ziel: " + alternateMission.getDescription();
 		}

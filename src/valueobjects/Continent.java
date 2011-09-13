@@ -41,6 +41,15 @@ public abstract class Continent implements Iterable<Territory>, Serializable {
 	 * 
 	 * @return Name of the continent
 	 */
+	public String toString() {
+		return name;
+	}
+	
+	/**
+	 * Gets the name of this continent.
+	 * 
+	 * @return Name of the continent
+	 */
 	public String getName() {
 		return name;
 	}

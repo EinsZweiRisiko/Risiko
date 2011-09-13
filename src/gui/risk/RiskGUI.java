@@ -3,7 +3,7 @@ package gui.risk;
 import gui.ActionDialog;
 import gui.AppClient;
 import gui.AttackDialog;
-import gui.MissionDialog;
+import gui.MessageDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,6 @@ import java.util.Map;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
@@ -30,7 +29,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import server.GameMethodsImpl.Phase;
-import server.missions.Mission;
 import valueobjects.BonusCard;
 import valueobjects.BonusCard.BonusCardType;
 import valueobjects.Player;
@@ -48,39 +46,48 @@ public class RiskGUI {
 	private final int defaultSizeY = 600;
 	private final int maxSizeX = 1920;
 	private final int maxSizeY = 1080;
+	private Rectangle backgroundSize;
 
 	private Territory targetTerritory;
 	private Player attackedPlayer;
 	private Territory sourceTerritory;
-	private Image[] bonusImage = new Image[4];
-	private Map<String, Button> buttons = new HashMap<String,Button>();
-	private Button[] buttonArray = new Button[42];
-	private Composite cardWindow;
-	private Player currentPlayer;
-	private Display display;
-	private String events = "";
-	private Text eventWindow = null;
+	
+	// Stuf from the server
+	/**
+	 * Server methods
+	 */
 	private GameMethods game;
 	private Player clientPlayer;
-	private Rectangle backgroundSize;
+	private Player currentPlayer;
+	private PlayerCollection players;
+	private Phase phase;
+	private Map<String, Territory> territories;
+	
+	// User interface
+	private Display display;
+	private Shell shell;
 	private Composite mainWindow;
 	private Image backgroundImage;
+	
+	private Map<String, Button> buttons = new HashMap<String,Button>();
+	private Button[] buttonArray = new Button[42];
+	
 	private Button nextPhaseButton;
-	private Phase phase;
 	private Button[] playerButtons;
-	private PlayerCollection players;
 	private Image[] roundImage = new Image[3];
 	private Button roundButton;
-	private Shell shell;
-	private Map<String, Territory> territories;
 	private Image[] unitImage = new Image[6];
 	private Button supplyButton;
 	private Button saveButton;
 	private Image saveImage;
-
+	private Image[] bonusImage = new Image[4];
+	
+	private Composite cardWindow;
+	private String events = "";
+	private Text eventWindow;
 
 	/**
-	 * creates a new GUI and Game
+	 * Creates a new GUI and Game
 	 * 
 	 * @param display
 	 *            the Display on which the shell is shown
@@ -174,33 +181,6 @@ public class RiskGUI {
 				display.sleep();
 			}
 		}
-	}
-
-	/**
-	 * Creates a Button which allows the user to show his own mission.
-	 */
-	private void createMissionButton() {
-		Button missionButton = new Button(mainWindow, SWT.PUSH);
-
-		Image missionImage = new Image(display, "assets/mission.png");
-
-		missionButton.setImage(missionImage);
-		missionButton.setToolTipText("Klicke um deine Mission zu sehen");
-		missionButton.pack();
-		
-		Rectangle clientArea = shell.getClientArea();
-		int x = (backgroundSize.width - clientArea.width) / 2 + playerButtons[0].getBounds().width + 15;
-		int y = (backgroundSize.height - clientArea.height) / 2 + clientArea.height - 10 - missionButton.getBounds().height;
-		missionButton.setLocation(x, y);
-		
-		missionButton.addMouseListener(new MouseAdapter() {
-			public void mouseUp(MouseEvent e) {
-				Mission myMission = game.getMyMission(clientPlayer);
-
-				MissionDialog md = new MissionDialog(myMission, display);
-				md.open();
-			}
-		});
 	}
 
 	/**
@@ -918,6 +898,31 @@ public class RiskGUI {
 	}
 
 	/**
+	 * Creates a Button which allows the user to show his own mission.
+	 */
+	private void createMissionButton() {
+		Button missionButton = new Button(mainWindow, SWT.PUSH);
+
+		Image missionImage = new Image(display, "assets/mission.png");
+
+		missionButton.setImage(missionImage);
+		missionButton.setToolTipText("Klicke um deine Mission zu sehen");
+		missionButton.pack();
+		
+		Rectangle clientArea = shell.getClientArea();
+		int x = (backgroundSize.width - clientArea.width) / 2 + playerButtons[0].getBounds().width + 15;
+		int y = (backgroundSize.height - clientArea.height) / 2 + clientArea.height - 10 - missionButton.getBounds().height;
+		missionButton.setLocation(x, y);
+		
+		missionButton.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				String mission = game.getMyMission(clientPlayer);
+				new MessageDialog(shell, SWT.NONE, "Deine Mission", "Deine Mission lautet:\n\n" + mission);
+			}
+		});
+	}
+	
+	/**
 	 * updates a specific button and its values. also it updates the total amount shown at the bottom left of the gui.
 	 */
 	public void updateTerritory(Territory territory) {
@@ -957,7 +962,7 @@ public class RiskGUI {
 			}
 		}
 
-		eventWindowAppendText("Auf " + territory.getName() + " stehen nun (" + territory.getUnitCount() + ") Einheiten.");
+		eventWindowAppendText("Auf " + territory + " stehen nun " + territory.getUnitCount() + " Einheiten.");
 		shell.update();
 	}
 

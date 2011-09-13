@@ -6,7 +6,6 @@ import java.util.Map;
 import server.GameMethodsImpl.Phase;
 import server.TerritoryManager;
 import server.exceptions.NotEnoughPlayersException;
-import server.missions.Mission;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.BonusCard;
 import valueobjects.Player;
@@ -38,7 +37,7 @@ public interface GameMethods {
 	public void nextPhase();
 	public void placeStartUnitsRandomly();
 
-	public Mission getMyMission(Player player);
+	public String getMyMission(Player player);
 	public List<BonusCard> getMyBonusCards(Player player);
 
 	public Map<String, Territory> getTerritories();
