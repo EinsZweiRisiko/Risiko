@@ -106,7 +106,8 @@ public class ServerMonitor {
 
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) display.sleep();
-		}	
+		}
+		System.exit(0);
 	}
 
 	public void updatePhase(Phase currentPhase2) {
