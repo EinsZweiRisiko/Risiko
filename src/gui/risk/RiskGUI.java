@@ -2,6 +2,7 @@ package gui.risk;
 
 import gui.ActionDialog;
 import gui.AppClient;
+import gui.AttackDialog;
 import gui.MessageDialog;
 
 import java.util.HashMap;
@@ -930,10 +931,10 @@ public class RiskGUI {
 		shell.update();
 	}
 
-	public void openEventBox(Player player, String message) {
+	public void openEventBox(Player player, String message, List<Integer> attackDice, List<Integer> defendDice) {
 
 		if(player.equals(guiPlayer)){
-			new MessageDialog(shell, SWT.ICON_INFORMATION, player.getName(), message);
+			new AttackDialog(shell, player.getName(), message, attackDice, defendDice, sourceTerritory, targetTerritory);
 		}
 	}
 
@@ -1203,11 +1204,11 @@ public class RiskGUI {
 		}
 		if (phase == Phase.TURNINCARDS) {
 			if(player.equals(guiPlayer)){
-				
+
 				ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 						targetTerritory);
 				Boolean turnInCards = (Boolean) ad.open();
-				
+
 				if(turnInCards){
 					//TODO do something usefull ;D
 					game.nextPhase();
@@ -1318,7 +1319,7 @@ public class RiskGUI {
 						targetTerritory);
 
 				int units = (Integer) ad2.open();
-				
+
 				game.defend(sourceTerritory, targetTerritory, units);
 			}
 		}

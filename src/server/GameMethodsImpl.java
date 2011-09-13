@@ -412,8 +412,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnitCount());
 		}
 
-		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
-		notifyPlayers(new EventBoxAction(oldOwner,defenderMsg));
+		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(), attackerMsg, attackDice, defendDice));
+		notifyPlayers(new EventBoxAction(oldOwner, defenderMsg, attackDice, defendDice));
 
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();

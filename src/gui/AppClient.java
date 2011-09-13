@@ -173,7 +173,7 @@ public class AppClient implements ClientMethods {
 
 			display.asyncExec(new Runnable() {
 				public void run() {
-					riskWindow.openEventBox(a.getPlayer(), a.getMsg());
+					riskWindow.openEventBox(a.getPlayer(), a.getMsg(), a.getAttackDice(), a.getDefendDice());
 				}
 			});
 		} else if (action instanceof PrepareGUIAction) {
