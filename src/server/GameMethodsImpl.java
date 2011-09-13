@@ -211,7 +211,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				prepareAttack1Action();
 				break;
 			case MOVEMENT1:
-				
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
@@ -220,7 +219,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				break;
 			case MOVEMENT2:
 				prepareMovement3Action();
-				System.out.println("MOVEMENT 2 präperiert MOVEMENT 3");
 				break;
 			case MOVEMENT3:
 				//load();
@@ -244,7 +242,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		//notifyPlayers(new NextPlayerAction(currentPlayer));
 
 		final String currentPlayer2 = currentPlayer.getName();
-		final String nextPlayer2 = players.getNextPlayer().getName();
+		final String nextPlayer2 = players.getNextPlayer2().getName();
 		display.syncExec(
 				new Runnable() {
 					public void run(){
@@ -285,7 +283,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		// Add the supplies
 		currentPlayer.addSupplies(supplies);
-		System.out.println("Spieler: "+ currentPlayer.getName()+ " Supplies = "+ currentPlayer.getSupplies());
 	}
 
 	/**

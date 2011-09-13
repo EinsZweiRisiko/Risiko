@@ -99,8 +99,6 @@ public class RiskGUI {
 
 		currentPlayer = game.getActivePlayer();
 
-		System.out.println("CP in prepare(); " + currentPlayer);
-
 		// Create a new Shell with Title
 		shell = new Shell(display);
 		shell.setText(AppClient.name + " | " + guiPlayer.getName());
@@ -925,8 +923,6 @@ public class RiskGUI {
 				button.setText(String.valueOf(territory.getUnitCount()));
 				button.setToolTipText(territory.getName() + " gehört "+ territory.getOwner().getName());
 
-				System.out.println("Button Inhalte von: "+ territory.getName() +" geändert");
-
 				shell.update();
 			}
 
@@ -1069,7 +1065,6 @@ public class RiskGUI {
 	}
 
 	public void updateSupplyWindow(Player player) {
-		System.out.println(player);
 		if(player.equals(guiPlayer)){
 			supplyButton.setText(Integer.toString(player.getSupplies()));
 		}
@@ -1154,7 +1149,6 @@ public class RiskGUI {
 	 */
 	public void updateCurrentPlayer(Player player) {
 		currentPlayer = player;
-		System.out.println("AktiveSpieler in RISKGUI ist: "+ currentPlayer.getName());
 
 		if(!(eventWindow == null)){
 			// Check whether the player equals my player
@@ -1185,13 +1179,6 @@ public class RiskGUI {
 			saveButton.setVisible(true);
 		} else {
 			saveButton.setVisible(false);
-		}
-
-		int zahl = 0;
-
-		for(Player player2 : players){
-			++zahl;
-			System.out.println(zahl + player2.getName());
 		}
 
 		this.phase = phase;
@@ -1309,7 +1296,6 @@ public class RiskGUI {
 					public void mouseUp(MouseEvent e) {
 						game.endAttackPhase();
 						nextPhaseButton.dispose();
-						System.out.println("NEXT PHASE BUTTON IS DISPOSING");
 					}
 
 				});

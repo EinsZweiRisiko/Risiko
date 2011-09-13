@@ -41,6 +41,10 @@ public class PlayerCollection extends ArrayList<Player> {
 		return nextPlayer;
 	}
 
+	public Player getNextPlayer2() {
+		return get(activePlayer);
+	}
+
 	/**
 	 * Resets the currently active player, so that the first player is the
 	 * new active player. Use this with caution.
