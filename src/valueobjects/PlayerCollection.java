@@ -22,7 +22,6 @@ public class PlayerCollection extends ArrayList<Player> {
 	 */
 	public Player getNextPlayer() {
 		
-		//System.out.println("ActivePlayerINT : "+ activePlayer + " NAME : " + get(activePlayer).getName());
 		
 		// There hast to be at least one player left
 		if (isEmpty()) {
@@ -30,6 +29,7 @@ public class PlayerCollection extends ArrayList<Player> {
 		}
 
 		Player nextPlayer = get(activePlayer);
+		
 		// Switch to the next player
 		activePlayer++;
 		
