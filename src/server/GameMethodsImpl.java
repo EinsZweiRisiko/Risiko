@@ -132,9 +132,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		notifyPlayers(new GameStartedAction(currentPlayer, currentPhase, players));
 
-		save();
+		//save();
 		
-		load();
 		// Set the first phase
 		nextPhase();
 		nextPhase();
@@ -184,6 +183,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				prepareAttack1Action();
 				break;
 			case MOVEMENT1:
+				
 				// TODO Only if the player conquered at least one territory
 				currentPlayer.addBonusCard(bonusCardManager.retrieveCard());
 				// End of a player's turn. Start a new one.
@@ -195,6 +195,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				System.out.println("MOVEMENT 2 präperiert MOVEMENT 3");
 				break;
 			case MOVEMENT3:
+				//load();
 				prepareTurnInAction();
 				break;
 			default:
@@ -783,13 +784,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
-		Store save = new Store(players, this);
+		Store store = new Store(players, this, "save");
 	}
 
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		Store load = new Store(players, this);
+		Store store = new Store(players, this, "load");
+		
 	}
 
 	/**

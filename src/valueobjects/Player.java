@@ -332,4 +332,9 @@ public class Player implements Serializable {
 //		Player player = (Player) o;
 		return getColor() == player.getColor();
 	}
+	
+	public void setSuppliesToAllocate(int suppliesToAllocate) {
+		this.suppliesToAllocate = suppliesToAllocate;
+	}
+
 }
