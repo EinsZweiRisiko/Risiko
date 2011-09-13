@@ -223,7 +223,7 @@ public class RiskGUI {
 
 				MissionDialog md = new MissionDialog(myMission, display);
 				md.open();
-				
+
 			}
 
 		});
@@ -1029,12 +1029,14 @@ public class RiskGUI {
 
 			// open a dialog to set the amount of units to attack.
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, sourceTerritory);
-			
+
 			// save the value
 			int units = (Integer) ad.open();
 
-			// call attack
-			game.attack(sourceTerritory, targetTerritory, units);
+			if(units != 0){
+				// call attack
+				game.attack(sourceTerritory, targetTerritory, units);
+			}
 
 		} else if (phase == Phase.MOVEMENT1) {
 			// SOURCE TERRITORY
@@ -1043,17 +1045,19 @@ public class RiskGUI {
 		} else if(phase == Phase.MOVEMENT2) {
 			// TARGET TERRITORY
 			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
-			
+
 			// open a dialog to set the amount of units to move.
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					sourceTerritory);
-			
+
 			// save the value
 			int units = (Integer) ad.open();
 
-			// call move
-			game.move(sourceTerritory, targetTerritory, units);
-			game.nextPhase();
+			if(units != 0){
+				// call move
+				game.move(sourceTerritory, targetTerritory, units);
+				game.nextPhase();
+			}
 		}
 	}
 
@@ -1297,8 +1301,8 @@ public class RiskGUI {
 			roundButton.setEnabled(false);
 			shell.update();
 		}
-		
-		
+
+
 		//prepare the gui for userActions
 		if (phase == Phase.TURNINCARDS) {
 			if(player.equals(guiPlayer)){

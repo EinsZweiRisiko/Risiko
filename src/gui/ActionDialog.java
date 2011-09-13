@@ -74,9 +74,14 @@ public class ActionDialog extends Dialog {
 	 * @return
 	 */
 	public Object open() {
-
+		
+		result = 0;
+		
 		// Turn in Cards
 		if (phase.equals(Phase.TURNINCARDS)){
+			
+			result = false;
+			
 			Shell parent = getParent();
 			final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 			shell.setSize(200, 80);
