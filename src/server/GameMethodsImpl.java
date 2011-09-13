@@ -996,9 +996,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
 		Store store = new Store(players, this, "load");
-		
 	}
 
 	/**
