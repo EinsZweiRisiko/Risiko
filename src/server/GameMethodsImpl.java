@@ -11,8 +11,6 @@ import java.util.Map;
 import org.eclipse.swt.widgets.Display;
 
 import persistence.Store;
-
-import server.GameMethodsImpl.Phase;
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
 import server.gui.ServerMonitor;
