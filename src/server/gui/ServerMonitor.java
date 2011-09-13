@@ -56,12 +56,14 @@ public class ServerMonitor {
 		int count = 1;
 		for (int i=0; i<count; i++) {
 			item = new TableItem (table, SWT.NONE);
-			item.setText (0, "PLACEMENT  ");
-			item.setText (1, "           ");
-			item.setText (2, "           ");
-			item.setText (3, "           ");
-			item.setText (4, "           ");
-			item.setText (5, "           ");
+			item.setText (0, "-----------");
+			item.setText (1, "-----------");
+			item.setText (2, "-----------");
+			item.setText (3, "-----------");
+			item.setText (4, "-----------");
+			item.setText (5, "-----------");
+			item.setText (6, "-----------");
+			item.setText (7, "-----------");
 		}
 		for (int i=0; i<titles.length; i++) {
 			table.getColumn (i).pack ();
@@ -96,7 +98,6 @@ public class ServerMonitor {
 	public void updateConsole(String string) {
 		console.append("> " + string  + "\n");
 		labelComp.pack();
-		System.out.println("tried to update console");
 	}
 
 	public void start() {
@@ -104,7 +105,8 @@ public class ServerMonitor {
 
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) display.sleep();
-		}	
+		}
+		System.exit(0);
 	}
 
 	public void updatePhase(Phase currentPhase2) {
@@ -134,8 +136,5 @@ public class ServerMonitor {
 
 	public void updateNextPlayer(String nextPlayer2) {
 		item.setText(7, nextPlayer2);
-		
 	}
-
-	
 }

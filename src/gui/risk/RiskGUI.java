@@ -76,6 +76,8 @@ public class RiskGUI {
 	private HashMap<String, Territory> territories;
 	private Image[] unitImage = new Image[6];
 	private Button supplyButton;
+	private Button saveButton;
+	private Image saveImage;
 
 
 	/**
@@ -139,6 +141,8 @@ public class RiskGUI {
 		createCardWindow();
 
 		createRoundWindow();
+		
+		createSaveButton();
 
 		// resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
@@ -224,6 +228,32 @@ public class RiskGUI {
 						+ shell.getClientArea().width - 250),
 						((imgHeight - shell.getClientArea().height) / 2
 								+ shell.getClientArea().height - 50)));
+	}
+
+	private void createSaveButton() {
+		try {
+			saveImage = new Image(dev, "assets/save.png");
+		} catch (Exception e) {
+			System.out.println("Cannot load image");
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		
+		saveButton = new Button(mainWindow, SWT.PUSH);
+		saveButton.setToolTipText("Hier klicken um das Spiel zu speichern!");
+		
+		saveButton.setImage(saveImage);
+		saveButton.pack();
+		saveButton.setLocation(eventWindow.getBounds().x  - saveButton.getBounds().width -5 , eventWindow.getBounds().y);
+		saveButton.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseUp(MouseEvent e) {
+				game.save();
+			}
+
+		});
+		
 	}
 
 	/**
@@ -1150,6 +1180,12 @@ public class RiskGUI {
 	public void updatePhase(Phase phase, Player player, PlayerCollection players ) {
 
 		//PlayerCollection players = game.getPlayers();
+		
+		if(player.equals(guiPlayer)){
+			saveButton.setVisible(true);
+		} else {
+			saveButton.setVisible(false);
+		}
 
 		int zahl = 0;
 
