@@ -22,7 +22,7 @@ import valueobjects.continents.SouthAmerica;
 /**
  * This class does contains all territories and performs operations on them
  * 
- * @author Jannes
+ * @author Jannes, Timur, Hendrik
  * 
  */
 public class TerritoryManager implements Iterable<Territory>, Serializable {

@@ -23,6 +23,11 @@ import server.gui.ServerMonitor;
 
 import de.root1.simon.exceptions.NameBindingException;
 
+/**
+ * The Server Application to start the Server
+ * @author Timur
+ *
+ */
 public class AppServer {
 
 	public static final int DEFAULT_PORT = 50001;

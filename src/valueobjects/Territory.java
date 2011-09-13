@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * A class that represents a territory on the board.
  * 
- * @author Jannes, Hendrik
+ * @author Jannes, Hendrik, Timur
  * 
  */
 public class Territory implements Serializable {
