@@ -313,7 +313,6 @@ public class Store {
 
 		BufferedReader br;
 		String line;
-		int i = 0;
 		List<String> loadText = new ArrayList<String>();
 
 		try {
