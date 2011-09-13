@@ -1419,7 +1419,7 @@ public class RiskGUI {
 				ActionDialog ad2 = new ActionDialog(shell, SWT.NONE, phase,
 						targetTerritory);
 
-				int units = (Integer) ad2.open();
+				int units = 0;
 
 				//prevent that the defender is closing the window instead of responding correctly
 				do {
