@@ -11,6 +11,7 @@ import de.root1.simon.exceptions.NameBindingException;
 
 /**
  * The Server Application to start the Server
+ * 
  * @author Timur
  *
  */

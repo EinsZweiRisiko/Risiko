@@ -37,10 +37,14 @@ public interface GameMethods {
 	public void nextPhase();
 	public void placeStartUnitsRandomly();
 
+	public void setCurrentPlayer(Player currentPlayer); 
+	public List<Integer> getDice(int amount);
+	
 	public String getMyMission(Player player);
 	public List<BonusCard> getMyBonusCards(Player player);
 
 	public Map<String, Territory> getTerritories();
+	public void setCurrentPhase(Phase currentPhase);
 	public List<Territory> getMyTerritories(Player player);
 	public List<Territory> getMyTerritoriesForAttacking(Player player);
 	public List<Territory> getMyTerritoriesForMoving(Player player);
@@ -55,6 +59,7 @@ public interface GameMethods {
 	public void attack(Territory sourceTerritory, Territory targetTerritory, int amount);
 	public void move(Territory sourceTerritory, Territory targetTerritory, int amount) throws SimonRemoteException;
 	public void defend(Territory sourceTerritory, Territory targetTerritory, int amount);
+	public void calculateDice(final List<Integer> attackDice, final List<Integer> defendDice, final Territory sourceTerritory, final Territory targetTerritory);
 	
 	public Phase getPhase();
 	public void endAttackPhase();

@@ -113,7 +113,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		territoryManager = new TerritoryManager();
 		bonusCardManager = new BonusCardStack();
 		bonusTracker = new BonusTracker();
-		
+
 		// Create server
 		Registry registry = Simon.createRegistry(port);
 		registry.bind(name, this);
@@ -122,6 +122,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * Starts this instance of Risk
 	 */
+	@Override
 	public void start() throws NotEnoughPlayersException {
 		int playerCount = players.size();
 
@@ -135,7 +136,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		for (Player player : players) {
 			missionManager.assignMission(player);
 		}
-		
+
 		// Start units for every player
 		int startUnits;
 		// Get the total amount of start units per player
@@ -192,6 +193,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * @return Action The next action/phase
 	 */
+	@Override
 	public void nextPhase() {
 
 		final Phase currentPhase2 = currentPhase;
@@ -257,6 +259,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * Collection function getNextPlayer()
 	 * 
 	 */
+	@Override
 	public void nextPlayer() {
 		// Advance to the next player
 		currentPlayer = players.getNextPlayer();
@@ -307,6 +310,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * place the Units randomly on the territorys
 	 */
+	@Override
 	public void placeStartUnitsRandomly() {
 		for (Territory territory : territoryManager.getRandomTerritoryList()) {
 			// Cycle through all players
@@ -356,6 +360,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * place the Units of the specified Territory
 	 */
+	@Override
 	public void placeUnits(String territory, int amount) {
 		if (currentPlayer.getSupplies() > 0) {
 			territoryManager.getTerritoryMap().get(territory).addUnits(amount);
@@ -398,6 +403,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * Attack Method to set the attacking dices
 	 * 
 	 */
+	@Override
 	public void attack(Territory sourceTerritory, Territory targetTerritory,
 			int amount) {
 		// Angreifer(amount) das nicht mehr als 3 und nicht weniger als 1 sein
@@ -423,6 +429,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * Defend Method to set the defend dices and call the CalculateDice Method
 	 * for the fight/dice calculation
 	 */
+	@Override
 	public void defend(Territory sourceTerritory, Territory targetTerritory,
 			int amount) {
 		// Verteidiger(amount) darf nicht mehr als 2 und nicht weniger als 1
@@ -449,6 +456,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * @param sourceTerritory
 	 * @param targetTerritory
 	 */
+	@Override
 	public void calculateDice(final List<Integer> attackDice,
 			final List<Integer> defendDice, final Territory sourceTerritory,
 			final Territory targetTerritory) {
@@ -653,6 +661,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * Move Method for move Units from one to the other Territory
 	 */
+	@Override
 	public void move(Territory source, Territory target, int amount)
 			throws SimonRemoteException {
 
@@ -692,6 +701,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * @return
 	 */
+	@Override
 	public Player addPlayer(String name, ClientMethods client)
 			throws ServerFullException {
 		if (started) {
@@ -729,6 +739,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * Deletes a player from the list of observers
 	 */
+	@Override
 	public void deletePlayer(ClientMethods client) {
 		clients.remove(client);
 	}
@@ -758,6 +769,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * @return
 	 */
+	@Override
 	public Phase getPhase() {
 		return currentPhase;
 	}
@@ -767,14 +779,17 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * @return Player
 	 */
+	@Override
 	public Player getActivePlayer() {
 		return currentPlayer;
 	}
 
+	@Override
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
 
+	@Override
 	public List<Integer> getDice(int amount) {
 		List<Integer> dice = new ArrayList<Integer>();
 
@@ -804,6 +819,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		return territoryManager.getTerritoryMap();
 	}
 
+	@Override
 	public void setCurrentPhase(Phase currentPhase) {
 		this.currentPhase = currentPhase;
 	}
@@ -835,14 +851,15 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		return attackingTerritories;
 	}
 
-	// TODO: rekusive überprüfung der Nachbar der Nachbarn usw.
-
 	/**
-	 * get all the Terrietories for moving
+	 * Gets all territories eligible for moving its units to a neighbor.
 	 * 
+	 * @param player
+	 *            Player
 	 */
+	@Override
 	public List<Territory> getMyTerritoriesForMoving(Player player) {
-
+		// TODO: rekusive überprüfung der Nachbar der Nachbarn usw.
 		List<Territory> territories = getMyTerritories(player);
 		List<Territory> moveTerritories = new ArrayList<Territory>();
 
@@ -865,6 +882,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * get the territories for moving by the selected Territory
 	 */
+	@Override
 	public List<Territory> getSimilarNeighborsOf(Territory territory) {
 		List<Territory> similarNeighbors = territory.getNeighbors();
 
@@ -911,10 +929,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	/**
 	 * @return all Players
 	 */
+	@Override
 	public PlayerCollection getPlayers() {
 		return players;
 	}
 
+	@Override
 	public TerritoryManager getTerritoryManager() {
 		return territoryManager;
 	}
@@ -924,9 +944,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * 
 	 * @return True, if somebody has won the game
 	 */
+	@Override
 	public boolean isOver() {
-		// TODO Distinguish between world domination/missions
-		return players.size() == 1;
+		// TODO implement mission checks
+		return false;
 	}
 
 	/**
@@ -934,7 +955,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * If the game isn't finished yet, <code>null</code> will be returned.
 	 * 
 	 * @return Winner of the game
+	 * @throws  
 	 */
+	@Override
 	public Player getWinner() {
 		// Return the last man standing
 		Player winner = null;
@@ -945,15 +968,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	/*
-	 * END: *** GETTER and SETTER ***
-	 */
-
-	/*
-	 * START: PREPARE / PHASE FUNCTIONS / functions for the PHASE SWITCHING
+	 * START: Prepare / Phase functions / Functions for phase switching
 	 */
 
 	/**
-	 * TODO doc
+	 * Executes before switching to the TURNINCARDS phase
 	 */
 	private void prepareTurnInAction() {
 		// Can the player turn in cards?
@@ -1055,6 +1074,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		prepareMovement2Action();
 	}
 
+	/**
+	 * Executes after the MOVEMENT phase
+	 */
+	@Override
 	public void endMovementPhase() {
 
 		if (recieveBonuscard) {
@@ -1107,10 +1130,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	}
 
 	/**
-	 * TODO doc
+	 * 
 	 */
+	@Override
 	public void redeemBonusCards(List<BonusCard> cards) {
-		// TODO make this a real exception
+		// TODO make this a real exception instead of an assertion
 		assert currentPlayer.getBonusCards().containsAll(cards);
 		assert cards.size() == 3;
 		// TODO Check if the card triple is valid
@@ -1126,6 +1150,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}
 	}
 
+	@Override
 	public void supplyChanged(Player player) {
 		notifyPlayers(new SupplyAction(player, player.getSupplies()));
 	}
