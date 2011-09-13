@@ -12,6 +12,7 @@ import persistence.Store;
 
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
+import server.missions.Mission;
 import server.remoteexceptions.ServerFullException;
 import valueobjects.BonusCard;
 import valueobjects.BonusCardStack;
@@ -30,6 +31,7 @@ import commons.actions.GameStartedAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.PrepareGUIAction;
+import commons.actions.SupplyAction;
 import commons.actions.TerritoryUnitsChangedAction;
 
 import de.root1.simon.Registry;
@@ -293,6 +295,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			currentPlayer.subtractSupplies(amount);
 			// Send a notification to all clients
 			notifyPlayers(new TerritoryUnitsChangedAction(territoryManager.getTerritoryMap().get(territory), territoryManager.getTerritoryMap().get(territory).getUnitCount()));
+			supplyChanged((territoryManager.getTerritoryMap().get(territory).getOwner()));
 		}
 
 		if(currentPlayer.getSupplies() == 0){
@@ -410,8 +413,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			System.out.println("attackersTerritories Spieler: "+ attackersTerritories.get(i2).getOwner().getName() +" | Liste der Länder des Angreifers:"+ attackersTerritories.get(i2).getName() +" | Einheiten: "+ attackersTerritories.get(i2).getUnitCount());
 		}
 
-		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),attackerMsg));
-		notifyPlayers(new EventBoxAction(oldOwner,defenderMsg));
+		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(), attackerMsg, attackDice, defendDice));
+		notifyPlayers(new EventBoxAction(oldOwner, defenderMsg, attackDice, defendDice));
 
 		// läutet die nächste Phase ein nachdem ein Kampf statt gefunden hat. In dem Fall ATTACK1
 		nextPhase();
@@ -543,7 +546,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	@Override
 	public List<BonusCard> getMyBonusCards(Player player) {
 		// TODO Auto-generated method stub
-		return null;
+		return player.getBonusCards();
 	}
 
 	@Override
@@ -599,7 +602,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 					}
 				}
 			}
-		}
+		}		
 		return moveTerritories;
 	}
 
@@ -614,6 +617,25 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				similarNeighbors.remove(territory2);
 			}
 		}
+		
+		int oldSimilarTerritories;
+		
+		do {
+			oldSimilarTerritories = similarNeighbors.size();
+
+			for(int i = 0; i < similarNeighbors.size(); i++) {
+				List<Territory> neighbors = similarNeighbors.get(i).getNeighbors();
+				for(int j = 0; j < neighbors.size() ;j++){
+					if(neighbors.get(j).getOwner().equals(territory.getOwner())){
+						if(!similarNeighbors.contains(neighbors.get(j))) {
+							similarNeighbors.add(neighbors.get(j));
+						}
+					}
+				}
+			}
+			
+		} while (similarNeighbors.size() > oldSimilarTerritories);
+		
 		return similarNeighbors;
 	}
 	@Override
@@ -812,5 +834,9 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		}else if(currentPlayer.getBonusCards().size() >= 3) {
 
 		}
+	}
+
+	public void supplyChanged(Player player) {
+		notifyPlayers(new SupplyAction(player,player.getSupplies()));
 	}
 }

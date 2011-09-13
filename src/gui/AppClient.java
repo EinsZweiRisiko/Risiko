@@ -24,6 +24,7 @@ import commons.actions.NextPlayerAction;
 import commons.actions.PhaseAction;
 import commons.actions.PlayerJoinedAction;
 import commons.actions.PrepareGUIAction;
+import commons.actions.SupplyAction;
 import commons.actions.TerritoryUnitsChangedAction;
 
 import de.root1.simon.Lookup;
@@ -67,7 +68,7 @@ public class AppClient implements ClientMethods {
 		// Create the lobby and the risk board
 		lobbyWindow = new LobbyGUI(display, this, server);
 		riskWindow = new RiskGUI(display, this, server);
-		
+
 		// Show the lobby and then the risk board
 		lobbyWindow.pumpLoop();
 		riskWindow.pumpLoop();
@@ -81,8 +82,8 @@ public class AppClient implements ClientMethods {
 	 * @throws UnknownHostException
 	 */
 	public void connect(String ip, String name) throws LookupFailedException,
-			EstablishConnectionFailed, UnknownHostException,
-			ServerFullException, NoNameException {
+	EstablishConnectionFailed, UnknownHostException,
+	ServerFullException, NoNameException {
 		if (name.trim().isEmpty()) {
 			throw new NoNameException();
 		}
@@ -126,18 +127,18 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (action instanceof GameStartedAction) {
 			final GameStartedAction a = (GameStartedAction) action;
-			
+
 			display.asyncExec(new Runnable() {
 				public void run() {
 					lobbyWindow.closeWindow();
 					// TODO Because of this probably comes the need to instantiate the risk window so early
-//					riskWindow.updateCurrentPlayer(a.getPlayer());
+					//					riskWindow.updateCurrentPlayer(a.getPlayer());
 					riskWindow.updatePhase(a.getPhase(), a.getPlayer(), a.getPlayers());
 				}
 			});
 		} else if (action instanceof NextPlayerAction) {
 			final NextPlayerAction a = (NextPlayerAction) action;
-			
+
 			display.asyncExec(new Runnable() {
 				public void run() {
 					riskWindow.updateCurrentPlayer(a.getPlayer());
@@ -145,7 +146,7 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (action instanceof PhaseAction) {
 			final PhaseAction a = (PhaseAction) action;
-			
+
 			display.asyncExec(new Runnable() {
 				public void run() {
 					riskWindow.updatePhase(a.getPhase(), a.getPlayer(), a.getPlayers());
@@ -153,7 +154,7 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (action instanceof TerritoryUnitsChangedAction) {
 			final TerritoryUnitsChangedAction a = (TerritoryUnitsChangedAction) action;
-			
+
 			display.asyncExec(new Runnable() {
 				public void run() {
 					riskWindow.updateTerritory(a.getTerritory());
@@ -161,7 +162,7 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (action instanceof AttackAction) {
 			final AttackAction a = (AttackAction) action;
-			
+
 			display.asyncExec(new Runnable() {
 				public void run() {
 					riskWindow.defend(a.getSourceTerritory(), a.getTargetTerritory());
@@ -169,15 +170,15 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (action instanceof EventBoxAction) {
 			final EventBoxAction a = (EventBoxAction) action;
-			
+
 			display.asyncExec(new Runnable() {
 				public void run() {
-					riskWindow.openEventBox(a.getPlayer(), a.getMsg());
+					riskWindow.openEventBox(a.getPlayer(), a.getMsg(), a.getAttackDice(), a.getDefendDice());
 				}
 			});
 		} else if (action instanceof PrepareGUIAction) {
-//			final PrepareGUIAction a = (PrepareGUIAction) action;
-			
+			//			final PrepareGUIAction a = (PrepareGUIAction) action;
+
 			display.asyncExec(new Runnable() {
 				public void run() {
 					riskWindow.prepare();
@@ -185,10 +186,18 @@ public class AppClient implements ClientMethods {
 			});
 		} else if (action instanceof BonusCardAction) {
 			final BonusCardAction a = (BonusCardAction) action;
-			
+
 			display.asyncExec(new Runnable() {
 				public void run() {
 					riskWindow.updateBonusCard(a.getPlayer());
+				}
+			});
+		} else if (action instanceof SupplyAction) {
+			final SupplyAction a = (SupplyAction) action;
+
+			display.asyncExec(new Runnable() {
+				public void run() {
+					riskWindow.updateSupplyWindow(a.getPlayer());
 				}
 			});
 		} else {

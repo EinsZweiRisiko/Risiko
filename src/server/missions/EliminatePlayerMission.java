@@ -1,35 +1,41 @@
 package server.missions;
 
-import server.Mission;
 import valueobjects.Player;
 
-public class EliminatePlayerMission implements Mission {
+public class EliminatePlayerMission extends Mission {
 
-//	private Player player;
 	private Player playerToEliminate;
 	private Mission alternateMission;
 
 	/**
 	 * Creates a mission where an opposing player has to be eliminated.
 	 * 
-	 * Example: Befreien Sie alle Länder von den roten Armeen! Wenn Sie selbst diese Armeen besitzen,
+	 * Example: Befreien Sie alle Länder von den roten Armeen! Wenn Sie selbst
+	 * diese Armeen besitzen,
 	 * heißt Ihr Ziel: Befreien Sie 24 Länder Ihrer Wahl!
 	 * 
-	 * @param player Player whose mission this is
-	 * @param playerToEliminate Player that needs to be eliminated in order to fulfil this mission
+	 * @param description
+	 *            Description
+	 * @param playerToEliminate
+	 *            Player that needs to be eliminated in order to fulfil this
+	 *            mission
 	 */
-	public EliminatePlayerMission(Player player, Player playerToEliminate) {
-//		this.player = player;
+	public EliminatePlayerMission(String description, Player playerToEliminate) {
+		super(description);
 		this.playerToEliminate = playerToEliminate;
-		
-		// If the player has to destroy himself, the new mission is to conquer 24 territories
-		if (player.equals(playerToEliminate)) {
-			alternateMission = new TerritoryHurdleMission(player, 24, 1);
+
+		// TODO owner is missing
+		// TODO new description?
+		// If the player has to destroy himself, the new mission is to conquer
+		// 24 territories
+		if (owner.equals(playerToEliminate)) {
+			alternateMission = new TerritoryHurdleMission("Description?", 24, 1);
 		}
 	}
 
 	/**
-	 * Returns whether this mission has been accomplished or not
+	 * Returns whether this mission has been accomplished.
+	 * 
 	 * @return True, if the mission was accomplished
 	 */
 	@Override
@@ -38,7 +44,7 @@ public class EliminatePlayerMission implements Mission {
 		if (alternateMission != null) {
 			return alternateMission.test();
 		}
-		
+
 		// If the the opposing player is dead the player has succeeded
 		return playerToEliminate.isDead();
 	}

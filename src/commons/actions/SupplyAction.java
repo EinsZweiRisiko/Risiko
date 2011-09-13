@@ -16,4 +16,7 @@ public class SupplyAction extends Action {
 		this.supplies = supplies;
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
 }

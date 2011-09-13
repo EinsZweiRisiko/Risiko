@@ -3,25 +3,15 @@ package server.missions;
 import java.util.ArrayList;
 import java.util.List;
 
-import server.Mission;
 import server.TerritoryManager;
 import valueobjects.Continent;
-import valueobjects.Player;
 
-public class ContinentHurdleMission implements Mission {
+public class ContinentHurdleMission extends Mission {
 
-	/**
-	 * TerritoryManager. Not every subclass initializes this attribute.
-	 */
-	protected TerritoryManager territoryManager;
-
-	/**
-	 * The player who owns this mission
-	 */
-	protected Player player;
+	private TerritoryManager territoryManager;
 	
 	/**
-	 * List of continents which have to be conquered
+	 * List of specific continents which have to be conquered.
 	 */
 	private List<Continent> continentList = new ArrayList<Continent>();
 
@@ -35,22 +25,19 @@ public class ContinentHurdleMission implements Mission {
 	 * 
 	 * Example: Befreien Sie Nordamerika und Afrika!
 	 * 
-	 * @param player
-	 *            The player whose mission this is
+	 * @param description
+	 *            Description
 	 * @param territoryManager
 	 *            Reference to the territoryManager
 	 * @param continentList
 	 *            Continents which need to be conquered.
 	 */
-	public ContinentHurdleMission(Player player, TerritoryManager territoryManager,
+	public ContinentHurdleMission(String description, TerritoryManager territoryManager,
 			List<Continent> continentList) {
-//		super(player);
-		this.player = player;
+		super(description);
 		this.territoryManager = territoryManager;
-//		if (continentList.size() > 2) {
-//			throw new Exception(); 
-//		}
 		this.continentList = continentList;
+		// TODO continentList length over 2 should be impossible
 	}
 
 	/**
@@ -58,33 +45,30 @@ public class ContinentHurdleMission implements Mission {
 	 * 
 	 * Example: Befreien Sie Europa, Australien und einen dritten Kontinent Ihrer Wahl!
 	 * 
-	 * @param player
-	 *            The player whose mission this is
+	 * @param description
+	 *            Description
 	 * @param territoryManager
 	 *            Reference to the territoryManager
 	 * @param continentList
 	 *            Continents which need to be conquered.
 	 * @param additionalContinents Number of other, arbitrary continents which also have to be conquered.
 	 */
-	public ContinentHurdleMission(Player player, TerritoryManager territoryManager,
+	public ContinentHurdleMission(String description, TerritoryManager territoryManager,
 			List<Continent> continentList, int additionalContinents) {
-		this.player = player;
+		super(description);
 		this.territoryManager = territoryManager;
-//		if (continentList.size() > 2) {
-//			throw new Exception(); 
-//		}
 		this.continentList = continentList;
-		// Additional continents
 		this.additionalContinents = additionalContinents;
+		// TODO continentList length over 2 should be impossible
 	}
 	
 	/**
-	 * Returns whether this mission has been accomplished or not
+	 * Returns whether this mission has been accomplished.
 	 * @return True, if the mission was accomplished
 	 */
 	@Override
 	public boolean test() {
-		List<Continent> conqueredContinents = territoryManager.getConqueredContinents(player.getTerritories());
+		List<Continent> conqueredContinents = territoryManager.getConqueredContinents(owner.getTerritories());
 		
 		// Check if all required continents are conquered
 		if (additionalContinents == 0) {
