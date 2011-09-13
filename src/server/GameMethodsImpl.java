@@ -91,6 +91,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	private Display display;
 
+	private MissionManager missionManager;
+
 	/**
 	 * Phases of a player's turn
 	 */
@@ -126,9 +128,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			startUnits = 36;
 		}
 
+		
+		//TODO set Missions
+//		missionManager = new MissionManager(territoryManager, players);
+		
 		// Set the start units for each player
 		for (Player player : players) {
 			player.addSupplies(startUnits);
+//			player.setMission(missionManager.retrieveMission(player));
 		}
 
 		placeStartUnitsRandomly();
@@ -146,8 +153,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		;
 
 		notifyPlayers(new GameStartedAction(currentPlayer, currentPhase, players));
-
-		//save();
 
 		// Set the first phase
 		nextPhase();
@@ -236,7 +241,6 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	public void nextPlayer() {
 		// Advance to the next player
 		currentPlayer = players.getNextPlayer();
-		//notifyPlayers(new NextPlayerAction(currentPlayer));
 
 		final String currentPlayer2 = currentPlayer.getName();
 		final String nextPlayer2 = players.getNextPlayer2().getName();
@@ -695,8 +699,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public Mission getMyMission(Player player) {
-		// TODO Auto-generated method stub
-		return null;
+		return player.getMission();
 	}
 
 	@Override

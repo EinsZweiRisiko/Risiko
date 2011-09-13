@@ -3,6 +3,7 @@ package gui.risk;
 import gui.ActionDialog;
 import gui.AppClient;
 import gui.AttackDialog;
+import gui.MissionDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import server.GameMethodsImpl.Phase;
+import server.missions.Mission;
 import valueobjects.BonusCard;
 import valueobjects.BonusCard.BonusCardType;
 import valueobjects.Player;
@@ -94,6 +96,9 @@ public class RiskGUI {
 		this.guiPlayer = app.getPlayer();
 	}
 
+	/**
+	 * Prepares the gui for opening. All windows are initialized here.
+	 */
 	public void prepare(){
 		territories = game.getTerritories();
 		players = game.getPlayers();
@@ -139,9 +144,11 @@ public class RiskGUI {
 
 		createCardWindow();
 
-		createRoundWindow();
-		
+		createPhaseButton();
+
 		createSaveButton();
+
+		createMissionButton();
 
 		// resize listener which auto centers the game
 		shell.addListener(SWT.Resize, new Listener() {
@@ -193,7 +200,38 @@ public class RiskGUI {
 		}
 	}
 
-	private void createRoundWindow() {
+	/**
+	 * Creates a Button which allows the user to show his own mission.
+	 */
+	private void createMissionButton() {
+		Button missionButton = new Button(mainWindow, SWT.PUSH);
+
+		Image missionImage = new Image(dev, "assets/mission.png");
+
+		missionButton.setImage(missionImage);
+		missionButton.setToolTipText("Klicke um deine Mission zu sehen");
+		missionButton.pack();
+		missionButton.setLocation(new Point(((imgWidth - shell
+				.getClientArea().width) / 2 + playerButtons[0].getBounds().width + 15), ((imgHeight - shell
+						.getClientArea().height)
+						/ 2
+						+ shell.getClientArea().height
+						- 10 -missionButton.getBounds().height)));
+		missionButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				Mission myMission = game.getMyMission(guiPlayer);
+
+				new MissionDialog(myMission, display);				
+			}
+
+		});
+	}
+
+	/**
+	 * creates a Button that shows the current phase of the game.
+	 */
+	private void createPhaseButton() {
 		supplyButton = new Button(mainWindow, SWT.PUSH);
 		roundButton = new Button(mainWindow, SWT.PUSH);
 		roundImage[0] = new Image(dev, "assets/roundSUPPLY.png");
@@ -229,6 +267,9 @@ public class RiskGUI {
 								+ shell.getClientArea().height - 50)));
 	}
 
+	/**
+	 * creates a save button that could be used to save the current game.
+	 */
 	private void createSaveButton() {
 		try {
 			saveImage = new Image(dev, "assets/save.png");
@@ -237,10 +278,10 @@ public class RiskGUI {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		
+
 		saveButton = new Button(mainWindow, SWT.PUSH);
 		saveButton.setToolTipText("Hier klicken um das Spiel zu speichern!");
-		
+
 		saveButton.setImage(saveImage);
 		saveButton.pack();
 		saveButton.setLocation(eventWindow.getBounds().x  - saveButton.getBounds().width -5 , eventWindow.getBounds().y);
@@ -252,7 +293,7 @@ public class RiskGUI {
 			}
 
 		});
-		
+
 	}
 
 	/**
@@ -914,7 +955,7 @@ public class RiskGUI {
 	}
 
 	/**
-	 * updates all Buttons and their Values
+	 * updates a specific button and its values. also it updates the total amount shown at the bottom left of the gui.
 	 */
 	public void updateTerritory(Territory territory) {
 		for (Button button : buttonArray) {
@@ -971,8 +1012,10 @@ public class RiskGUI {
 	 *            calling Object
 	 */
 	private void performAction(MouseEvent e) {
+		//get the saved button
 		Button clickedButton = (Button) e.widget;
 
+		//react according to the Phase
 		if (phase == Phase.PLACEMENT) {
 			game.placeUnits(game.getTerritories().get(clickedButton.getData("name")).getName(), 1);
 		} else if (phase == Phase.ATTACK1) {
@@ -983,26 +1026,39 @@ public class RiskGUI {
 			// TARGET TERRITORY
 			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
 
-			// AMOUNT
+			// open a dialog to set the amount of units to attack.
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase, sourceTerritory);
+			
+			// save the value
 			int units = (Integer) ad.open();
 
+			// call attack
 			game.attack(sourceTerritory, targetTerritory, units);
 
 		} else if (phase == Phase.MOVEMENT1) {
+			// SOURCE TERRITORY
 			sourceTerritory = game.getTerritories().get(clickedButton.getData("name"));
 			game.nextPhase();			
 		} else if(phase == Phase.MOVEMENT2) {
+			// TARGET TERRITORY
 			targetTerritory = game.getTerritories().get(clickedButton.getData("name"));
+			
+			// open a dialog to set the amount of units to move.
 			ActionDialog ad = new ActionDialog(shell, SWT.NONE, phase,
 					sourceTerritory);
+			
+			// save the value
 			int units = (Integer) ad.open();
 
+			// call move
 			game.move(sourceTerritory, targetTerritory, units);
 			game.nextPhase();
 		}
 	}
 
+	/**
+	 * shows the bonuscards of the player at the top right corner of the gui.
+	 */
 	private void createCardWindow() {
 		cardWindow = new Composite(mainWindow, SWT.NONE);
 		RowLayout rowLayout = new RowLayout();
@@ -1065,12 +1121,20 @@ public class RiskGUI {
 		shell.update();
 	}
 
+	/**
+	 * updates the amount shown at the supply button
+	 * @param player who should change the value at its gui
+	 */
 	public void updateSupplyWindow(Player player) {
 		if(player.equals(guiPlayer)){
 			supplyButton.setText(Integer.toString(player.getSupplies()));
 		}
 	}
 
+	/**
+	 * updates the bonuscard shown at the gui
+	 * @param player who should change the value at its gui
+	 */
 	public void updateBonusCard(Player player) {
 
 		if(player.equals(guiPlayer)){
@@ -1078,6 +1142,7 @@ public class RiskGUI {
 			RowLayout rowLayout = new RowLayout();
 			cardWindow.setLayout(rowLayout);
 
+			// get all cards
 			List<BonusCard> bonuscards = player.getBonusCards();
 
 			for (BonusCard bonusCard : bonuscards) {				
@@ -1175,7 +1240,7 @@ public class RiskGUI {
 	public void updatePhase(Phase phase, Player player, PlayerCollection players ) {
 
 		//PlayerCollection players = game.getPlayers();
-		
+
 		if(player.equals(guiPlayer)){
 			saveButton.setVisible(true);
 		} else {
