@@ -1,4 +1,5 @@
 bin/*
-src/_testing/*
+lib/*
+src/_*
 *.ser
 .classpath
