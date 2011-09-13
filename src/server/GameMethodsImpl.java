@@ -243,6 +243,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 		final String currentPlayer2 = currentPlayer.getName();
 		final String nextPlayer2 = players.getNextPlayer2().getName();
+		
 		display.syncExec(
 				new Runnable() {
 					public void run(){
