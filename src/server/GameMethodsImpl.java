@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.eclipse.swt.widgets.Display;
 
+import persistence.Store;
+
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
 import server.gui.ServerMonitor;
@@ -89,6 +91,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	private Display display;
 
+	private MissionManager missionManager;
+
 	/**
 	 * Phases of a player's turn
 	 */
@@ -97,7 +101,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	};
 
 	public GameMethodsImpl(String name, int port) throws UnknownHostException,
-			IOException, NameBindingException {
+	IOException, NameBindingException {
 		Registry registry = Simon.createRegistry(port);
 		registry.bind(name, this);
 	}
@@ -124,9 +128,14 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 			startUnits = 36;
 		}
 
+
+		//TODO set Missions
+		//		missionManager = new MissionManager(territoryManager, players);
+
 		// Set the start units for each player
 		for (Player player : players) {
 			player.addSupplies(startUnits);
+			//			player.setMission(missionManager.retrieveMission(player));
 		}
 
 		placeStartUnitsRandomly();
@@ -183,7 +192,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		notifyPlayers(new PhaseAction(currentPlayer, currentPhase, players));
 		// Which action comes afterwards the current one?
 		switch (currentPhase) {
-		// The first action is at the end of this switch block
+			// The first action is at the end of this switch block
 			case TURNINCARDS:
 				// Placing the supply units is next
 				// überprüfen der karten und supply hnzufügen
@@ -317,7 +326,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 		nextPlayer();
 
 		final String totalUnits = Integer
-				.toString(currentPlayer.getUnitCount());
+		.toString(currentPlayer.getUnitCount());
 
 		display.syncExec(
 				new Runnable() {
@@ -412,8 +421,8 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				defendDice,
 				territoryManager.getTerritoryMap().get(
 						sourceTerritory.getName()),
-				territoryManager.getTerritoryMap().get(
-						targetTerritory.getName()));
+						territoryManager.getTerritoryMap().get(
+								targetTerritory.getName()));
 	}
 
 	/**
@@ -453,10 +462,10 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 								+ attackDice.size() + " Angriffwürfel Werte: "
 								+ attackDice);
 						serverMonitor
-								.updateConsole("Anzahl des Defendterritory: "
-										+ targetTerritory.getUnitCount());
+						.updateConsole("Anzahl des Defendterritory: "
+								+ targetTerritory.getUnitCount());
 						serverMonitor
-								.updateConsole("----------------------------------------------");
+						.updateConsole("----------------------------------------------");
 					}
 				});
 		;
@@ -541,11 +550,11 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 				try {
 					defenderMsg = "Du hast " + targetTerritory
-							+ " an " + sourceTerritory.getOwner()
-							+ " verloren.";
+					+ " an " + sourceTerritory.getOwner()
+					+ " verloren.";
 					attackerMsg = "Du hast " + targetTerritory
-							+ " von " + targetTerritory.getOwner()
-							+ " erobert.";
+					+ " von " + targetTerritory.getOwner()
+					+ " erobert.";
 
 					newUnitCnt = attackDice.size() - attackLoseUnits;
 					territoryManager.changeTerritoryOwner(
@@ -569,7 +578,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 						new Runnable() {
 							public void run() {
 								serverMonitor
-										.updateRecieveBonus(recieveBonuscard2);
+								.updateRecieveBonus(recieveBonuscard2);
 							}
 						});
 				;
@@ -586,21 +595,21 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 					targetTerritory.getUnitCount()));
 
 			defenderMsg = targetTerritory.getOwner() + " ("
-					+ targetTerritory + ") hat "
-					+ defendLoseUnits + " Einheiten verloren.\n"
-					+ sourceTerritory.getOwner() + " ("
-					+ sourceTerritory + ") hat"
-					+ attackLoseUnits + " Einheiten verloren.";
+			+ targetTerritory + ") hat "
+			+ defendLoseUnits + " Einheiten verloren.\n"
+			+ sourceTerritory.getOwner() + " ("
+			+ sourceTerritory + ") hat"
+			+ attackLoseUnits + " Einheiten verloren.";
 			attackerMsg = sourceTerritory.getOwner() + " ("
-					+ sourceTerritory + ") hat "
-					+ attackLoseUnits + " Einheiten verloren.\n"
-					+ targetTerritory.getOwner() + " ("
-					+ targetTerritory + ") hat"
-					+ defendLoseUnits + " Einheiten verloren.";
+			+ sourceTerritory + ") hat "
+			+ attackLoseUnits + " Einheiten verloren.\n"
+			+ targetTerritory.getOwner() + " ("
+			+ targetTerritory + ") hat"
+			+ defendLoseUnits + " Einheiten verloren.";
 		}
 
 		// TODO What was this good for?
-//		List<Territory> attackersTerritories = sourceTerritory.getOwner().getTerritories();
+		//		List<Territory> attackersTerritories = sourceTerritory.getOwner().getTerritories();
 
 		notifyPlayers(new EventBoxAction(sourceTerritory.getOwner(),
 				attackerMsg, attackDice, defendDice));
@@ -608,7 +617,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 				defendDice));
 
 		final String totalUnits = Integer
-				.toString(currentPlayer.getUnitCount());
+		.toString(currentPlayer.getUnitCount());
 
 		display.syncExec(
 				new Runnable() {
@@ -627,7 +636,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * Move Method for move Units from one to the other Territory
 	 */
 	public void move(Territory source, Territory target, int amount)
-			throws SimonRemoteException {
+	throws SimonRemoteException {
 
 		Territory source2 = territoryManager.getTerritoryMap().get(
 				source.getName());
@@ -666,7 +675,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 	 * @return
 	 */
 	public Player addPlayer(String name, ClientMethods client)
-			throws ServerFullException {
+	throws ServerFullException {
 		if (started) {
 			// Game is already in progress
 			throw new ServerFullException();
@@ -763,8 +772,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public Mission getMyMission(Player player) {
-		// TODO Auto-generated method stub
-		return null;
+		return player.getMission();
 	}
 
 	@Override
@@ -855,7 +863,7 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 			for (int i = 0; i < similarNeighbors.size(); i++) {
 				List<Territory> neighbors = similarNeighbors.get(i)
-						.getNeighbors();
+				.getNeighbors();
 				for (int j = 0; j < neighbors.size(); j++) {
 					if (neighbors.get(j).getOwner()
 							.equals(territory.getOwner())) {
@@ -1071,15 +1079,12 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
-//		Store store = new Store(players, this, "save");
+		Store store = new Store(players, this, "save");
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-//		Store store = new Store(players, this, "load");
-
+		Store store = new Store(players, this, "load");
 	}
 
 	/**

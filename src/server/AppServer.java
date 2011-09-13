@@ -42,6 +42,8 @@ public class AppServer {
 		try {
 			Display display = new Display();
 			GameMethodsImpl gameImpl = new GameMethodsImpl("risk", port);
+			
+			//create a server monitor to observe the game
 			ServerMonitor serverM = new ServerMonitor(gameImpl, display);
 			gameImpl.setServerMonitor(serverM);
 			gameImpl.setDisplay(display);

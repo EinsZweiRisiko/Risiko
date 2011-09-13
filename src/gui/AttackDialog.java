@@ -20,12 +20,27 @@ import org.eclipse.swt.widgets.Shell;
 
 import valueobjects.Territory;
 
+/**
+ * 
+ * @author Hendrik
+ *
+ */
 public class AttackDialog {
 
 	private Image[] attackDiceImage = new Image[6];
 	private Image[] defendDiceImage = new Image[6];
 	private Display dev;
 
+	/**
+	 * create a new attack dialog showing the result of the fight.
+	 * @param parent
+	 * @param title
+	 * @param message
+	 * @param attackDices
+	 * @param defendDices
+	 * @param source
+	 * @param target
+	 */
 	public AttackDialog(Shell parent, String title, String message, List<Integer> attackDices, List<Integer> defendDices, Territory source, Territory target) {
 
 		dev = parent.getDisplay();
@@ -34,8 +49,10 @@ public class AttackDialog {
 		shell.setText("Angriffsergebnis");
 		center(shell);
 
+		//load images for the dices
 		loadDices();
 
+		//gridLayout for shell
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		gridLayout.makeColumnsEqualWidth = true;
@@ -43,7 +60,10 @@ public class AttackDialog {
 		
 		shell.setLayout(gridLayout);
 
+		//vertical layout for dices
 		RowLayout verticalRowLayout = new RowLayout(SWT.VERTICAL);
+		
+		//horizontal layout for vsComp
 		RowLayout horizontalRowLayout = new RowLayout (SWT.HORIZONTAL);
 
 		Composite mainComp = new Composite (shell,SWT.CENTER);
@@ -87,6 +107,7 @@ public class AttackDialog {
 		attackDiceComp.setLayout(verticalRowLayout);
 		defendDiceComp.setLayout(verticalRowLayout);
 
+		//create attack dice
 		for(Integer dice:attackDices){
 			System.out.println("attackDiceSize " + attackDices.size());
 			if(dice == 1){
@@ -121,6 +142,7 @@ public class AttackDialog {
 			}
 		}
 
+		//create defend dice
 		for(Integer dice:defendDices){
 			if(dice == 1){
 				Label dDice = new Label(defendDiceComp, SWT.NONE);
@@ -186,6 +208,9 @@ public class AttackDialog {
 		}
 	}
 
+	/**
+	 * loads all images needed to display the dice
+	 */
 	private void loadDices() {
 		try {
 			attackDiceImage[0] = new Image(dev, "assets/r1.png");

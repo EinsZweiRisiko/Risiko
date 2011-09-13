@@ -260,7 +260,7 @@ public class Store {
 			if(loadText.get(i).equalsIgnoreCase("# BesitzendeLänder:AnzahlEinheitendrauf")) {
 				System.out.println("[LOAD] besitzende Länder wird gesetzt");
 				for(int a = i+1; !loadText.get(a).contains("# AnzahlGesamtEinheiten"); a++) {
-					// jetzt wird es richtig FIES!
+					
 					char[] zeichen = loadText.get(a).toCharArray();
 					int endIndexTerritory = 0;
 
