@@ -1141,11 +1141,12 @@ public class RiskGUI {
 	 * @param player who should change the value at its gui
 	 */
 	public void updateBonusCard(Player player) {
+		
+		cardWindow = new Composite(mainWindow, SWT.NONE);
+		RowLayout rowLayout = new RowLayout();
+		cardWindow.setLayout(rowLayout);
 
 		if(player.equals(guiPlayer)){
-			cardWindow = new Composite(mainWindow, SWT.NONE);
-			RowLayout rowLayout = new RowLayout();
-			cardWindow.setLayout(rowLayout);
 
 			// get all cards
 			List<BonusCard> bonuscards = player.getBonusCards();
@@ -1175,10 +1176,9 @@ public class RiskGUI {
 				bonusLabel.setSize(22, 32);
 				bonusLabel.setImage(bonusImage[type]);
 				bonusLabel.setToolTipText(cardname);
-
+				cardWindow.pack();
 			}
-
-			cardWindow.pack();
+			
 			cardWindow
 			.setLocation(new Point(
 					((imgWidth - shell.getClientArea().width) / 2
