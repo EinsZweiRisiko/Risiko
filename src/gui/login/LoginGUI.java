@@ -13,11 +13,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import server.GameMethodsImpl;
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
@@ -174,7 +176,14 @@ public class LoginGUI {
 		loadGame.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event event) {
-				// TODO Auto-generated method stub
+				
+				FileDialog fd = new FileDialog(shell, SWT.OPEN);
+				fd.setText("Öffnen");
+				fd.setFilterPath("C:/");
+				String[] filterExt = { "*.txt", "*.doc", ".rtf", "*.*" };
+				fd.setFilterExtensions(filterExt);
+				String selected = fd.open();
+				//use this String to open the right savegame
 			}
 
 		});

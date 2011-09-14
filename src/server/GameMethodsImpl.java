@@ -8,7 +8,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
+
+import persistence.Store;
 
 import server.exceptions.InvalidTerritoryStateException;
 import server.exceptions.NotEnoughPlayersException;
@@ -1120,7 +1127,16 @@ public class GameMethodsImpl implements GameMethods, Serializable {
 
 	@Override
 	public void save() {
-//		Store store = new Store(players, this, "save");
+		Display d = new Display();
+		Shell s = new Shell(d);
+		
+		FileDialog fd = new FileDialog(s, SWT.SAVE);
+		fd.setText("Speichern");
+		fd.setFilterPath("C:/");
+		String[] filterExt = { "*.txt", "*.doc", ".rtf", "*.*" };
+		fd.setFilterExtensions(filterExt);
+		String selected = fd.open();
+		Store store = new Store(players, this, "save",selected);
 	}
 
 	@Override
