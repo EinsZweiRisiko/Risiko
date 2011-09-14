@@ -54,7 +54,7 @@ public class Store {
 	 */
 	List<Player> players;
 	GameMethodsImpl game;
-	private final String SAVE_PATH = "C:\\riskSave2.txt";
+	private String SAVE_PATH;
 	List<String> playerMac;
 
 	/**
@@ -63,10 +63,11 @@ public class Store {
 	 * @param game
 	 * @param arg
 	 */
-	public Store(PlayerCollection players, GameMethodsImpl game, String arg) {
+	public Store(PlayerCollection players, GameMethodsImpl game, String arg, String path) {
 		this.players = players;
 		this.game = game;
 		playerMac = new ArrayList<String>();
+		SAVE_PATH = path;
 
 		if(arg == "save") {
 			buildInput();
