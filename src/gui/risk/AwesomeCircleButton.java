@@ -17,6 +17,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+/**
+ * This class is unused.
+ * 
+ * @author Jannes
+ * 
+ */
 public class AwesomeCircleButton extends Canvas {
 
 	/**
@@ -99,7 +105,8 @@ public class AwesomeCircleButton extends Canvas {
 		float[] hsb = color.getRGB().getHSB();
 		highlightColor = new Color(null, new RGB(hsb[0],
 				(float) (hsb[1] - 0.3), hsb[2]));
-		downColor = new Color(null, new RGB(hsb[0], hsb[1], (float) (hsb[2] - 0.05)));
+		downColor = new Color(null, new RGB(hsb[0], hsb[1],
+				(float) (hsb[2] - 0.05)));
 		// Redraw
 		redraw();
 	}
@@ -141,7 +148,7 @@ public class AwesomeCircleButton extends Canvas {
 
 	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
-		//SWT.DEFAULT
+		// SWT.DEFAULT
 		return new Point(40, 40);
 	}
 

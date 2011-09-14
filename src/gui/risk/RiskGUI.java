@@ -291,7 +291,7 @@ public class RiskGUI {
 
 		// size of the Buttons
 		int buttonSizeW = 45;
-		int buttonSizeH = 20;
+		int buttonSizeH = 30;
 
 		Territory territory;
 
@@ -1271,7 +1271,7 @@ public class RiskGUI {
 				Boolean turnInCards = (Boolean) ad.open();
 
 				if(turnInCards){
-					//TODO do something usefull ;D
+					//TODO do something usefull
 					game.nextPhase();
 				} else {
 					game.nextPhase();
