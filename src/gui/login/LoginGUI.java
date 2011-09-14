@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import server.GameMethodsImpl;
 import server.remoteexceptions.NoNameException;
 import server.remoteexceptions.ServerFullException;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
@@ -182,8 +181,10 @@ public class LoginGUI {
 				fd.setFilterPath("C:/");
 				String[] filterExt = { "*.txt", "*.doc", ".rtf", "*.*" };
 				fd.setFilterExtensions(filterExt);
-				String selected = fd.open();
-				//use this String to open the right savegame
+				
+				fd.open();
+//				String selected = fd.open();
+				// TODO use this String to open the right savegame
 			}
 
 		});
